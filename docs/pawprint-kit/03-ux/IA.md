@@ -1,0 +1,141 @@
+# Information Architecture · lucas.pawprint.design
+
+## 1. Sitemap
+
+```
+lucas.pawprint.design
+├── /                         Home
+├── /work                     All case studies (filterable)
+│   ├── /work/luci            ← lead case study (own product, private beta, teaser)
+│   ├── /work/classic-decoder
+│   ├── /work/classic-decoder-app
+│   ├── /work/vehicle-databases
+│   ├── /work/detailed-vehicle-history
+│   ├── /work/fierce-fight-gear
+│   └── /work/sarayah-phuket-villas
+├── /motion                   Showreel + motion pieces (+ Behance link)
+├── /about                    Bio, changelog, how I work, kind words
+├── /contact                  Email, book a chat, socials, time zones
+├── /colophon                 How this site is built: tokens, type, Loaffy, a11y, stack
+├── /resume.pdf               Static file (also linked as "Resume" everywhere)
+└── 404                       Loaffy (Lost form)
+```
+
+Hidden / later: `/lab` (dev-only component gallery, `noindex`), `/loaffy` (mascot playground easter egg).
+
+## 2. Navigation model
+
+| Place | Items |
+|---|---|
+| Top nav (desktop) | Wordmark → `/` · Work · Motion · About · Contact · ThemeSwitch · **Resume** |
+| Top nav (mobile) | Wordmark · Menu → full-screen sheet (Work, Motion, About, Contact, Resume, ThemeSwitch, socials) |
+| Footer | Work · Motion · About · Contact · Colophon · Resume · LinkedIn · Behance · GitHub · Medium · ThemeSwitch · CursorToggle |
+| Case study | Breadcrumb "Work / Classic Decoder" · sticky BeanStepper · NextCase at the end |
+| 404 | Back home · See the work |
+
+Rules: max 4 primary items. "Resume" is always one click away. Contact is reachable from every page (nav + footer + end of every case study).
+
+## 3. Page templates
+
+### Home (`/`) — section order and the visitor question each answers
+| # | Section | Visitor question | Primary action |
+|---|---|---|---|
+| 1 | Hero | Who is this and what do they do? | See selected work |
+| 2 | Proof strip | Are they real and experienced? | — |
+| 3 | Selected work (Luci featured + 6 client cases) | Can they do the work we need? Can they build their own product? | Read case study |
+| 4 | Process story (signature) | How do they think? | — |
+| 5 | Motion | Can they make things move well? | Play reel |
+| 6 | About + changelog (short) | What's their background? | Resume |
+| 7 | Kind words | What are they like to work with? | — |
+| 8 | Contact | How do I reach them? | Copy email / Book a chat |
+| 9 | Footer | Where else can I go? | — |
+
+### Work index (`/work`)
+display-xl "Work." · filter chips (All · Own product · Web · Apps · Design systems · E-commerce · AI workflow) · grid of CaseCards (2 columns ≥ lg, 1 below) · ContactPanel.
+Filters update the URL (`/work?tag=apps`) and announce result count (`aria-live`).
+
+### Case study (`/work/[slug]`)
+Luci variant (`visibility: teaser`): BetaBadge, shorter page (TL;DR + 4 chapters at public level), "Request beta access" CTA, link to luci.pawprint.design.
+
+1. CaseHero (title, one-line summary, cover on pastel, Loaffy form peeking)
+2. MetaRow (Role · Team · Timeline · Platform · Tools · Live link)
+3. TL;DR stickers (Problem · What I did · Outcome)
+4. Context (who the users are, what was broken)
+5. Process — BeanStepper chapters: **Understand → Shape → Design → Ship**
+6. Key decisions (3–5 DecisionCards: problem → decision → why, with before/after)
+7. Design system highlights
+8. Motion & interaction (short clips)
+9. Outcome & learnings (qualitative; real facts only)
+10. NextCase + ContactPanel (compact)
+
+### Motion (`/motion`)
+display-xl "Motion." · Showreel (VideoReel) · grid of 4–8 clips with one-line captions · "More on Behance ↗".
+
+### About (`/about`)
+Portrait + bio · Changelog (full) · How I work (process, tools) · Education · Kind words (full testimonials) · Resume · ContactPanel.
+
+### Contact (`/contact`)
+Headline · CopyEmail · Book a chat (cal.com) · socials · time-zone line · availability sticker. Loaffy bubble form.
+
+### Colophon (`/colophon`)
+Live design system: palette (all themes), type scale, spacing, radius, shadows, motion tokens with demos, Loaffy expressions/poses/forms, cursor, component gallery, accessibility statement, tech stack, credits. Doubles as "portfolio as a product" proof.
+
+## 4. URL and SEO rules
+
+- Canonical domain: `https://lucas.pawprint.design`. 301 redirect `waiphyoaungdesign.vercel.app/*` → same path on the new domain.
+- Lowercase, hyphenated slugs. No trailing slash.
+- Each page: unique `<title>` ("Classic Decoder · Lucas (Wai Phyo Aung)"), meta description (≤ 155 chars), canonical, OG + Twitter tags, OG image generated per page (`next/og`) with Loaffy in the case's form and pastel.
+- JSON-LD: `Person` on home/about (name "Wai Phyo Aung", alternateName "Lucas", jobTitle "Product & Motion Designer", email "lucas@pawprint.design", url, sameAs socials); `CreativeWork` on each case study; `SoftwareApplication` for Luci.
+- `sitemap.xml` and `robots.txt` generated by Next.js.
+
+## 5. Content model
+
+### `src/content/case-studies/<slug>.mdx` — metadata export (validated with zod in `src/lib/schema.ts`)
+`@next/mdx` has no frontmatter, so each file exports its metadata:
+```tsx
+export const metadata = {
+  title: "Classic Decoder",
+  slug: "classic-decoder",
+  order: 2,                    // Luci = 1
+  featured: false,             // Luci = true
+  status: "published",         // published | draft
+  visibility: "full",          // full | teaser  (Luci = teaser while in private beta)
+  badge: undefined,            // e.g. "Private beta" for Luci
+  client: "Classic Decoder",
+  summary: "Full website redesign for a classic-car data platform, moved from WordPress to Next.js.",
+  year: "2025",
+  role: "Lead UI/UX & Motion Designer (Empire Pixel)",
+  team: "Me, 1 PM, 2 full-stack developers",
+  timeline: "4 months, discovery to hand-off",
+  platforms: ["Web", "Mobile web"],
+  industry: "Automotive",
+  tags: ["Web", "Design systems"],
+  tools: ["Figma", "Next.js", "After Effects"],
+  tone: "sky",                 // lilac | mint | butter | sky | blush | pistachio
+  form: "window",              // Loaffy form for this case
+  cover: "/case-studies/classic-decoder/cover",   // optimiser adds .avif/.webp
+  coverAlt: "Classic Decoder homepage on desktop and phone, showing the VIN search.",
+  liveUrl: "https://classicdecoder.com",
+  cta: undefined,              // Luci: { label: "Request beta access", href: "mailto:lucas@pawprint.design?subject=Luci%20beta" }
+  tldr: { problem: "…", whatIDid: "…", outcome: "…" },   // outcome qualitative unless a real, sourced number exists
+  seo: { title: "Classic Decoder · Lucas (Wai Phyo Aung)", description: "…" },
+};
+```
+Body uses MDX components: `<Chapter step="understand|shape|design|ship">`, `<DecisionCard>`, `<Callout tone="butter">`, `<ImageGallery>`, `<Clip>`.
+Loader: existing `src/lib/case-studies.ts` (`getCaseStudySlugs`, `getCaseStudyBySlug`, `getAllCaseStudies`) — extend to parse `metadata` with the zod schema, skip `_template.mdx` and `status: "draft"` in production, and sort by `order`.
+
+### `src/content/site.ts`
+```ts
+export const profile = { name: "Lucas (Wai Phyo Aung)", short: "Lucas", title: "Product & Motion Designer", years: 10,
+  email: "lucas@pawprint.design", bookingUrl: "https://cal.com/wai.design-start-a-virtual-chat",
+  location: "Phuket, Thailand", timezone: "UTC+7", availability: "Open to remote roles · US · CA · NZ · SG",
+  founderOf: { name: "Luci", url: "https://luci.pawprint.design", status: "Private beta" },
+  socials: { linkedin: "https://linkedin.com/in/waiphyoaung-design", behance: "https://www.behance.net/waiphyoaungdesign",
+             github: "https://github.com/waidesign", medium: "https://medium.com/@waiphyoaung.design" } };
+export const experience: { period: string; role: string; company: string; location: string; summary: string }[];
+export const testimonials: { quote: string; pull: string; author: string; role: string; company: string; relationship: string }[];
+export const education = { degree: "B.Eng. (Hons) Civil Engineering", school: "University of Wolverhampton" };
+```
+
+### Case order, tone and Loaffy form
+See the table in `CONTENT.md` → Case studies (Luci first, lilac, window).
