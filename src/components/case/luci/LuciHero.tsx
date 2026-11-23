@@ -196,7 +196,7 @@ export function LuciHero() {
                     <span className="h-3 w-3 rounded-pill border border-line-strong bg-mint" />
                   </div>
                   <div
-                    className="rounded-pill border border-line-strong px-3 py-0.5 font-mono text-caption"
+                    className="rounded-pill border border-line-strong px-3 py-1 font-mono text-caption"
                     style={{
                       backgroundColor: "var(--luci-surface)",
                       color: "var(--luci-ink)",
@@ -241,7 +241,7 @@ export function LuciHero() {
                           Ship calm interfaces faster.
                         </p>
                         <div
-                          className="h-2.5 w-48 max-w-full rounded-pill opacity-25"
+                          className="h-3 w-48 max-w-full rounded-pill opacity-25"
                           style={{ backgroundColor: "var(--luci-ink)" }}
                         />
                       </div>
@@ -261,7 +261,7 @@ export function LuciHero() {
                               ? { duration: 0 }
                               : { ...springCalm, delay: 0.48 }
                           }
-                          className=" mb-2 inline-flex items-center gap-1.5 rounded-pill border-2 border-line-strong px-3 py-1 font-mono text-caption font-semibold shadow-sticker-sm"
+                          className="mb-2 inline-flex items-center gap-2 rounded-pill border-2 border-line-strong px-3 py-1 font-mono text-caption font-semibold shadow-sticker-sm"
                           style={{
                             backgroundColor: "var(--luci-accent)",
                             color: "var(--luci-ink)",
@@ -295,11 +295,11 @@ export function LuciHero() {
                                 y="2"
                                 width="140"
                                 height="52"
-                                rx="26"
+                                rx="24"
                                 fill="none"
                                 stroke="var(--luci-accent-deep)"
-                                strokeWidth="2.5"
-                                strokeDasharray="6 4"
+                                strokeWidth="2"
+                                strokeDasharray="8 4"
                                 initial={
                                   prefersReduced
                                     ? { pathLength: 1, opacity: 1 }
@@ -338,7 +338,7 @@ export function LuciHero() {
                         design.md
                       </span>
                       <span
-                        className="rounded-pill px-2 py-0.5 font-mono text-caption font-semibold"
+                        className="rounded-pill px-2 py-1 font-mono text-caption font-semibold"
                         style={{
                           backgroundColor: "var(--luci-accent)",
                           color: "var(--luci-ink)",
@@ -389,7 +389,7 @@ export function LuciHero() {
                   <div
                     role="toolbar"
                     aria-label="Illustrated Luci toolbar with 7 tools"
-                    className="inline-flex flex-wrap items-center justify-center gap-1.5 rounded-pill border-2 border-line-strong px-3 py-1.5 shadow-sticker-sm"
+                    className="inline-flex flex-wrap items-center justify-center gap-2 rounded-pill border-2 border-line-strong px-3 py-2 shadow-sticker-sm"
                     style={{
                       backgroundColor: "var(--luci-ink)",
                       color: "var(--luci-surface)",
@@ -398,7 +398,7 @@ export function LuciHero() {
                     {TOOLBAR_TOOLS.map(({ label, Icon, active }) => (
                       <div
                         key={label}
-                        className="inline-flex items-center gap-1 rounded-pill px-2.5 py-1 font-mono text-caption font-medium"
+                        className="inline-flex items-center gap-1 rounded-pill px-3 py-1 font-mono text-caption font-medium"
                         style={
                           active
                             ? {

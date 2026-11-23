@@ -2,6 +2,7 @@
  * FeedbackBeforeAfter (V9 in CASE-LUCI.md §4 §7):
  * - Inline SVG comparing three stacked repeated page headers (where agents drop some)
  *   versus Luci's single grouped feedback session header.
+ * - Strict 4/8 grid geometry and type sizes (12px).
  */
 export function FeedbackBeforeAfter() {
   return (
@@ -39,19 +40,19 @@ export function FeedbackBeforeAfter() {
 
         <rect
           x="32"
-          y="54"
+          y="56"
           width="256"
           height="24"
-          rx="6"
+          rx="8"
           fill="var(--color-blush)"
           stroke="currentColor"
-          strokeWidth="1.5"
+          strokeWidth="2"
         />
         <text
           x="44"
-          y="70"
+          y="72"
           fill="var(--color-on-pastel)"
-          fontSize="11"
+          fontSize="12"
           fontFamily="var(--font-mono)"
         >
           Header: Page /home · 2 notes
@@ -59,21 +60,21 @@ export function FeedbackBeforeAfter() {
 
         <rect
           x="32"
-          y="86"
+          y="88"
           width="256"
           height="24"
-          rx="6"
+          rx="8"
           fill="var(--lp-surface)"
           stroke="currentColor"
-          strokeWidth="1.5"
-          strokeDasharray="3 3"
+          strokeWidth="2"
+          strokeDasharray="4 4"
           opacity="0.5"
         />
         <text
           x="44"
-          y="102"
+          y="104"
           fill="currentColor"
-          fontSize="11"
+          fontSize="12"
           fontFamily="var(--font-mono)"
           opacity="0.55"
         >
@@ -82,21 +83,21 @@ export function FeedbackBeforeAfter() {
 
         <rect
           x="32"
-          y="118"
+          y="120"
           width="256"
           height="24"
-          rx="6"
+          rx="8"
           fill="var(--lp-surface)"
           stroke="currentColor"
-          strokeWidth="1.5"
-          strokeDasharray="3 3"
+          strokeWidth="2"
+          strokeDasharray="4 4"
           opacity="0.5"
         />
         <text
           x="44"
-          y="134"
+          y="136"
           fill="currentColor"
-          fontSize="11"
+          fontSize="12"
           fontFamily="var(--font-mono)"
           opacity="0.55"
         >
@@ -127,47 +128,47 @@ export function FeedbackBeforeAfter() {
 
         <rect
           x="352"
-          y="54"
+          y="56"
           width="256"
-          height="90"
+          height="88"
           rx="8"
           fill="var(--color-mint)"
           stroke="currentColor"
           strokeWidth="2"
         />
         <text
-          x="366"
-          y="74"
+          x="368"
+          y="76"
           fill="var(--color-on-pastel)"
           fontSize="12"
           fontWeight="700"
           fontFamily="var(--font-mono)"
         >
-          Session #1 · 3 pages grouped
+          Session · 3 pages grouped
         </text>
         <text
-          x="374"
+          x="376"
           y="96"
           fill="var(--color-on-pastel)"
-          fontSize="11"
+          fontSize="12"
           fontFamily="var(--font-mono)"
         >
           ├─ /home (2 notes) ✓
         </text>
         <text
-          x="374"
-          y="114"
+          x="376"
+          y="116"
           fill="var(--color-on-pastel)"
-          fontSize="11"
+          fontSize="12"
           fontFamily="var(--font-mono)"
         >
           ├─ /work (1 note) ✓
         </text>
         <text
-          x="374"
-          y="132"
+          x="376"
+          y="136"
           fill="var(--color-on-pastel)"
-          fontSize="11"
+          fontSize="12"
           fontFamily="var(--font-mono)"
         >
           └─ /about (1 note) ✓

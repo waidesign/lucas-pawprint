@@ -57,7 +57,7 @@ export function CaptureFlow() {
                   <span className="font-display text-h4 text-text">
                     {capture.site}
                   </span>
-                  <span className="rounded-pill border border-line-strong bg-sky px-2.5 py-0.5 font-mono text-caption font-semibold text-on-pastel">
+                  <span className="rounded-pill border border-line-strong bg-sky px-3 py-1 font-mono text-caption font-semibold text-on-pastel">
                     design.md
                   </span>
                 </div>

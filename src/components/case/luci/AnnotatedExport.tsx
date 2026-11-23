@@ -47,7 +47,7 @@ export function AnnotatedExport() {
           <span className="font-mono text-caption font-semibold text-text">
             ko-fi.design.md (excerpt)
           </span>
-          <span className="rounded-pill border border-line-strong bg-bg px-3 py-0.5 font-mono text-caption text-text-muted">
+          <span className="rounded-pill border border-line-strong bg-bg px-3 py-1 font-mono text-caption text-text-muted">
             YAML · measured
           </span>
         </div>

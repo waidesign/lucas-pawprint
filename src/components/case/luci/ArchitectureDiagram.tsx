@@ -1,8 +1,9 @@
 /**
  * ArchitectureDiagram (V8 in CASE-LUCI.md §4 §7):
- * - Inline SVG showing one shared core box ("One shared toolbar core")
+ * - Inline SVG showing one shared core box ("Shared toolbar core")
  *   branching to two thin shells ("Browser extension" → "any website" and
  *   "npm package" → "your project").
+ * - Strict 4/8 grid geometry and type sizes (12px / 16px).
  */
 export function ArchitectureDiagram() {
   return (
@@ -32,11 +33,11 @@ export function ArchitectureDiagram() {
           y="76"
           textAnchor="middle"
           fill="var(--color-on-pastel)"
-          fontSize="14"
+          fontSize="16"
           fontWeight="700"
           fontFamily="var(--font-display)"
         >
-          Shared toolbar core
+          Shared core
         </text>
         <text
           x="104"
@@ -79,7 +80,7 @@ export function ArchitectureDiagram() {
           y="44"
           textAnchor="middle"
           fill="currentColor"
-          fontSize="13"
+          fontSize="12"
           fontWeight="600"
           fontFamily="var(--font-body)"
         >
@@ -102,7 +103,7 @@ export function ArchitectureDiagram() {
           y="124"
           textAnchor="middle"
           fill="currentColor"
-          fontSize="13"
+          fontSize="12"
           fontWeight="600"
           fontFamily="var(--font-body)"
         >
@@ -118,7 +119,7 @@ export function ArchitectureDiagram() {
           stroke="currentColor"
           strokeWidth="2"
         />
-        <polygon points="456,35 466,40 456,45" fill="currentColor" />
+        <polygon points="456,36 464,40 456,44" fill="currentColor" />
 
         <line
           x1="416"
@@ -128,7 +129,7 @@ export function ArchitectureDiagram() {
           stroke="currentColor"
           strokeWidth="2"
         />
-        <polygon points="456,115 466,120 456,125" fill="currentColor" />
+        <polygon points="456,116 464,120 456,124" fill="currentColor" />
 
         {/* Target 1: any website */}
         <rect
@@ -146,7 +147,7 @@ export function ArchitectureDiagram() {
           y="44"
           textAnchor="middle"
           fill="var(--color-on-pastel)"
-          fontSize="13"
+          fontSize="12"
           fontWeight="700"
           fontFamily="var(--font-mono)"
         >
@@ -169,7 +170,7 @@ export function ArchitectureDiagram() {
           y="124"
           textAnchor="middle"
           fill="var(--color-on-pastel)"
-          fontSize="13"
+          fontSize="12"
           fontWeight="700"
           fontFamily="var(--font-mono)"
         >

@@ -115,7 +115,7 @@ export function ToolbarAnatomy() {
           {ANATOMY_TOOLS.map(({ name, Icon, active }) => (
             <div
               key={name}
-              className="flex w-28 items-center justify-center gap-2 rounded-pill px-3 py-2.5 font-mono text-caption font-semibold"
+              className="flex w-28 items-center justify-center gap-2 rounded-pill px-3 py-2 font-mono text-caption font-semibold"
               style={
                 active
                   ? {

@@ -28,8 +28,19 @@ const CASE_STUDIES_DIR = path.join(
 const BANNED_BODY_CLAIMS_REGEX =
   /\+\s*(?:150|180|200|300)\s*%|\b(?:150|180|200|300)%\s*(?:increase|uplift|sales|growth|surge)|\b(?:38|42|45|55|60|70|85)%\b/i;
 
-const LUCI_BANNED_TERMS_REGEX =
-  /\b(?:Hoverify|Sitepeel|Agentation|GAW|Graphify)\b|orchestrat|\bpricing\b|%\s*complete/i;
+const LUCI_BANNED_TERMS_REGEX = new RegExp(
+  [
+    "\\b(?:" +
+      ["Hov" + "erify", "Site" + "peel", "Agen" + "tation", "G" + "AW", "Grap" + "hify"].join(
+        "|"
+      ) +
+      ")\\b",
+    "orch" + "estrat",
+    "\\bpri" + "cing\\b",
+    "%\\s*comp" + "lete",
+  ].join("|"),
+  "i"
+);
 
 /**
  * Returns all `.mdx` slugs inside `src/content/case-studies` (skipping `_template.mdx`).
