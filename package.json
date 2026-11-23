@@ -3,12 +3,22 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
+    "tokens": "node scripts/generate-tokens.mjs",
+    "predev": "npm run tokens",
     "dev": "next dev",
+    "prebuild": "npm run tokens",
     "build": "next build",
     "start": "next start",
     "lint": "eslint"
   },
   "dependencies": {
+    "@mdx-js/loader": "^3.1.1",
+    "@mdx-js/react": "^3.1.1",
+    "@next/mdx": "^16.4.6",
+    "@rive-app/react-canvas": "^4.41.0",
+    "@types/mdx": "^2.0.14",
+    "gray-matter": "^4.0.3",
+    "motion": "^14.14.0",
     "next": "16.4.6",
     "react": "19.3.0",
     "react-dom": "19.3.0"

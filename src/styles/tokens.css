@@ -1,0 +1,77 @@
+/* AUTO-GENERATED FROM design.md — DO NOT EDIT DIRECTLY.
+ * Run `npm run tokens` to regenerate.
+ */
+
+:root {
+  --color-background: #FAF8F5;
+  --color-surface: #FFFFFF;
+  --color-surface-muted: #F2EFE9;
+  --color-foreground: #141413;
+  --color-muted: #66645E;
+  --color-border: #E6E2D8;
+  --color-accent: #FF5A36;
+  --color-accent-foreground: #FFFFFF;
+  --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, SFMono-Regular, monospace;
+  --radius-sm: 0.375rem;
+  --radius-md: 0.75rem;
+  --radius-lg: 1.25rem;
+  --radius-xl: 1.75rem;
+  --radius-full: 9999px;
+  --shadow-subtle: 0 1px 2px 0 rgb(20 20 19 / 0.04);
+  --shadow-card: 0 8px 24px -4px rgb(20 20 19 / 0.06), 0 2px 6px -1px rgb(20 20 19 / 0.04);
+  --shadow-float: 0 20px 40px -12px rgb(20 20 19 / 0.12);
+  --ease-spring: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out-smooth: cubic-bezier(0.65, 0, 0.35, 1);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --color-background: #0E0E10;
+    --color-surface: #16161A;
+    --color-surface-muted: #1F1F24;
+    --color-foreground: #F4F3EF;
+    --color-muted: #9E9C95;
+    --color-border: #2A2A30;
+    --color-accent: #FF6E4E;
+    --color-accent-foreground: #141413;
+  }
+}
+
+[data-theme="dark"] {
+  --color-background: #0E0E10;
+  --color-surface: #16161A;
+  --color-surface-muted: #1F1F24;
+  --color-foreground: #F4F3EF;
+  --color-muted: #9E9C95;
+  --color-border: #2A2A30;
+  --color-accent: #FF6E4E;
+  --color-accent-foreground: #141413;
+}
+
+@theme inline {
+  --color-background: var(--color-background);
+  --color-surface: var(--color-surface);
+  --color-surface-muted: var(--color-surface-muted);
+  --color-foreground: var(--color-foreground);
+  --color-muted: var(--color-muted);
+  --color-border: var(--color-border);
+  --color-accent: var(--color-accent);
+  --color-accent-foreground: var(--color-accent-foreground);
+  --font-sans: var(--font-sans);
+  --font-display: var(--font-display);
+  --font-mono: var(--font-mono);
+  --radius-sm: var(--radius-sm);
+  --radius-md: var(--radius-md);
+  --radius-lg: var(--radius-lg);
+  --radius-xl: var(--radius-xl);
+  --radius-full: var(--radius-full);
+  --shadow-subtle: var(--shadow-subtle);
+  --shadow-card: var(--shadow-card);
+  --shadow-float: var(--shadow-float);
+  --ease-spring: var(--ease-spring);
+  --ease-out-expo: var(--ease-out-expo);
+  --ease-in-out-smooth: var(--ease-in-out-smooth);
+}

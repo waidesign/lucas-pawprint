@@ -1,0 +1,83 @@
+{
+  "lss": 1,
+  "skills": [
+    {
+      "id": "accessibility-baseline",
+      "version": "1.0.0",
+      "reason": "Pack \"ui\"",
+      "addedAt": "2026-11-23",
+      "packs": [
+        "ui"
+      ]
+    },
+    {
+      "id": "baseline-ui",
+      "version": "1.0.0",
+      "reason": "Pack \"ui\"",
+      "addedAt": "2026-11-23",
+      "from": "https://github.com/ibelick/ui-skills",
+      "packs": [
+        "ui"
+      ]
+    },
+    {
+      "id": "fixing-accessibility",
+      "version": "1.0.0",
+      "reason": "Pack \"ui\"",
+      "addedAt": "2026-11-23",
+      "from": "https://github.com/ibelick/ui-skills",
+      "packs": [
+        "ui"
+      ]
+    },
+    {
+      "id": "fixing-motion-performance",
+      "version": "1.0.0",
+      "reason": "Pack \"motion\"",
+      "addedAt": "2026-11-23",
+      "from": "https://github.com/ibelick/ui-skills",
+      "packs": [
+        "motion"
+      ]
+    },
+    {
+      "id": "micro-interaction",
+      "version": "0.1.0",
+      "reason": "Pack \"motion\"",
+      "addedAt": "2026-11-23",
+      "from": "https://github.com/iart-ai/web-animation-skills",
+      "packs": [
+        "motion"
+      ]
+    },
+    {
+      "id": "motion-dev",
+      "version": "1.0.0",
+      "reason": "Pack \"motion\": motion is installed",
+      "addedAt": "2026-11-23",
+      "packs": [
+        "motion"
+      ]
+    },
+    {
+      "id": "react-best-practices",
+      "version": "1.0.0",
+      "reason": "Pack \"ui\": react is installed",
+      "addedAt": "2026-11-23",
+      "from": "https://github.com/vercel-labs/agent-skills",
+      "packs": [
+        "ui"
+      ]
+    },
+    {
+      "id": "tailwindcss",
+      "version": "1.0.0",
+      "reason": "Pack \"ui\": tailwindcss is installed",
+      "addedAt": "2026-11-23",
+      "from": "https://github.com/MengTo/Skills",
+      "packs": [
+        "ui"
+      ]
+    }
+  ]
+}
