@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import type { CaseStudySummary } from "@/lib/case-studies";
 import { stagger } from "@/lib/motion";
 import { FadeIn } from "@/components/motion/FadeIn";
@@ -21,10 +21,53 @@ export const WORK_FILTER_TAGS = [
 
 export interface SelectedWorkProps {
   caseStudies: CaseStudySummary[];
+  /** Render the section heading as h1 on `/work` vs h2 on Home */
+  headingLevel?: "h1" | "h2";
+  /** Sync active tag filter with `?tag=` in the browser URL on `/work` */
+  syncUrlQuery?: boolean;
 }
 
-export function SelectedWork({ caseStudies }: SelectedWorkProps) {
+export function SelectedWork({
+  caseStudies,
+  headingLevel = "h2",
+  syncUrlQuery = false,
+}: SelectedWorkProps) {
   const [selectedTag, setSelectedTag] = useState<string>("All");
+
+  useEffect(() => {
+    if (!syncUrlQuery || typeof window === "undefined") return;
+    const syncFromUrl = () => {
+      const params = new URLSearchParams(window.location.search);
+      const tagParam = params.get("tag");
+      const matched = tagParam
+        ? WORK_FILTER_TAGS.find(
+            (t) => t.toLowerCase() === tagParam.toLowerCase()
+          )
+        : "All";
+      if (matched) {
+        setSelectedTag(matched);
+      }
+    };
+    const timer = window.setTimeout(syncFromUrl, 0);
+    window.addEventListener("popstate", syncFromUrl);
+    return () => {
+      window.clearTimeout(timer);
+      window.removeEventListener("popstate", syncFromUrl);
+    };
+  }, [syncUrlQuery]);
+
+  const handleSelectTag = (tag: string) => {
+    setSelectedTag(tag);
+    if (syncUrlQuery && typeof window !== "undefined") {
+      const url = new URL(window.location.href);
+      if (tag === "All") {
+        url.searchParams.delete("tag");
+      } else {
+        url.searchParams.set("tag", tag.toLowerCase());
+      }
+      window.history.replaceState({}, "", url.toString());
+    }
+  };
 
   const filtered = useMemo(() => {
     if (selectedTag === "All") return caseStudies;
@@ -44,7 +87,7 @@ export function SelectedWork({ caseStudies }: SelectedWorkProps) {
         {/* Giant section word + filter chips */}
         <div className="flex flex-col justify-between gap-6 lg:flex-row lg:items-end">
           <div>
-            <Heading id="work-heading" as="h2" size="display-xl">
+            <Heading id="work-heading" as={headingLevel} size="display-xl">
               Work.
             </Heading>
             <p className="mt-2 max-w-xl font-body text-body-lg text-text-muted">
@@ -64,7 +107,7 @@ export function SelectedWork({ caseStudies }: SelectedWorkProps) {
                   key={tag}
                   as="button"
                   selected={selectedTag === tag}
-                  onClick={() => setSelectedTag(tag)}
+                  onClick={() => handleSelectTag(tag)}
                 >
                   {tag}
                 </Chip>
@@ -90,7 +133,7 @@ export function SelectedWork({ caseStudies }: SelectedWorkProps) {
           </div>
         )}
 
-        {/* Featured first card (Luci) */}
+        {/* Featured first card (Luci: 7/5 split layout, lilac, BetaBadge, Loaffy window-form peek on hover) */}
         {featuredCase && (
           <FadeIn delay={0}>
             <CaseCard
@@ -104,7 +147,11 @@ export function SelectedWork({ caseStudies }: SelectedWorkProps) {
               form={featuredCase.metadata.form}
               liveUrl={featuredCase.metadata.liveUrl}
               featured
-              badge={featuredCase.metadata.badge}
+              badge={
+                featuredCase.metadata.visibility === "full"
+                  ? "Live"
+                  : featuredCase.metadata.badge
+              }
               year={featuredCase.metadata.year}
               role={featuredCase.metadata.role}
             />

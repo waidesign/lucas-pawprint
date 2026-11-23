@@ -6,6 +6,7 @@ import {
   getCaseStudySlugs,
 } from "@/lib/case-studies";
 import { CaseLayout } from "@/components/case/CaseLayout";
+import { profile } from "@/content/site";
 
 export function generateStaticParams(): { slug: string }[] {
   return getCaseStudySlugs().map((slug) => ({ slug }));
@@ -23,18 +24,47 @@ export async function generateMetadata({
   }
 
   const { metadata } = await getCaseStudyBySlug(slug);
+  const canonicalUrl = `https://lucas.pawprint.design/work/${metadata.slug}`;
+
+  const ogImageUrl =
+    metadata.slug === "luci"
+      ? `https://lucas.pawprint.design/og/luci-${
+          metadata.visibility === "full" ? "full" : "teaser"
+        }.png`
+      : `https://lucas.pawprint.design${metadata.cover}.webp`;
+
+  const ogAlt =
+    metadata.slug === "luci"
+      ? `Loaffy in window form on lilac with "${
+          metadata.visibility === "full" ? "Luci · live" : "Luci · private beta"
+        }"`
+      : metadata.coverAlt;
 
   return {
     title: metadata.seo.title,
     description: metadata.seo.description,
     alternates: {
-      canonical: `https://lucas.pawprint.design/work/${metadata.slug}`,
+      canonical: canonicalUrl,
     },
     openGraph: {
       title: metadata.seo.title,
       description: metadata.seo.description,
-      url: `https://lucas.pawprint.design/work/${metadata.slug}`,
+      url: canonicalUrl,
       type: "article",
+      images: [
+        {
+          url: ogImageUrl,
+          width: 1200,
+          height: 630,
+          alt: ogAlt,
+        },
+      ],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: metadata.seo.title,
+      description: metadata.seo.description,
+      images: [ogImageUrl],
     },
   };
 }
@@ -61,6 +91,41 @@ export default async function CaseStudyPage({
       ? allCases[(currentIdx + 1) % allCases.length]?.metadata
       : undefined;
 
+  const authorSchema = {
+    "@type": "Person",
+    name: "Wai Phyo Aung",
+    alternateName: "Lucas",
+    jobTitle: profile.title,
+    email: profile.email,
+    url: "https://lucas.pawprint.design",
+  };
+
+  const creativeWorkJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "CreativeWork",
+    name: metadata.title,
+    headline: metadata.seo.title,
+    description: metadata.seo.description,
+    url: `https://lucas.pawprint.design/work/${metadata.slug}`,
+    dateCreated: metadata.year,
+    author: authorSchema,
+    keywords: metadata.tags.join(", "),
+  };
+
+  const softwareAppJsonLd =
+    slug === "luci"
+      ? {
+          "@context": "https://schema.org",
+          "@type": "SoftwareApplication",
+          name: "Luci",
+          url: "https://luci.pawprint.design",
+          applicationCategory: "DesignApplication",
+          operatingSystem: "Web, Chrome, Node.js",
+          description: metadata.summary,
+          author: authorSchema,
+        }
+      : null;
+
   return (
     <CaseLayout
       metadata={metadata}
@@ -68,6 +133,16 @@ export default async function CaseStudyPage({
       renderDefaultHero={slug !== "luci"}
       renderDefaultFooter={slug !== "luci"}
     >
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(
+            softwareAppJsonLd
+              ? [creativeWorkJsonLd, softwareAppJsonLd]
+              : creativeWorkJsonLd
+          ),
+        }}
+      />
       <Content />
     </CaseLayout>
   );
