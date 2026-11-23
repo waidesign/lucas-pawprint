@@ -1,0 +1,12 @@
+/**
+ * Scoped Luci brand tokens (CASE-LUCI.md §4 §1, §9.4 & BRAND.md §11).
+ * Allowed ONLY inside `.luci-brand-frame` (V1, V4, V5, V10 frames).
+ * Never leaked to `:root` or the global portfolio design system.
+ */
+.luci-brand-frame {
+  --luci-surface: #F5EFEA;
+  --luci-ink: #2B2B2B;
+  --luci-accent: #F4A878;
+  --luci-accent-deep: #CD8D65;
+  --luci-accent-soft: #F8CAAA;
+}

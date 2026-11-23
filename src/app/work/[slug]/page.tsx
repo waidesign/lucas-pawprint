@@ -62,7 +62,11 @@ export default async function CaseStudyPage({
       : undefined;
 
   return (
-    <CaseLayout metadata={metadata} nextCase={nextCase}>
+    <CaseLayout
+      metadata={metadata}
+      nextCase={nextCase}
+      renderDefaultHero={slug !== "luci"}
+    >
       <Content />
     </CaseLayout>
   );
