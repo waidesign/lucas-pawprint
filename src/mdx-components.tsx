@@ -22,6 +22,12 @@ import { CaptureFlow } from "@/components/case/luci/CaptureFlow";
 import { Outcome } from "@/components/case/luci/Outcome";
 import { Learnings } from "@/components/case/luci/Learnings";
 import { CaseCTA } from "@/components/case/luci/CaseCTA";
+import { ToolbarAnatomy } from "@/components/case/luci/ToolbarAnatomy";
+import { HowSteps } from "@/components/case/luci/HowSteps";
+import { ArchitectureDiagram } from "@/components/case/luci/ArchitectureDiagram";
+import { FeedbackBeforeAfter } from "@/components/case/luci/FeedbackBeforeAfter";
+import { BrandBoard } from "@/components/case/luci/BrandBoard";
+import { BuildTimeline } from "@/components/case/luci/BuildTimeline";
 
 const components: MDXComponents = {
   CaseLayout,
@@ -47,6 +53,12 @@ const components: MDXComponents = {
   Outcome,
   Learnings,
   CaseCTA,
+  ToolbarAnatomy,
+  HowSteps,
+  ArchitectureDiagram,
+  FeedbackBeforeAfter,
+  BrandBoard,
+  BuildTimeline,
   h1: ({ children, ...props }) => (
     <h1 className="font-display text-h1 text-text" {...props}>
       {children}

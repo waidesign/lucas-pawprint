@@ -68,6 +68,14 @@ export const metadata = {
   <PrincipleCards />
 </Chapter>
 
+<LaunchOnly>
+  <Chapter step="shape" title="How Luci works" tone="bg">
+    <ToolbarAnatomy />
+
+    <HowSteps />
+  </Chapter>
+</LaunchOnly>
+
 <Chapter step="design" title="A real export" tone="butter-soft">
   This is part of a real export Luci made from a public website (ko-fi.com) while I was building this portfolio.
 
@@ -75,6 +83,70 @@ export const metadata = {
 
   <A11yFindings />
 </Chapter>
+
+<LaunchOnly>
+  <Chapter step="design" title="Key decisions" tone="bg">
+    <DecisionCard
+      title="1. Toolbar, not just an extension."
+      problem="Extensions only live in the browser; dev work lives in the project."
+      decision="One shared core with two thin shells: an extension for any site, an npm package inside your own project."
+      why="Designers can capture references on any public site and use the exact same toolbar inside their local app."
+      tone="lilac"
+    >
+      <ArchitectureDiagram />
+    </DecisionCard>
+
+    <DecisionCard
+      title="2. Extend a standard, don't invent one."
+      problem="Inventing a custom schema forces agents to learn a new format from scratch."
+      decision="Agents already understand Google's DESIGN.md. Luci extends it with component and section scope, states and accessibility."
+      why="Exports work immediately with existing coding agents without custom prompts."
+      tone="mint"
+    />
+
+    <DecisionCard
+      title="3. Block images."
+      problem="A picture can't give reliable tokens."
+      decision="Only real elements and SVG can be selected, and Luci says why when it refuses."
+      why="Prevents guessed values from ever entering a design.md export."
+      tone="butter"
+    />
+
+    <DecisionCard
+      title="4. One header per feedback session."
+      problem="Feedback tools often repeat a page header for every page, and agents read each as a separate task and drop some."
+      decision="Luci writes one session header and groups pages under it."
+      why="Agents complete feedback across multiple routes in one pass without dropping pages."
+      tone="sky"
+    >
+      <FeedbackBeforeAfter />
+    </DecisionCard>
+
+    <DecisionCard
+      title="5. Match the team's code."
+      problem="Different codebases use different CSS units and colour spaces."
+      decision="Units (px/rem) and colour formats (hex, oklch, hsl) are settings, so exports drop straight into a codebase."
+      why="Eliminates manual unit conversion after export."
+      tone="pistachio"
+    />
+  </Chapter>
+</LaunchOnly>
+
+<LaunchOnly>
+  <Chapter step="design" title="A tool with a little personality" tone="blush-soft">
+    Luci is named after my ginger cat. The brand is calm and warm: Muzzle White, ink and a ginger family, with an outlined cat mascot.
+
+    <BrandBoard />
+  </Chapter>
+</LaunchOnly>
+
+<LaunchOnly>
+  <Chapter step="ship" title="How it was built" tone="bg">
+    I designed Luci in Figma and built it with AI coding agents, reviewing every change myself. It&apos;s MIT-licensed. The private beta opened in November 2026.
+
+    <BuildTimeline />
+  </Chapter>
+</LaunchOnly>
 
 <Chapter step="ship" title="Luci built this portfolio" tone="sky-soft">
   Every reference for this portfolio was captured with Luci. Eight sites, measured, then turned into my moodboard and design system — the one you&apos;re looking at.

@@ -20,14 +20,16 @@ export function Clip({ src, poster, caption, className }: ClipProps) {
           src={src}
           poster={poster}
           muted
+          loop
           playsInline
           controls
-          preload="metadata"
+          preload="none"
           className="aspect-video w-full bg-bg object-cover"
         />
       ) : (
-        <div className="flex aspect-video w-full items-center justify-center bg-bg p-6 text-center font-mono text-caption text-text-muted">
-          [Motion clip placeholder: {caption}]
+        <div className="flex aspect-video w-full flex-col items-center justify-center gap-2 bg-bg p-6 text-center font-mono text-caption text-text-muted">
+          <span>[6–8s loop clip placeholder]</span>
+          {poster && <span>Poster: {poster}</span>}
         </div>
       )}
       <figcaption className="border-t border-line px-4 py-3 font-body text-caption text-text-muted">
