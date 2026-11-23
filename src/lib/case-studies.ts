@@ -28,6 +28,9 @@ const CASE_STUDIES_DIR = path.join(
 const BANNED_BODY_CLAIMS_REGEX =
   /\+\s*(?:150|180|200|300)\s*%|\b(?:150|180|200|300)%\s*(?:increase|uplift|sales|growth|surge)|\b(?:38|42|45|55|60|70|85)%\b/i;
 
+const LUCI_BANNED_TERMS_REGEX =
+  /\b(?:Hoverify|Sitepeel|Agentation|GAW|Graphify)\b|orchestrat|\bpricing\b|%\s*complete/i;
+
 /**
  * Returns all `.mdx` slugs inside `src/content/case-studies` (skipping `_template.mdx`).
  */
@@ -44,7 +47,7 @@ export function getCaseStudySlugs(): string[] {
 
 /**
  * Loads an MDX case study component and validates its `export const metadata` against `caseStudyMetadataSchema`
- * and checks the MDX body for banned unverified percentage claims.
+ * and checks the MDX body for banned unverified percentage claims (and CASE-LUCI.md §7 terms for `luci`).
  * Throws and fails the build if metadata or content is invalid.
  */
 export async function getCaseStudyBySlug(slug: string): Promise<{
@@ -86,6 +89,15 @@ export async function getCaseStudyBySlug(slug: string): Promise<{
       throw new Error(
         `[case-studies] Banned unverified percentage/metric "${bannedMatch[0]}" found in src/content/case-studies/${slug}.mdx.`
       );
+    }
+
+    if (slug === "luci") {
+      const luciBannedMatch = rawMdx.match(LUCI_BANNED_TERMS_REGEX);
+      if (luciBannedMatch) {
+        throw new Error(
+          `[case-studies] Forbidden term "${luciBannedMatch[0]}" (CASE-LUCI.md §7) found in src/content/case-studies/luci.mdx.`
+        );
+      }
     }
   }
 

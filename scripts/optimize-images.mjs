@@ -94,19 +94,23 @@ async function stageLegacyImages() {
   const luciDestDir = path.join(PUBLIC_CASE_DIR, "luci");
   fs.mkdirSync(luciDestDir, { recursive: true });
   const luciCoverWebp = path.join(luciDestDir, "cover.webp");
+  const luciHeroWebp = path.join(luciDestDir, "hero.webp");
   const luciLogoSvg = path.join(
     CONTENT_CASE_DIR,
     "luci",
     "luci-logo-stacked.svg"
   );
 
-  if (!fs.existsSync(luciCoverWebp) && fs.existsSync(luciLogoSvg)) {
+  if (
+    (!fs.existsSync(luciCoverWebp) || !fs.existsSync(luciHeroWebp)) &&
+    fs.existsSync(luciLogoSvg)
+  ) {
     const logoBuffer = await sharp(luciLogoSvg)
       .resize({ width: 360, height: 360, fit: "contain" })
       .png()
       .toBuffer();
 
-    await sharp({
+    const cardBuffer = await sharp({
       create: {
         width: 1200,
         height: 750,
@@ -116,7 +120,14 @@ async function stageLegacyImages() {
     })
       .composite([{ input: logoBuffer, gravity: "center" }])
       .webp({ quality: 86 })
-      .toFile(luciCoverWebp);
+      .toBuffer();
+
+    if (!fs.existsSync(luciCoverWebp)) {
+      fs.writeFileSync(luciCoverWebp, cardBuffer);
+    }
+    if (!fs.existsSync(luciHeroWebp)) {
+      fs.writeFileSync(luciHeroWebp, cardBuffer);
+    }
   }
 }
 

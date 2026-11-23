@@ -23,7 +23,11 @@ export const FORM_VALUES = [
 const BANNED_CLAIM_REGEX =
   /\+\s*(?:150|180|200|300)\s*%|\b(?:150|180|200|300)%\s*(?:increase|uplift|sales|growth|surge)/i;
 
-function assertNoBannedClaims(text: string, ctx: z.RefinementCtx, field: string) {
+function assertNoBannedClaims(
+  text: string,
+  ctx: z.RefinementCtx,
+  field: string
+) {
   if (BANNED_CLAIM_REGEX.test(text)) {
     ctx.addIssue({
       code: z.ZodIssueCode.custom,
@@ -31,6 +35,16 @@ function assertNoBannedClaims(text: string, ctx: z.RefinementCtx, field: string)
     });
   }
 }
+
+export const ctaActionSchema = z.object({
+  label: z.string().min(1),
+  href: z.string().min(1),
+});
+
+export const caseStudyCtaSchema = z.object({
+  teaser: ctaActionSchema,
+  full: ctaActionSchema,
+});
 
 export const caseStudyMetadataSchema = z
   .object({
@@ -42,7 +56,7 @@ export const caseStudyMetadataSchema = z
     order: z.number().int().positive(),
     featured: z.boolean(),
     status: z.enum(["published", "draft", "beta"]),
-    visibility: z.enum(["full", "teaser"]),
+    visibility: z.enum(["teaser", "full"]),
     badge: z.string().optional(),
     client: z.string().min(1),
     summary: z.string().min(1),
@@ -59,12 +73,7 @@ export const caseStudyMetadataSchema = z
     cover: z.string().min(1),
     coverAlt: z.string().min(1),
     liveUrl: z.string().url().optional(),
-    cta: z
-      .object({
-        label: z.string().min(1),
-        href: z.string().min(1),
-      })
-      .optional(),
+    cta: caseStudyCtaSchema.optional(),
     tldr: z.object({
       problem: z.string().min(1),
       whatIDid: z.string().min(1),
@@ -83,4 +92,6 @@ export const caseStudyMetadataSchema = z
     assertNoBannedClaims(val.seo.description, ctx, "seo.description");
   });
 
+export type CaseStudyCtaAction = z.infer<typeof ctaActionSchema>;
+export type CaseStudyCta = z.infer<typeof caseStudyCtaSchema>;
 export type CaseStudyMetadata = z.infer<typeof caseStudyMetadataSchema>;
