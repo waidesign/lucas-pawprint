@@ -16,6 +16,12 @@ import { LuciHero } from "@/components/case/luci/LuciHero";
 import { ProblemDiagram } from "@/components/case/luci/ProblemDiagram";
 import { AudienceCards } from "@/components/case/luci/AudienceCards";
 import { PrincipleCards } from "@/components/case/luci/PrincipleCards";
+import { AnnotatedExport } from "@/components/case/luci/AnnotatedExport";
+import { A11yFindings } from "@/components/case/luci/A11yFindings";
+import { CaptureFlow } from "@/components/case/luci/CaptureFlow";
+import { Outcome } from "@/components/case/luci/Outcome";
+import { Learnings } from "@/components/case/luci/Learnings";
+import { CaseCTA } from "@/components/case/luci/CaseCTA";
 
 const components: MDXComponents = {
   CaseLayout,
@@ -35,6 +41,12 @@ const components: MDXComponents = {
   ProblemDiagram,
   AudienceCards,
   PrincipleCards,
+  AnnotatedExport,
+  A11yFindings,
+  CaptureFlow,
+  Outcome,
+  Learnings,
+  CaseCTA,
   h1: ({ children, ...props }) => (
     <h1 className="font-display text-h1 text-text" {...props}>
       {children}

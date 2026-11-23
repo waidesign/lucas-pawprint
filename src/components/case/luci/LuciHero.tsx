@@ -24,11 +24,11 @@ const DESIGN_MD_LINES = [
   "component: button.get-started",
   "scope: single-element",
   "states: [default, hover, focus, active]",
-  'backgroundColor: "{colors.ink}"',
+  'backgroundColor: "{colors.surface-variant}"',
   'color: "{colors.surface}"',
-  'rounded: "{rounded.pill}"',
-  'padding: "0.75rem 1.25rem"',
-  'wcag: "12.6:1 · passes AAA"',
+  'rounded: "{rounded.r-9999}"',
+  'padding: "1.25rem 1.75rem"',
+  'wcag: "AAA · passes contrast"',
 ] as const;
 
 const TOOLBAR_TOOLS = [

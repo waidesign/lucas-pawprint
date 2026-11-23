@@ -66,6 +66,7 @@ export default async function CaseStudyPage({
       metadata={metadata}
       nextCase={nextCase}
       renderDefaultHero={slug !== "luci"}
+      renderDefaultFooter={slug !== "luci"}
     >
       <Content />
     </CaseLayout>
