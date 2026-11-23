@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { Bricolage_Grotesque, Inter } from "next/font/google";
 import { THEME_INIT_SCRIPT, ThemeProvider } from "@/lib/theme";
 import { PawCursorProvider } from "@/components/mascot/PawCursorProvider";
+import { ToastProvider } from "@/components/ui/Toast";
+import { SkipLink } from "@/components/site/SkipLink";
 import "./globals.css";
 
 const bricolage = Bricolage_Grotesque({
@@ -41,7 +43,12 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       </head>
       <body className="min-h-full flex flex-col bg-bg text-text font-body">
         <ThemeProvider>
-          <PawCursorProvider>{children}</PawCursorProvider>
+          <PawCursorProvider>
+            <ToastProvider>
+              <SkipLink />
+              {children}
+            </ToastProvider>
+          </PawCursorProvider>
         </ThemeProvider>
       </body>
     </html>

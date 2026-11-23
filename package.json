@@ -19,11 +19,14 @@
     "@next/mdx": "^16.4.6",
     "@rive-app/react-canvas": "^4.41.0",
     "@types/mdx": "^2.0.14",
+    "clsx": "^2.1.1",
     "gray-matter": "^4.0.3",
+    "lucide-react": "^1.78.0",
     "motion": "^14.14.0",
     "next": "16.4.6",
     "react": "19.3.0",
-    "react-dom": "19.3.0"
+    "react-dom": "19.3.0",
+    "tailwind-merge": "^3.7.1"
   },
   "devDependencies": {
     "@tailwindcss/turbopack": "4.3.3",

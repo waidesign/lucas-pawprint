@@ -9,6 +9,7 @@ import {
 import { FadeIn } from "@/components/motion/FadeIn";
 import { stagger } from "@/lib/motion";
 import { LoaffyLabSection } from "./LoaffyLabSection";
+import { ComponentsLabSection } from "./ComponentsLabSection";
 
 const THEME_PREFERENCES: { id: ThemePreference; label: string }[] = [
   { id: "light", label: "Light" },
@@ -609,7 +610,10 @@ export function LabClient() {
         </div>
       </header>
 
-      <main className="mx-auto max-w-7xl space-y-16 px-4 py-12 md:px-8">
+      <main
+        id="main-content"
+        className="mx-auto max-w-7xl space-y-16 px-4 py-12 md:px-8"
+      >
         {/* Intro & Utility Verification Strip */}
         <section
           aria-labelledby="lab-intro-heading"
@@ -1197,6 +1201,9 @@ export function LabClient() {
 
         {/* 8. Phase 2 — Loaffy, CatHand & PawCursor Gallery */}
         <LoaffyLabSection />
+
+        {/* 9. Phase 3 — Core Components & Site Chrome Gallery */}
+        <ComponentsLabSection />
       </main>
     </div>
   );

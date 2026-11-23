@@ -10,6 +10,7 @@ Portfolio Website for **Lucas (Wai Phyo Aung), Product & Motion Designer**, at `
 - Package manager: npm
 - Styling & Tokens: Tailwind CSS v4 (`@theme` + `@theme inline`), generated from `design.md` via `scripts/generate-tokens.mjs` into `src/styles/tokens.css`
 - Fonts: `next/font/google` — Bricolage Grotesque (variable `opsz`, weights 600–800) and Inter (400, 500, 600)
+- Icons & Class Utilities: `lucide-react`, `clsx`, `tailwind-merge` (`src/lib/cn.ts`)
 - Content: `@next/mdx` case studies in `src/content/case-studies/*.mdx`
 - Motion & Mascot: `motion` (`motion/react`) presets in `src/lib/motion.ts`; `<Loaffy>` SVG-first facade + `@rive-app/react-canvas` upgrade, `<CatHand>`, and `<PawCursorProvider>`
 - Hosting target: Cloudflare Workers static assets (static export)
@@ -30,27 +31,23 @@ Portfolio Website for **Lucas (Wai Phyo Aung), Product & Motion Designer**, at `
 - `public/resume.pdf`: Lucas's resume (≤ 1 MB)
 - `scripts/generate-tokens.mjs`: Compiles `design.md` frontmatter to `src/styles/tokens.css` with 4/8 grid lint and golden diff check
 - `src/app/`: App Router routes (`/`, `/lab` dev-only)
-- `src/components/mascot/`:
-  - `parts/index.tsx`: `PenShape`, `ShadedShape`, `Pad`, `Bean`, `Eyes`, `Mouth`, `Cheeks`, `Highlight`, `GroundShadow`, and pose/form props
-  - `parts/clearance.ts`: Dev assertion verifying bean-to-pad clearance ≥ 9.5u static and ≥ 4.0u across all animation keyframes
-  - `LoaffySVG.tsx`: Full SVG renderer (6 expressions, 9 poses, 8 forms, pen wobble filter, 40ms-grid `motion/react` timelines)
-  - `Loaffy.tsx`: Public facade (server-renders `LoaffySVG`, lazy-upgrades to `RiveMascot` with 120ms cross-fade when `/rive/loaffy.riv` exists)
-  - `RiveMascot.tsx`: `Loaffy SM` state machine contract (`mood`, `form`, `pose`, `lookX`, `lookY`, `hover`, `reduced`, and triggers), off-screen/hidden-tab pause, DPR ≤ 2
-  - `useLoaffyMachine.ts`, `LoaffyBus.ts`, `reactions.ts`: Random blink (4–7s), 30s idle → sleepy, pointer look tracking, and site event reaction table
-  - `CatHand.tsx` & `PawCursorProvider.tsx`: Fur/bean hand with claws and edge entry; paw cursor toggle persisted in `localStorage["paw-cursor"]`
+- `src/components/ui/`: Core design system primitives (`Button`, `IconButton`, `TextLink`, `Heading`, `Eyebrow`, `Chip`, `Sticker`, `Card`, `Section`, `HoverNote`, `Toast`, `CopyEmail`, `ThemeSwitch`, `CursorToggle`, `BeanStepper`, `BeanLoader`, `DeviceFrame`, `VideoReel`, `BetaBadge`)
+- `src/components/site/`: Site chrome (`Wordmark`, `SkipLink`, `SiteNav`, `MobileMenu`, `SiteFooter`)
+- `src/components/case/`: Case study components (`BetaBadge`)
+- `src/components/mascot/`: `parts/`, `LoaffySVG.tsx`, `Loaffy.tsx`, `RiveMascot.tsx`, `useLoaffyMachine.ts`, `LoaffyBus.ts`, `reactions.ts`, `CatHand.tsx`, `PawCursorProvider.tsx`
 - `src/components/motion/`: `FadeIn`
-- `src/lib/`: `theme.ts` (3-theme provider + head script), `motion.ts` (spring presets), `case-studies.ts`
+- `src/lib/`: `cn.ts`, `theme.ts`, `motion.ts`, `case-studies.ts`
 - `src/styles/tokens.css`: Generated Tailwind v4 tokens
 
 ## Phase Status (confirmed)
 - **Done — Phase 1 (Foundations alignment) on `phase-1-foundations` (`704f995`):**
   - Aligned `design.md`, 3-theme tokens (`light`, `dark`, `warm-dark`), 4/8 grid lint, `tokens:check`, fonts, `ThemeProvider`, motion presets, and `/lab`.
-- **Done — Phase 2 (Loaffy SVG first, Rive-ready, hand and cursor) on `phase-2-loaffy`:**
-  - Built `src/components/mascot/parts/` (`PenShape`, `ShadedShape`, anatomy primitives, and dev bean-to-pad clearance assertion ≥ 4u).
-  - Built `LoaffySVG.tsx` with every expression, pose, and form, pen wobble filter (auto-off < 48px), `var(--lp-outline)` outlines, and 40ms-grid `motion/react` timelines.
-  - Built `Loaffy.tsx` facade, extended `RiveMascot.tsx` to `LOAFFY-ANIMATION.md §7.2`, and implemented `useLoaffyMachine.ts`, `LoaffyBus.ts`, and `reactions.ts`.
-  - Built `CatHand.tsx` and `PawCursorProvider.tsx` (+ cursor CSS in `src/app/globals.css`).
-  - Added the `/lab` Loaffy gallery (`src/app/lab/LoaffyLabSection.tsx`) comparing every expression, pose, form, and hand side beside its reference SVG across all 3 themes and sizes 32/64/128/320, with interactive reaction triggers.
-- **Next — Phase 3 (`phase-3-components`):**
-  - Build core UI primitives (`Button`, `IconButton`, `TextLink`, `Heading`, `Eyebrow`, `Chip`, `Sticker`, `Card`, `Section`, `HoverNote`, `Toast`, `CopyEmail`, `ThemeSwitch`, `CursorToggle`, `BeanStepper`, `BeanLoader`, `DeviceFrame`, `VideoReel`, `BetaBadge`) and site chrome (`SiteNav`, `MobileMenu`, `SiteFooter`).
+- **Done — Phase 2 (Loaffy SVG first, Rive-ready, hand and cursor) on `phase-2-loaffy` (`65c61f8`):**
+  - Built `src/components/mascot/` (`parts/`, `LoaffySVG.tsx`, `Loaffy.tsx`, `RiveMascot.tsx`, `useLoaffyMachine.ts`, `LoaffyBus.ts`, `reactions.ts`, `CatHand.tsx`, `PawCursorProvider.tsx`) and `/lab` Loaffy gallery.
+- **Done — Phase 3 (Core components & site chrome) on `phase-3-components`:**
+  - Built all 19 core UI primitives in `src/components/ui/` (+ `src/components/case/BetaBadge.tsx`): `Button`, `IconButton`, `TextLink`, `Heading` (single highlight guard), `Eyebrow`, `Chip` (+ filter chip), `Sticker`, `Card`, `Section`, `HoverNote`, `Toast` (+ `ToastProvider`, `useToast`), `CopyEmail` (`lucas@pawprint.design`), `ThemeSwitch` (`segmented` + `compact`), `CursorToggle`, `BeanStepper`, `BeanLoader`, `DeviceFrame`, `VideoReel`, `BetaBadge`.
+  - Built site chrome in `src/components/site/`: `Wordmark` (ginger toe bean + 10s wink), `SkipLink`, `SiteNav` (pill nav, hide-on-scroll, compact `ThemeSwitch`, `Resume` → `/resume.pdf`), `MobileMenu` (full-screen sheet, focus trap, `Esc` close, scroll lock), and `SiteFooter` (`BRAND.md` copy in `pistachio-soft`).
+  - Added Section `09 · Phase 3 — Core Components & Site Chrome` to `/lab` (`src/app/lab/ComponentsLabSection.tsx`).
+- **Next — Phase 4 (`phase-4-content`):**
+  - Build `src/lib/schema.ts` (zod case-study metadata validation), `src/content/site.ts`, create `src/content/case-studies/luci.mdx` first (teaser visibility, private beta), migrate the 6 client case studies from `docs/legacy/` (removing all unverified percentages/metrics), and add `scripts/optimize-images.mjs`.
 - **Open Questions:** None.

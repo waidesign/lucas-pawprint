@@ -1,6 +1,7 @@
 @import "tailwindcss";
 @import "../styles/tokens.css";
 @custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *, [data-theme="warm-dark"], [data-theme="warm-dark"] *));
+
 @layer base {
   html { background: var(--lp-bg); color: var(--lp-text); font-family: var(--font-body); }
   :focus-visible { outline: var(--focus-width) solid var(--lp-focus); outline-offset: var(--focus-offset); }
@@ -10,4 +11,54 @@
   :root[data-paw-cursor="on"] :is(a, button):active { cursor: url("/cursors/cursor-pressed.svg") 13 8, pointer; }
   :root[data-paw-cursor="on"] :is(input, textarea, [contenteditable]) { cursor: text; }
   @media (pointer: coarse), (prefers-reduced-motion: reduce) { :root body { cursor: auto; } }
+}
+
+@layer components {
+  .lp-btn-primary {
+    box-shadow: 0.25rem 0.25rem 0 0 var(--color-sky);
+    transition-property: transform, box-shadow, background-color, color, opacity;
+    transition-duration: var(--duration-fast);
+    transition-timing-function: var(--ease-out-soft);
+  }
+  .lp-btn-primary:hover:not(:disabled):not([aria-disabled="true"]) {
+    transform: translate(var(--lift-shift), var(--lift-shift));
+    box-shadow: 0.5rem 0.5rem 0 0 var(--color-sky);
+  }
+  .lp-btn-primary:active:not(:disabled):not([aria-disabled="true"]) {
+    transform: translate(var(--press-shift), var(--press-shift)) scale(var(--press-scale));
+    box-shadow: none;
+    transition-duration: var(--duration-instant);
+  }
+
+  .lp-sticker-sm-interactive {
+    box-shadow: var(--shadow-sticker-sm);
+    transition-property: transform, box-shadow, background-color, color, opacity;
+    transition-duration: var(--duration-fast);
+    transition-timing-function: var(--ease-out-soft);
+  }
+  .lp-sticker-sm-interactive:hover:not(:disabled):not([aria-disabled="true"]) {
+    transform: translate(var(--lift-shift), var(--lift-shift));
+    box-shadow: var(--shadow-sticker);
+  }
+  .lp-sticker-sm-interactive:active:not(:disabled):not([aria-disabled="true"]) {
+    transform: translate(var(--press-shift), var(--press-shift)) scale(var(--press-scale));
+    box-shadow: none;
+    transition-duration: var(--duration-instant);
+  }
+
+  .lp-sticker-interactive {
+    box-shadow: var(--shadow-sticker);
+    transition-property: transform, box-shadow, background-color, color, opacity;
+    transition-duration: var(--duration-fast);
+    transition-timing-function: var(--ease-out-soft);
+  }
+  .lp-sticker-interactive:hover:not(:disabled):not([aria-disabled="true"]) {
+    transform: translate(var(--lift-shift), var(--lift-shift));
+    box-shadow: var(--shadow-sticker-lg);
+  }
+  .lp-sticker-interactive:active:not(:disabled):not([aria-disabled="true"]) {
+    transform: translate(var(--press-shift), var(--press-shift)) scale(var(--press-scale));
+    box-shadow: none;
+    transition-duration: var(--duration-instant);
+  }
 }
