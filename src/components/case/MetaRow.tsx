@@ -1,0 +1,115 @@
+"use client";
+
+import { cn } from "@/lib/cn";
+import { useCaseStudy } from "@/components/case/CaseStudyContext";
+
+export interface MetaItem {
+  label: string;
+  value: string;
+  href?: string;
+}
+
+export interface MetaRowProps {
+  items?: MetaItem[];
+  role?: string;
+  team?: string;
+  timeline?: string;
+  platforms?: string[];
+  tools?: string[];
+  status?: string;
+  licence?: string;
+  liveUrl?: string;
+  className?: string;
+}
+
+/**
+ * Semantic definition list (`<dl>`) for case study metadata per COMPONENTS.md §E.
+ * Can be given explicit `items` / fields or automatically read from `CaseStudyContext`.
+ */
+export function MetaRow({
+  items,
+  role,
+  team,
+  timeline,
+  platforms,
+  tools,
+  status,
+  licence,
+  liveUrl,
+  className,
+}: MetaRowProps) {
+  const ctx = useCaseStudy();
+  const meta = ctx?.metadata;
+
+  const resolvedItems: MetaItem[] =
+    items ??
+    [
+      { label: "Role", value: role ?? meta?.role ?? "" },
+      ...(team || meta?.team
+        ? [{ label: "Team", value: team ?? meta?.team ?? "" }]
+        : []),
+      { label: "Timeline", value: timeline ?? meta?.timeline ?? "" },
+      {
+        label: "Platform",
+        value: (platforms ?? meta?.platforms ?? []).join(" + "),
+      },
+      ...(status
+        ? [{ label: "Status", value: status }]
+        : meta?.badge
+        ? [{ label: "Status", value: meta.badge }]
+        : []),
+      ...(licence ? [{ label: "Licence", value: licence }] : []),
+      ...(tools || meta?.tools
+        ? [
+            {
+              label: "Tools",
+              value: (tools ?? meta?.tools ?? []).join(" · "),
+            },
+          ]
+        : []),
+      ...(liveUrl || meta?.liveUrl
+        ? [
+            {
+              label: "Live",
+              value: (liveUrl ?? meta?.liveUrl ?? "").replace(
+                /^https?:\/\//,
+                ""
+              ),
+              href: liveUrl ?? meta?.liveUrl,
+            },
+          ]
+        : []),
+    ].filter((item) => item.value.trim().length > 0);
+
+  return (
+    <dl
+      className={cn(
+        "grid grid-cols-2 gap-4 rounded-lg border-2 border-line-strong bg-surface p-6 shadow-sticker-sm sm:grid-cols-3 lg:grid-cols-5",
+        className
+      )}
+    >
+      {resolvedItems.map((item) => (
+        <div key={item.label} className="space-y-1">
+          <dt className="font-mono text-label uppercase tracking-wider text-text-subtle">
+            {item.label}
+          </dt>
+          <dd className="font-body text-body font-medium text-text">
+            {item.href ? (
+              <a
+                href={item.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-1 underline decoration-2 underline-offset-4 hover:text-text-muted"
+              >
+                <span>{item.value}</span>
+                <span aria-hidden="true">↗</span>
+              </a>
+            ) : (
+              item.value
+            )}
+          </dd>
+        </div>
+      ))}
+    </dl>
+  );
+}
