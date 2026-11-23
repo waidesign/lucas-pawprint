@@ -176,3 +176,34 @@ export const education: EducationData = {
   location: "Wolverhampton, United Kingdom",
   graduated: "October 2019",
 };
+
+export interface NavItem {
+  label: string;
+  href: string;
+}
+
+export const PRIMARY_NAV_ITEMS: NavItem[] = [
+  { label: "Work", href: "/work" },
+  { label: "Motion", href: "/motion" },
+  { label: "About", href: "/about" },
+  { label: "Contact", href: "/contact" },
+];
+
+export const SOCIAL_LINKS: { label: string; href: string }[] = [
+  {
+    label: "LinkedIn",
+    href: profile.socials.linkedin,
+  },
+  {
+    label: "Behance",
+    href: profile.socials.behance,
+  },
+  {
+    label: "GitHub",
+    href: profile.socials.github,
+  },
+  {
+    label: "Medium",
+    href: profile.socials.medium,
+  },
+];

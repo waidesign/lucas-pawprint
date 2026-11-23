@@ -8,38 +8,10 @@ import { Button } from "@/components/ui/Button";
 import { IconButton } from "@/components/ui/IconButton";
 import { TextLink } from "@/components/ui/TextLink";
 import { ThemeSwitch } from "@/components/ui/ThemeSwitch";
+import { PRIMARY_NAV_ITEMS, SOCIAL_LINKS, type NavItem } from "@/content/site";
 import { Wordmark } from "./Wordmark";
 
-export interface NavItem {
-  label: string;
-  href: string;
-}
-
-export const PRIMARY_NAV_ITEMS: NavItem[] = [
-  { label: "Work", href: "/work" },
-  { label: "Motion", href: "/motion" },
-  { label: "About", href: "/about" },
-  { label: "Contact", href: "/contact" },
-];
-
-export const SOCIAL_LINKS: { label: string; href: string }[] = [
-  {
-    label: "LinkedIn",
-    href: "https://linkedin.com/in/waiphyoaung-design",
-  },
-  {
-    label: "Behance",
-    href: "https://www.behance.net/waiphyoaungdesign",
-  },
-  {
-    label: "GitHub",
-    href: "https://github.com/waidesign",
-  },
-  {
-    label: "Medium",
-    href: "https://medium.com/@waiphyoaung.design",
-  },
-];
+export { PRIMARY_NAV_ITEMS, SOCIAL_LINKS, type NavItem };
 
 export interface MobileMenuProps {
   open: boolean;

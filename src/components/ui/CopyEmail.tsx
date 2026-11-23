@@ -10,6 +10,7 @@ import {
   emitLoaffyEvent,
   emitLoaffyMessage,
 } from "@/components/mascot/LoaffyBus";
+import { trackEvent } from "@/lib/analytics";
 
 export interface CopyEmailProps {
   email?: string;
@@ -47,6 +48,7 @@ export function CopyEmail({
       await navigator.clipboard.writeText(email);
       setCopied(true);
       setFailed(false);
+      trackEvent("email_copy", { email });
       emitLoaffyEvent("email-copied");
       showToast({
         message: "Copied. Loaffy's waiting by the inbox.",

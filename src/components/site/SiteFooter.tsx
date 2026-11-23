@@ -2,7 +2,7 @@ import { cn } from "@/lib/cn";
 import { CursorToggle } from "@/components/ui/CursorToggle";
 import { TextLink } from "@/components/ui/TextLink";
 import { ThemeSwitch } from "@/components/ui/ThemeSwitch";
-import { PRIMARY_NAV_ITEMS, SOCIAL_LINKS } from "./MobileMenu";
+import { PRIMARY_NAV_ITEMS, SOCIAL_LINKS } from "@/content/site";
 import { Wordmark } from "./Wordmark";
 
 export interface SiteFooterProps {

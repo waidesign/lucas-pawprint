@@ -10,6 +10,7 @@ import {
 import { Coffee, Monitor, Moon, Sun } from "lucide-react";
 import { cn } from "@/lib/cn";
 import { useTheme, type ThemePreference } from "@/lib/theme";
+import { trackEvent } from "@/lib/analytics";
 import { IconButton } from "./IconButton";
 
 export interface ThemeSwitchProps {
@@ -137,6 +138,7 @@ export function ThemeSwitch({
                   onKeyDown={(e) => handleRadioKeyDown(e, idx)}
                   onClick={() => {
                     setTheme(id);
+                    trackEvent("theme_change", { theme: id });
                     setOpen(false);
                   }}
                   className={cn(
@@ -179,7 +181,10 @@ export function ThemeSwitch({
             aria-checked={active}
             tabIndex={active ? 0 : -1}
             onKeyDown={(e) => handleRadioKeyDown(e, idx)}
-            onClick={() => setTheme(id)}
+            onClick={() => {
+              setTheme(id);
+              trackEvent("theme_change", { theme: id });
+            }}
             className={cn(
               "inline-flex min-h-12 items-center gap-2 rounded-pill px-4 font-body text-button transition-colors",
               active

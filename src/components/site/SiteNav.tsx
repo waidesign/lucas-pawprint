@@ -8,7 +8,9 @@ import { cn } from "@/lib/cn";
 import { Button } from "@/components/ui/Button";
 import { IconButton } from "@/components/ui/IconButton";
 import { ThemeSwitch } from "@/components/ui/ThemeSwitch";
-import { MobileMenu, PRIMARY_NAV_ITEMS } from "./MobileMenu";
+import { trackEvent } from "@/lib/analytics";
+import { PRIMARY_NAV_ITEMS } from "@/content/site";
+import { MobileMenu } from "./MobileMenu";
 import { Wordmark } from "./Wordmark";
 
 export interface SiteNavProps {
@@ -106,19 +108,33 @@ export function SiteNav({
           {/* Right (Desktop): ThemeSwitch (compact) + Resume */}
           <div className="hidden items-center gap-3 md:flex">
             <ThemeSwitch variant="compact" />
-            <Button
-              variant="secondary"
-              tone="lilac"
-              size="md"
-              href="/resume.pdf"
-              external
-            >
-              Resume
-            </Button>
+            <div onClick={() => trackEvent("resume_download", { location: "nav_desktop" })}>
+              <Button
+                variant="secondary"
+                tone="lilac"
+                size="md"
+                href="/resume.pdf"
+                external
+              >
+                Resume
+              </Button>
+            </div>
           </div>
 
-          {/* Right (Mobile < md): ThemeSwitch (compact) + Menu IconButton */}
+          {/* Right (Mobile < md): Resume + ThemeSwitch (compact) + Menu IconButton */}
           <div className="flex items-center gap-2 md:hidden">
+            <div onClick={() => trackEvent("resume_download", { location: "nav_mobile" })}>
+              <Button
+                variant="secondary"
+                tone="lilac"
+                size="md"
+                href="/resume.pdf"
+                external
+                className="px-4"
+              >
+                Resume
+              </Button>
+            </div>
             <ThemeSwitch variant="compact" />
             <IconButton
               aria-label="Open navigation menu"
