@@ -25,7 +25,19 @@ First reply with (1) a short plan, (2) files you will create or change, (3) anyt
 At the end, update .luci/context.md.
 ```
 
-### 0.3 Reusable prompts
+### 0.3 Reusable prompts (optional — only when you need them)
+These are **not** part of the start-up routine. Don't paste them after the kickoff. Use one in the middle of a phase when the situation matches:
+
+| Use it when… | Prompt |
+|---|---|
+| The agent says a screen is done and you want a check before approving | Review |
+| You've read the review table and want the issues fixed | Fix |
+| It works, but you want the final detail pass before merging | Polish |
+| The agent is going in circles or guessing | Stuck |
+| You (or the agent) changed AGENTS.md rules | Sync rules |
+
+Typical loop inside a phase: **Kickoff → Phase prompt → agent builds → Review → Fix → Polish → merge.**
+
 **Review** — `Review <route> against design.md and COMPONENTS.md. Table: element · expected · actual · fix. Include any value off the 4/8 grid. Don't change code yet.`
 **Fix** — `Apply fixes 1–N. Keep each minimal. Re-run lint, typecheck, build and axe; show results.`
 **Polish (detail-obsessed pass)** — `Pixel-polish <route>: optical alignment, 4/8 spacing, balanced headline wraps, every hover/focus/active state, reduced motion, dark + warm-dark contrast. Report changes.`
@@ -101,7 +113,7 @@ After each component run lint, typecheck and axe on /lab.
 Phase 4 — Content. Read IA.md §5, CONTENT.md (all), BRAND.md §4 and §9.
 1. src/lib/schema.ts: zod schema for case-study metadata exactly as IA.md §5. Validate in getAllCaseStudies(); fail the build on invalid metadata.
 2. src/content/site.ts from CONTENT.md (profile with lucas@pawprint.design, experience, testimonials, education).
-3. Create src/content/case-studies/luci.mdx FIRST from CONTENT.md "Luci" — teaser visibility only (status: beta). No unreleased details beyond what CONTENT.md lists.
+3. Create src/content/case-studies/luci.mdx FIRST from CASE-LUCI.md §8 metadata (visibility: "teaser"); body sections come in Phase 6 with the CASE-LUCI.md §9 prompt.
 4. Migrate the 6 client case studies from docs/legacy/projects.ts into MDX: keep facts; REMOVE every percentage, sales lift, baseline or invented metric; short plain sentences, first person; <Chapter step="understand|shape|design|ship">, <DecisionCard>, <Callout>; leave [placeholders] for unknowns.
 5. scripts/optimize-images.mjs (sharp → AVIF + WebP) on prebuild; alt text per BRAND.md §9.
 Output a table: slug · visibility · placeholders left · claims removed.
@@ -129,7 +141,7 @@ Section colours per DESIGN.md §1.4. Reveal on scroll (once, 80ms stagger). Anal
 Phase 6 — Case studies. Read IA.md §3–§4, COMPONENTS.md §E, USER-FLOWS.md §3.
 1. /work: display-xl "Work.", filter chips synced to ?tag=, aria-live result count, CaseCard grid (Luci first, featured).
 2. /work/[slug]: CaseHero, MetaRow (<dl>), TLDR stickers, sticky BeanStepper tied to <Chapter> (IntersectionObserver), DecisionCard, Callout, ImageGallery (dialog, focus trap), Clip, NextCase, compact ContactPanel. generateStaticParams for all slugs.
-3. Luci template variant: BetaBadge, "Request beta access" CTA (mailto:lucas@pawprint.design?subject=Luci%20beta), link to luci.pawprint.design.
+3. Luci: build /work/luci exactly as docs/pawprint-kit/03-ux/CASE-LUCI.md (use its §9 prompt as a separate session after the template works).
 4. SEO per IA.md §4: metadata, canonical, JSON-LD (CreativeWork; SoftwareApplication for Luci), OG image with Loaffy in the case's form on its pastel (build-time).
 ```
 **Check:** open a case from a shared link (Flow B) · back button keeps scroll position · OG preview correct.

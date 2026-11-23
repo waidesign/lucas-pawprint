@@ -77,22 +77,14 @@ Order on the site: **Luci first (featured)**, then the six client projects.
 | 6 | fierce-fight-gear | Fierce Fight Gear | blush | window | 2025 | Lead UI/UX Designer | Me, 1 PM, 2 full-stack developers | 3 months | https://fiercefightgear.com |
 | 7 | sarayah-phuket-villas | Sarayah Phuket Villas | lilac | window | 2025 *(confirm)* | Lead UI/UX Designer & AI workflow | Me (design + build), 1 PM, 1 developer, 1 SEO specialist | First launch, then a full AI-workflow rebuild | https://sarayahphuketvillas.com |
 
-### 1 · Luci — public teaser (private beta)
+### 1 · Luci — top featured case study
 
-**Visibility:** `teaser` until Luci's public launch. Beta testers were asked to keep Luci quiet, so the portfolio shows only the story below; no screenshots of unreleased features unless Lucas adds them. Switch to `full` after launch.
+**Full spec (outline, copy, visuals, two modes, agent prompt): `CASE-LUCI.md`.**
 
-- **One line:** My own product: an on-page toolbar that captures any website's components, sections and design tokens as design.md files that AI coding agents can build from.
-- **Why I built it:** Design extractors I tried only gave a whole-site design.md. I needed one button, one section, one colour system — and a clean way to hand feedback to my coding agents across pages.
-- **What it does (public level):** Pick a component or section on any site and get a design.md for it. Measure text, colour and spacing with dedicated tools. Collect captures in a basket. Leave on-page feedback for AI agents.
-- **How I work on it:** I'm the founder, product designer and builder. I design in Figma and build with AI coding agents; Luci grew out of my earlier workflow tool (GAW), and now Luci helps build Luci.
-- **Process chapters:**
-  - *Understand:* gaps in existing design.md extractors and in agent feedback tools I used daily.
-  - *Shape:* one shared toolbar core with two shells — a browser extension for any site and an npm package inside projects.
-  - *Design:* Text, Colour and Spacing tools; component and section capture; a feedback format agents can follow; Luci's own ginger-cat brand.
-  - *Ship:* private beta at luci.pawprint.design (Nov 2026), invite-only.
-- **Outcome (allowed wording):** "In private beta with invited designers and developers." No user counts.
-- **CTA:** Request beta access → `mailto:lucas@pawprint.design?subject=Luci%20beta`
-- **Note:** Luci's own brand is ginger + Muzzle White. That's fine inside its case study visuals; the portfolio UI around it stays Loaffy Candy.
+- **One line:** A toolbar that turns any part of any website into a design.md your AI coding agent can build from.
+- **Mode:** `teaser` until the public launch (beta testers were asked to keep Luci quiet), then `full`.
+- **CTA:** Request beta access → `mailto:lucas@pawprint.design?subject=Luci%20beta` (teaser) · Try Luci → luci.pawprint.design (launch).
+- **Luci's brand** (ginger + Muzzle White) appears only inside its own visuals; the portfolio UI stays Loaffy Candy.
 
 ### 2–7 · Client case studies (summaries)
 
