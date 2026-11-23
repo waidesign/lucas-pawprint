@@ -13,6 +13,9 @@ import { ImageGallery } from "@/components/case/ImageGallery";
 import { Clip } from "@/components/case/Clip";
 import { BetaBadge } from "@/components/case/BetaBadge";
 import { LuciHero } from "@/components/case/luci/LuciHero";
+import { ProblemDiagram } from "@/components/case/luci/ProblemDiagram";
+import { AudienceCards } from "@/components/case/luci/AudienceCards";
+import { PrincipleCards } from "@/components/case/luci/PrincipleCards";
 
 const components: MDXComponents = {
   CaseLayout,
@@ -29,6 +32,9 @@ const components: MDXComponents = {
   Clip,
   BetaBadge,
   LuciHero,
+  ProblemDiagram,
+  AudienceCards,
+  PrincipleCards,
   h1: ({ children, ...props }) => (
     <h1 className="font-display text-h1 text-text" {...props}>
       {children}
