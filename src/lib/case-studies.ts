@@ -1,19 +1,12 @@
 import fs from "node:fs";
 import path from "node:path";
-import matter from "gray-matter";
 import type { ComponentType } from "react";
+import {
+  caseStudyMetadataSchema,
+  type CaseStudyMetadata,
+} from "@/lib/schema";
 
-export interface CaseStudyMetadata {
-  title: string;
-  summary: string;
-  publishedAt?: string;
-  role?: string;
-  timeline?: string;
-  tags?: string[];
-  featured?: boolean;
-  coverImage?: string;
-  [key: string]: unknown;
-}
+export type { CaseStudyMetadata };
 
 export interface CaseStudySummary {
   slug: string;
@@ -22,7 +15,7 @@ export interface CaseStudySummary {
 
 export interface CaseStudyModule {
   default: ComponentType;
-  metadata?: CaseStudyMetadata;
+  metadata?: unknown;
 }
 
 const CASE_STUDIES_DIR = path.join(
@@ -32,8 +25,11 @@ const CASE_STUDIES_DIR = path.join(
   "case-studies"
 );
 
+const BANNED_BODY_CLAIMS_REGEX =
+  /\+\s*(?:150|180|200|300)\s*%|\b(?:150|180|200|300)%\s*(?:increase|uplift|sales|growth|surge)|\b(?:38|42|45|55|60|70|85)%\b/i;
+
 /**
- * Returns all `.mdx` slugs inside `src/content/case-studies` for static generation (`generateStaticParams`).
+ * Returns all `.mdx` slugs inside `src/content/case-studies` (skipping `_template.mdx`).
  */
 export function getCaseStudySlugs(): string[] {
   if (!fs.existsSync(CASE_STUDIES_DIR)) {
@@ -47,8 +43,9 @@ export function getCaseStudySlugs(): string[] {
 }
 
 /**
- * Loads an MDX case study component and its metadata by slug.
- * Supports either `export const metadata = { ... }` in the `.mdx` file or YAML frontmatter.
+ * Loads an MDX case study component and validates its `export const metadata` against `caseStudyMetadataSchema`
+ * and checks the MDX body for banned unverified percentage claims.
+ * Throws and fails the build if metadata or content is invalid.
  */
 export async function getCaseStudyBySlug(slug: string): Promise<{
   slug: string;
@@ -59,35 +56,49 @@ export async function getCaseStudyBySlug(slug: string): Promise<{
     `@/content/case-studies/${slug}.mdx`
   )) as CaseStudyModule;
 
-  let metadata: CaseStudyMetadata = mdxModule.metadata ?? {
-    title: slug,
-    summary: "",
-  };
-
   if (!mdxModule.metadata) {
-    const filePath = path.join(CASE_STUDIES_DIR, `${slug}.mdx`);
-    if (fs.existsSync(filePath)) {
-      const raw = fs.readFileSync(filePath, "utf8");
-      const { data } = matter(raw);
-      if (data && Object.keys(data).length > 0) {
-        metadata = {
-          title: String(data.title ?? slug),
-          summary: String(data.summary ?? ""),
-          ...data,
-        };
-      }
+    throw new Error(
+      `[case-studies] Missing "export const metadata" in src/content/case-studies/${slug}.mdx.`
+    );
+  }
+
+  const parsed = caseStudyMetadataSchema.safeParse(mdxModule.metadata);
+  if (!parsed.success) {
+    const issues = parsed.error.issues
+      .map((i) => `${i.path.join(".")}: ${i.message}`)
+      .join("; ");
+    throw new Error(
+      `[case-studies] Invalid metadata in src/content/case-studies/${slug}.mdx — ${issues}`
+    );
+  }
+
+  if (parsed.data.slug !== slug) {
+    throw new Error(
+      `[case-studies] Metadata slug "${parsed.data.slug}" does not match filename "${slug}.mdx".`
+    );
+  }
+
+  const filePath = path.join(CASE_STUDIES_DIR, `${slug}.mdx`);
+  if (fs.existsSync(filePath)) {
+    const rawMdx = fs.readFileSync(filePath, "utf8");
+    const bannedMatch = rawMdx.match(BANNED_BODY_CLAIMS_REGEX);
+    if (bannedMatch) {
+      throw new Error(
+        `[case-studies] Banned unverified percentage/metric "${bannedMatch[0]}" found in src/content/case-studies/${slug}.mdx.`
+      );
     }
   }
 
   return {
     slug,
-    metadata,
+    metadata: parsed.data,
     Content: mdxModule.default,
   };
 }
 
 /**
- * Lists all case studies sorted by `publishedAt` descending (if provided).
+ * Lists all case studies validated with Zod, skipping `status: "draft"` in production,
+ * and sorted by `order` ascending (`Luci = 1` first).
  */
 export async function getAllCaseStudies(): Promise<CaseStudySummary[]> {
   const slugs = getCaseStudySlugs();
@@ -98,9 +109,10 @@ export async function getAllCaseStudies(): Promise<CaseStudySummary[]> {
     })
   );
 
-  return entries.sort((a, b) => {
-    const dateA = a.metadata.publishedAt ?? "";
-    const dateB = b.metadata.publishedAt ?? "";
-    return dateB.localeCompare(dateA);
-  });
+  const isProd = process.env.NODE_ENV === "production";
+  const visible = isProd
+    ? entries.filter((e) => e.metadata.status !== "draft")
+    : entries;
+
+  return visible.sort((a, b) => a.metadata.order - b.metadata.order);
 }

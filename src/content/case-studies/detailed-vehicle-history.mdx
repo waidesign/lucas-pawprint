@@ -1,0 +1,102 @@
+export const metadata = {
+  title: "Detailed Vehicle History",
+  slug: "detailed-vehicle-history",
+  order: 5,
+  featured: false,
+  status: "published",
+  visibility: "full",
+  client: "Detailed Vehicle History",
+  summary:
+    "20+ pages rebuilt mobile-first from legacy WordPress, with CMS templates and a scalable design system.",
+  year: "2025",
+  role: "Lead UI/UX Designer",
+  team: "Me, 1 PM, 3 developers",
+  timeline: "4 months",
+  platforms: ["Web", "Mobile web"],
+  industry: "Automotive",
+  tags: ["Web", "Design systems"],
+  tools: [
+    "Figma",
+    "Figma AI",
+    "After Effects",
+    "Premiere Pro",
+    "Lottiefiles",
+  ],
+  tone: "pistachio",
+  form: "cube",
+  cover: "/case-studies/detailed-vehicle-history/cover",
+  coverAlt:
+    "Detailed Vehicle History homepage and Original Window Sticker generator on desktop and mobile.",
+  liveUrl: "https://detailedvehiclehistory.com",
+  tldr: {
+    problem:
+      "A sprawling legacy WordPress site with inconsistent pages made it hard for vehicle buyers to find lookup tools or trust the checkout flow.",
+    whatIDid:
+      "I redesigned 20+ core and secondary pages mobile-first, designed the Original Window Sticker preview experience, and built a scalable Figma design system with reusable CMS templates.",
+    outcome:
+      "Replaced the legacy WordPress site. The design system and CMS templates are now used by the team for every new page.",
+  },
+  seo: {
+    title: "Detailed Vehicle History · Lucas (Wai Phyo Aung)",
+    description:
+      "20+ pages rebuilt mobile-first from legacy WordPress, with CMS templates and a scalable design system.",
+  },
+};
+
+<Chapter step="understand" title="Taming a 20+ page automotive data platform">
+  Detailed Vehicle History provides accident history, title checks, theft records, open recalls, and factory window stickers for cars, motorcycles, RVs, trucks, and classic vehicles.
+
+  Over time, the legacy WordPress site had grown into a patchwork of mismatched landing pages. Mobile visitors struggled to switch between VIN decoding, license plate lookup, and window sticker tools, and the checkout flow lacked visual consistency.
+</Chapter>
+
+<Chapter step="shape" title="One scalable system across every vehicle category">
+  Rather than styling 20+ pages one by one, I shaped a modular page architecture and component library that could power every lookup tool and CMS-driven manufacturer page.
+
+  <DecisionCard
+    title="Original Window Sticker preview experience"
+    problem="Used-car buyers wanted to verify a vehicle's original MSRP, factory options, trim package, and colors alongside safety records."
+    decision="Designed a dedicated Original Window Sticker generator flow that mirrors authentic factory Monroney sticker layouts."
+    why="Turned a dense specification database into a clear visual artifact that buyers and dealers immediately understood."
+    tone="pistachio"
+  />
+
+  <DecisionCard
+    title="Reusable CMS templates for vehicle categories and manufacturers"
+    problem="The team needed to launch pages for Motorcycle VIN Check, RV Lookup, and dozens of make-specific decoders without custom design work every time."
+    decision="Built flexible CMS templates for category tools, manufacturer pages, Business Solutions, and the blog."
+    why="Let the content and engineering team publish new vehicle lookup pages while keeping visual hierarchy and mobile responsiveness intact."
+    tone="sky"
+  />
+</Chapter>
+
+<Chapter step="design" title="20+ core pages, design tokens, and checkout clarity">
+  I led the UI/UX design across the platform's entire surface area:
+
+  - **Core product pages:** Home Page, Vehicle History Report, Window Sticker Generator, VIN Decoder, License Plate Lookup, Title Check, Warranty Checker, Engine Type Decoder, Service Records, VIN Year Chart, and the Checkout Flow.
+  - **Mobile-first inputs:** Single-field search bars with automatic VIN and license plate formatting for on-the-go lookups.
+  - **Scalable Figma design system:** Standardized color contrast tokens, 8pt spacing, component states, and micro-interactions.
+
+  <ImageGallery
+    images={[
+      {
+        src: "/case-studies/detailed-vehicle-history/screen-1.webp",
+        alt: "Detailed Vehicle History redesigned homepage and multi-mode VIN and license plate search.",
+        caption: "Redesigned homepage and unified VIN / license plate lookup bar.",
+      },
+      {
+        src: "/case-studies/detailed-vehicle-history/screen-2.webp",
+        alt: "Detailed Vehicle History Original Window Sticker generator and report preview.",
+        caption: "Original Window Sticker generator showing factory MSRP and options.",
+      },
+      {
+        src: "/case-studies/detailed-vehicle-history/screen-3.webp",
+        alt: "Detailed Vehicle History scalable CMS templates for motorcycles, RVs, and dealers.",
+        caption: "Reusable CMS templates across vehicle categories and business solutions.",
+      },
+    ]}
+  />
+</Chapter>
+
+<Chapter step="ship" title="Shipped and scaling with the team">
+  The redesigned platform shipped at [detailedvehiclehistory.com](https://detailedvehiclehistory.com), replacing the legacy WordPress site. The design system and CMS templates are now used by the team for every new page.
+</Chapter>

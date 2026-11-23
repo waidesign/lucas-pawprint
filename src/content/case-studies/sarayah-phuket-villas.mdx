@@ -1,0 +1,105 @@
+export const metadata = {
+  title: "Sarayah Phuket Villas",
+  slug: "sarayah-phuket-villas",
+  order: 7,
+  featured: false,
+  status: "published",
+  visibility: "full",
+  client: "Sarayah Phuket Villas",
+  summary:
+    "A luxury villa booking site, designed and later rebuilt with an AI-first workflow (Google AI Studio, Antigravity), with a Hostex booking widget.",
+  year: "2025",
+  role: "Lead UI/UX Designer & AI workflow",
+  team: "Me (design + build), 1 PM, 1 developer, 1 SEO specialist",
+  timeline: "First launch, then a full AI-workflow rebuild",
+  platforms: ["Web", "Mobile web"],
+  industry: "Hospitality",
+  tags: ["Web", "AI workflow"],
+  tools: [
+    "Google AI Studio",
+    "Google Antigravity",
+    "Figma",
+    "Hostex Booking API",
+  ],
+  tone: "lilac",
+  form: "window",
+  cover: "/case-studies/sarayah-phuket-villas/cover",
+  coverAlt:
+    "Sarayah Phuket Villas homepage and embedded Hostex direct booking flow.",
+  liveUrl: "https://sarayahphuketvillas.com",
+  tldr: {
+    problem:
+      "A new luxury pool-villa retreat in Phuket needed its first web presence and a direct booking flow so guests would not drop off on manual email inquiries or jarring third-party redirects.",
+    whatIDid:
+      "I designed the initial brand website and later rebuilt the full platform using an AI-first design-to-code workflow in Google AI Studio and Google Antigravity, embedding the Hostex booking engine directly into the site.",
+    outcome:
+      "Shipped and live. Guests can now check live availability and book Two-Bedroom and Four-Bedroom Pool Villas directly on the site.",
+  },
+  seo: {
+    title: "Sarayah Phuket Villas · Lucas (Wai Phyo Aung)",
+    description:
+      "A luxury villa booking site, designed and later rebuilt with an AI-first workflow (Google AI Studio, Antigravity), with a Hostex booking widget.",
+  },
+};
+
+<Chapter step="understand" title="A first digital home for a Phuket villa retreat">
+  Sarayah Phuket Villas is a private retreat of Two-Bedroom and Four-Bedroom Pool Villas near Surin, Yamu, Bang Tao, and Mai Khao beaches in Phuket.
+
+  At launch, the estate needed its very first digital presence. International travelers wanted clear floor plans, privacy details, nearby beach distances, and transparent calendar availability without being bounced to a generic external booking page or waiting on manual email inquiries.
+</Chapter>
+
+<Chapter step="shape" title="Direct Hostex booking and an AI-first rebuild">
+  I led the initial UI/UX design and later returned to rebuild the entire site using an AI-first workflow, combining Figma, Google AI Studio, and Google Antigravity to go from design direction to a live production web app.
+
+  <DecisionCard
+    title="Embedded Hostex direct booking flow"
+    problem="Redirecting guests to an external third-party booking portal broke the calm visual tone and added mobile friction."
+    decision="Integrated the Hostex booking widget and availability calendar directly into the villa pages and mobile checkout flow."
+    why="Guests can browse a villa, check real-time dates, and complete a reservation in one continuous experience."
+    tone="lilac"
+  />
+
+  <DecisionCard
+    title="AI-first design-to-code rebuild (Google AI Studio + Antigravity)"
+    problem="Iterating on layout details, SEO structure, and booking widget integration across staging builds needed a tighter loop between design and code."
+    decision="Authored a detailed master prompt in Google AI Studio to scaffold the rebuild, then refined the UI, responsive gallery, and Hostex integration in Google Antigravity with live preview checks."
+    why="Let me control the final front-end craft directly while collaborating with the PM, developer, and SEO specialist."
+    tone="mint"
+  />
+</Chapter>
+
+<Chapter step="design" title="Villa showcases, local guide, and calm editorial layout">
+  Every page was designed to match the quiet, unhurried feel of the estate while keeping booking actions clear:
+
+  - **Villa detail pages:** Dedicated pages for the Two-Bedroom and Four-Bedroom Pool Villas with layouts, amenities, high-resolution galleries, and nearby beach guides.
+  - **Support & offer pages:** Special Offers, Facilities, FAQs, and Contact pages designed for mobile travelers.
+  - **Search discoverability:** Server-rendered page structure, metadata, and sitemap architecture built with the SEO specialist.
+
+  <ImageGallery
+    images={[
+      {
+        src: "/case-studies/sarayah-phuket-villas/screen-1.webp",
+        alt: "Sarayah Phuket Villas homepage hero and luxury pool villa showcase.",
+        caption: "Homepage hero and villa collection overview.",
+      },
+      {
+        src: "/case-studies/sarayah-phuket-villas/screen-2.webp",
+        alt: "Sarayah Phuket Villas detail page showing floor plans, amenities, and photo gallery.",
+        caption: "Two-Bedroom and Four-Bedroom Pool Villa detail views.",
+      },
+      {
+        src: "/case-studies/sarayah-phuket-villas/screen-3.webp",
+        alt: "Sarayah Phuket Villas embedded Hostex booking widget and mobile reservation flow.",
+        caption: "Embedded Hostex calendar and direct booking flow.",
+      },
+    ]}
+  />
+</Chapter>
+
+<Chapter step="ship" title="Shipped and taking direct bookings">
+  The rebuilt site is live at [sarayahphuketvillas.com](https://sarayahphuketvillas.com), where guests can explore the estate and book directly online.
+
+  <Callout tone="lilac" title="Key takeaway">
+    Pairing an AI-first prototyping workflow with careful front-end review let us ship a calm, high-craft hospitality site with live direct booking in place of manual email inquiries.
+  </Callout>
+</Chapter>

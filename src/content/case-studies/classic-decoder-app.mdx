@@ -1,0 +1,102 @@
+export const metadata = {
+  title: "Classic Decoder App",
+  slug: "classic-decoder-app",
+  order: 3,
+  featured: false,
+  status: "published",
+  visibility: "full",
+  client: "Classic Decoder",
+  summary:
+    "Redesign of the first VIN lookup app for pre-1981 classic cars, with one design language across web and mobile.",
+  year: "2025",
+  role: "Lead UI/UX Designer",
+  team: "Me, 1 PM, 2 full-stack developers",
+  timeline: "4 months",
+  platforms: ["iOS", "Android"],
+  industry: "Automotive",
+  tags: ["Apps", "Design systems"],
+  tools: [
+    "Figma",
+    "Figma AI",
+    "After Effects",
+    "Premiere Pro",
+    "Lottiefiles",
+  ],
+  tone: "mint",
+  form: "phone",
+  cover: "/case-studies/classic-decoder-app/cover",
+  coverAlt:
+    "Classic Decoder mobile app showing pre-1981 VIN lookup and the Digital Garage.",
+  liveUrl: "https://apps.apple.com/us/app/classic-car-vin-lookup/id1661077569",
+  tldr: {
+    problem:
+      "The legacy mobile app had a clunky decoding flow on small screens, no shared design language with the new web platform, and no easy way to manage saved reports.",
+    whatIDid:
+      "I redesigned the mobile app end to end, integrated the web decoding engine into the mobile shell, unified the design tokens with the web platform, and refreshed the Digital Garage.",
+    outcome:
+      "Shipped and live on the App Store. Brought the mobile app and website onto one shared design system and lookup engine.",
+  },
+  seo: {
+    title: "Classic Decoder App · Lucas (Wai Phyo Aung)",
+    description:
+      "Redesign of the first VIN lookup app for pre-1981 classic cars, with one design language across web and mobile.",
+  },
+};
+
+<Chapter step="understand" title="On-the-lot inspections on a phone">
+  Classic car collectors and restorers often decode VINs on their phones while standing next to a car at an auction or swap meet.
+
+  The earlier mobile app had fallen behind the redesigned website. Its decoding forms felt cramped on small screens, report credits and receipts were hard to track, and the Digital Garage did not sync cleanly with how owners actually organized their cars.
+</Chapter>
+
+<Chapter step="shape" title="Two lookup paths and one shared engine">
+  Instead of maintaining two separate decoding engines across web and mobile, we shaped the mobile redesign around shared logic and clear branching for different classic VIN formats.
+
+  <DecisionCard
+    title="Two-path Yes/No VIN lookup flow"
+    problem="Pre-1981 car makers used different VIN lengths and plate layouts, which confused users when forced into one rigid input."
+    decision="Designed two guided decoding paths connected by a simple Yes/No prompt based on what the user has in front of them."
+    why="Collectors can decode rare or non-standard VIN plates without guessing which format rules apply."
+    tone="mint"
+  />
+
+  <DecisionCard
+    title="Integrating the web decoding engine inside the mobile shell"
+    problem="Rebuilding the entire pre-1981 decoding logic separately in native code risked long delays and mismatched results between web and mobile."
+    decision="Embedded the responsive web decoding engine inside the native app shell with native navigation, account controls, and garage storage around it."
+    why="Kept search behavior identical across platforms and let the engineering team ship faster."
+    tone="sky"
+  />
+</Chapter>
+
+<Chapter step="design" title="Digital Garage, account hub, and cross-platform tokens">
+  I aligned the app's typography, color tokens, and component states with the Classic Decoder web system while tailoring navigation and touch targets for one-handed phone use.
+
+  - **Refreshed Digital Garage:** Owners can store decoded classic cars, review full history reports and build sheets offline-ready on their phone, and re-download past documents.
+  - **Credits & Help Center:** Added clear report credit tracking, purchase receipts, notification controls, and an in-app Help Center so buyers can resolve questions on their own.
+  - **Mobile micro-interactions:** Added lightweight Lottie feedback for VIN scanning and garage updates.
+
+  <ImageGallery
+    images={[
+      {
+        src: "/case-studies/classic-decoder-app/screen-1.webp",
+        alt: "Classic Decoder mobile app VIN input and guided lookup screens.",
+        caption: "Guided pre-1981 VIN lookup flow on mobile.",
+      },
+      {
+        src: "/case-studies/classic-decoder-app/screen-2.webp",
+        alt: "Classic Decoder mobile app Digital Garage and saved classic vehicles.",
+        caption: "Digital Garage for storing decoded classic cars and build sheets.",
+      },
+      {
+        src: "/case-studies/classic-decoder-app/screen-3.webp",
+        alt: "Classic Decoder mobile app report viewer and credit management screens.",
+        caption: "Mobile build sheet viewer, credit tracking, and account hub.",
+      },
+    ]}
+  />
+</Chapter>
+
+<Chapter step="ship" title="Shipped on iOS and Android">
+  The redesigned app shipped on the [App Store](https://apps.apple.com/us/app/classic-car-vin-lookup/id1661077569), giving Classic Decoder one consistent product experience across desktop and mobile.
+</Chapter>

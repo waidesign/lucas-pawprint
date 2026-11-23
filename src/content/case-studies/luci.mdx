@@ -1,0 +1,89 @@
+export const metadata = {
+  title: "Luci",
+  slug: "luci",
+  order: 1,
+  featured: true,
+  status: "beta",
+  visibility: "teaser",
+  badge: "Private beta",
+  client: "Pawprint (own product)",
+  summary:
+    "My own product: an on-page toolbar that captures any website's components, sections and design tokens as design.md files that AI coding agents can build from.",
+  year: "2026",
+  role: "Founder · Product Designer · builder with AI agents",
+  team: "Me + my AI coding agents",
+  timeline: "2026 → beta (Nov 2026)",
+  platforms: ["Browser extension", "npm package", "Web"],
+  industry: "Design & AI Developer Tools",
+  tags: ["Own product", "Design systems", "AI workflow", "Web"],
+  tools: [
+    "Figma",
+    "TypeScript",
+    "Next.js",
+    "Claude Code",
+    "Google Antigravity",
+    "Codex",
+  ],
+  tone: "lilac",
+  form: "window",
+  cover: "/case-studies/luci/cover",
+  coverAlt:
+    "Luci brand mark and on-page design.md capture teaser on Muzzle White.",
+  liveUrl: "https://luci.pawprint.design",
+  cta: {
+    label: "Request beta access",
+    href: "mailto:lucas@pawprint.design?subject=Luci%20beta",
+  },
+  tldr: {
+    problem:
+      "Design extractors I tried only gave a whole-site design.md. I needed one button, one section, one color system, and a clean way to hand feedback to my coding agents across pages.",
+    whatIDid:
+      "I designed and built one shared toolbar core with two shells: a browser extension for any site and an npm package inside projects.",
+    outcome: "In private beta with invited designers and developers.",
+  },
+  seo: {
+    title: "Luci · Lucas (Wai Phyo Aung)",
+    description:
+      "An on-page toolbar that captures any website's components, sections and design tokens as design.md files for AI coding agents.",
+  },
+};
+
+<Callout tone="butter" title="Private beta teaser">
+  Luci is currently in invite-only private beta at luci.pawprint.design. Beta testers were asked to keep unreleased screens quiet, so this page shares the public story. Request beta access below if you want to try it.
+</Callout>
+
+<Chapter step="understand" title="Why I built Luci">
+  I use AI coding agents every day. Every design extractor I tried only exported a whole-site `design.md`.
+
+  When I was actually building a product, I did not want a whole site dumped into one file. I needed one button, one section, or one color system. I also needed a clean way to leave on-page feedback for my coding agents across routes without pasting screenshots and CSS selectors by hand.
+</Chapter>
+
+<Chapter step="shape" title="One toolbar core, two shells">
+  I shaped Luci around one shared on-page toolbar core that runs in two places:
+
+  - **A browser extension** that opens on any live website when you are studying references or auditing a live deployment.
+  - **An npm package** that mounts inside your own local project and connects directly to your coding agent workspace.
+
+  <DecisionCard
+    title="Granular component & section capture instead of whole-page dumps"
+    problem="Whole-site design.md exports flood an AI coding agent's context window with noise."
+    decision="Let the designer pick a single component or section on any page and generate a scoped design.md for it, or collect multiple captures in a basket."
+    why="Agents build much cleaner UI when handed one focused component spec and token baseline at a time."
+    tone="lilac"
+  />
+</Chapter>
+
+<Chapter step="design" title="Dedicated tools for text, color, spacing and feedback">
+  I designed Luci in Figma and built it alongside my AI coding agents. Luci grew out of my earlier workflow tool (GAW), and now Luci helps build Luci.
+
+  - **Text, Color and Spacing tools:** Measure and inspect live typography, color roles and spacing directly on the canvas.
+  - **Capture basket:** Collect components and sections across pages and export clean `design.md` files.
+  - **Agent feedback:** Leave structured on-page notes that coding agents can read and resolve.
+  - **Own identity:** Luci carries its own ginger-cat and Muzzle White brand inside the Pawprint family.
+</Chapter>
+
+<Chapter step="ship" title="Private beta at luci.pawprint.design">
+  Luci launched into invite-only private beta in November 2026 at [luci.pawprint.design](https://luci.pawprint.design).
+
+  It is currently in private beta with invited designers and developers. Full walkthroughs and feature screens will be published here once Luci leaves private beta.
+</Chapter>

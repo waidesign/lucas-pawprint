@@ -1,6 +1,18 @@
 import type { MDXComponents } from "mdx/types";
+import { Chapter } from "@/components/case/Chapter";
+import { DecisionCard } from "@/components/case/DecisionCard";
+import { Callout } from "@/components/case/Callout";
+import { ImageGallery } from "@/components/case/ImageGallery";
+import { Clip } from "@/components/case/Clip";
+import { BetaBadge } from "@/components/case/BetaBadge";
 
 const components: MDXComponents = {
+  Chapter,
+  DecisionCard,
+  Callout,
+  ImageGallery,
+  Clip,
+  BetaBadge,
   h1: ({ children, ...props }) => (
     <h1 className="font-display text-h1 text-text" {...props}>
       {children}

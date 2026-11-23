@@ -1,0 +1,111 @@
+export const metadata = {
+  title: "Classic Decoder",
+  slug: "classic-decoder",
+  order: 2,
+  featured: false,
+  status: "published",
+  visibility: "full",
+  client: "Classic Decoder",
+  summary:
+    "Full website redesign for a classic-car data platform: WordPress to Next.js, a new design system, online classifieds and a buyer/seller dashboard.",
+  year: "2025",
+  role: "Lead UI/UX & Motion Designer (Empire Pixel)",
+  team: "Me, 1 PM, 2 full-stack developers",
+  timeline: "4 months, discovery to hand-off",
+  platforms: ["Web", "Mobile web"],
+  industry: "Automotive",
+  tags: ["Web", "Design systems"],
+  tools: [
+    "Figma",
+    "Figma AI",
+    "Next.js",
+    "After Effects",
+    "Premiere Pro",
+    "Lottiefiles",
+  ],
+  tone: "sky",
+  form: "window",
+  cover: "/case-studies/classic-decoder/cover",
+  coverAlt:
+    "Classic Decoder homepage on desktop and mobile, showing the VIN search.",
+  liveUrl: "https://classicdecoder.com",
+  tldr: {
+    problem:
+      "Classic car buyers faced an outdated WordPress site with a long upfront form and no preview of whether their pre-1981 VIN was even found before checkout.",
+    whatIDid:
+      "I redesigned the website for Next.js, replaced the long form with a 3-step progressive lookup, added live report preview cards, built a Figma design system from scratch, and designed an online classic-car classifieds marketplace and user dashboard.",
+    outcome:
+      "Shipped and live. Replaced the legacy WordPress site and added a new classifieds marketplace for buying and selling classic cars.",
+  },
+  seo: {
+    title: "Classic Decoder · Lucas (Wai Phyo Aung)",
+    description:
+      "Full website redesign for a classic-car data platform: WordPress to Next.js, a new design system, online classifieds and a buyer/seller dashboard.",
+  },
+};
+
+<Chapter step="understand" title="What was broken on the old site">
+  Classic Decoder decodes VINs and provides historical build sheets for pre-1981 classic vehicles. Classic cars before 1981 use non-standard VIN formats that vary across manufacturers, which makes lookup harder than modern 17-character VINs.
+
+  The legacy WordPress site asked visitors to fill out a long form before telling them if a record existed. Most visitors arrived on mobile while inspecting a car in person, and the old layout was hard to use on a phone.
+
+  - **Upfront friction:** Visitors had to complete 14 form fields before seeing if their VIN matched a vehicle in the database.
+  - **Trust gap:** Classic car collectors wanted proof that the database recognized their specific year, make, and model before paying.
+  - **Missing mobile parity:** On-the-lot buyers needed a fast, readable lookup flow on small screens.
+</Chapter>
+
+<Chapter step="shape" title="Restructuring the lookup flow and marketplace">
+  Moving from WordPress to React and Next.js gave us a clean slate. I restructured the product around two core journeys: instant VIN verification and a new classic-car classifieds marketplace.
+
+  <DecisionCard
+    title="3-step progressive VIN lookup instead of a 14-field form"
+    problem="Asking for 14 fields upfront caused visitors to leave before running a search."
+    decision="Reduced the hero entry to a single VIN input that pings the database immediately and reveals the remaining steps in a progressive drawer."
+    why="Visitors get immediate confirmation that their classic VIN is supported before entering checkout details."
+    tone="sky"
+  />
+
+  <DecisionCard
+    title="Live decoded spec preview cards before payment"
+    problem="Buyers hesitated to pay without knowing what data the report actually contained for their car."
+    decision="Designed a live preview card showing the decoded year, make, model, and engine specs with locked report sections clearly outlined."
+    why="Showing real decoded vehicle data upfront proved authenticity and removed guesswork at checkout."
+    tone="mint"
+  />
+</Chapter>
+
+<Chapter step="design" title="Design system, classifieds, and motion feedback">
+  I built a new Figma design system from scratch for the Next.js rebuild, covering typography, color tokens, form states, landing pages, and inner tools.
+
+  - **Online classifieds from scratch:** For buyers, I designed smart filters, listing cards, detail pages, and photo galleries. For sellers, I mapped the listing flow covering car specs, photo uploads, privacy settings, pricing, and VIN-linked report upsells.
+  - **Buyer & seller dashboard:** Buyers can save cars and manage search alerts. Sellers can manage listings, message buyers, and track notifications.
+  - **Motion feedback during database lookups:** Pre-1981 archive lookups take a moment to resolve, so I designed lightweight Lottie scanning animations in After Effects to explain what the system is checking.
+
+  <ImageGallery
+    images={[
+      {
+        src: "/case-studies/classic-decoder/screen-1.webp",
+        alt: "Classic Decoder VIN lookup flow and decoded vehicle preview screens.",
+        caption: "Progressive VIN lookup and decoded vehicle preview.",
+      },
+      {
+        src: "/case-studies/classic-decoder/screen-2.webp",
+        alt: "Classic Decoder online classifieds marketplace and vehicle listing cards.",
+        caption: "Classic-car classifieds marketplace and filter system.",
+      },
+      {
+        src: "/case-studies/classic-decoder/screen-3.webp",
+        alt: "Classic Decoder buyer and seller dashboard screens on desktop and mobile.",
+        caption: "Buyer and seller dashboard with saved vehicles and listing controls.",
+      },
+    ]}
+  />
+</Chapter>
+
+<Chapter step="ship" title="Outcome and what I learned">
+  The redesigned platform shipped on Next.js at [classicdecoder.com](https://classicdecoder.com), replacing the legacy WordPress site and launching the new classic-car classifieds marketplace.
+
+  <Callout tone="sky" title="Key takeaway">
+    In high-intent lookups, showing real decoded vehicle specs upfront builds more trust than any marketing copy, and purposeful motion during database queries keeps buyers confident while waiting.
+  </Callout>
+</Chapter>

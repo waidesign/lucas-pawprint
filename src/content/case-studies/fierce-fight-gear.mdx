@@ -1,0 +1,94 @@
+export const metadata = {
+  title: "Fierce Fight Gear",
+  slug: "fierce-fight-gear",
+  order: 6,
+  featured: false,
+  status: "published",
+  visibility: "full",
+  client: "Fierce Fight Gear",
+  summary:
+    "E-commerce redesign plus a real-time customizer for custom boxing and Muay Thai gear.",
+  year: "2025",
+  role: "Lead UI/UX Designer",
+  team: "Me, 1 PM, 2 full-stack developers",
+  timeline: "3 months",
+  platforms: ["Web", "Mobile web"],
+  industry: "E-Commerce",
+  tags: ["Web", "E-commerce"],
+  tools: [
+    "Figma",
+    "Figma AI",
+    "After Effects",
+    "Premiere Pro",
+    "Lottiefiles",
+  ],
+  tone: "blush",
+  form: "window",
+  cover: "/case-studies/fierce-fight-gear/cover",
+  coverAlt:
+    "Fierce Fight Gear real-time boxing glove customizer and e-commerce storefront.",
+  liveUrl: "https://fiercefightgear.com",
+  tldr: {
+    problem:
+      "Ordering custom boxing gloves or Muay Thai shorts required a manual email quote cycle with no way for fighters to preview colors, leather textures, or embroidery in real time.",
+    whatIDid:
+      "I designed a mobile-first e-commerce storefront and a step-by-step visual product customizer canvas with live previews and dynamic pricing.",
+    outcome:
+      "Shipped and live. Replaced manual email quoting with self-serve real-time gear customization and checkout.",
+  },
+  seo: {
+    title: "Fierce Fight Gear · Lucas (Wai Phyo Aung)",
+    description:
+      "E-commerce redesign plus a real-time customizer for custom boxing and Muay Thai gear.",
+  },
+};
+
+<Chapter step="understand" title="From manual email quotes to live customization">
+  Fierce Fight Gear manufactures custom boxing gloves, Muay Thai shorts, MMA gear, and protective equipment in Thailand for fighters and gyms worldwide.
+
+  Before the redesign, ordering custom gear meant emailing requests back and forth and waiting for manual proofs. Fighters could not see how metallic leather, piping colors, and custom embroidery looked together before placing an order, and shopping on a phone was cumbersome.
+</Chapter>
+
+<Chapter step="shape" title="A step-by-step customizer canvas that works on a phone">
+  The customizer was the heart of the project. A single pair of gloves has dozens of customizable panels, materials, and logo zones, which can easily overwhelm a small mobile screen.
+
+  <DecisionCard
+    title="Guided canvas customizer with live price updates"
+    problem="Exposing every leather panel, strap option, and embroidery field at once overwhelmed mobile shoppers."
+    decision="Structured the customizer around a pinned live visual canvas with a step-by-step bottom control bar that updates the product render and cart total in real time."
+    why="Fighters see every material and color change immediately on the glove or shorts without losing their place in the flow."
+    tone="blush"
+  />
+</Chapter>
+
+<Chapter step="design" title="Storefront, product pages, and fighter gallery">
+  Alongside the customizer web app, I designed the complete e-commerce storefront:
+
+  - **Real-time customizer controls:** Material swatches (matte, metallic, genuine leather), zone-by-zone color pickers, text/embroidery placement, and live price calculation.
+  - **Product detail pages:** High-detail photography, sizing guides, and clear paths between ready-made stock and custom builds.
+  - **Action gallery:** A real-world gallery of custom gear worn by fighters in the ring so new customers can see finished craftsmanship before designing their own.
+
+  <ImageGallery
+    images={[
+      {
+        src: "/case-studies/fierce-fight-gear/screen-1.webp",
+        alt: "Fierce Fight Gear interactive boxing glove customizer canvas on desktop and mobile.",
+        caption: "Real-time customizer canvas with material and zone controls.",
+      },
+      {
+        src: "/case-studies/fierce-fight-gear/screen-2.webp",
+        alt: "Fierce Fight Gear e-commerce storefront and product detail pages.",
+        caption: "E-commerce product catalog and equipment specifications.",
+      },
+      {
+        src: "/case-studies/fierce-fight-gear/screen-3.webp",
+        alt: "Fierce Fight Gear fighter action gallery and mobile checkout screens.",
+        caption: "Fighter action gallery and mobile checkout flow.",
+      },
+    ]}
+  />
+</Chapter>
+
+<Chapter step="ship" title="Shipped and live">
+  The redesigned storefront and customizer web app launched at [fiercefightgear.com](https://fiercefightgear.com), turning a manual quoting process into an instant self-serve experience.
+</Chapter>
