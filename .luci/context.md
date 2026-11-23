@@ -11,7 +11,7 @@ Portfolio Website for **Lucas (Wai Phyo Aung), Product & Motion Designer**, at `
 - Styling & Tokens: Tailwind CSS v4 (`@theme` + `@theme inline`), generated from `design.md` via `scripts/generate-tokens.mjs` into `src/styles/tokens.css`
 - Fonts: `next/font/google` — Bricolage Grotesque (variable `opsz`, weights 600–800) and Inter (400, 500, 600)
 - Content: `@next/mdx` case studies in `src/content/case-studies/*.mdx`
-- Motion & Mascot: `motion` (`motion/react`) presets in `src/lib/motion.ts`; `@rive-app/react-canvas` + SVG fallback in `public/loaffy/`
+- Motion & Mascot: `motion` (`motion/react`) presets in `src/lib/motion.ts`; `<Loaffy>` SVG-first facade + `@rive-app/react-canvas` upgrade, `<CatHand>`, and `<PawCursorProvider>`
 - Hosting target: Cloudflare Workers static assets (static export)
 
 ## Commands (confirmed)
@@ -30,17 +30,27 @@ Portfolio Website for **Lucas (Wai Phyo Aung), Product & Motion Designer**, at `
 - `public/resume.pdf`: Lucas's resume (≤ 1 MB)
 - `scripts/generate-tokens.mjs`: Compiles `design.md` frontmatter to `src/styles/tokens.css` with 4/8 grid lint and golden diff check
 - `src/app/`: App Router routes (`/`, `/lab` dev-only)
-- `src/components/mascot/` & `src/components/motion/`: `RiveMascot` and `FadeIn`
+- `src/components/mascot/`:
+  - `parts/index.tsx`: `PenShape`, `ShadedShape`, `Pad`, `Bean`, `Eyes`, `Mouth`, `Cheeks`, `Highlight`, `GroundShadow`, and pose/form props
+  - `parts/clearance.ts`: Dev assertion verifying bean-to-pad clearance ≥ 9.5u static and ≥ 4.0u across all animation keyframes
+  - `LoaffySVG.tsx`: Full SVG renderer (6 expressions, 9 poses, 8 forms, pen wobble filter, 40ms-grid `motion/react` timelines)
+  - `Loaffy.tsx`: Public facade (server-renders `LoaffySVG`, lazy-upgrades to `RiveMascot` with 120ms cross-fade when `/rive/loaffy.riv` exists)
+  - `RiveMascot.tsx`: `Loaffy SM` state machine contract (`mood`, `form`, `pose`, `lookX`, `lookY`, `hover`, `reduced`, and triggers), off-screen/hidden-tab pause, DPR ≤ 2
+  - `useLoaffyMachine.ts`, `LoaffyBus.ts`, `reactions.ts`: Random blink (4–7s), 30s idle → sleepy, pointer look tracking, and site event reaction table
+  - `CatHand.tsx` & `PawCursorProvider.tsx`: Fur/bean hand with claws and edge entry; paw cursor toggle persisted in `localStorage["paw-cursor"]`
+- `src/components/motion/`: `FadeIn`
 - `src/lib/`: `theme.ts` (3-theme provider + head script), `motion.ts` (spring presets), `case-studies.ts`
 - `src/styles/tokens.css`: Generated Tailwind v4 tokens
 
 ## Phase Status (confirmed)
-- **Done — Phase 1 (Foundations alignment) on `phase-1-foundations`:**
-  - Replaced root `design.md` with `docs/pawprint-kit/02-design-system/DESIGN.md` (backed up `docs/legacy/design.v0.md`).
-  - Extended `scripts/generate-tokens.mjs` with YAML frontmatter compilation, 4/8 grid + 40ms duration lint, and `npm run tokens:check` against golden `docs/pawprint-kit/02-design-system/tokens.css`.
-  - Configured `src/app/globals.css`, `Bricolage_Grotesque` + `Inter` fonts, 3-theme system (`light` | `dark` | `warm-dark` | `system` → light/warm-dark) in `src/lib/theme.ts`, and motion presets in `src/lib/motion.ts`.
-  - Synced `AGENTS.md §4` hard rules into `.luci/rules.md`.
-  - Built dev-only `/lab` showcase (`src/app/lab/page.tsx`, `src/app/lab/LabClient.tsx`).
-- **Next — Phase 2 (`phase-2-loaffy`):**
-  - Build `<Loaffy>` SVG parts (`PenShape`, `ShadedShape`, `Pad`, `Bean`, `Eyes`, `Mouth`, `Cheeks`, `Highlight`, `GroundShadow`), `LoaffySVG.tsx`, SVG motion timelines, `Loaffy.tsx` facade with Rive upgrade, `useLoaffyMachine.ts`, `LoaffyBus.ts`, `CatHand.tsx`, `PawCursorProvider.tsx`, and the `/lab` Loaffy gallery.
+- **Done — Phase 1 (Foundations alignment) on `phase-1-foundations` (`704f995`):**
+  - Aligned `design.md`, 3-theme tokens (`light`, `dark`, `warm-dark`), 4/8 grid lint, `tokens:check`, fonts, `ThemeProvider`, motion presets, and `/lab`.
+- **Done — Phase 2 (Loaffy SVG first, Rive-ready, hand and cursor) on `phase-2-loaffy`:**
+  - Built `src/components/mascot/parts/` (`PenShape`, `ShadedShape`, anatomy primitives, and dev bean-to-pad clearance assertion ≥ 4u).
+  - Built `LoaffySVG.tsx` with every expression, pose, and form, pen wobble filter (auto-off < 48px), `var(--lp-outline)` outlines, and 40ms-grid `motion/react` timelines.
+  - Built `Loaffy.tsx` facade, extended `RiveMascot.tsx` to `LOAFFY-ANIMATION.md §7.2`, and implemented `useLoaffyMachine.ts`, `LoaffyBus.ts`, and `reactions.ts`.
+  - Built `CatHand.tsx` and `PawCursorProvider.tsx` (+ cursor CSS in `src/app/globals.css`).
+  - Added the `/lab` Loaffy gallery (`src/app/lab/LoaffyLabSection.tsx`) comparing every expression, pose, form, and hand side beside its reference SVG across all 3 themes and sizes 32/64/128/320, with interactive reaction triggers.
+- **Next — Phase 3 (`phase-3-components`):**
+  - Build core UI primitives (`Button`, `IconButton`, `TextLink`, `Heading`, `Eyebrow`, `Chip`, `Sticker`, `Card`, `Section`, `HoverNote`, `Toast`, `CopyEmail`, `ThemeSwitch`, `CursorToggle`, `BeanStepper`, `BeanLoader`, `DeviceFrame`, `VideoReel`, `BetaBadge`) and site chrome (`SiteNav`, `MobileMenu`, `SiteFooter`).
 - **Open Questions:** None.

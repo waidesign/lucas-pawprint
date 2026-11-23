@@ -8,6 +8,7 @@ import {
 } from "@/lib/theme";
 import { FadeIn } from "@/components/motion/FadeIn";
 import { stagger } from "@/lib/motion";
+import { LoaffyLabSection } from "./LoaffyLabSection";
 
 const THEME_PREFERENCES: { id: ThemePreference; label: string }[] = [
   { id: "light", label: "Light" },
@@ -1193,6 +1194,9 @@ export function LabClient() {
             })}
           </div>
         </section>
+
+        {/* 8. Phase 2 — Loaffy, CatHand & PawCursor Gallery */}
+        <LoaffyLabSection />
       </main>
     </div>
   );
