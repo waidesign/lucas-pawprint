@@ -1,77 +1,238 @@
-/* AUTO-GENERATED FROM design.md — DO NOT EDIT DIRECTLY.
- * Run `npm run tokens` to regenerate.
- */
+/* lucas.pawprint.design · tokens.css — GOLDEN OUTPUT.
+   Generated from design.md by scripts/generate-tokens.mjs. Do not hand-edit in the app; change design.md and regenerate.
+   Grid rule: every size, space, radius, offset and duration is a multiple of 4 (or 8). Strokes (1px, 2px) are the only exception. */
 
-:root {
-  --color-background: #FAF8F5;
-  --color-surface: #FFFFFF;
-  --color-surface-muted: #F2EFE9;
-  --color-foreground: #141413;
-  --color-muted: #66645E;
-  --color-border: #E6E2D8;
-  --color-accent: #FF5A36;
-  --color-accent-foreground: #FFFFFF;
-  --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
-  --font-display: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
-  --font-mono: var(--font-geist-mono), ui-monospace, SFMono-Regular, monospace;
-  --radius-sm: 0.375rem;
-  --radius-md: 0.75rem;
-  --radius-lg: 1.25rem;
-  --radius-xl: 1.75rem;
-  --radius-full: 9999px;
-  --shadow-subtle: 0 1px 2px 0 rgb(20 20 19 / 0.04);
-  --shadow-card: 0 8px 24px -4px rgb(20 20 19 / 0.06), 0 2px 6px -1px rgb(20 20 19 / 0.04);
-  --shadow-float: 0 20px 40px -12px rgb(20 20 19 / 0.12);
-  --ease-spring: cubic-bezier(0.22, 1, 0.36, 1);
-  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
-  --ease-in-out-smooth: cubic-bezier(0.65, 0, 0.35, 1);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) {
-    --color-background: #0E0E10;
-    --color-surface: #16161A;
-    --color-surface-muted: #1F1F24;
-    --color-foreground: #F4F3EF;
-    --color-muted: #9E9C95;
-    --color-border: #2A2A30;
-    --color-accent: #FF6E4E;
-    --color-accent-foreground: #141413;
-  }
+/* 1. Raw theme values (switch with data-theme on <html>) */
+:root, [data-theme="light"] {
+  --lp-bg: #F6F6F3;
+  --lp-surface: #ECECE6;
+  --lp-surface-2: #E2E2DA;
+  --lp-line: #D6D6CC;
+  --lp-line-strong: #2B2B2B;
+  --lp-text: #2B2B2B;
+  --lp-text-muted: #55524D;
+  --lp-text-subtle: #64615B;
+  --lp-inverse-bg: #2B2B2B;
+  --lp-inverse-text: #F6F6F3;
+  --lp-shadow: #2B2B2B;
+  --lp-focus: #2B2B2B;
+  --lp-outline: #2B2B2B;
+  --lp-lilac-soft: #ECE4F9;
+  --lp-mint-soft: #D2EFE0;
+  --lp-butter-soft: #FAEEC2;
+  --lp-sky-soft: #D2E6F9;
+  --lp-blush-soft: #FAE0E4;
+  --lp-pistachio-soft: #E6F2CC;
+  color-scheme: light;
 }
 
 [data-theme="dark"] {
-  --color-background: #0E0E10;
-  --color-surface: #16161A;
-  --color-surface-muted: #1F1F24;
-  --color-foreground: #F4F3EF;
-  --color-muted: #9E9C95;
-  --color-border: #2A2A30;
-  --color-accent: #FF6E4E;
-  --color-accent-foreground: #141413;
+  --lp-bg: #2B2B2B;
+  --lp-surface: #363636;
+  --lp-surface-2: #404040;
+  --lp-line: #4D4D4D;
+  --lp-line-strong: #F6F6F3;
+  --lp-text: #F6F6F3;
+  --lp-text-muted: #CFCCC6;
+  --lp-text-subtle: #B2AEA8;
+  --lp-inverse-bg: #F6F6F3;
+  --lp-inverse-text: #2B2B2B;
+  --lp-shadow: #1C1C1C;
+  --lp-focus: #F6F6F3;
+  --lp-outline: #F6F6F3;
+  --lp-lilac-soft: #48464D;
+  --lp-mint-soft: #404945;
+  --lp-butter-soft: #4D493B;
+  --lp-sky-soft: #40464D;
+  --lp-blush-soft: #4D4446;
+  --lp-pistachio-soft: #474A3F;
+  color-scheme: dark;
 }
 
+[data-theme="warm-dark"] {
+  --lp-bg: #2D2926;
+  --lp-surface: #3A3430;
+  --lp-surface-2: #453E39;
+  --lp-line: #564D47;
+  --lp-line-strong: #F6EFE6;
+  --lp-text: #F6EFE6;
+  --lp-text-muted: #D3C8BC;
+  --lp-text-subtle: #B8AC9E;
+  --lp-inverse-bg: #F6EFE6;
+  --lp-inverse-text: #2D2926;
+  --lp-shadow: #1E1A17;
+  --lp-focus: #F6EFE6;
+  --lp-outline: #F6EFE6;
+  --lp-lilac-soft: #4A4449;
+  --lp-mint-soft: #424841;
+  --lp-butter-soft: #4F4737;
+  --lp-sky-soft: #424549;
+  --lp-blush-soft: #4F4342;
+  --lp-pistachio-soft: #48493A;
+  color-scheme: dark;
+}
+
+/* 2. Static tokens → Tailwind utilities (default palette removed: tokens only) */
+@theme {
+  --color-*: initial;
+  --font-*: initial;
+  --radius-*: initial;
+  --shadow-*: initial;
+  --color-lilac: #E2D3FF;
+  --color-mint: #AEE8CC;
+  --color-butter: #FFE591;
+  --color-sky: #AED6FF;
+  --color-blush: #FFC9D5;
+  --color-pistachio: #D7EEA6;
+  --color-on-pastel: #2B2B2B;
+  --color-ginger: #F4A878;
+  --color-ginger-deep: #CD8D65;
+  --color-ginger-light: #F8CAAA;
+  --color-cheek: #F2B8B0;
+  --color-claw: #F7F0E2;
+  --font-display: "Bricolage Grotesque", ui-sans-serif, system-ui, sans-serif;
+  --font-body: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, monospace;
+  --text-display-xl: clamp(4rem, 1.8873rem + 9.0141vw, 10rem);
+  --text-display-xl--line-height: clamp(4rem, 2.2394rem + 7.5117vw, 9rem);
+  --text-display-xl--letter-spacing: -0.05em;
+  --text-display-xl--font-weight: 800;
+  --text-display: clamp(3rem, 1.9437rem + 4.5070vw, 6rem);
+  --text-display--line-height: clamp(3rem, 2.1197rem + 3.7559vw, 5.5rem);
+  --text-display--letter-spacing: -0.045em;
+  --text-display--font-weight: 800;
+  --text-h1: clamp(2.5rem, 1.9718rem + 2.2535vw, 4rem);
+  --text-h1--line-height: clamp(2.75rem, 2.3099rem + 1.8779vw, 4rem);
+  --text-h1--letter-spacing: -0.035em;
+  --text-h1--font-weight: 700;
+  --text-h2: clamp(2rem, 1.6479rem + 1.5023vw, 3rem);
+  --text-h2--line-height: clamp(2.25rem, 1.8979rem + 1.5023vw, 3.25rem);
+  --text-h2--letter-spacing: -0.03em;
+  --text-h2--font-weight: 700;
+  --text-h3: clamp(1.5rem, 1.3239rem + 0.7512vw, 2rem);
+  --text-h3--line-height: clamp(1.75rem, 1.5739rem + 0.7512vw, 2.25rem);
+  --text-h3--letter-spacing: -0.02em;
+  --text-h3--font-weight: 700;
+  --text-h4: clamp(1.25rem, 1.1620rem + 0.3756vw, 1.5rem);
+  --text-h4--line-height: clamp(1.75rem, 1.6620rem + 0.3756vw, 2rem);
+  --text-h4--letter-spacing: -0.01em;
+  --text-h4--font-weight: 700;
+  --text-body-lg: 1.25rem;
+  --text-body-lg--line-height: 2rem;
+  --text-body-lg--letter-spacing: -0.01em;
+  --text-body-lg--font-weight: 400;
+  --text-body: 1rem;
+  --text-body--line-height: 1.5rem;
+  --text-body--letter-spacing: -0.005em;
+  --text-body--font-weight: 400;
+  --text-label: 0.75rem;
+  --text-label--line-height: 1rem;
+  --text-label--letter-spacing: 0.08em;
+  --text-label--font-weight: 600;
+  --text-caption: 0.75rem;
+  --text-caption--line-height: 1rem;
+  --text-caption--letter-spacing: 0;
+  --text-caption--font-weight: 500;
+  --text-button: 1rem;
+  --text-button--line-height: 1rem;
+  --text-button--letter-spacing: -0.005em;
+  --text-button--font-weight: 600;
+  --radius-xs: 8px;
+  --radius-sm: 12px;
+  --radius-md: 16px;
+  --radius-lg: 32px;
+  --radius-xl: 40px;
+  --radius-2xl: 56px;
+  --radius-pill: 9999px;
+  --spacing: 0.25rem;  /* 4px: p-1=4, p-2=8, p-3=12, p-4=16 … use steps from the scale only */
+  --breakpoint-sm: 480px;
+  --breakpoint-md: 768px;
+  --breakpoint-lg: 1024px;
+  --breakpoint-xl: 1280px;
+  --breakpoint-2xl: 1536px;
+  --ease-out-soft: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  --ease-spring-calm: linear(0, 0.18 4%, 0.56 12%, 0.86 21%, 1.02 31%, 1.045 38%, 1.03 47%, 1.005 60%, 0.998 75%, 1);
+  --ease-spring-bouncy: linear(0, 0.25 5%, 0.75 13%, 1.08 22%, 1.12 28%, 1.06 37%, 0.98 50%, 1.01 65%, 1);
+}
+
+/* 3. Theme-aware tokens → utilities that follow data-theme */
 @theme inline {
-  --color-background: var(--color-background);
-  --color-surface: var(--color-surface);
-  --color-surface-muted: var(--color-surface-muted);
-  --color-foreground: var(--color-foreground);
-  --color-muted: var(--color-muted);
-  --color-border: var(--color-border);
-  --color-accent: var(--color-accent);
-  --color-accent-foreground: var(--color-accent-foreground);
-  --font-sans: var(--font-sans);
-  --font-display: var(--font-display);
-  --font-mono: var(--font-mono);
-  --radius-sm: var(--radius-sm);
-  --radius-md: var(--radius-md);
-  --radius-lg: var(--radius-lg);
-  --radius-xl: var(--radius-xl);
-  --radius-full: var(--radius-full);
-  --shadow-subtle: var(--shadow-subtle);
-  --shadow-card: var(--shadow-card);
-  --shadow-float: var(--shadow-float);
-  --ease-spring: var(--ease-spring);
-  --ease-out-expo: var(--ease-out-expo);
-  --ease-in-out-smooth: var(--ease-in-out-smooth);
+  --color-bg: var(--lp-bg);
+  --color-surface: var(--lp-surface);
+  --color-surface-2: var(--lp-surface-2);
+  --color-line: var(--lp-line);
+  --color-line-strong: var(--lp-line-strong);
+  --color-text: var(--lp-text);
+  --color-text-muted: var(--lp-text-muted);
+  --color-text-subtle: var(--lp-text-subtle);
+  --color-inverse-bg: var(--lp-inverse-bg);
+  --color-inverse-text: var(--lp-inverse-text);
+  --color-shadow: var(--lp-shadow);
+  --color-focus: var(--lp-focus);
+  --color-outline: var(--lp-outline);
+  --color-lilac-soft: var(--lp-lilac-soft);
+  --color-mint-soft: var(--lp-mint-soft);
+  --color-butter-soft: var(--lp-butter-soft);
+  --color-sky-soft: var(--lp-sky-soft);
+  --color-blush-soft: var(--lp-blush-soft);
+  --color-pistachio-soft: var(--lp-pistachio-soft);
+  --shadow-sticker-sm: 4px 4px 0 0 var(--lp-shadow);
+  --shadow-sticker: 8px 8px 0 0 var(--lp-shadow);
+  --shadow-sticker-lg: 12px 12px 0 0 var(--lp-shadow);
+}
+
+/* 4. Non-utility tokens */
+:root {
+  --space-0: 0rem;  /* 0px */
+  --space-4: 0.25rem;  /* 4px */
+  --space-8: 0.5rem;  /* 8px */
+  --space-12: 0.75rem;  /* 12px */
+  --space-16: 1rem;  /* 16px */
+  --space-20: 1.25rem;  /* 20px */
+  --space-24: 1.5rem;  /* 24px */
+  --space-32: 2rem;  /* 32px */
+  --space-40: 2.5rem;  /* 40px */
+  --space-48: 3rem;  /* 48px */
+  --space-56: 3.5rem;  /* 56px */
+  --space-64: 4rem;  /* 64px */
+  --space-80: 5rem;  /* 80px */
+  --space-96: 6rem;  /* 96px */
+  --space-128: 8rem;  /* 128px */
+  --space-160: 10rem;  /* 160px */
+  --space-section: clamp(5rem, 3.2394rem + 7.5117vw, 10rem);
+  --space-gutter: clamp(1rem, -0.0563rem + 4.5070vw, 4rem);
+  --container-max: 82rem;  /* 1312px */
+  --prose-max: 45rem;     /* 720px */
+  --size-control-sm: 2.5rem;  /* 40px */
+  --size-control-md: 3rem;  /* 48px */
+  --size-control-lg: 3.5rem;  /* 56px */
+  --size-icon-sm: 1rem;  /* 16px */
+  --size-icon-md: 1.25rem;  /* 20px */
+  --size-icon-lg: 1.5rem;  /* 24px */
+  --size-icon-xl: 2rem;  /* 32px */
+  --size-target-min: 3rem;  /* 48px */
+  --border-hairline: 1px;
+  --border-pen: 2px;
+  --focus-width: 2px;
+  --focus-offset: 4px;
+  --duration-instant: 120ms;
+  --duration-fast: 200ms;
+  --duration-base: 280ms;
+  --duration-slow: 480ms;
+  --duration-lazy: 720ms;
+  --z-base: 0;
+  --z-sticker: 8;
+  --z-nav: 48;
+  --z-overlay: 80;
+  --z-modal: 88;
+  --z-toast: 96;
+  --z-cursor: 104;
+  --press-scale: 0.96;
+  --press-shift: 4px;
+  --lift-shift: -4px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root { --duration-fast: 1ms; --duration-base: 1ms; --duration-slow: 1ms; --duration-lazy: 1ms; --press-scale: 1; --press-shift: 0px; --lift-shift: 0px; }
 }

@@ -19,7 +19,7 @@
       "build": "npm run build",
       "test": null,
       "lint": "npm run lint",
-      "typecheck": null
+      "typecheck": "npm run typecheck"
     }
   },
   "precedence": [

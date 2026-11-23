@@ -1,0 +1,326 @@
+{
+  "communities": {
+    "0": [
+      "package_dependencies_motion",
+      "ref_motion",
+      "src_app_lab_labclient",
+      "src_app_lab_labclient_character_tokens",
+      "src_app_lab_labclient_duration_tokens",
+      "src_app_lab_labclient_easing_tokens",
+      "src_app_lab_labclient_labclient",
+      "src_app_lab_labclient_pastel_tokens",
+      "src_app_lab_labclient_radius_tokens",
+      "src_app_lab_labclient_resolved_themes",
+      "src_app_lab_labclient_shadow_tokens",
+      "src_app_lab_labclient_spacing_steps",
+      "src_app_lab_labclient_theme_preferences",
+      "src_app_lab_labclient_theme_roles",
+      "src_app_lab_labclient_themerolespec",
+      "src_app_lab_labclient_type_scale",
+      "src_app_lab_labclient_typescalespec",
+      "src_app_lab_page",
+      "src_app_lab_page_labpage",
+      "src_app_lab_page_metadata",
+      "src_components_motion_fadein",
+      "src_components_motion_fadein_fadein",
+      "src_components_motion_fadein_fadeinprops",
+      "src_lib_motion",
+      "src_lib_motion_reveal",
+      "src_lib_motion_springbouncy",
+      "src_lib_motion_springcalm",
+      "src_lib_motion_stagger",
+      "src_lib_theme_usetheme"
+    ],
+    "1": [
+      "eslint_config",
+      "eslint_config_eslintconfig",
+      "package",
+      "package_devdependencies",
+      "package_devdependencies_eslint",
+      "package_devdependencies_eslint_config_next",
+      "package_devdependencies_tailwindcss",
+      "package_devdependencies_tailwindcss_turbopack",
+      "package_devdependencies_types_node",
+      "package_devdependencies_types_react",
+      "package_devdependencies_types_react_dom",
+      "package_devdependencies_typescript",
+      "package_name",
+      "package_private",
+      "package_version",
+      "ref_eslint",
+      "ref_eslint_config_next",
+      "ref_tailwindcss",
+      "ref_tailwindcss_turbopack",
+      "ref_types_node",
+      "ref_types_react",
+      "ref_types_react_dom",
+      "ref_typescript"
+    ],
+    "2": [
+      "next_config",
+      "next_config_nextconfig",
+      "next_config_withmdx",
+      "package_dependencies",
+      "package_dependencies_gray_matter",
+      "package_dependencies_mdx_js_loader",
+      "package_dependencies_mdx_js_react",
+      "package_dependencies_next",
+      "package_dependencies_next_mdx",
+      "package_dependencies_react_dom",
+      "package_dependencies_types_mdx",
+      "ref_gray_matter",
+      "ref_mdx_js_loader",
+      "ref_mdx_js_react",
+      "ref_next",
+      "ref_next_mdx",
+      "ref_react_dom",
+      "ref_types_mdx",
+      "src_app_page",
+      "src_app_page_homepage"
+    ],
+    "3": [
+      "tsconfig",
+      "tsconfig_compileroptions",
+      "tsconfig_compileroptions_allowjs",
+      "tsconfig_compileroptions_esmoduleinterop",
+      "tsconfig_compileroptions_incremental",
+      "tsconfig_compileroptions_isolatedmodules",
+      "tsconfig_compileroptions_jsx",
+      "tsconfig_compileroptions_lib",
+      "tsconfig_compileroptions_module",
+      "tsconfig_compileroptions_moduleresolution",
+      "tsconfig_compileroptions_noemit",
+      "tsconfig_compileroptions_paths",
+      "tsconfig_compileroptions_plugins",
+      "tsconfig_compileroptions_resolvejsonmodule",
+      "tsconfig_compileroptions_skiplibcheck",
+      "tsconfig_compileroptions_strict",
+      "tsconfig_compileroptions_target",
+      "tsconfig_exclude",
+      "tsconfig_include"
+    ],
+    "4": [
+      "ref_node_url",
+      "scripts_generate_tokens",
+      "scripts_generate_tokens_assertmultipleof4",
+      "scripts_generate_tokens_banned_colors",
+      "scripts_generate_tokens_design_md_path",
+      "scripts_generate_tokens_dirname",
+      "scripts_generate_tokens_filename",
+      "scripts_generate_tokens_fluidclampfromarrow",
+      "scripts_generate_tokens_generatetokenscss",
+      "scripts_generate_tokens_golden_css_path",
+      "scripts_generate_tokens_main",
+      "scripts_generate_tokens_normalizecssforcomparison",
+      "scripts_generate_tokens_output_css_path",
+      "scripts_generate_tokens_pxtoremstr",
+      "scripts_generate_tokens_root_dir",
+      "scripts_generate_tokens_spring_linear_map",
+      "scripts_generate_tokens_validategridandrules"
+    ],
+    "5": [
+      "src_app_globals",
+      "src_app_layout",
+      "src_app_layout_bricolage",
+      "src_app_layout_inter",
+      "src_app_layout_metadata",
+      "src_app_layout_rootlayout",
+      "src_lib_theme",
+      "src_lib_theme_applydomtheme",
+      "src_lib_theme_resolvedtheme",
+      "src_lib_theme_resolvethemepreference",
+      "src_lib_theme_theme_init_script",
+      "src_lib_theme_theme_storage_key",
+      "src_lib_theme_themecontext",
+      "src_lib_theme_themecontextvalue",
+      "src_lib_theme_themepreference",
+      "src_lib_theme_themeprovider"
+    ],
+    "6": [
+      "package_dependencies_react",
+      "ref_node_fs",
+      "ref_node_path",
+      "ref_react",
+      "src_lib_case_studies",
+      "src_lib_case_studies_case_studies_dir",
+      "src_lib_case_studies_casestudymetadata",
+      "src_lib_case_studies_casestudymodule",
+      "src_lib_case_studies_casestudysummary",
+      "src_lib_case_studies_getallcasestudies",
+      "src_lib_case_studies_getcasestudybyslug",
+      "src_lib_case_studies_getcasestudyslugs"
+    ],
+    "7": [
+      "package_scripts",
+      "package_scripts_build",
+      "package_scripts_dev",
+      "package_scripts_lint",
+      "package_scripts_prebuild",
+      "package_scripts_predev",
+      "package_scripts_start",
+      "package_scripts_tokens",
+      "package_scripts_tokens_check",
+      "package_scripts_typecheck"
+    ],
+    "8": [
+      "package_dependencies_rive_app_react_canvas",
+      "ref_rive_app_react_canvas",
+      "src_components_mascot_rivemascot",
+      "src_components_mascot_rivemascot_rivemascot",
+      "src_components_mascot_rivemascot_rivemascotprops"
+    ],
+    "9": [
+      "ref_mdx",
+      "src_mdx_components",
+      "src_mdx_components_components",
+      "src_mdx_components_usemdxcomponents"
+    ]
+  },
+  "cohesion": {
+    "0": 0.09359605911330049,
+    "1": 0.1225296442687747,
+    "2": 0.10526315789473684,
+    "3": 0.10526315789473684,
+    "4": 0.17647058823529413,
+    "5": 0.16666666666666666,
+    "6": 0.19696969696969696,
+    "7": 0.2,
+    "8": 0.4,
+    "9": 0.5
+  },
+  "gods": [
+    {
+      "id": "tsconfig_compileroptions",
+      "label": "compilerOptions",
+      "degree": 16
+    },
+    {
+      "id": "package_scripts",
+      "label": "scripts",
+      "degree": 10
+    },
+    {
+      "id": "ref_next",
+      "label": "next",
+      "degree": 6
+    },
+    {
+      "id": "ref_react",
+      "label": "react",
+      "degree": 6
+    },
+    {
+      "id": "src_app_lab_labclient_labclient",
+      "label": "LabClient()",
+      "degree": 5
+    },
+    {
+      "id": "scripts_generate_tokens_generatetokenscss",
+      "label": "generateTokensCss()",
+      "degree": 5
+    },
+    {
+      "id": "src_lib_theme_themeprovider",
+      "label": "ThemeProvider()",
+      "degree": 5
+    },
+    {
+      "id": "scripts_generate_tokens_fluidclampfromarrow",
+      "label": "fluidClampFromArrow()",
+      "degree": 4
+    },
+    {
+      "id": "scripts_generate_tokens_validategridandrules",
+      "label": "validateGridAndRules()",
+      "degree": 4
+    },
+    {
+      "id": "ref_motion",
+      "label": "motion",
+      "degree": 4
+    }
+  ],
+  "surprises": [
+    {
+      "source": "LabPage()",
+      "target": "LabClient()",
+      "source_files": [
+        "src/app/lab/page.tsx",
+        "src/app/lab/LabClient.tsx"
+      ],
+      "confidence": "EXTRACTED",
+      "relation": "calls",
+      "why": "peripheral node `LabPage()` unexpectedly reaches hub `LabClient()`"
+    },
+    {
+      "source": "RootLayout()",
+      "target": "ThemeProvider()",
+      "source_files": [
+        "src/app/layout.tsx",
+        "src/lib/theme.ts"
+      ],
+      "confidence": "EXTRACTED",
+      "relation": "calls",
+      "why": "peripheral node `RootLayout()` unexpectedly reaches hub `ThemeProvider()`"
+    },
+    {
+      "source": "LabClient()",
+      "target": "FadeIn()",
+      "source_files": [
+        "src/app/lab/LabClient.tsx",
+        "src/components/motion/FadeIn.tsx"
+      ],
+      "confidence": "EXTRACTED",
+      "relation": "calls",
+      "why": "cross-file semantic connection"
+    },
+    {
+      "source": "LabClient()",
+      "target": "useTheme()",
+      "source_files": [
+        "src/app/lab/LabClient.tsx",
+        "src/lib/theme.ts"
+      ],
+      "confidence": "EXTRACTED",
+      "relation": "calls",
+      "why": "cross-file semantic connection"
+    }
+  ],
+  "questions": [
+    {
+      "type": "bridge_node",
+      "question": "Why does `react` connect `Community 6` to `Community 0`, `Community 1`, `Community 5`?",
+      "why": "High betweenness centrality (0.232) - this node is a cross-community bridge."
+    },
+    {
+      "type": "low_cohesion",
+      "question": "Should `Community 0` be split into smaller, more focused modules?",
+      "why": "Cohesion score 0.09359605911330049 - nodes in this community are weakly interconnected."
+    },
+    {
+      "type": "bridge_node",
+      "question": "Why does `gray-matter` connect `Community 2` to `Community 1`, `Community 4`, `Community 6`?",
+      "why": "High betweenness centrality (0.161) - this node is a cross-community bridge."
+    },
+    {
+      "type": "low_cohesion",
+      "question": "Should `Community 1` be split into smaller, more focused modules?",
+      "why": "Cohesion score 0.1225296442687747 - nodes in this community are weakly interconnected."
+    },
+    {
+      "type": "bridge_node",
+      "question": "Why does `next` connect `Community 2` to `Community 0`, `Community 1`, `Community 5`?",
+      "why": "High betweenness centrality (0.111) - this node is a cross-community bridge."
+    },
+    {
+      "type": "low_cohesion",
+      "question": "Should `Community 2` be split into smaller, more focused modules?",
+      "why": "Cohesion score 0.10526315789473684 - nodes in this community are weakly interconnected."
+    },
+    {
+      "type": "low_cohesion",
+      "question": "Should `Community 3` be split into smaller, more focused modules?",
+      "why": "Cohesion score 0.10526315789473684 - nodes in this community are weakly interconnected."
+    }
+  ]
+}

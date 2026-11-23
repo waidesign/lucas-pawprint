@@ -10,13 +10,21 @@ method: authored
 ## Roles
 | Role | Family | Size | Weight | Line height | Letter spacing | Color | Uses | Elements |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| body | var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif | 16px | 400 | normal | normal | #141413 | 1 | body |
+| body | "Inter", ui-sans-serif, system-ui, sans-serif | 16px | 400 | normal | normal | #2b2b2b | 1 | html |
 
 ## Families
 | Family | Uses |
 | --- | --- |
-| var(--font-geist-sans) | 1 |
+| Inter | 1 |
+| Bricolage Grotesque | 1 |
+| JetBrains Mono | 1 |
 
 ## Scale
 | Size | Token | Uses |
 | --- | --- | --- |
+| 1.28px | `--text-label--letter-spacing` | 1 |
+| 12px | `--text-label` | 2 |
+| 16px | `--text-body` | 5 |
+| 20px | `--text-body-lg` | 1 |
+| 24px | `--text-body--line-height` | 1 |
+| 32px | `--text-body-lg--line-height` | 1 |

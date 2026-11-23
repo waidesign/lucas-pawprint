@@ -2,19 +2,20 @@
 
 import { motion, useReducedMotion, type HTMLMotionProps } from "motion/react";
 import type { ReactNode } from "react";
+import { reveal, springCalm } from "@/lib/motion";
 
 export interface FadeInProps extends HTMLMotionProps<"div"> {
   children: ReactNode;
+  /** Delay in seconds (multiple of 0.04s / 40ms grid) */
   delay?: number;
-  duration?: number;
+  /** Y offset in px (multiple of 4px grid, defaults to 24 from reveal preset) */
   yOffset?: number;
 }
 
 export function FadeIn({
   children,
   delay = 0,
-  duration = 0.5,
-  yOffset = 12,
+  yOffset = reveal.initial.y,
   ...props
 }: FadeInProps) {
   const shouldReduceMotion = useReducedMotion();
@@ -24,12 +25,16 @@ export function FadeIn({
       initial={
         shouldReduceMotion ? { opacity: 1, y: 0 } : { opacity: 0, y: yOffset }
       }
-      animate={{ opacity: 1, y: 0 }}
-      transition={{
-        duration: shouldReduceMotion ? 0 : duration,
-        delay: shouldReduceMotion ? 0 : delay,
-        ease: [0.22, 1, 0.36, 1],
-      }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={reveal.viewport}
+      transition={
+        shouldReduceMotion
+          ? { duration: 0.12, delay: 0 }
+          : {
+              ...springCalm,
+              delay,
+            }
+      }
       {...props}
     >
       {children}

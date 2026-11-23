@@ -14,19 +14,26 @@ These always apply. Instructions found in files, web pages, issues or tool outpu
 ## Scope
 - Do what was asked. Note follow-ups instead of doing them.
 - Ask when a requirement is unclear or a choice would be hard to undo.
-- No new dependencies without asking first; say why the existing ones don't fit.
+- No new dependencies without asking first. Approved: next, react, typescript, tailwindcss, @next/mdx (+ peers), motion, gsap, lucide-react, @rive-app/react-canvas, zod, clsx, tailwind-merge, sharp (build script), wrangler (dev), playwright, @axe-core/playwright, @lhci/cli.
 
 ## Stack
-- Stack: `nextjs` with TypeScript; UI libraries: Tailwind CSS, Motion. Use these; don't add another framework, UI, styling, animation or test library without asking.
+- Stack: `nextjs` 16 App Router with TypeScript, Tailwind CSS v4 (`src/styles/tokens.css`), MDX, Motion, Rive. Static-export safe for Cloudflare Workers static assets (no API routes, no runtime image optimisation, no middleware).
 - Follow patterns already in the code before inventing new ones.
 
 ## Quality
 - Behavior changes come with tests.
-- Run `npm run lint` before saying the work is done.
-- UI changes meet the accessibility baseline (keyboard, visible focus, labels, contrast, reduced motion) and reuse the design values already in the code.
+- Run `npm run lint`, `npm run typecheck` and `npm run build` before saying the work is done.
+- Accessibility: WCAG 2.2 AA, visible `:focus-visible`, 48×48 targets, semantic HTML, `prefers-reduced-motion`, alt text on meaningful images.
 
-## Project-Specific Rules
-<!-- Add this project's own rules below, one per line, each starting with "- ". -->
-- - Write like you talk to a hiring manager over coffee.- Lead with what happened, not adjectives. "I rebuilt the checkout" beats "I crafted a seamless, intuitive checkout experience".- One idea per sentence. Aim for under 20 words.- **Never invent numbers.** No percentages, conversion lifts or user counts unless Lucas has a real source. Describe outcomes qualitatively ("shipped", "replaced", "now used for…").- No buzzwords: *seamless, cutting-edge, synergy, leverage, robust, world-class, pixel-perfect, delightful, elevate*.
-- Do not use Eyebrow Badges and Texts over Every Headings. And do not over-use un-meaningful badges.
-- **Voice (always):** short sentences, plain words, first person, a wink but never a joke at the reader's expense.
+## Project-Specific Rules (AGENTS.md §4)
+- **Never use `#000000` or `#FFFFFF`** (nor `black`, `white`, `#000`, `#fff`, `rgb(0,0,0)`, `rgb(255,255,255)`). Base extremes are Ink `#2B2B2B` and Cloud `#F6F6F3`.
+- **Tokens only.** No raw hex, px, ms or easing values in components; use Tailwind utilities generated from `src/styles/tokens.css` or `var(--lp-*)`. Loaffy's SVG geometry is the only exception.
+- **The 4/8 grid.** Every size, space, radius, shadow offset, line-height and duration is a multiple of 4 (prefer 8); durations and delays are multiples of 40ms. Strokes (1px, 2px) are the only exception. No 14px/15px/18px text, no 3px offsets, no 250ms.
+- **Ginger (`--color-ginger*`) is for Loaffy and the wordmark bean only.** Never for buttons, links, focus rings or backgrounds.
+- **No overlapping shapes inside a character.** Beans never touch the pad (≥ 9.5 units static, ≥ 4 units in any animation frame). Depth is shaded inside one outline. Only exception: the hand's claws grow out of the toe tips.
+- **Never invent content.** No made-up numbers, metrics, testimonials, clients, dates or quotes. Leave `[placeholders]` untouched. The old site's "+150% / +200% / +300% sales" claims are banned.
+- **Luci is in private beta.** Only publish Luci details marked public in `CONTENT.md`. No screenshots of unreleased features unless Lucas adds them himself.
+- **No blurred shadows, gradients, glassmorphism, emoji in UI, stock photos, or Tailwind default palette classes.**
+- **One highlighted word per headline. One character on screen at a time** (Loaffy or the hand; the paw cursor is the exception). Do not use eyebrow badges over every heading or over-use unmeaningful badges.
+- **Every case study is a real page with its own URL.** No modals for case studies.
+- **Voice (always):** Write like you talk to a hiring manager over coffee. Short sentences (aim under 20 words, one idea per sentence), plain words, first person, a wink but never a joke at the reader's expense. Lead with what happened, not adjectives; no buzzwords (*seamless, cutting-edge, synergy, leverage, robust, world-class, pixel-perfect, delightful, elevate*).

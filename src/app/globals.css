@@ -1,8 +1,8 @@
 @import "tailwindcss";
 @import "../styles/tokens.css";
-
-body {
-  background-color: var(--color-background);
-  color: var(--color-foreground);
-  font-family: var(--font-sans);
+@custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *, [data-theme="warm-dark"], [data-theme="warm-dark"] *));
+@layer base {
+  html { background: var(--lp-bg); color: var(--lp-text); font-family: var(--font-body); }
+  :focus-visible { outline: var(--focus-width) solid var(--lp-focus); outline-offset: var(--focus-offset); }
+  ::selection { background: var(--color-lilac); color: var(--color-on-pastel); }
 }
