@@ -75,12 +75,12 @@ export function Chapter({
       data-chapter-step={step}
       aria-labelledby={headingId}
       className={cn(
-        "scroll-mt-28 border-t border-line py-[var(--space-section)]",
+        "w-full scroll-mt-28 border-t border-line px-4 py-[var(--space-section)] md:px-10 lg:px-20",
         CHAPTER_BG_CLASSES[tone],
         className
       )}
     >
-      <div className="mx-auto w-full max-w-[var(--container-max)] px-[var(--space-gutter)]">
+      <div className="w-full">
         <div className="max-w-[var(--prose-max)]">
           <div className="flex flex-wrap items-center gap-3">
             <span

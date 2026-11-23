@@ -44,7 +44,7 @@ export function NextCase({
   return (
     <nav
       aria-label="Next case study"
-      className={cn("mx-auto w-full max-w-[var(--container-max)] px-[var(--space-gutter)] py-12", className)}
+      className={cn("w-full px-4 py-12 md:px-10 lg:px-20", className)}
     >
       <Link
         href={`/work/${resolvedSlug}`}

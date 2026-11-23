@@ -11,16 +11,9 @@ export function ProofStrip() {
     <section
       id="proof"
       aria-label="Experience and client proof"
-      style={{
-        paddingLeft: "var(--space-gutter)",
-        paddingRight: "var(--space-gutter)",
-      }}
-      className="w-full border-y-2 border-line-strong bg-surface py-6 text-text"
+      className="w-full border-y-2 border-line-strong bg-surface px-4 py-6 text-text md:px-10 lg:px-20"
     >
-      <div
-        className="mx-auto flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between"
-        style={{ maxWidth: "var(--container-max)" }}
-      >
+      <div className="flex w-full flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
         {/* Left: Founder of Luci + 10 years + Empire Pixel */}
         <div className="flex flex-wrap items-center gap-3 font-body text-body text-text">
           <span className="font-semibold">

@@ -65,9 +65,9 @@ export function TLDR({
   return (
     <section
       aria-label="Case study TL;DR summary"
-      className={cn("bg-bg py-12 md:py-16", className)}
+      className={cn("w-full bg-bg px-4 py-12 md:px-10 md:py-16 lg:px-20", className)}
     >
-      <div className="mx-auto w-full max-w-[var(--container-max)] px-[var(--space-gutter)]">
+      <div className="w-full">
         <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
           {cards.map((card) => (
             <Sticker

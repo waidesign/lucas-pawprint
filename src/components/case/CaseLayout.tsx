@@ -50,7 +50,7 @@ export function CaseLayout({
       <main id="main-content" className="min-h-screen bg-bg text-text">
         {/* Top breadcrumb + sticky BeanStepper bar */}
         <div className="sticky top-20 z-30 border-b border-line bg-bg/95 backdrop-blur-none">
-          <div className="mx-auto flex w-full max-w-[var(--container-max)] flex-wrap items-center justify-between gap-4 px-[var(--space-gutter)] py-3">
+          <div className="flex w-full flex-wrap items-center justify-between gap-4 px-4 py-3 md:px-10 lg:px-20">
             <nav aria-label="Breadcrumb">
               <ol className="flex items-center gap-2 font-mono text-caption text-text-muted">
                 <li>
@@ -81,7 +81,7 @@ export function CaseLayout({
         {renderDefaultHero && (
           <>
             <header className="border-b border-line bg-bg py-12 md:py-20">
-              <div className="mx-auto grid w-full max-w-[var(--container-max)] grid-cols-1 items-center gap-8 px-[var(--space-gutter)] lg:grid-cols-12">
+              <div className="grid w-full grid-cols-1 items-center gap-8 px-4 md:px-10 lg:grid-cols-12 lg:px-20">
                 <div className="space-y-4 lg:col-span-5">
                   <div className="flex flex-wrap items-center gap-2">
                     <span className="font-mono text-label uppercase tracking-wider text-text-subtle">
@@ -138,7 +138,7 @@ export function CaseLayout({
                 </div>
               </div>
 
-              <div className="mx-auto mt-10 w-full max-w-[var(--container-max)] px-[var(--space-gutter)]">
+              <div className="mt-10 w-full px-4 md:px-10 lg:px-20">
                 <MetaRow />
               </div>
             </header>
@@ -149,7 +149,7 @@ export function CaseLayout({
 
         {/* Mobile/tablet stepper bar */}
         <div className="border-b border-line bg-surface py-3 lg:hidden">
-          <div className="mx-auto w-full max-w-[var(--container-max)] overflow-x-auto px-[var(--space-gutter)]">
+          <div className="w-full overflow-x-auto px-4 md:px-10 lg:px-20">
             <CaseStepper />
           </div>
         </div>

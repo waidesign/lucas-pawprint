@@ -59,22 +59,17 @@ export function SiteNav({
       <header
         style={{
           zIndex: previewMode ? undefined : "var(--z-nav)",
-          paddingLeft: "var(--space-gutter)",
-          paddingRight: "var(--space-gutter)",
           transitionDuration: "var(--duration-base)",
           transitionTimingFunction: "var(--ease-out-soft)",
         }}
         className={cn(
-          "w-full border-b-2 border-line-strong bg-bg py-3 transition-transform",
+          "w-full border-b-2 border-line-strong bg-bg px-4 py-3 transition-transform md:px-10 lg:px-20",
           !previewMode && "sticky top-0",
           !previewMode && hidden && "-translate-y-full",
           className
         )}
       >
-        <div
-          className="mx-auto flex items-center justify-between gap-4"
-          style={{ maxWidth: "var(--container-max)" }}
-        >
+        <div className="flex w-full items-center justify-between gap-4">
           {/* Left: Wordmark */}
           <Wordmark />
 

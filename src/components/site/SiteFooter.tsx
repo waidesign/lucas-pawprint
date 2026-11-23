@@ -18,19 +18,12 @@ const FOOTER_NAV_ITEMS = [
 export function SiteFooter({ className }: SiteFooterProps) {
   return (
     <footer
-      style={{
-        paddingLeft: "var(--space-gutter)",
-        paddingRight: "var(--space-gutter)",
-      }}
       className={cn(
-        "w-full border-t-2 border-line-strong bg-pistachio-soft py-12 text-text md:py-16",
+        "w-full border-t-2 border-line-strong bg-pistachio-soft px-4 py-12 text-text md:px-10 md:py-16 lg:px-20",
         className
       )}
     >
-      <div
-        className="mx-auto space-y-12"
-        style={{ maxWidth: "var(--container-max)" }}
-      >
+      <div className="w-full space-y-12">
         {/* Top row: Wordmark, Navigation & Socials */}
         <div className="grid grid-cols-1 gap-8 md:grid-cols-12">
           <div className="space-y-3 md:col-span-5">

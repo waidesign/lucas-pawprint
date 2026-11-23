@@ -38,20 +38,16 @@ export function Section({
       style={{
         paddingTop: "var(--space-section)",
         paddingBottom: "var(--space-section)",
-        paddingLeft: bleed ? undefined : "var(--space-gutter)",
-        paddingRight: bleed ? undefined : "var(--space-gutter)",
       }}
-      className={cn("w-full", toneClasses, className)}
+      className={cn(
+        "w-full",
+        !bleed && "px-4 md:px-10 lg:px-20",
+        toneClasses,
+        className
+      )}
       {...props}
     >
-      <div
-        className="mx-auto w-full"
-        style={{
-          maxWidth: bleed ? undefined : "var(--container-max)",
-        }}
-      >
-        {children}
-      </div>
+      <div className="w-full">{children}</div>
     </section>
   );
 }

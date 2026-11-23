@@ -92,9 +92,9 @@ export function LuciHero() {
   return (
     <header
       aria-labelledby="luci-hero-title"
-      className="border-b border-line bg-lilac-soft py-12 md:py-16"
+      className="w-full border-b border-line bg-lilac-soft px-4 py-12 md:px-10 md:py-16 lg:px-20"
     >
-      <div className="mx-auto w-full max-w-[var(--container-max)] px-[var(--space-gutter)]">
+      <div className="w-full">
         <div className="grid grid-cols-1 items-center gap-8 lg:grid-cols-12">
           {/* Left 5 columns: Eyebrow, Title + BetaBadge, Sub, Meta, CTAs */}
           <div className="space-y-6 lg:col-span-5">

@@ -15,16 +15,9 @@ export function Hero() {
     <section
       id="hero"
       aria-labelledby="hero-heading"
-      style={{
-        paddingLeft: "var(--space-gutter)",
-        paddingRight: "var(--space-gutter)",
-      }}
-      className="w-full bg-bg py-8 text-text md:py-16 lg:py-20"
+      className="w-full bg-bg px-4 py-8 text-text md:px-10 md:py-16 lg:px-20 lg:py-20"
     >
-      <div
-        className="mx-auto grid grid-cols-1 items-center gap-10 lg:grid-cols-12 lg:gap-8"
-        style={{ maxWidth: "var(--container-max)" }}
-      >
+      <div className="grid w-full grid-cols-1 items-center gap-10 lg:grid-cols-12 lg:gap-8">
         {/* Left column (40% visual weight on desktop, top on mobile so title + availability + resume fit 375x667) */}
         <div className="space-y-6 lg:col-span-6">
           <div className="flex flex-wrap items-center gap-3">
@@ -85,10 +78,7 @@ export function Hero() {
       </div>
 
       {/* Scroll cue at bottom */}
-      <div
-        className="mx-auto mt-8 flex justify-center lg:mt-12"
-        style={{ maxWidth: "var(--container-max)" }}
-      >
+      <div className="mt-8 flex w-full justify-center lg:mt-12">
         <a
           href="#work"
           aria-label="Scroll to selected work"
