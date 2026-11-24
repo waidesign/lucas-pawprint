@@ -4,8 +4,8 @@ import { cn } from "@/lib/cn";
 import { HEADING_SCALE_CLASSES } from "@/components/ui/Heading";
 
 import { motion, useReducedMotion } from "motion/react";
-import { Card } from "@/components/ui/Card";
 import { Chip } from "@/components/ui/Chip";
+import { IndexColumns } from "@/components/ui/IndexColumns";
 import { springCalm, stagger } from "@/lib/motion";
 
 const AUDIENCES = [
@@ -21,17 +21,16 @@ const JOBS = [
 ] as const;
 
 /**
- * AudienceCards (§4 of CASE-LUCI.md):
- * - Who it's for: 3 small cards
- * - Jobs: 3 chips
- * - Scroll reveal with 80ms stagger.
+ * AudienceCards (§4 of CASE-LUCI.md & LAYOUT-STEPS.md Step 3):
+ * - Who it's for: IndexColumns (3 audiences as h4 titles)
+ * - Jobs: 3 chips row as before
  */
 export function AudienceCards() {
   const prefersReduced = useReducedMotion() ?? false;
 
   return (
-    <div className="my-8 space-y-6">
-      <div className="space-y-3">
+    <div className="my-8 space-y-8">
+      <div className="space-y-4">
         <h3
           className={cn(
             "font-display text-text text-balance",
@@ -40,25 +39,16 @@ export function AudienceCards() {
         >
           Who it&apos;s for
         </h3>
-        <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
-          {AUDIENCES.map((audience, index) => (
-            <motion.div
-              key={audience}
-              initial={prefersReduced ? false : { opacity: 0, y: 24 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-10% 0px" }}
-              transition={
-                prefersReduced
-                  ? { duration: 0 }
-                  : { ...springCalm, delay: index * stagger }
-              }
-            >
-              <Card tone="surface" className="flex h-full items-center bg-bg">
-                <p className="font-display text-h4 text-text">{audience}</p>
-              </Card>
-            </motion.div>
-          ))}
-        </div>
+        <IndexColumns
+          columns={3}
+          as="h4"
+          staggerSeconds={stagger}
+          items={AUDIENCES.map((audience, idx) => ({
+            id: audience,
+            label: `0${idx + 1}`,
+            title: audience,
+          }))}
+        />
       </div>
 
       <div className="space-y-3">

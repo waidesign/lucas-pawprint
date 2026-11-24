@@ -14,7 +14,7 @@ export interface RuledListItem {
   bean?: number | string;
   /** Tone for the numbered bean marker */
   beanTone?: Tone | "surface";
-  title: ReactNode;
+  title?: ReactNode;
   body: ReactNode;
   /** Optional right-aligned caption/meta note */
   aside?: ReactNode;
@@ -26,6 +26,8 @@ export interface RuledListProps {
   ordered?: boolean;
   /** Heading tag for each row title (default "h4", size via Rule 17 scale) */
   as?: HeadingTag;
+  /** Compact row spacing & 2-part layout for narrow side columns */
+  compact?: boolean;
   /** Use on-pastel ink border & text tokens when sitting directly on a full-pastel section */
   onPastel?: boolean;
   /** Enable 16px rise + fade reveal (40ms stagger, max 6 items; disabled under reduced motion) */
@@ -37,6 +39,7 @@ export function RuledList({
   items,
   ordered = false,
   as: Tag = "h4",
+  compact = false,
   onPastel = false,
   reveal = true,
   className,
@@ -80,26 +83,54 @@ export function RuledList({
             </span>
           ) : null);
 
-        const rowContent = (
+        const bodySpanClass = item.title ? "md:col-span-6" : "md:col-span-10";
+
+        const rowContent = compact ? (
+          <div className="flex items-start gap-4 py-4 md:py-5">
+            {markerNode && (
+              <div className={cn("shrink-0 font-mono text-label uppercase tracking-wider", mutedClass)}>
+                {markerNode}
+              </div>
+            )}
+            <div className="min-w-0 flex-1 space-y-2">
+              {item.title && (
+                <Tag
+                  className={cn(
+                    "font-display text-balance",
+                    HEADING_SCALE_CLASSES[Tag],
+                    textClass,
+                  )}
+                >
+                  {item.title}
+                </Tag>
+              )}
+              <div className={cn("max-w-[var(--prose-max)] font-body text-body-lg", mutedClass)}>
+                {item.body}
+              </div>
+            </div>
+          </div>
+        ) : (
           <div className="grid grid-cols-1 items-baseline gap-4 py-6 md:grid-cols-12 md:gap-8 md:py-8">
             <div className={cn("font-mono text-label uppercase tracking-wider md:col-span-2", mutedClass)}>
               {markerNode}
             </div>
 
-            <div className="md:col-span-4">
-              <Tag
-                className={cn(
-                  "font-display text-balance",
-                  HEADING_SCALE_CLASSES[Tag],
-                  textClass,
-                )}
-              >
-                {item.title}
-              </Tag>
-            </div>
+            {item.title && (
+              <div className="md:col-span-4">
+                <Tag
+                  className={cn(
+                    "font-display text-balance",
+                    HEADING_SCALE_CLASSES[Tag],
+                    textClass,
+                  )}
+                >
+                  {item.title}
+                </Tag>
+              </div>
+            )}
 
             {item.aside ? (
-              <div className="flex flex-col gap-3 sm:flex-row sm:items-baseline sm:justify-between sm:gap-6 md:col-span-6">
+              <div className={cn("flex flex-col gap-3 sm:flex-row sm:items-baseline sm:justify-between sm:gap-6", bodySpanClass)}>
                 <div className={cn("max-w-[var(--prose-max)] flex-1 font-body text-body-lg", mutedClass)}>
                   {item.body}
                 </div>
@@ -108,7 +139,7 @@ export function RuledList({
                 </div>
               </div>
             ) : (
-              <div className={cn("max-w-[var(--prose-max)] font-body text-body-lg md:col-span-6", mutedClass)}>
+              <div className={cn("max-w-[var(--prose-max)] font-body text-body-lg", bodySpanClass, mutedClass)}>
                 {item.body}
               </div>
             )}

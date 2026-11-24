@@ -13,7 +13,7 @@ export interface IndexColumnItem {
   /** Optional decorative numeral (`font-display`, `aria-hidden="true"`) */
   number?: string;
   title?: ReactNode;
-  body: ReactNode;
+  body?: ReactNode;
   actions?: ReactNode;
 }
 
@@ -101,7 +101,7 @@ export function IndexColumns({
             {item.title && (
               <Tag
                 className={cn(
-                  "font-display text-balance",
+                  "font-display text-balance break-words",
                   HEADING_SCALE_CLASSES[Tag],
                   textClass,
                 )}
@@ -110,9 +110,11 @@ export function IndexColumns({
               </Tag>
             )}
 
-            <div className={cn("font-body", bodySizeClass, mutedClass)}>
-              {item.body}
-            </div>
+            {item.body && (
+              <div className={cn("font-body", bodySizeClass, mutedClass)}>
+                {item.body}
+              </div>
+            )}
 
             {item.actions && <div className="pt-2">{item.actions}</div>}
           </div>

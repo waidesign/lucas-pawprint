@@ -2,10 +2,7 @@
 
 import { cn } from "@/lib/cn";
 import { HEADING_SCALE_CLASSES } from "@/components/ui/Heading";
-
-import { motion, useReducedMotion } from "motion/react";
-import { Card } from "@/components/ui/Card";
-import { springCalm, stagger } from "@/lib/motion";
+import { RuledList } from "@/components/ui/RuledList";
 
 const LEARNINGS = [
   {
@@ -23,14 +20,12 @@ const LEARNINGS = [
 ] as const;
 
 /**
- * Learnings (§11 of CASE-LUCI.md):
- * - 3 short learning cards with numbered beans and 80ms scroll reveal stagger.
+ * Learnings (§11 of CASE-LUCI.md & LAYOUT-STEPS.md Step 3):
+ * - Numbered RuledList rows with butter bean markers and verbatim learning lines.
  */
 export function Learnings() {
-  const prefersReduced = useReducedMotion() ?? false;
-
   return (
-    <div className="my-8 space-y-3">
+    <div className="my-8 space-y-4">
       <h3
         className={cn(
           "font-display text-text text-balance",
@@ -40,36 +35,15 @@ export function Learnings() {
         Learnings
       </h3>
 
-      <ol className="grid grid-cols-1 gap-6 md:grid-cols-3">
-        {LEARNINGS.map((item, index) => (
-          <motion.li
-            key={item.number}
-            initial={prefersReduced ? false : { opacity: 0, y: 24 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-10% 0px" }}
-            transition={
-              prefersReduced
-                ? { duration: 0 }
-                : { ...springCalm, delay: index * stagger }
-            }
-          >
-            <Card
-              tone="surface"
-              className="flex h-full flex-col justify-between gap-4"
-            >
-              <span
-                aria-hidden="true"
-                className="inline-flex h-8 w-7 items-center justify-center rounded-pill border-2 border-line-strong bg-butter font-mono text-caption font-bold text-on-pastel shadow-sticker-sm"
-              >
-                {item.number}
-              </span>
-              <p className="font-body text-body font-medium text-text">
-                {item.body}
-              </p>
-            </Card>
-          </motion.li>
-        ))}
-      </ol>
+      <RuledList
+        ordered
+        items={LEARNINGS.map((item) => ({
+          id: String(item.number),
+          bean: item.number,
+          beanTone: "butter",
+          body: <span className="font-medium text-text">{item.body}</span>,
+        }))}
+      />
     </div>
   );
 }

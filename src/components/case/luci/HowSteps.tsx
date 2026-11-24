@@ -3,7 +3,6 @@
 import { HEADING_SCALE_CLASSES } from "@/components/ui/Heading";
 
 import "./luci.css";
-import { Card } from "@/components/ui/Card";
 import { Clip } from "@/components/case/Clip";
 import { cn } from "@/lib/cn";
 
@@ -69,29 +68,29 @@ export function HowSteps() {
           >
             <div
               className={cn(
-                "lg:col-span-5",
+                "space-y-4 lg:col-span-5",
                 isReversed ? "lg:order-2" : "lg:order-1",
               )}
             >
-              <Card tone="surface" className="space-y-3">
-                <div className="flex items-center gap-3">
-                  <span
-                    aria-hidden="true"
-                    className="inline-flex h-8 w-7 items-center justify-center rounded-pill border-2 border-line-strong bg-lilac font-mono text-caption font-bold text-on-pastel shadow-sticker-sm"
-                  >
-                    {step.number}
-                  </span>
-                  <h3
-                    className={cn(
-                      "font-display text-text text-balance",
-                      HEADING_SCALE_CLASSES.h3,
-                    )}
-                  >
-                    {step.title}
-                  </h3>
-                </div>
-                <p className="font-body text-body text-text">{step.copy}</p>
-              </Card>
+              <div className="flex items-center gap-4">
+                <span
+                  aria-hidden="true"
+                  className="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-pill border-2 border-line-strong bg-lilac font-mono text-caption font-bold text-on-pastel"
+                >
+                  {step.number}
+                </span>
+                <h4
+                  className={cn(
+                    "font-display text-text text-balance",
+                    HEADING_SCALE_CLASSES.h4,
+                  )}
+                >
+                  {step.title}
+                </h4>
+              </div>
+              <p className="max-w-[var(--prose-max)] font-body text-body-lg text-text-muted">
+                {step.copy}
+              </p>
             </div>
 
             <div

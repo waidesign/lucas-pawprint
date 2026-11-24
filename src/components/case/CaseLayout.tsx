@@ -75,9 +75,9 @@ export function CaseLayout({
           </>
         )}
 
-        {/* Mobile/tablet stepper bar */}
-        <div className="border-b border-line bg-surface py-3 lg:hidden">
-          <div className="w-full overflow-x-auto px-4 md:px-10 lg:px-20">
+        {/* Mobile/tablet stepper bar: single horizontal scrolling row, no outer pill */}
+        <div className="border-b border-line bg-surface py-2 lg:hidden">
+          <div className="w-full overflow-x-auto px-4 md:px-10">
             <CaseStepper />
           </div>
         </div>

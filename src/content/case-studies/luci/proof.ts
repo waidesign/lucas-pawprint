@@ -57,22 +57,22 @@ export const LUCI_A11Y_FINDINGS: readonly LuciA11yFinding[] = [
 
 export interface KofiExcerptLine {
   line: string;
-  callout?: "①" | "②" | "③" | "④";
+  callout?: "1" | "2" | "3" | "4";
 }
 
 export const KOFI_DESIGN_MD_EXCERPT: readonly KofiExcerptLine[] = [
   {
     line: 'description: "Exported by Luci from 1 capture of ko-fi.com/; values measured from live pages."',
-    callout: "①",
+    callout: "1",
   },
-  { line: "colors:", callout: "②" },
+  { line: "colors:", callout: "2" },
   { line: '  primary: "#fd5913"' },
   { line: '  surface-variant: "#202020"' },
-  { line: "typography:", callout: "③" },
+  { line: "typography:", callout: "3" },
   { line: "  heading-1:" },
   { line: "    fontFamily: bogue-black" },
   { line: "    fontSize: 4.5rem" },
-  { line: "components:", callout: "④" },
+  { line: "components:", callout: "4" },
   { line: "  button:" },
   { line: '    backgroundColor: "{colors.surface-variant}"' },
   { line: '    rounded: "{rounded.r-9999}"' },

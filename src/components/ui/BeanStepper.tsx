@@ -5,6 +5,8 @@ export interface BeanStepperProps {
   /** Zero-based index of the current active step */
   current: number;
   orientation?: "horizontal" | "vertical";
+  /** Keep all steps on one horizontal row (scrolls inside an overflow-x-auto parent) */
+  nowrap?: boolean;
   onStepClick?: (index: number) => void;
   className?: string;
 }
@@ -13,6 +15,7 @@ export function BeanStepper({
   steps,
   current,
   orientation = "horizontal",
+  nowrap = false,
   onStepClick,
   className,
 }: BeanStepperProps) {
@@ -23,7 +26,11 @@ export function BeanStepper({
       <ol
         className={cn(
           "flex",
-          isVertical ? "flex-col gap-0" : "flex-row flex-wrap items-center gap-0"
+          isVertical
+            ? "flex-col gap-0"
+            : nowrap
+              ? "flex-row flex-nowrap items-center gap-0 whitespace-nowrap"
+              : "flex-row flex-wrap items-center gap-0",
         )}
       >
         {steps.map((step, index) => {
@@ -67,8 +74,8 @@ export function BeanStepper({
               key={step}
               aria-current={isCurrent ? "step" : undefined}
               className={cn(
-                "flex items-center",
-                isVertical ? "flex-col items-start" : "flex-row"
+                "flex shrink-0 items-center",
+                isVertical ? "flex-col items-start" : "flex-row",
               )}
             >
               {onStepClick ? (

@@ -89,17 +89,17 @@ export function MetaRow({
       )}
     >
       {resolvedItems.map((item) => (
-        <div key={item.label} className="space-y-1">
-          <dt className="font-mono text-label uppercase tracking-wider text-text-subtle">
+        <div key={item.label} className="min-w-0 space-y-1">
+          <dt className="font-mono text-label uppercase tracking-wider text-text-muted">
             {item.label}
           </dt>
-          <dd className="font-body text-body font-medium text-text">
+          <dd className="min-w-0 break-words font-body text-body font-medium text-text">
             {item.href ? (
               <a
                 href={item.href}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-1 underline decoration-2 underline-offset-4 hover:text-text-muted"
+                className="inline-flex max-w-full flex-wrap items-center gap-1 break-all underline decoration-2 underline-offset-4 hover:text-text-muted"
               >
                 <span>{item.value}</span>
                 <span aria-hidden="true">↗</span>

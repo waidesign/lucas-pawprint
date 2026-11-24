@@ -92,12 +92,13 @@ export function CaseStepper({ className }: CaseStepperProps) {
   };
 
   return (
-    <div className={cn(" lg:sticky lg:top-24 lg:z-30", className)}>
-      <div className="inline-flex rounded-pill border-2 border-line-strong bg-bg px-3 py-1 shadow-sticker-sm">
+    <div className={cn("lg:sticky lg:top-24 lg:z-30", className)}>
+      <div className="inline-flex whitespace-nowrap lg:rounded-pill lg:border-2 lg:border-line-strong lg:bg-bg lg:px-3 lg:py-1 lg:shadow-sticker-sm">
         <BeanStepper
           steps={CHAPTER_STEPS.map((s) => s.label)}
           current={currentIndex}
           orientation="horizontal"
+          nowrap
           onStepClick={handleStepClick}
         />
       </div>

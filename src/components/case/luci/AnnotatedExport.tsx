@@ -1,33 +1,46 @@
 "use client";
 
 import { motion, useReducedMotion } from "motion/react";
-import { Card } from "@/components/ui/Card";
+import { RuledList } from "@/components/ui/RuledList";
 import { KOFI_DESIGN_MD_EXCERPT } from "@/content/case-studies/luci/proof";
-import { springCalm, stagger } from "@/lib/motion";
+import { springCalm } from "@/lib/motion";
 
 const CALLOUTS = [
   {
-    marker: "①",
+    marker: "1",
     text: "Says where every value came from",
   },
   {
-    marker: "②",
+    marker: "2",
     text: "Colours named by role, not just hex",
   },
   {
-    marker: "③",
+    marker: "3",
     text: "Type roles measured from the page",
   },
   {
-    marker: "④",
+    marker: "4",
     text: "Components point to tokens, so agents reuse them.",
   },
 ] as const;
 
+function MarkerBean({ digit, label }: { digit: string; label?: string }) {
+  return (
+    <span
+      aria-label={label}
+      aria-hidden={label ? undefined : true}
+      className="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-pill border-2 border-line-strong bg-lilac font-mono text-caption font-bold text-on-pastel"
+    >
+      {digit}
+    </span>
+  );
+}
+
 /**
- * AnnotatedExport (V6 in CASE-LUCI.md §4 §6):
- * - Code panel (`bg-surface`, `rounded-lg`, `font-mono text-body` 16/24) with the
- *   exact ko-fi.com excerpt from the spec, numbered ①–④ markers, and 4 callout cards beside it.
+ * AnnotatedExport (V6 in CASE-LUCI.md §4 §6 & LAYOUT-STEPS.md Step 3):
+ * - Code panel (`bg-surface`, `rounded-lg`, `font-mono text-body` 16/24) with a left gutter
+ *   of 32px lilac digit beans (1–4) so markers are never clipped by long lines.
+ * - Right side: ordered `RuledList` using the same 32px digit beans (1–4).
  * - Never renders the captured site's colours as swatches (text only).
  */
 export function AnnotatedExport() {
@@ -35,18 +48,15 @@ export function AnnotatedExport() {
 
   return (
     <div className="my-8 grid grid-cols-1 items-start gap-6 lg:grid-cols-12">
-      {/* Left 7 columns: Annotated design.md code block (surface, rounded-lg, mono 16/24) */}
+      {/* Left 7 columns: Annotated design.md code block with left marker gutter */}
       <motion.div
-        tabIndex={0}
-        role="region"
-        aria-label="Annotated design.md excerpt from ko-fi.com"
         initial={prefersReduced ? false : { opacity: 0, y: 24 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, margin: "-10% 0px" }}
         transition={prefersReduced ? { duration: 0 } : springCalm}
-        className="overflow-x-auto rounded-lg border-2 border-line-strong bg-surface p-6 shadow-sticker-sm lg:col-span-7"
+        className="rounded-lg border-2 border-line-strong bg-surface p-6 shadow-sticker-sm lg:col-span-7"
       >
-        <div className="mb-4 flex items-center justify-between border-b border-line pb-3">
+        <div className="mb-4 flex items-center justify-between gap-4 border-b border-line pb-3">
           <span className="font-mono text-caption font-semibold text-text">
             ko-fi.design.md (excerpt)
           </span>
@@ -55,62 +65,59 @@ export function AnnotatedExport() {
           </span>
         </div>
 
-        <ol
-          aria-label="Annotated design.md excerpt lines"
-          className="space-y-1 font-mono text-body text-text"
+        <div
+          tabIndex={0}
+          role="region"
+          aria-label="Annotated design.md excerpt from ko-fi.com"
+          className="overflow-x-auto"
         >
-          {KOFI_DESIGN_MD_EXCERPT.map(({ line, callout }, idx) => (
-            <li
-              key={`${idx}-${line}`}
-              className="flex items-start justify-between gap-4"
-            >
-              <pre className="whitespace-pre font-mono text-body text-text">
-                <code>{line}</code>
-              </pre>
-              {callout && (
-                <span
-                  aria-label={`Callout ${callout}`}
-                  className="inline-flex h-6 shrink-0 items-center rounded-pill border border-line-strong bg-lilac px-2 font-mono text-caption font-bold text-on-pastel"
-                >
-                  {callout}
+          <ol
+            aria-label="Annotated design.md excerpt lines"
+            className="min-w-max space-y-2 font-mono text-body text-text"
+          >
+            {KOFI_DESIGN_MD_EXCERPT.map(({ line, callout }, idx) => (
+              <li
+                key={`${idx}-${line}`}
+                className="flex items-start gap-4"
+              >
+                <span className="flex w-8 shrink-0 justify-center">
+                  {callout ? (
+                    <MarkerBean digit={callout} label={`Annotation ${callout}`} />
+                  ) : (
+                    <span aria-hidden="true" className="h-6 w-8" />
+                  )}
                 </span>
-              )}
-            </li>
-          ))}
-        </ol>
+                <pre
+                  className={
+                    callout
+                      ? "whitespace-pre pt-1 font-mono text-body text-text"
+                      : "whitespace-pre font-mono text-body text-text"
+                  }
+                >
+                  <code>{line}</code>
+                </pre>
+              </li>
+            ))}
+          </ol>
+        </div>
       </motion.div>
 
-      {/* Right 5 columns: 4 numbered callout cards */}
-      <ol
-        aria-label="Design.md export annotations"
-        className="space-y-4 lg:col-span-5"
-      >
-        {CALLOUTS.map((item, index) => (
-          <motion.li
-            key={item.marker}
-            initial={prefersReduced ? false : { opacity: 0, y: 24 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-10% 0px" }}
-            transition={
-              prefersReduced
-                ? { duration: 0 }
-                : { ...springCalm, delay: (index + 1) * stagger }
-            }
-          >
-            <Card tone="surface" className="flex items-center gap-4 bg-bg">
-              <span
-                aria-hidden="true"
-                className="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-pill border-2 border-line-strong bg-lilac font-mono text-body font-bold text-on-pastel shadow-sticker-sm"
-              >
-                {item.marker}
-              </span>
-              <p className="font-body text-body font-medium text-text">
+      {/* Right 5 columns: RuledList annotations whose markers match 1–4 in code */}
+      <div className="lg:col-span-5">
+        <RuledList
+          ordered
+          compact
+          items={CALLOUTS.map((item) => ({
+            id: item.marker,
+            marker: <MarkerBean digit={item.marker} />,
+            body: (
+              <span className="font-body text-body font-medium text-text">
                 {item.text}
-              </p>
-            </Card>
-          </motion.li>
-        ))}
-      </ol>
+              </span>
+            ),
+          }))}
+        />
+      </div>
     </div>
   );
 }
