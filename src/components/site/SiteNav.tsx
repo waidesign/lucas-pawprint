@@ -1,16 +1,13 @@
 "use client";
 
-import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
-import { Menu } from "lucide-react";
 import { cn } from "@/lib/cn";
 import { Button } from "@/components/ui/Button";
-import { IconButton } from "@/components/ui/IconButton";
 import { ThemeSwitch } from "@/components/ui/ThemeSwitch";
 import { trackEvent } from "@/lib/analytics";
-import { PRIMARY_NAV_ITEMS } from "@/content/site";
-import { MobileMenu } from "./MobileMenu";
+import { HeaderMenu } from "./HeaderMenu";
+import { HeaderMenuButton } from "./HeaderMenuButton";
 import { Wordmark } from "./Wordmark";
 
 export interface SiteNavProps {
@@ -23,6 +20,13 @@ export interface SiteNavProps {
 
 const HIDE_SCROLL_THRESHOLD = 120;
 
+/**
+ * SiteNav Header with intuitive & playful centered Menu Navigation inspired by dontboardme.com:
+ * - Left: Wordmark with ginger toe bean.
+ * - Center: Playful animated Menu toggle button (`=` morphs to `X`).
+ * - Right: ThemeSwitch (compact) + Resume CTA.
+ * - Overlay: Full-width organic scalloped cloud curtain with display typography and socials.
+ */
 export function SiteNav({
   activePathOverride,
   previewMode = false,
@@ -31,7 +35,7 @@ export function SiteNav({
   const pathname = usePathname();
   const currentPath = activePathOverride ?? pathname ?? "/";
   const [hidden, setHidden] = useState(false);
-  const [mobileOpen, setMobileOpen] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
   const lastScrollYRef = useRef(0);
 
   useEffect(() => {
@@ -69,82 +73,48 @@ export function SiteNav({
           className
         )}
       >
-        <div className="flex w-full items-center justify-between gap-4">
+        <div className="relative flex w-full items-center justify-between gap-4">
           {/* Left: Wordmark */}
-          <Wordmark />
-
-          {/* Center: Pill nav (surface bg) — Work · Motion · About · Contact */}
-          <nav
-            aria-label="Primary"
-            className="hidden items-center gap-1 rounded-pill border-2 border-line-strong bg-surface p-1 shadow-sticker-sm md:flex"
-          >
-            {PRIMARY_NAV_ITEMS.map((item) => {
-              const isActive =
-                currentPath === item.href ||
-                (item.href !== "/" && currentPath.startsWith(`${item.href}/`));
-              return (
-                <Link
-                  key={item.href}
-                  href={item.href}
-                  aria-current={isActive ? "page" : undefined}
-                  className={cn(
-                    "inline-flex min-h-12 items-center rounded-pill px-5 font-body text-button transition-colors",
-                    isActive
-                      ? "bg-inverse-bg text-inverse-text"
-                      : "text-text hover:bg-surface-2"
-                  )}
-                >
-                  {item.label}
-                </Link>
-              );
-            })}
-          </nav>
-
-          {/* Right (Desktop): ThemeSwitch (compact) + Resume */}
-          <div className="hidden items-center gap-3 md:flex">
-            <ThemeSwitch variant="compact" />
-            <div onClick={() => trackEvent("resume_download", { location: "nav_desktop" })}>
-              <Button
-                variant="secondary"
-                tone="lilac"
-                size="md"
-                href="/resume.pdf"
-                external
-              >
-                Resume
-              </Button>
-            </div>
+          <div className="flex items-center">
+            <Wordmark />
           </div>
 
-          {/* Right (Mobile < md): Resume + ThemeSwitch (compact) + Menu IconButton */}
-          <div className="flex items-center gap-2 md:hidden">
-            <div onClick={() => trackEvent("resume_download", { location: "nav_mobile" })}>
+          {/* Center: Playful Menu Toggle Button (inspired by dontboardme.com) */}
+          <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
+            <HeaderMenuButton
+              open={menuOpen}
+              onClick={() => setMenuOpen((prev) => !prev)}
+              ariaControls="site-header-menu"
+            />
+          </div>
+
+          {/* Right: ThemeSwitch (compact) + Resume CTA */}
+          <div className="flex items-center gap-2 md:gap-3">
+            <ThemeSwitch variant="compact" />
+            <div
+              onClick={() =>
+                trackEvent("resume_download", { location: "nav_desktop" })
+              }
+            >
               <Button
                 variant="secondary"
                 tone="lilac"
                 size="md"
                 href="/resume.pdf"
                 external
-                className="px-4"
+                className="px-3 md:px-5"
               >
                 Resume
               </Button>
             </div>
-            <ThemeSwitch variant="compact" />
-            <IconButton
-              aria-label="Open navigation menu"
-              aria-expanded={mobileOpen}
-              onClick={() => setMobileOpen(true)}
-            >
-              <Menu className="h-6 w-6" aria-hidden="true" />
-            </IconButton>
           </div>
         </div>
       </header>
 
-      <MobileMenu
-        open={mobileOpen}
-        onClose={() => setMobileOpen(false)}
+      {/* Playful Scalloped Cloud Menu Curtain */}
+      <HeaderMenu
+        open={menuOpen}
+        onClose={() => setMenuOpen(false)}
         currentPath={currentPath}
       />
     </>
