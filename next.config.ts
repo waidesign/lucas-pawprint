@@ -5,6 +5,8 @@ const nextConfig: NextConfig = {
   pageExtensions: ["js", "jsx", "md", "mdx", "ts", "tsx"],
   cacheComponents: true,
   partialPrefetching: true,
+  // Dev only: let phones on the home network (192.168.x.x) use live reload.
+  allowedDevOrigins: ["192.168.*.*"],
   turbopack: {
     rules: {
       "*.css": {
