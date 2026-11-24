@@ -90,9 +90,9 @@ export function ProofStrip() {
           </div>
         </div>
       ) : (
-        <div className="space-y-4">
+        <div className="space-y-2">
           {/* Row 1: Skills Ticket Strip (dot-free pills per [P1-A6], scrolls left) */}
-          <div className="relative flex w-full overflow-hidden">
+          <div className="relative flex w-full overflow-hidden py-2">
             <div className="lp-ticker-track-left flex w-max items-center gap-3 pr-3">
               {[0, 1].map((copyIdx) => (
                 <ul
@@ -122,8 +122,8 @@ export function ProofStrip() {
             className="mx-4 border-t border-dashed border-inverse-text/20 md:mx-10 lg:mx-20 dark:border-text/20"
           />
 
-          {/* Row 2: Tool Logos Strip ([P1-A5], scrolls right) */}
-          <div className="relative flex w-full overflow-hidden">
+          {/* Row 2: Tool Logos Strip ([P1-A5], py-2 prevents top clipping on hover:-translate-y-1 [P1-A3]) */}
+          <div className="relative flex w-full overflow-hidden py-2">
             <div className="lp-ticker-track-right flex w-max items-center gap-4 pr-4">
               {[0, 1].map((copyIdx) => (
                 <ul

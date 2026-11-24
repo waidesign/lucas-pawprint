@@ -5,24 +5,26 @@ import { motion, useReducedMotion } from "motion/react";
 import { ArrowDown, ArrowRight, Calendar } from "lucide-react";
 import { profile } from "@/content/site";
 import { trackEvent } from "@/lib/analytics";
-import { emitLoaffyEvent } from "@/components/mascot/LoaffyBus";
+import { emitLoaffyEvent, type Pose } from "@/components/mascot/LoaffyBus";
+import { Loaffy } from "@/components/mascot/Loaffy";
 import {
   LoaffyStage,
   type HeroStagePhase,
 } from "@/components/mascot/LoaffyStage";
 import { Button } from "@/components/ui/Button";
-import { Eyebrow } from "@/components/ui/Eyebrow";
-import { Heading } from "@/components/ui/Heading";
 import { Sticker } from "@/components/ui/Sticker";
-import { springCalm, stagger } from "@/lib/motion";
+import { springBouncy, springCalm, stagger } from "@/lib/motion";
+
+const INLINE_POSES: readonly Pose[] = ["wink", "shades", "vibing", "loaf"];
 
 /**
  * Hero Section:
  * 1. Full-viewport Landing Intro plays alone first (`drop` -> `tremor` -> `swell` -> `exploding` -> 6 `posing` beats).
- * 2. Settled Hero contains NO Loaffy ([P1-A1]), and orders elements top-to-bottom:
+ * 2. Settled Hero orders elements top-to-bottom:
  *    - Blush Smash Sticker ("Everyone designs with AI now. It all looks like slop. Except mine.")
- *    - Eyebrow ("LUCAS (WAI PHYO AUNG) · PRODUCT & MOTION DESIGNER") directly under the sticker ([P1-A2])
- *    - Giant `display-xl` H1 ("Think outside the box with Lucas & Loaffy.")
+ *    - Prominent name & role line ("LUCAS (WAI PHYO AUNG) · PRODUCT & MOTION DESIGNER") at `text-h4` ([P1-A2])
+ *    - Monumental `display-xl` H1 ("Think outside the box with Lucas & Loaffy.") with comic burst rays
+ *      and an animated inline Loaffy nestled right into the headline typography ([P1-A1])
  *    - Supporting copy + CTAs + Scroll cue.
  */
 export function Hero() {
@@ -31,6 +33,7 @@ export function Hero() {
     prefersReduced ? "settled" : "drop"
   );
   const [poseBeat, setPoseBeat] = useState(0);
+  const [inlinePoseIdx, setInlinePoseIdx] = useState(0);
   const timersRef = useRef<number[]>([]);
 
   const clearTimers = useCallback(() => {
@@ -57,12 +60,12 @@ export function Hero() {
       setPhase("tremor");
     }, 360);
 
-    // 840–1480ms (640ms): Exponential pressure swell + violent hatch rattle (Loaffy tucked inside!)
+    // 840–1480ms (640ms): Exponential pressure swell + violent hatch rattle (box completely closed!)
     const tSwell = window.setTimeout(() => {
       setPhase("swell");
     }, 840);
 
-    // 1480–2120ms (640ms): BOOM! 4 box pieces blast apart as Loaffy erupts UP from INSIDE the box!
+    // 1480–2120ms (640ms): BOOM! 4 box pieces blast apart & Loaffy pops cleanly out from center!
     const tExplode = window.setTimeout(() => {
       setPhase("exploding");
     }, 1480);
@@ -122,6 +125,15 @@ export function Hero() {
     };
   }, [runChoreography, clearTimers]);
 
+  // Gently cycle the inline headline Loaffy pose every 3.6s once settled (off under reduced motion)
+  useEffect(() => {
+    if (prefersReduced || phase !== "settled") return;
+    const intervalId = window.setInterval(() => {
+      setInlinePoseIdx((prev) => (prev + 1) % INLINE_POSES.length);
+    }, 3600);
+    return () => window.clearInterval(intervalId);
+  }, [prefersReduced, phase]);
+
   // Lock page scroll while the full-viewport intro curtain is playing
   useEffect(() => {
     if (phase === "settled" || prefersReduced) {
@@ -140,6 +152,9 @@ export function Hero() {
   };
 
   const heroRevealed = prefersReduced || phase === "settled";
+  const currentInlinePose: Pose = prefersReduced
+    ? "loaf"
+    : INLINE_POSES[inlinePoseIdx] ?? "wink";
 
   return (
     <section
@@ -147,7 +162,7 @@ export function Hero() {
       aria-labelledby="hero-heading"
       className="relative w-full bg-bg px-4 py-16 text-text md:px-10 md:py-20 lg:px-20 lg:py-24"
     >
-      {/* Standalone Full-Viewport Intro Curtain (renders `null` once settled — [P1-A1]) */}
+      {/* Standalone Full-Viewport Intro Curtain (unmounts once settled) */}
       <LoaffyStage
         phase={prefersReduced ? "settled" : phase}
         poseBeat={poseBeat}
@@ -156,7 +171,7 @@ export function Hero() {
       />
 
       <div className="flex w-full flex-col items-center text-center">
-        {/* 1. Blush Smash Sticker at top ([P1-A3]) */}
+        {/* 1. Blush Smash Sticker at top */}
         <motion.div
           initial={
             prefersReduced
@@ -178,8 +193,8 @@ export function Hero() {
           </Sticker>
         </motion.div>
 
-        {/* 2. Eyebrow moved directly UNDER the Smash Sticker ([P1-A2]) */}
-        <motion.div
+        {/* 2. Prominent Name & Role line directly under the Smash Sticker ([P1-A2]: enlarged to text-h4) */}
+        <motion.p
           initial={prefersReduced ? false : { opacity: 0, y: 16 }}
           animate={
             heroRevealed ? { opacity: 1, y: 0 } : { opacity: 0, y: 16 }
@@ -189,14 +204,12 @@ export function Hero() {
               ? { duration: 0 }
               : { ...springCalm, delay: stagger }
           }
-          className="mt-6"
+          className="mt-6 font-display text-h4 font-bold uppercase tracking-wide text-text"
         >
-          <Eyebrow>
-            {profile.name} · {profile.title}
-          </Eyebrow>
-        </motion.div>
+          {profile.name} · {profile.title}
+        </motion.p>
 
-        {/* 3. Giant Display-XL H1 */}
+        {/* 3. Monumental Display-XL H1 with comic burst lines + animated inline Loaffy ([P1-A1]) */}
         <motion.div
           initial={prefersReduced ? false : { opacity: 0, y: 24, scale: 0.96 }}
           animate={
@@ -211,15 +224,84 @@ export function Hero() {
           }
           className="mt-6 w-full"
         >
-          <Heading
+          <h1
             id="hero-heading"
-            as="h1"
-            size="display-xl"
-            highlight="box"
-            highlightTone="lilac"
+            className="font-display text-display-xl text-text text-balance"
           >
-            Think outside the box with Lucas & Loaffy.
-          </Heading>
+            <span className="relative inline-block">
+              {/* Comic pen burst rays on the left of "Think" (reference: Toca Boca headline) */}
+              <svg
+                aria-hidden="true"
+                viewBox="0 0 48 56"
+                className="pointer-events-none absolute -left-8 top-1/2 hidden h-12 w-10 -translate-y-1/2 text-line-strong md:block lg:-left-12 lg:h-16 lg:w-12"
+              >
+                <g
+                  stroke="currentColor"
+                  strokeWidth={4}
+                  strokeLinecap="round"
+                >
+                  <line x1={6} y1={14} x2={36} y2={20} />
+                  <line x1={2} y1={32} x2={34} y2={30} />
+                  <line x1={12} y1={50} x2={38} y2={40} />
+                </g>
+              </svg>
+              Think
+            </span>{" "}
+            outside the{" "}
+            <span className="inline rounded-xs bg-lilac px-2 text-on-pastel box-decoration-clone">
+              box
+            </span>{" "}
+            with Lucas &amp;{" "}
+            <span className="inline-flex items-baseline whitespace-nowrap">
+              {/* Animated inline Loaffy nestled right into "Loaffy." (mounted only once settled: 1 character on screen at a time) */}
+              {heroRevealed && (
+                <motion.span
+                  key={currentInlinePose}
+                  initial={
+                    prefersReduced
+                      ? false
+                      : { scale: 0.84, rotate: -10, y: 8 }
+                  }
+                  animate={
+                    prefersReduced
+                      ? { scale: 1, rotate: -6, y: 0 }
+                      : {
+                          scale: 1,
+                          rotate: [-6, -2, -6],
+                          y: [0, -6, 0],
+                        }
+                  }
+                  whileHover={
+                    prefersReduced
+                      ? undefined
+                      : { scale: 1.14, rotate: 4, y: -10 }
+                  }
+                  transition={
+                    prefersReduced
+                      ? { duration: 0 }
+                      : {
+                          scale: springBouncy,
+                          rotate: { duration: 2.4, repeat: Infinity, ease: "easeInOut" },
+                          y: { duration: 2.4, repeat: Infinity, ease: "easeInOut" },
+                        }
+                  }
+                  className="relative -mr-1 inline-flex h-[0.82em] w-[0.82em] translate-y-[0.12em] items-center justify-center align-baseline [&>div]:!h-full [&>div]:!w-full"
+                >
+                  <Loaffy
+                    form="paw"
+                    pose={currentInlinePose}
+                    mood={currentInlinePose === "vibing" ? "curious" : "happy"}
+                    size={128}
+                    track
+                    blink
+                    showGroundShadow={false}
+                    decorative
+                  />
+                </motion.span>
+              )}
+              <span>Loaffy.</span>
+            </span>
+          </h1>
         </motion.div>
 
         {/* 4. Supporting copy */}

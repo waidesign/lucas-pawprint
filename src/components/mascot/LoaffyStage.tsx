@@ -296,30 +296,23 @@ export function LoaffyStage({
           )}
 
           {/* =========================================================
-              Z-20 (MIDDLE LAYER): LOAFFY PHYSICALLY INSIDE THE BOX!
-              Erupts straight UP from y:+64 inside the dark box cavity
-              while the z-30 front box walls split apart in front of it!
+              Z-20 (MIDDLE LAYER): LOAFFY ERUPTS AT DETONATION!
+              Hidden completely while the box is intact/swelling so nothing
+              ever pokes out underneath; pops smoothly out from the exact
+              center of the bursting box at `phase === "exploding"`.
              ========================================================= */}
-          {(phase === "swell" || isExploding || isPosing) && (
+          {(isExploding || isPosing) && (
             <motion.div
               key="center-stage-loaffy"
-              initial={{ opacity: 1, y: 72, scaleX: 0.64, scaleY: 0.64 }}
+              initial={{ opacity: 0, y: 20, scaleX: 0.28, scaleY: 0.2 }}
               animate={
-                phase === "swell"
+                isExploding
                   ? {
-                      // Tucked inside the box, pushing upward against the bulging lid!
-                      opacity: 1,
-                      y: 56,
-                      scaleX: 0.72,
-                      scaleY: 0.68,
-                    }
-                  : isExploding
-                  ? {
-                      // Ballistic launch straight UP out of the box mouth -> apex -> squishy land at center!
-                      opacity: 1,
-                      y: [64, -108, 8, 0],
-                      scaleX: [0.76, 0.86, 1.16, 1],
-                      scaleY: [0.72, 1.18, 0.84, 1],
+                      // Explosive pop from the exact center of the box -> high jump apex -> squishy land!
+                      opacity: [0, 1, 1, 1],
+                      y: [20, -112, 10, 0],
+                      scaleX: [0.28, 0.86, 1.14, 1],
+                      scaleY: [0.2, 1.18, 0.86, 1],
                     }
                   : {
                       opacity: 1,
@@ -329,12 +322,10 @@ export function LoaffyStage({
                     }
               }
               transition={
-                phase === "swell"
-                  ? { duration: 0.4, ease: EASE_PRESSURE_BUILD }
-                  : isExploding
+                isExploding
                   ? {
                       duration: 0.64,
-                      times: [0, 0.44, 0.82, 1],
+                      times: [0, 0.42, 0.82, 1],
                       ease: [EASE_EXPLOSIVE_OUT, EASE_GRAVITY_IN, EASE_SETTLE],
                     }
                   : { duration: 0.28, ease: EASE_SETTLE }
