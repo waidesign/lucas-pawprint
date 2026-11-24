@@ -78,7 +78,7 @@ export const caseStudyMetadataSchema = z
     year: z.string().min(1),
     role: z.string().min(1),
     team: z.string().min(1),
-    timeline: z.string().min(1),
+    timeline: z.string().min(1).optional(),
     platforms: z.array(z.string().min(1)).min(1),
     industry: z.string().min(1),
     tags: z.array(z.string().min(1)).min(1),

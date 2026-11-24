@@ -48,7 +48,9 @@ export function MetaRow({
       ...(team || meta?.team
         ? [{ label: "Team", value: team ?? meta?.team ?? "" }]
         : []),
-      { label: "Timeline", value: timeline ?? meta?.timeline ?? "" },
+      ...(timeline || meta?.timeline
+        ? [{ label: "Timeline", value: timeline ?? meta?.timeline ?? "" }]
+        : []),
       {
         label: "Platform",
         value: (platforms ?? meta?.platforms ?? []).join(" + "),
