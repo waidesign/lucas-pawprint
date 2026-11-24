@@ -1,9 +1,9 @@
 "use client";
 
-import { motion, useReducedMotion } from "motion/react";
-import { Sticker } from "@/components/ui/Sticker";
+import { Chip } from "@/components/ui/Chip";
+import { IndexColumns } from "@/components/ui/IndexColumns";
 import { useCaseStudy } from "@/components/case/CaseStudyContext";
-import { springCalm, stagger } from "@/lib/motion";
+import { stagger } from "@/lib/motion";
 import { cn } from "@/lib/cn";
 
 export interface TLDRProps {
@@ -17,10 +17,9 @@ export interface TLDRProps {
 }
 
 /**
- * TLDR component per COMPONENTS.md §E & CASE-LUCI.md §4 §2:
- * Three Stickers in a row (`butter`, `mint`, `sky`), each with a label and 1–2 lines.
- * Automatically reads `metadata.tldr` from `CaseStudyContext` when props are omitted.
- * Reveals on scroll with 80ms stagger.
+ * TLDR component per COMPONENTS.md §E & LAYOUT-STEPS.md Step 2:
+ * Uses `IndexColumns` (3 columns) with pastel `Chip` labels (`butter`, `mint`, `sky`),
+ * `body-lg` copy, and 80ms reveal stagger. No card or sticker boxes.
  */
 export function TLDR({
   problem,
@@ -33,7 +32,6 @@ export function TLDR({
 }: TLDRProps) {
   const ctx = useCaseStudy();
   const meta = ctx?.metadata;
-  const prefersReduced = useReducedMotion() ?? false;
   const isLuci = meta?.slug === "luci";
 
   const resolvedProblem = problem ?? meta?.tldr.problem ?? "";
@@ -45,24 +43,33 @@ export function TLDR({
   const resolvedOutcomeLabel =
     outcomeLabel ?? (isLuci ? "Where it is" : "Outcome");
 
-  const cards = [
+  const items = [
     {
-      label: problemLabel,
-      body: resolvedProblem,
-      tone: "butter" as const,
-      rotate: 0 as const,
+      id: "problem",
+      label: (
+        <Chip tone="butter" size="sm">
+          {problemLabel}
+        </Chip>
+      ),
+      body: <p className="text-text">{resolvedProblem}</p>,
     },
     {
-      label: resolvedWhatLabel,
-      body: resolvedWhatIDid,
-      tone: "mint" as const,
-      rotate: 0 as const,
+      id: "what-i-did",
+      label: (
+        <Chip tone="mint" size="sm">
+          {resolvedWhatLabel}
+        </Chip>
+      ),
+      body: <p className="text-text">{resolvedWhatIDid}</p>,
     },
     {
-      label: resolvedOutcomeLabel,
-      body: resolvedOutcome,
-      tone: "sky" as const,
-      rotate: 0 as const,
+      id: "outcome",
+      label: (
+        <Chip tone="sky" size="sm">
+          {resolvedOutcomeLabel}
+        </Chip>
+      ),
+      body: <p className="text-text">{resolvedOutcome}</p>,
     },
   ];
 
@@ -75,35 +82,12 @@ export function TLDR({
       )}
     >
       <div className="w-full">
-        <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
-          {cards.map((card, index) => (
-            <motion.div
-              key={card.label}
-              initial={prefersReduced ? false : { opacity: 0, y: 24 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-10% 0px" }}
-              transition={
-                prefersReduced
-                  ? { duration: 0 }
-                  : { ...springCalm, delay: index * stagger }
-              }
-              className="h-full"
-            >
-              <Sticker
-                tone={card.tone}
-                rotate={card.rotate}
-                className="flex h-full w-full flex-col justify-between gap-3 rounded-lg p-6"
-              >
-                <span className="font-mono text-label uppercase tracking-wider text-on-pastel/80">
-                  {card.label}
-                </span>
-                <p className="font-body text-body font-medium text-on-pastel">
-                  {card.body}
-                </p>
-              </Sticker>
-            </motion.div>
-          ))}
-        </div>
+        <IndexColumns
+          columns={3}
+          bodySize="body-lg"
+          staggerSeconds={stagger}
+          items={items}
+        />
       </div>
     </section>
   );

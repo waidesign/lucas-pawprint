@@ -12,7 +12,7 @@ export interface IndexColumnItem {
   label?: ReactNode;
   /** Optional decorative numeral (`font-display`, `aria-hidden="true"`) */
   number?: string;
-  title: ReactNode;
+  title?: ReactNode;
   body: ReactNode;
   actions?: ReactNode;
 }
@@ -29,8 +29,10 @@ export interface IndexColumnsProps {
   ordered?: boolean;
   /** Use on-pastel border & text tokens when sitting directly on a full-pastel section */
   onPastel?: boolean;
-  /** Enable 16px rise + fade reveal (40ms stagger, max 6 items; disabled under reduced motion) */
+  /** Enable 16px rise + fade reveal (max 6 items; disabled under reduced motion) */
   reveal?: boolean;
+  /** Delay step between revealed columns in seconds (multiple of 0.04s, default 0.04s) */
+  staggerSeconds?: number;
   className?: string;
 }
 
@@ -48,6 +50,7 @@ export function IndexColumns({
   ordered = false,
   onPastel = false,
   reveal = true,
+  staggerSeconds = 0.04,
   className,
 }: IndexColumnsProps) {
   const prefersReduced = useReducedMotion() ?? false;
@@ -95,15 +98,17 @@ export function IndexColumns({
               </span>
             )}
 
-            <Tag
-              className={cn(
-                "font-display text-balance",
-                HEADING_SCALE_CLASSES[Tag],
-                textClass,
-              )}
-            >
-              {item.title}
-            </Tag>
+            {item.title && (
+              <Tag
+                className={cn(
+                  "font-display text-balance",
+                  HEADING_SCALE_CLASSES[Tag],
+                  textClass,
+                )}
+              >
+                {item.title}
+              </Tag>
+            )}
 
             <div className={cn("font-body", bodySizeClass, mutedClass)}>
               {item.body}
@@ -131,7 +136,7 @@ export function IndexColumns({
             viewport={{ once: true, margin: "-10% 0px" }}
             transition={{
               ...springCalm,
-              delay: Math.min(idx, 5) * 0.04,
+              delay: Math.min(idx, 5) * staggerSeconds,
             }}
             className={itemClass}
           >

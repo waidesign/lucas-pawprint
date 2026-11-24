@@ -23,15 +23,18 @@ export function DecisionCard({
   className,
 }: DecisionCardProps) {
   return (
-    <div className={cn("relative my-6", className)}>
-      {/* The paw hangs over the card's top edge, behind it (z-0 under the card's z-10) */}
+    <div className={cn("relative my-10", className)}>
+      {/* The paw hangs over the 2px top rule behind Row 1 (z-0 under article's z-10) */}
       <DecisionHandPeek />
 
-      <article className="relative z-10 rounded-lg border-2 border-line-strong bg-bg p-6 shadow-sticker-sm">
-        <div className="flex flex-wrap items-center justify-between gap-2 border-b border-line pb-3">
+      <article className="relative z-10 border-b border-t-2 border-b-line border-t-line-strong pb-8">
+        <div
+          style={{ backgroundColor: "var(--chapter-bg, var(--lp-bg))" }}
+          className="relative z-10 flex flex-wrap items-center justify-between gap-4 py-6"
+        >
           <h3
             className={cn(
-              "font-display text-text text-balance",
+              "font-display text-current text-balance",
               HEADING_SCALE_CLASSES.h3,
             )}
           >
@@ -47,30 +50,32 @@ export function DecisionCard({
           </span>
         </div>
 
-        <dl className="mt-4 grid grid-cols-1 gap-4 md:grid-cols-3">
-          <div className="rounded-sm border border-line bg-surface p-4">
-            <dt className="font-body text-label uppercase text-text-muted">
+        <dl className="grid grid-cols-1 divide-y divide-line border-t border-line md:grid-cols-3 md:divide-x md:divide-y-0">
+          <div className="py-4 md:py-6 md:pr-6">
+            <dt className="font-mono text-label uppercase tracking-wider text-current/75">
               Problem
             </dt>
-            <dd className="mt-2 font-body text-body text-text">{problem}</dd>
+            <dd className="mt-2 font-body text-body text-current">{problem}</dd>
           </div>
 
-          <div className="rounded-sm border border-line bg-surface p-4">
-            <dt className="font-body text-label uppercase text-text-muted">
+          <div className="py-4 md:px-6 md:py-6">
+            <dt className="font-mono text-label uppercase tracking-wider text-current/75">
               Decision
             </dt>
-            <dd className="mt-2 font-body text-body text-text">{decision}</dd>
+            <dd className="mt-2 font-body text-body text-current">
+              {decision}
+            </dd>
           </div>
 
-          <div className="rounded-sm border border-line bg-surface p-4">
-            <dt className="font-body text-label uppercase text-text-muted">
+          <div className="py-4 md:py-6 md:pl-6">
+            <dt className="font-mono text-label uppercase tracking-wider text-current/75">
               Why it worked
             </dt>
-            <dd className="mt-2 font-body text-body text-text">{why}</dd>
+            <dd className="mt-2 font-body text-body text-current">{why}</dd>
           </div>
         </dl>
 
-        {children && <div className="mt-4">{children}</div>}
+        {children && <div className="mt-6">{children}</div>}
       </article>
     </div>
   );

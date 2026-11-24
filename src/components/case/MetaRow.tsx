@@ -84,7 +84,7 @@ export function MetaRow({
   return (
     <dl
       className={cn(
-        "grid grid-cols-2 gap-4 rounded-lg border-2 border-line-strong bg-surface p-6 shadow-sticker-sm sm:grid-cols-3 lg:grid-cols-5",
+        "grid grid-cols-2 gap-6 border-b border-t-2 border-b-line border-t-line-strong py-6 sm:grid-cols-3 lg:grid-cols-5",
         className,
       )}
     >
