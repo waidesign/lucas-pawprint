@@ -37,6 +37,9 @@ export function AnnotatedExport() {
     <div className="my-8 grid grid-cols-1 items-start gap-6 lg:grid-cols-12">
       {/* Left 7 columns: Annotated design.md code block (surface, rounded-lg, mono 16/24) */}
       <motion.div
+        tabIndex={0}
+        role="region"
+        aria-label="Annotated design.md excerpt from ko-fi.com"
         initial={prefersReduced ? false : { opacity: 0, y: 24 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, margin: "-10% 0px" }}
@@ -53,7 +56,7 @@ export function AnnotatedExport() {
         </div>
 
         <ol
-          aria-label="Annotated design.md excerpt from ko-fi.com"
+          aria-label="Annotated design.md excerpt lines"
           className="space-y-1 font-mono text-body text-text"
         >
           {KOFI_DESIGN_MD_EXCERPT.map(({ line, callout }, idx) => (
@@ -61,7 +64,7 @@ export function AnnotatedExport() {
               key={`${idx}-${line}`}
               className="flex items-start justify-between gap-4"
             >
-              <pre className="overflow-x-auto whitespace-pre font-mono text-body text-text">
+              <pre className="whitespace-pre font-mono text-body text-text">
                 <code>{line}</code>
               </pre>
               {callout && (

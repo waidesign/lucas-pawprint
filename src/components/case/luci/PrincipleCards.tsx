@@ -42,7 +42,7 @@ export function PrincipleCards() {
 
   return (
     <div className="my-8 space-y-3">
-      <h3 className="font-mono text-label uppercase tracking-wider text-text-subtle">
+      <h3 className="font-mono text-label uppercase tracking-wider text-text-muted">
         Five principles
       </h3>
 

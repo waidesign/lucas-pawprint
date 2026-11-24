@@ -1,8 +1,51 @@
 import { clsx, type ClassValue } from "clsx";
-import { twMerge } from "tailwind-merge";
+import { extendTailwindMerge } from "tailwind-merge";
+
+const customTwMerge = extendTailwindMerge({
+  extend: {
+    classGroups: {
+      "font-size": [
+        {
+          text: [
+            "display-xl",
+            "display",
+            "h1",
+            "h2",
+            "h3",
+            "h4",
+            "body-lg",
+            "body",
+            "label",
+            "caption",
+            "button",
+          ],
+        },
+      ],
+      "text-color": [
+        {
+          text: [
+            "bg",
+            "surface",
+            "surface-2",
+            "line",
+            "line-strong",
+            "text",
+            "text-muted",
+            "text-subtle",
+            "inverse-bg",
+            "inverse-text",
+            "on-pastel",
+          ],
+        },
+      ],
+      shadow: [{ shadow: ["sticker-sm", "sticker", "sticker-lg"] }],
+      rounded: [{ rounded: ["xs", "sm", "md", "lg", "xl", "2xl", "pill"] }],
+    },
+  },
+});
 
 export function cn(...inputs: ClassValue[]): string {
-  return twMerge(clsx(inputs));
+  return customTwMerge(clsx(inputs));
 }
 
 export type Tone =

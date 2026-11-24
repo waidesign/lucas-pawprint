@@ -73,11 +73,11 @@ export function LuciHero() {
 
   const secondaryCta = isFull
     ? {
-        label: "Read the docs ↗",
+        label: "Read the docs",
         href: "https://luci.pawprint.design",
       }
     : {
-        label: "Visit luci.pawprint.design ↗",
+        label: "Visit luci.pawprint.design",
         href: meta?.liveUrl ?? "https://luci.pawprint.design",
       };
 

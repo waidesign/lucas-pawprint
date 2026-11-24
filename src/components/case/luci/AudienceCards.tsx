@@ -29,7 +29,7 @@ export function AudienceCards() {
   return (
     <div className="my-8 space-y-6">
       <div className="space-y-3">
-        <h3 className="font-mono text-label uppercase tracking-wider text-text-subtle">
+        <h3 className="font-mono text-label uppercase tracking-wider text-text-muted">
           Who it&apos;s for
         </h3>
         <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
@@ -57,7 +57,7 @@ export function AudienceCards() {
       </div>
 
       <div className="space-y-3">
-        <h3 className="font-mono text-label uppercase tracking-wider text-text-subtle">
+        <h3 className="font-mono text-label uppercase tracking-wider text-text-muted">
           Jobs
         </h3>
         <ul
