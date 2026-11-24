@@ -1,5 +1,7 @@
 "use client";
 
+import { HEADING_SCALE_CLASSES } from "@/components/ui/Heading";
+
 import "./luci.css";
 import { Card } from "@/components/ui/Card";
 import { Clip } from "@/components/case/Clip";
@@ -68,7 +70,7 @@ export function HowSteps() {
             <div
               className={cn(
                 "lg:col-span-5",
-                isReversed ? "lg:order-2" : "lg:order-1"
+                isReversed ? "lg:order-2" : "lg:order-1",
               )}
             >
               <Card tone="surface" className="space-y-3">
@@ -79,7 +81,12 @@ export function HowSteps() {
                   >
                     {step.number}
                   </span>
-                  <h3 className="font-display text-h3 text-text">
+                  <h3
+                    className={cn(
+                      "font-display text-text text-balance",
+                      HEADING_SCALE_CLASSES.h3,
+                    )}
+                  >
                     {step.title}
                   </h3>
                 </div>
@@ -90,7 +97,7 @@ export function HowSteps() {
             <div
               className={cn(
                 "luci-brand-frame lg:col-span-7",
-                isReversed ? "lg:order-1" : "lg:order-2"
+                isReversed ? "lg:order-1" : "lg:order-2",
               )}
             >
               <Clip

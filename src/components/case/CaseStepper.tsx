@@ -28,7 +28,7 @@ export function CaseStepper({ className }: CaseStepperProps) {
 
   useEffect(() => {
     const sections = Array.from(
-      document.querySelectorAll<HTMLElement>("[data-chapter-step]")
+      document.querySelectorAll<HTMLElement>("[data-chapter-step]"),
     );
     if (sections.length === 0) {
       return;
@@ -40,7 +40,7 @@ export function CaseStepper({ className }: CaseStepperProps) {
       (entries) => {
         for (const entry of entries) {
           const stepAttr = entry.target.getAttribute(
-            "data-chapter-step"
+            "data-chapter-step",
           ) as ChapterStep | null;
           const stepIndex = CHAPTER_STEPS.findIndex((s) => s.key === stepAttr);
           if (stepIndex === -1) continue;
@@ -66,7 +66,7 @@ export function CaseStepper({ className }: CaseStepperProps) {
       {
         rootMargin: "-20% 0px -55% 0px",
         threshold: [0, 0.25, 0.5, 1],
-      }
+      },
     );
 
     for (const section of sections) {
@@ -81,7 +81,7 @@ export function CaseStepper({ className }: CaseStepperProps) {
     const stepKey = CHAPTER_STEPS[index]?.key;
     if (!stepKey) return;
     const target = document.querySelector<HTMLElement>(
-      `[data-chapter-step="${stepKey}"]`
+      `[data-chapter-step="${stepKey}"]`,
     );
     if (target) {
       target.scrollIntoView({
@@ -92,12 +92,7 @@ export function CaseStepper({ className }: CaseStepperProps) {
   };
 
   return (
-    <div
-      className={cn(
-        " lg:sticky lg:top-24 lg:z-30",
-        className
-      )}
-    >
+    <div className={cn(" lg:sticky lg:top-24 lg:z-30", className)}>
       <div className="inline-flex rounded-pill border-2 border-line-strong bg-bg px-3 py-1 shadow-sticker-sm">
         <BeanStepper
           steps={CHAPTER_STEPS.map((s) => s.label)}

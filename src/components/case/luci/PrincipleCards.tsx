@@ -1,5 +1,8 @@
 "use client";
 
+import { cn } from "@/lib/cn";
+import { HEADING_SCALE_CLASSES } from "@/components/ui/Heading";
+
 import { motion, useReducedMotion } from "motion/react";
 import { Card } from "@/components/ui/Card";
 import { springCalm, stagger } from "@/lib/motion";
@@ -42,7 +45,12 @@ export function PrincipleCards() {
 
   return (
     <div className="my-8 space-y-3">
-      <h3 className="font-mono text-label uppercase tracking-wider text-text-muted">
+      <h3
+        className={cn(
+          "font-display text-text text-balance",
+          HEADING_SCALE_CLASSES.h3,
+        )}
+      >
         Five principles
       </h3>
 
@@ -72,7 +80,14 @@ export function PrincipleCards() {
               </span>
 
               <div className="space-y-2">
-                <h4 className="font-display text-h4 text-text">{item.title}</h4>
+                <h4
+                  className={cn(
+                    "font-display text-text text-balance hyphens-auto break-words",
+                    HEADING_SCALE_CLASSES.h4,
+                  )}
+                >
+                  {item.title}
+                </h4>
                 <p className="font-body text-body text-text-muted">
                   {item.body}
                 </p>

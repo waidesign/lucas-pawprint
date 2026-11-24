@@ -19,7 +19,7 @@ export function Callout({
       className={cn(
         "my-6 rounded-lg border-2 border-line-strong p-6 font-body text-body shadow-sticker-sm",
         TONE_BG_CLASSES[tone],
-        className
+        className,
       )}
     >
       {title && <p className="mb-2 font-display text-h4">{title}</p>}

@@ -12,7 +12,7 @@ export function Clip({ src, poster, caption, className }: ClipProps) {
     <figure
       className={cn(
         "my-6 overflow-hidden rounded-lg border-2 border-line-strong bg-surface shadow-sticker-sm",
-        className
+        className,
       )}
     >
       {src ? (

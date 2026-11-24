@@ -1,5 +1,7 @@
+import { HEADING_SCALE_CLASSES } from "@/components/ui/Heading";
 import type { ReactNode } from "react";
 import { cn, TONE_BG_CLASSES, type Tone } from "@/lib/cn";
+import { DecisionHandPeek } from "./DecisionHandPeek";
 
 export interface DecisionCardProps {
   title: string;
@@ -21,48 +23,55 @@ export function DecisionCard({
   className,
 }: DecisionCardProps) {
   return (
-    <article
-      className={cn(
-        "my-6 rounded-lg border-2 border-line-strong bg-bg p-6 shadow-sticker-sm",
-        className
-      )}
-    >
-      <div className="flex flex-wrap items-center justify-between gap-2 border-b border-line pb-3">
-        <h3 className="font-display text-h4 text-text">{title}</h3>
-        <span
-          className={cn(
-            "rounded-pill border border-line-strong px-3 py-0.5 font-mono text-caption font-semibold",
-            TONE_BG_CLASSES[tone]
-          )}
-        >
-          Key decision
-        </span>
-      </div>
+    <div className={cn("relative my-6", className)}>
+      {/* The paw hangs over the card's top edge, behind it (z-0 under the card's z-10) */}
+      <DecisionHandPeek />
 
-      <dl className="mt-4 grid grid-cols-1 gap-4 md:grid-cols-3">
-        <div className="rounded-sm border border-line bg-surface p-4">
-          <dt className="font-body text-label uppercase text-text-muted">
-            Problem
-          </dt>
-          <dd className="mt-2 font-body text-body text-text">{problem}</dd>
+      <article className="relative z-10 rounded-lg border-2 border-line-strong bg-bg p-6 shadow-sticker-sm">
+        <div className="flex flex-wrap items-center justify-between gap-2 border-b border-line pb-3">
+          <h3
+            className={cn(
+              "font-display text-text text-balance",
+              HEADING_SCALE_CLASSES.h3,
+            )}
+          >
+            {title}
+          </h3>
+          <span
+            className={cn(
+              "rounded-pill border border-on-pastel px-3 py-1 font-mono text-caption font-semibold",
+              TONE_BG_CLASSES[tone],
+            )}
+          >
+            Key decision
+          </span>
         </div>
 
-        <div className="rounded-sm border border-line bg-surface p-4">
-          <dt className="font-body text-label uppercase text-text-muted">
-            Decision
-          </dt>
-          <dd className="mt-2 font-body text-body text-text">{decision}</dd>
-        </div>
+        <dl className="mt-4 grid grid-cols-1 gap-4 md:grid-cols-3">
+          <div className="rounded-sm border border-line bg-surface p-4">
+            <dt className="font-body text-label uppercase text-text-muted">
+              Problem
+            </dt>
+            <dd className="mt-2 font-body text-body text-text">{problem}</dd>
+          </div>
 
-        <div className="rounded-sm border border-line bg-surface p-4">
-          <dt className="font-body text-label uppercase text-text-muted">
-            Why it worked
-          </dt>
-          <dd className="mt-2 font-body text-body text-text">{why}</dd>
-        </div>
-      </dl>
+          <div className="rounded-sm border border-line bg-surface p-4">
+            <dt className="font-body text-label uppercase text-text-muted">
+              Decision
+            </dt>
+            <dd className="mt-2 font-body text-body text-text">{decision}</dd>
+          </div>
 
-      {children && <div className="mt-4">{children}</div>}
-    </article>
+          <div className="rounded-sm border border-line bg-surface p-4">
+            <dt className="font-body text-label uppercase text-text-muted">
+              Why it worked
+            </dt>
+            <dd className="mt-2 font-body text-body text-text">{why}</dd>
+          </div>
+        </dl>
+
+        {children && <div className="mt-4">{children}</div>}
+      </article>
+    </div>
   );
 }

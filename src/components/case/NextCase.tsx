@@ -1,5 +1,7 @@
 "use client";
 
+import { HEADING_SCALE_CLASSES } from "@/components/ui/Heading";
+
 import Link from "next/link";
 import { Loaffy } from "@/components/mascot/Loaffy";
 import type { Form } from "@/components/mascot/LoaffyBus";
@@ -50,14 +52,19 @@ export function NextCase({
         href={`/work/${resolvedSlug}`}
         className={cn(
           "group flex flex-col items-start justify-between gap-6 rounded-xl border-2 border-line-strong p-6 lp-sticker-interactive md:flex-row md:items-center md:p-8",
-          TONE_BG_CLASSES[resolvedTone]
+          TONE_BG_CLASSES[resolvedTone],
         )}
       >
         <div className="space-y-2">
           <span className="font-mono text-label uppercase tracking-wider text-on-pastel/80">
             Next case study →
           </span>
-          <h3 className="font-display text-h2 text-on-pastel">
+          <h3
+            className={cn(
+              "font-display text-on-pastel text-balance",
+              HEADING_SCALE_CLASSES.h3,
+            )}
+          >
             {resolvedTitle}
           </h3>
           {resolvedSummary && (

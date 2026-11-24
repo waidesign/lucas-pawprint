@@ -1,5 +1,8 @@
 "use client";
 
+import { cn } from "@/lib/cn";
+import { HEADING_SCALE_CLASSES } from "@/components/ui/Heading";
+
 import { motion, useReducedMotion } from "motion/react";
 import { Card } from "@/components/ui/Card";
 import { Chip } from "@/components/ui/Chip";
@@ -29,7 +32,12 @@ export function AudienceCards() {
   return (
     <div className="my-8 space-y-6">
       <div className="space-y-3">
-        <h3 className="font-mono text-label uppercase tracking-wider text-text-muted">
+        <h3
+          className={cn(
+            "font-display text-text text-balance",
+            HEADING_SCALE_CLASSES.h3,
+          )}
+        >
           Who it&apos;s for
         </h3>
         <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
@@ -45,10 +53,7 @@ export function AudienceCards() {
                   : { ...springCalm, delay: index * stagger }
               }
             >
-              <Card
-                tone="surface"
-                className="flex h-full items-center bg-bg"
-              >
+              <Card tone="surface" className="flex h-full items-center bg-bg">
                 <p className="font-display text-h4 text-text">{audience}</p>
               </Card>
             </motion.div>
@@ -57,7 +62,12 @@ export function AudienceCards() {
       </div>
 
       <div className="space-y-3">
-        <h3 className="font-mono text-label uppercase tracking-wider text-text-muted">
+        <h3
+          className={cn(
+            "font-display text-text text-balance",
+            HEADING_SCALE_CLASSES.h3,
+          )}
+        >
           Jobs
         </h3>
         <ul

@@ -14,7 +14,7 @@ export function BetaBadge({
     <span
       className={cn(
         "inline-flex h-8 items-center rounded-pill border-2 border-line-strong bg-butter px-3 font-body text-caption font-semibold text-on-pastel shadow-sticker-sm",
-        className
+        className,
       )}
       {...props}
     >

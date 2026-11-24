@@ -1,13 +1,10 @@
+import { HEADING_SCALE_CLASSES } from "@/components/ui/Heading";
 import type { ReactNode } from "react";
 import { cn, TONE_BG_CLASSES, type Tone } from "@/lib/cn";
 
 export type ChapterStep = "understand" | "shape" | "design" | "ship";
 
-export type ChapterTone =
-  | "bg"
-  | "surface"
-  | Tone
-  | `${Tone}-soft`;
+export type ChapterTone = "bg" | "surface" | Tone | `${Tone}-soft`;
 
 export interface ChapterProps {
   step: ChapterStep;
@@ -77,7 +74,7 @@ export function Chapter({
       className={cn(
         "w-full scroll-mt-28 border-t border-line px-4 py-[var(--space-section)] md:px-10 lg:px-20",
         CHAPTER_BG_CLASSES[tone],
-        className
+        className,
       )}
     >
       <div className="w-full">
@@ -86,7 +83,7 @@ export function Chapter({
             <span
               className={cn(
                 "inline-flex h-8 items-center rounded-pill border-2 border-line-strong px-3 font-mono text-caption font-semibold",
-                TONE_BG_CLASSES[meta.badgeTone]
+                TONE_BG_CLASSES[meta.badgeTone],
               )}
             >
               {meta.number} · {meta.label}
@@ -96,7 +93,10 @@ export function Chapter({
           {title ? (
             <h2
               id={headingId}
-              className="mt-4 font-display text-h2 text-current"
+              className={cn(
+                "mt-4 font-display text-current text-balance",
+                HEADING_SCALE_CLASSES.h2,
+              )}
             >
               {title}
             </h2>

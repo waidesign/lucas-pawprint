@@ -1,5 +1,8 @@
 "use client";
 
+import { cn } from "@/lib/cn";
+import { HEADING_SCALE_CLASSES } from "@/components/ui/Heading";
+
 import { Calendar } from "lucide-react";
 import { profile } from "@/content/site";
 import { Button } from "@/components/ui/Button";
@@ -36,13 +39,16 @@ export function CaseCTA() {
       aria-labelledby="luci-case-cta-heading"
       className="w-full border-t border-line bg-bg"
     >
-      <div className="w-full px-4 pt-12 md:px-10 md:pt-16 lg:px-20">
+      <div className="w-full px-4 py-12 md:px-10 md:py-16 lg:px-20">
         <div className="rounded-2xl border-2 border-line-strong bg-lilac p-6 text-on-pastel shadow-sticker md:p-10">
           <div className="grid grid-cols-1 items-center gap-8 lg:grid-cols-12">
             <div className="space-y-4 lg:col-span-8">
               <h2
                 id="luci-case-cta-heading"
-                className="font-display text-h1 text-on-pastel"
+                className={cn(
+                  "font-display text-on-pastel",
+                  HEADING_SCALE_CLASSES.h2,
+                )}
               >
                 Want to try Luci?
               </h2>
@@ -74,7 +80,9 @@ export function CaseCTA() {
                   external
                   iconStart={<Calendar className="h-5 w-5" />}
                   onClick={() => {
-                    trackEvent("book_chat_click", { location: "luci_case_cta" });
+                    trackEvent("book_chat_click", {
+                      location: "luci_case_cta",
+                    });
                     emitLoaffyEvent("book-chat-click");
                   }}
                 >

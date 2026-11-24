@@ -1,5 +1,8 @@
+import { cn } from "@/lib/cn";
+import { HEADING_SCALE_CLASSES } from "@/components/ui/Heading";
 import type { MDXComponents } from "mdx/types";
 import { CaseLayout } from "@/components/case/CaseLayout";
+import { CaseHero } from "@/components/case/CaseHero";
 import { Chapter } from "@/components/case/Chapter";
 import { CaseStepper } from "@/components/case/CaseStepper";
 import { BeanStepper } from "@/components/ui/BeanStepper";
@@ -31,6 +34,7 @@ import { BuildTimeline } from "@/components/case/luci/BuildTimeline";
 
 const components: MDXComponents = {
   CaseLayout,
+  CaseHero,
   Chapter,
   CaseStepper,
   BeanStepper,
@@ -60,22 +64,43 @@ const components: MDXComponents = {
   BrandBoard,
   BuildTimeline,
   h1: ({ children, ...props }) => (
-    <h1 className="font-display text-h1 text-text" {...props}>
+    <h1
+      className={cn(
+        "font-display text-text text-balance",
+        HEADING_SCALE_CLASSES.h1,
+      )}
+      {...props}
+    >
       {children}
     </h1>
   ),
   h2: ({ children, ...props }) => (
-    <h2 className="mt-10 font-display text-h2 text-text" {...props}>
+    <h2
+      className={cn(
+        "mt-10 font-display text-text text-balance",
+        HEADING_SCALE_CLASSES.h2,
+      )}
+      {...props}
+    >
       {children}
     </h2>
   ),
   h3: ({ children, ...props }) => (
-    <h3 className="mt-8 font-display text-h3 text-text" {...props}>
+    <h3
+      className={cn(
+        "mt-8 font-display text-text text-balance",
+        HEADING_SCALE_CLASSES.h3,
+      )}
+      {...props}
+    >
       {children}
     </h3>
   ),
   p: ({ children, ...props }) => (
-    <p className="mt-4 max-w-[var(--prose-max)] text-body text-current" {...props}>
+    <p
+      className="mt-4 max-w-[var(--prose-max)] text-body text-current"
+      {...props}
+    >
       {children}
     </p>
   ),

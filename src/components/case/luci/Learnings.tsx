@@ -1,5 +1,8 @@
 "use client";
 
+import { cn } from "@/lib/cn";
+import { HEADING_SCALE_CLASSES } from "@/components/ui/Heading";
+
 import { motion, useReducedMotion } from "motion/react";
 import { Card } from "@/components/ui/Card";
 import { springCalm, stagger } from "@/lib/motion";
@@ -28,7 +31,12 @@ export function Learnings() {
 
   return (
     <div className="my-8 space-y-3">
-      <h3 className="font-mono text-label uppercase tracking-wider text-text-subtle">
+      <h3
+        className={cn(
+          "font-display text-text text-balance",
+          HEADING_SCALE_CLASSES.h3,
+        )}
+      >
         Learnings
       </h3>
 

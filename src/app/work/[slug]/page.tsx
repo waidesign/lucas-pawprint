@@ -31,14 +31,14 @@ export async function generateMetadata({
       ? `https://lucas.pawprint.design/og/luci-${
           metadata.visibility === "full" ? "full" : "teaser"
         }.png`
-      : `https://lucas.pawprint.design${metadata.cover}.webp`;
+      : `https://lucas.pawprint.design/og/${metadata.slug}.png`;
 
   const ogAlt =
     metadata.slug === "luci"
       ? `Loaffy in window form on lilac with "${
           metadata.visibility === "full" ? "Luci · live" : "Luci · private beta"
         }"`
-      : metadata.coverAlt;
+      : `Loaffy in ${metadata.form} form on ${metadata.tone} with "${metadata.title}"`;
 
   return {
     title: metadata.seo.title,
@@ -100,13 +100,22 @@ export default async function CaseStudyPage({
     url: "https://lucas.pawprint.design",
   };
 
+  const canonicalUrl = `https://lucas.pawprint.design/work/${metadata.slug}`;
+  const ogImageUrl =
+    metadata.slug === "luci"
+      ? `https://lucas.pawprint.design/og/luci-${
+          metadata.visibility === "full" ? "full" : "teaser"
+        }.png`
+      : `https://lucas.pawprint.design/og/${metadata.slug}.png`;
+
   const creativeWorkJsonLd = {
     "@context": "https://schema.org",
     "@type": "CreativeWork",
     name: metadata.title,
     headline: metadata.seo.title,
     description: metadata.seo.description,
-    url: `https://lucas.pawprint.design/work/${metadata.slug}`,
+    url: canonicalUrl,
+    image: ogImageUrl,
     dateCreated: metadata.year,
     author: authorSchema,
     keywords: metadata.tags.join(", "),

@@ -71,7 +71,8 @@ export function BrandBoard() {
             Logo & Wordmark
           </span>
           <div className="flex min-h-24 items-center justify-center rounded-md border border-dashed border-line-strong p-4 text-center font-mono text-caption">
-            [Luci logo & horizontal wordmark slot · /case-studies/luci/brand-logo.svg]
+            [Luci logo & horizontal wordmark slot ·
+            /case-studies/luci/brand-logo.svg]
           </div>
         </div>
 

@@ -97,10 +97,7 @@ export function AnnotatedExport() {
                 : { ...springCalm, delay: (index + 1) * stagger }
             }
           >
-            <Card
-              tone="surface"
-              className="flex items-center gap-4 bg-bg"
-            >
+            <Card tone="surface" className="flex items-center gap-4 bg-bg">
               <span
                 aria-hidden="true"
                 className="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-pill border-2 border-line-strong bg-lilac font-mono text-body font-bold text-on-pastel shadow-sticker-sm"

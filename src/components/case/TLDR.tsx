@@ -71,7 +71,7 @@ export function TLDR({
       aria-label="Case study TL;DR summary"
       className={cn(
         "w-full bg-bg px-4 py-12 md:px-10 md:py-16 lg:px-20",
-        className
+        className,
       )}
     >
       <div className="w-full">

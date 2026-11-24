@@ -58,13 +58,8 @@ export function A11yFindings() {
                     {row.measured}
                   </td>
                   <td className="px-6 py-4">
-                    <Chip
-                      tone={isPass ? "mint" : "blush"}
-                      size="sm"
-                    >
-                      <span aria-hidden="true">
-                        {isPass ? "✓ " : "✕ "}
-                      </span>
+                    <Chip tone={isPass ? "mint" : "blush"} size="sm">
+                      <span aria-hidden="true">{isPass ? "✓ " : "✕ "}</span>
                       <span>{row.verdict}</span>
                     </Chip>
                   </td>

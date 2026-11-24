@@ -56,8 +56,8 @@ export function MetaRow({
       ...(status
         ? [{ label: "Status", value: status }]
         : meta?.badge
-        ? [{ label: "Status", value: meta.badge }]
-        : []),
+          ? [{ label: "Status", value: meta.badge }]
+          : []),
       ...(licence ? [{ label: "Licence", value: licence }] : []),
       ...(tools || meta?.tools
         ? [
@@ -73,7 +73,7 @@ export function MetaRow({
               label: "Live",
               value: (liveUrl ?? meta?.liveUrl ?? "").replace(
                 /^https?:\/\//,
-                ""
+                "",
               ),
               href: liveUrl ?? meta?.liveUrl,
             },
@@ -85,7 +85,7 @@ export function MetaRow({
     <dl
       className={cn(
         "grid grid-cols-2 gap-4 rounded-lg border-2 border-line-strong bg-surface p-6 shadow-sticker-sm sm:grid-cols-3 lg:grid-cols-5",
-        className
+        className,
       )}
     >
       {resolvedItems.map((item) => (

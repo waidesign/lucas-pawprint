@@ -41,7 +41,7 @@ export default async function WorkIndexPage() {
           headingLevel="h1"
           syncUrlQuery
         />
-        <ContactPanel compact />
+        <ContactPanel />
       </main>
       <SiteFooter />
     </>

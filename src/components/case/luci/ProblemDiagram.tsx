@@ -1,5 +1,8 @@
 "use client";
 
+import { cn } from "@/lib/cn";
+import { HEADING_SCALE_CLASSES } from "@/components/ui/Heading";
+
 import { motion, useReducedMotion } from "motion/react";
 import { Card } from "@/components/ui/Card";
 import { Chip } from "@/components/ui/Chip";
@@ -222,7 +225,14 @@ export function ProblemDiagram() {
               className="flex h-full flex-col justify-between gap-4"
             >
               <div className="flex items-center justify-between gap-3">
-                <h3 className="font-display text-h4 text-text">{title}</h3>
+                <h3
+                  className={cn(
+                    "font-display text-text text-balance hyphens-auto break-words",
+                    HEADING_SCALE_CLASSES.h3,
+                  )}
+                >
+                  {title}
+                </h3>
                 <Chip tone="blush" size="sm">
                   <span aria-hidden="true">✕</span>
                   <span className="sr-only">Problem</span>

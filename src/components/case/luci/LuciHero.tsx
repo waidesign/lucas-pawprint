@@ -1,5 +1,8 @@
 "use client";
 
+import { cn } from "@/lib/cn";
+import { HEADING_SCALE_CLASSES } from "@/components/ui/Heading";
+
 import "./luci.css";
 import { motion, useReducedMotion } from "motion/react";
 import {
@@ -103,7 +106,10 @@ export function LuciHero() {
             <div className="flex flex-wrap items-center gap-3">
               <h1
                 id="luci-hero-title"
-                className="font-display text-display text-text"
+                className={cn(
+                  "font-display text-text",
+                  HEADING_SCALE_CLASSES.h1,
+                )}
               >
                 {meta?.title ?? "Luci"}
               </h1>
