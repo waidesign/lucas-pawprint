@@ -7,7 +7,7 @@ export type BadgeProps = {
 } & Omit<ComponentPropsWithoutRef<"span">, "children">;
 
 /**
- * Generic status/label badge (replaces BetaBadge; AGENTS.md rule 16: no decorative dots).
+ * Generic status/label badge (AGENTS.md rule 16: no decorative dots).
  * Rounded pill with 2px pen border, pastel fill, ink text, and small sticker shadow.
  */
 export function Badge({

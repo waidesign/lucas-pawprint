@@ -62,18 +62,16 @@ Which client cases appear on home is a content switch (`homeFeatured: true` in t
 Page Loaffy: window form, peeking from the hero's right edge.
 
 ### Case study (`/work/[slug]`)
-Luci (`visibility: full`): "Open source" badge, "Try Luci" CTA to luci.pawprint.design, real product screenshots and recordings. No version numbers, release dates or star counts (AGENTS.md rule 7).
+Every case study — including Luci (`visibility: full`, `"Open source"` badge, `"Try Luci"` CTA) — uses one Home-style template:
 
-1. CaseHero (title, one-line summary, cover on pastel, Loaffy form peeking)
-2. MetaRow (Role · Team · Timeline · Platform · Tools · Live link)
-3. TL;DR stickers (Problem · What I did · Outcome)
-4. Context (who the users are, what was broken)
-5. Process — BeanStepper chapters: **Understand → Shape → Design → Ship**
-6. Key decisions (3–5 DecisionCards: problem → decision → why, with before/after)
-7. Design system highlights
-8. Motion & interaction (short clips)
-9. Outcome & learnings (qualitative; real facts only)
-10. NextCase + ContactPanel (compact)
+1. **CaseHero (`bg`)**: inline breadcrumb ("Work / {title}"), meta line (`Badge` + year + role), `h1` at `display-xl` with one highlighted word, `body-lg` summary, Home-style pill CTAs, and a full-width tilted cover stage (`rounded-2xl`, 2px pen border, `shadow-sticker`, straightens on hover; Loaffy peeks from the edge on client cases, omitted on Luci per rule 11).
+2. **At a glance (`bg`)**: plain `MetaRow` (Role · Team · Timeline · Platform · Tools · Live link) + 3-column `IndexColumns` TL;DR (Problem · What I did · Outcome) with large numerals (`01.`–`03.`).
+3. **Four alternating wavy-seam chapters** (`bg` ↔ `<caseTone>-soft`, joined by `<SectionSeam>` waves, tracked by the floating `lg+` `CaseStepper` pill):
+   - **01 Understand** — `PainList`, `InsightList`, `PullQuote`
+   - **02 Shape** — `FeatureRow`, `DecisionList` (numbered plain Problem → Decision → Why rows)
+   - **03 Design** — `FeatureRow`s with `BrowserFrame` + `LoopVideo`, `Showcase` (single frame or 2–3 frame lightbox gallery), `Callout`
+   - **04 Ship** — `Outcome` (qualitative statement + "What shipped" list + live link) and `Learnings`
+4. **Closing band (`bg`)**: `CaseCTA` standout panel + `NextCase` clickable card, followed by wavy-seam `SiteFooter`.
 
 ### Motion (`/motion`)
 1. **Page hero:** display-xl "Motion." · *I started in video and animation. Now I use motion to explain products, not decorate them.* · Loaffy in the Vibing pose while the reel plays.
@@ -139,12 +137,13 @@ Live design system: palette (all themes), type scale, spacing, radius, shadows, 
 ```tsx
 export const metadata = {
   title: "Classic Decoder",
+  titleHighlight: "Decoder",   // optional single word to highlight in CaseHero h1
   slug: "classic-decoder",
   order: 2,                    // Luci = 1
   featured: false,             // Luci = true
   homeFeatured: true,          // show on the home page (max 2 client cases + Luci)
   status: "published",         // published | draft
-  visibility: "full",          // full | teaser  (every case is full; Luci is public)
+  visibility: "full",          // full | teaser (all cases are full; Luci is public)
   badge: undefined,            // e.g. "Open source" for Luci
   client: "Classic Decoder",
   summary: "Full website redesign for a classic-car data platform, moved from WordPress to Next.js.",
@@ -160,13 +159,15 @@ export const metadata = {
   form: "window",              // Loaffy form for this case
   cover: "/case-studies/classic-decoder/cover",   // optimiser adds .avif/.webp
   coverAlt: "Classic Decoder homepage on desktop and phone, showing the VIN search.",
+  coverVideo: undefined,       // optional { webm, mp4?, poster?, start? } for animated cover stage
   liveUrl: "https://classicdecoder.com",
-  cta: undefined,              // Luci: { label: "Try Luci", href: "https://luci.pawprint.design" }
+  cta: { label: "Visit Classic Decoder", href: "https://classicdecoder.com" },
+  secondaryCta: { label: "All work →", href: "/work" },
   tldr: { problem: "…", whatIDid: "…", outcome: "…" },   // outcome qualitative unless a real, sourced number exists
   seo: { title: "Classic Decoder · Lucas (Wai Phyo Aung)", description: "…" },
 };
 ```
-Body uses MDX components: `<Chapter step="understand|shape|design|ship">`, `<DecisionCard>`, `<Callout tone="butter">`, `<ImageGallery>`, `<Clip>`.
+Body uses MDX components: `<Chapter step="understand|shape|design|ship">`, `<FeatureRow>`, `<DecisionList>`, `<Showcase>`, `<BrowserFrame>`, `<LoopVideo>`, `<PainList>`, `<InsightList>`, `<Callout>`, `<CaseOutcome>`, `<CaseLearnings>`.
 Loader: existing `src/lib/case-studies.ts` (`getCaseStudySlugs`, `getCaseStudyBySlug`, `getAllCaseStudies`) — extend to parse `metadata` with the zod schema, skip `_template.mdx` and `status: "draft"` in production, and sort by `order`.
 
 ### `src/content/site.ts`

@@ -92,7 +92,7 @@ Order on the site: **Luci first (featured)**, then the six client projects.
 |---|---|
 | classic-decoder | Full website redesign for a classic-car data platform: WordPress to Next.js, a new design system, online classifieds and a buyer/seller dashboard. |
 | classic-decoder-app | Redesign of the first VIN lookup app for pre-1981 classic cars, with one design language across web and mobile. |
-| vehicle-databases | Pricing page and checkout for a vehicle-data API product, with an API-call slider that recommends a plan. |
+| vehicle-databases | Full website redesign for a vehicle-data API platform, plus the pricing page and checkout inside the member dashboard. |
 | detailed-vehicle-history | 20+ pages rebuilt mobile-first from legacy WordPress, with CMS templates and a scalable design system. |
 | fierce-fight-gear | E-commerce redesign plus a real-time customizer for custom boxing and Muay Thai gear. |
 | sarayah-phuket-villas | A luxury villa booking site, designed and later rebuilt with an AI-first workflow (Google AI Studio, Antigravity), with a Hostex booking widget. |

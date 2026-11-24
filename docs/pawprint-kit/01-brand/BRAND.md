@@ -16,7 +16,7 @@
 | **Mascot** | Loaffy, a ginger cat's pawprint with a face |
 | **Email** | lucas@pawprint.design (forwards to Gmail) |
 | **Experience** | 10 years in design |
-| **Own product** | Luci · luci.pawprint.design (private beta) — the lead case study |
+| **Own product** | Luci · luci.pawprint.design (open source) — the lead case study |
 | **Audience** | Recruiters, hiring managers, design leads and engineering leads hiring for remote product design roles in the US, Canada, New Zealand and Singapore |
 | **Job of the site** | In 10 seconds: who Lucas is and what he does. In 60 seconds: proof he can do the work. In 3 minutes: how he thinks. Then: an easy way to reach him. |
 
@@ -80,8 +80,8 @@ How to say the name everywhere: **Lucas (Wai Phyo Aung)**. Short form in UI chro
 | Hero smash sticker | Everyone designs with AI now. It all looks like slop. **Except mine.** |
 | Hero sub (optional) | I design web products, apps and motion for SaaS, e-commerce and data-heavy platforms — and I build my own. |
 | Proof strip | Founder of Luci · 10 years in design · Senior UI/UX & Motion Designer at Empire Pixel |
-| Luci badge | Private beta |
-| Luci CTA | Request beta access |
+| Luci badge | Open source |
+| Luci CTA | Try Luci |
 | Availability chip | Open to remote roles · US · CA · NZ · SG |
 | Primary CTA | See selected work |
 | Secondary CTA | Book a chat |
@@ -185,4 +185,4 @@ Ink on every pastel passes WCAG AAA (9.3:1 to 11.4:1).
 
 - Luci keeps **its own brand** (ginger + Muzzle White `#F5EFEA`) inside its case study visuals and screenshots. The portfolio UI around it stays Loaffy Candy.
 - Loaffy and Luci's cat are relatives, not twins: Loaffy is a pawprint with a face; Luci's mascot is Luci's own. Never merge them.
-- While Luci is in private beta, show only the public teaser in `03-ux/CONTENT.md`.
+- Luci is public and open source (MIT). Badge says "Open source"; CTA says "Try Luci". Real product screenshots and recordings are allowed; never mention version numbers, release dates or GitHub star counts.

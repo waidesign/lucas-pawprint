@@ -176,7 +176,7 @@ Pistachio-soft section: wordmark, nav links, socials (LinkedIn, Behance, GitHub,
 |---|---|---|
 | `Hero` | Eyebrow, headline with "box" highlight, LoaffyStage, smash Sticker (blush), availability Sticker (mint), 2 CTAs | Loaffy ≈ 60% visual weight. Eyes track. Scroll cue at bottom. |
 | `ProofStrip` | "Founder of Luci · 10 years in design · Now: Senior UI/UX & Motion Designer at Empire Pixel" + "Shipped for: …" | Surface pill row; Luci links to its case study. |
-| `SelectedWork` | h2 "Work." (h1 on `/work`) + filter chips (hidden on Home) + CaseCard rows | **Luci first (featured, BetaBadge)**, then 6 client cases, one row each; thumbnails alternate left / right on `lg+`; Loaffy peeks on hover (Curious). |
+| `SelectedWork` | h2 "Work." (h1 on `/work`) + filter chips (hidden on Home) + CaseCard rows | **Luci first (featured, Badge "Open source")**, then 6 client cases, one row each; thumbnails alternate left / right on `lg+`; Loaffy peeks on hover (Curious). |
 | `ProcessStory` | The signature scroll story (see `03-ux/USER-FLOWS.md §5`) | GSAP ScrollTrigger; stepped fallback. |
 | `MotionReel` | h2 "Motion." + VideoReel + 2 clips + Behance link | Loaffy Vibing pose when playing. |
 | `AboutChangelog` | h2 + Resume CTA, then an app window: Claude-style chat (visitor asks, assistant answers with portrait + short bio, a "Changelog" artifact card and the resume) beside a FigJam-style dotted canvas with one sticky note per role and live cursors | Scroll story: pinned on xl + tall screens (scroll drives the steps, reversible), otherwise plays once in view; reduced motion shows all. No education. Screen readers get a plain bio + changelog list. |
@@ -190,25 +190,33 @@ type CaseCardProps = { slug: string; title: string; summary: string; tags: strin
 A case study **row**, not a boxed card (layout inspired by slush.app's "Your shortcut to DeFi" section, built with our tokens).
 
 - **Thumbnail = the only card.** The cover image itself is the card: 16:10, 2px pen border, `rounded-xl`, `shadow-sticker`; the case's pastel `tone` shows only while it loads. Hover: lift (`lp-sticker-interactive`) + slow cover zoom (`duration-slow`, `ease-out-soft`) + Loaffy (form, Curious) peeks from behind the image's top-right edge (no overlap with text).
-- **Everything else sits plain on the canvas** (no background, theme tokens only): meta line (BetaBadge, year in mono label, role in muted caption) → `h3` title at the site heading scale (48px), in the case's own capitalisation, never all caps, revealed word by word on scroll (40ms stagger; off under reduced motion) → summary (`body-lg`, medium) → outlined tag pills → primary pill CTA "Read case study →" (sentence case, never all caps) + optional "Live site ↗" text link.
+- **Everything else sits plain on the canvas** (no background, theme tokens only): meta line (Badge, year in mono label, role in muted caption) → `h3` title at the site heading scale (48px), in the case's own capitalisation, never all caps, revealed word by word on scroll (40ms stagger; off under reduced motion) → summary (`body-lg`, medium) → outlined tag pills → primary pill CTA "Read case study →" (sentence case, never all caps) + optional "Live site ↗" text link.
 - **Layout:** 6/6 columns on `lg+`, `reverse` puts the thumbnail on the right (rows alternate); stacked thumbnail-first below `lg`. Every case uses the same row; `featured` only orders Luci first and sets the "Live" badge.
 - **Links:** the CTA is the case's one accessible link; the thumbnail repeats it for pointer users (`tabIndex={-1}`, `aria-hidden`). The live-site link is a separate, non-nested link. `coverAlt` is still read once (visually hidden).
 
 ---
 
-## E. Case study (`src/components/case/`)
+## E. Case study (`src/components/case/` & `src/components/ui/Badge.tsx`)
 
 | Component | Purpose |
 |---|---|
-| `CaseHero` | Title (h1), one-line summary, DeviceFrame cover on the case's pastel, Loaffy form peeking |
+| `Badge` | Generic status/label pill (`label`, `tone`, 2px pen border, `shadow-sticker-sm`, no dots per rule 16; replaces `BetaBadge`) |
+| `CaseHero` | Inline breadcrumb ("Work / {title}"), meta line (`Badge` + year + role), `h1` (`display-xl` with one highlighted word), `body-lg` summary, pill CTAs, and full-width tilted cover stage (`rounded-2xl`, 2px pen border, `shadow-sticker`; Loaffy peek off on Luci per rule 11) |
 | `MetaRow` | Spec row: `<dl>` between a 2px pen rule (top) and 1px hairline (bottom), `py-6`, 2 → 3 → 5 columns |
-| `TLDR` | `IndexColumns` (3 columns): label as pastel `Chip` (butter / mint / sky), text in `body-lg`, 80ms reveal stagger; no boxes |
-| `BeanStepper` | Sticky progress through Understand → Shape → Design → Ship |
-| `DecisionCard` | Decision block: 2px pen rule top; `h3` title + "Key decision" chip; 3-col `<dl>` (Problem · Decision · Why it worked) split by hairlines; children below as allowed frames; hairline bottom; no boxes |
+| `TLDR` | "At a glance." overview band: `h2` heading, `MetaRow`, and 3-column `IndexColumns` (Problem · What I did · Outcome) with large numerals (`01.`–`03.`) and pastel `Chip` labels; no boxes |
+| `Chapter` | Full-width alternating `bg` / `<caseTone>-soft` bands joined by wavy `<SectionSeam>` edges; ProcessStory-style numeral (`01.`–`04.`) + mono step label + `h2` (`h1` token, one highlighted word) + `body-lg` intro |
+| `CaseStepper` | Compact floating `lg+` chapter pill (`BeanStepper` with 4 chapters, `aria-current="step"`) that appears after hero scrolls out and hides over closing band; keyboard reachable via `focus-within` |
+| `FeatureRow` | Alternating media left/right (`6/6` or `7/5` mirroring `CaseCard`) with plain text (numeral, eyebrow, `h3`, `body-lg`, optional labelled points/bullets) beside one framed media block |
+| `DecisionList` | Numbered plain rows (`01.`…) with 2px top rule + 1px hairlines, `h3`/`h4` title, 3-col hairline-split `<dl>` (Problem · Decision · Why), and optional paired media (replaces `DecisionCard`) |
+| `Showcase` | One large framed media block with caption, or a 2–3 frame gallery with lightbox zoom (max one gallery per section) |
+| `BrowserFrame` | Flat portfolio browser window (2px ink border, `rounded-xl`, top bar with three pastel dots, optional URL pill) wrapping `<picture>` screenshots or `LoopVideo` |
+| `LoopVideo` | Muted, `playsInline`, looping `preload="none"` video with required poster, `IntersectionObserver` play-in-view, 48×48 pause/play control (WCAG 2.2.2), reduced-motion static poster, and optional `start` offset |
+| `PainList` / `InsightList` | `RuledList`-based numbered lists for Understand/Shape friction and findings |
+| `Outcome` | Qualitative `<p className="font-display text-h3">` statement + "What shipped" hairline list + live CTAs |
+| `Learnings` | Numbered `RuledList` of project takeaways |
 | `Callout` | Margin note: `border-l-2 border-line-strong pl-6`, title highlighted in `tone`, body below; no fill, no shadow |
-| `ImageGallery` | 1–3 images, captions, zoom (dialog with focus trap) |
-| `NextCase` | Big link to the next case with its Loaffy form |
-| `BetaBadge` | "Private beta" pill (butter, 2px border) for Luci; also used on the Luci CaseCard |
+| `CaseCTA` | Closing standout panel (one card per rule 18c) with primary CTA, "Book a chat", and Loaffy bubble form |
+| `NextCase` | Big clickable card linking to the next case study with its pastel tone and Loaffy form |
 
 ---
 

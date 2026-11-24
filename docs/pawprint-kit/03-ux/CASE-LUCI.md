@@ -1,8 +1,21 @@
 # Case Study Spec · Luci (top featured)
 
 > Route: `/work/luci` · File: `src/content/case-studies/luci.mdx` · Tone: **lilac** · Loaffy form: **window**
-> Luci is a finished product waiting for its public launch (luci.pawprint.design, private beta since Nov 2026). This is the first and most important case study on the site: proof that Lucas can own a product end to end, from problem to brand to build to launch.
-> Visual sketch of the full page: https://claude.ai/artifact/RPWddP3RqrRrfh72Zayjns#artboard-CaseLuci
+> **Status update (2026-11-25):** Luci is public and open source (MIT) at `https://luci.pawprint.design`. The two-mode **Teaser / Private beta** split (`LaunchOnly`, `visibility: "teaser"`, "Request beta access") is **obsolete** and removed from code. `/work/luci` now uses the unified Home-style case study template (`CaseHero` with no Loaffy per Rule 11 → `At a glance.` → 4 alternating wavy-seam chapters → `CaseCTA` + `NextCase`). Never mention version numbers, release dates, or GitHub star counts (AGENTS.md rule 7).
+
+## Current Outline (Home-style case template, live)
+
+- **Hero (`bg`)**: Badge `"Open source"`, year `2026`, `h1` `"Luci"`, live hero summary, primary `"Try Luci"` (`luci.pawprint.design`) + secondary `"GitHub"`, full-width cover stage built from real Devtool/Core/Extension captures (no Loaffy on Luci Hero, Rule 11).
+- **At a glance (`bg`)**: `MetaRow` (Role, Team, Timeline `2026`, Platforms `CLI + Dev toolbar + Chrome extension + MCP server`, Tools, Live) + 3-column `IndexColumns` TL;DR with large numerals.
+- **01 Understand (`lilac-soft`)**: `"Agents are fast. They also guess."` — 4-up plain `LuciProblems` row with captured problem scene frames + Lucas's `"I needed one button, not the whole website."` `PullQuote`.
+- **02 Shape (`bg`)**: `"One loop, four steps."` — `LuciWorkflow` (Show · Direct · Check · Remember in ProcessStory numeral style) + `PrincipleCards` (five verified principles).
+- **03 Design (`lilac-soft`)**: `"Built for how agents work."` — 3 alternating `FeatureRow`s with live `LoopVideo` recordings (Devtool, Core, Extension), `"A real export."` (`AnnotatedExport` + `A11yFindings`), `DecisionList` (7 decisions verified in `luci-by-pawprint.design` source), and `"A tool with a little personality."` (`BrandBoard` with real logo + 6 animated mascot SVGs; no Loaffy).
+- **04 Ship (`bg`)**: `"Luci built this portfolio."` — `CaptureFlow` (8 measured reference sites), `"Everything stays on your machine."` (`InsightList`, 4 local-first trust points), `Outcome`, and `Learnings`.
+- **Closing (`bg`)**: `CaseCTA` (`"Want to try Luci?"` → Try Luci + Book a chat) + `NextCase` → Classic Decoder.
+
+---
+
+> _Historical v1 spec preserved below for reference only; teaser mode is obsolete._
 
 ---
 
