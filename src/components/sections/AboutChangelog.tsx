@@ -23,7 +23,7 @@ export function AboutChangelog() {
       labelledBy="about-heading"
       tone="butter"
       soft
-      className="border-2 border-line-strong"
+      className="-mt-[var(--border-pen)] border-2 border-line-strong"
     >
       <div className="grid grid-cols-1 gap-10 lg:grid-cols-12">
         {/* Left column: Portrait, bio, Loaffy chill-lean, Resume CTA */}

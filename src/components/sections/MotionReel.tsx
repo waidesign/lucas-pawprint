@@ -34,7 +34,7 @@ export function MotionReel() {
       labelledBy="motion-heading"
       tone="sky"
       soft
-      className="border-2 border-line-strong"
+      className="-mt-[var(--border-pen)] border-2 border-line-strong"
     >
       <div className="space-y-8">
         <div className="flex flex-col justify-between gap-6 lg:flex-row lg:items-end">
