@@ -166,11 +166,7 @@ export function SelectedWork({
                     form={item.metadata.form}
                     liveUrl={item.metadata.liveUrl}
                     featured={isFeatured}
-                    badge={
-                      isFeatured && item.metadata.visibility === "full"
-                        ? "Live"
-                        : item.metadata.badge
-                    }
+                    badge={item.metadata.badge}
                     year={item.metadata.year}
                     role={item.metadata.role}
                     reverse={idx % 2 === 1}

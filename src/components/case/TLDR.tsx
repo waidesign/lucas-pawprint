@@ -1,10 +1,12 @@
 "use client";
 
 import { Chip } from "@/components/ui/Chip";
+import { Heading } from "@/components/ui/Heading";
 import { IndexColumns } from "@/components/ui/IndexColumns";
+import { MetaRow } from "@/components/case/MetaRow";
 import { useCaseStudy } from "@/components/case/CaseStudyContext";
 import { stagger } from "@/lib/motion";
-import { cn } from "@/lib/cn";
+import { cn, type Tone } from "@/lib/cn";
 
 export interface TLDRProps {
   problem?: string;
@@ -13,13 +15,16 @@ export interface TLDRProps {
   problemLabel?: string;
   whatIDidLabel?: string;
   outcomeLabel?: string;
+  /** Render the "At a glance." heading + MetaRow above the 3-column TL;DR (default true inside CaseStudyContext) */
+  showAtAGlance?: boolean;
+  tone?: Tone;
   className?: string;
 }
 
 /**
- * TLDR component per COMPONENTS.md §E & LAYOUT-STEPS.md Step 2:
- * Uses `IndexColumns` (3 columns) with pastel `Chip` labels (`butter`, `mint`, `sky`),
- * `body-lg` copy, and 80ms reveal stagger. No card or sticker boxes.
+ * "At a glance." overview band (Phase 1.B):
+ * Plain, zero cards: Heading ("At a glance."), MetaRow (Role · Team · Timeline · Platform · Tools · Live link),
+ * and TL;DR as 3-column IndexColumns with large ProcessStory-style numerals (01. / 02. / 03.).
  */
 export function TLDR({
   problem,
@@ -28,11 +33,15 @@ export function TLDR({
   problemLabel = "Problem",
   whatIDidLabel,
   outcomeLabel,
+  showAtAGlance,
+  tone,
   className,
 }: TLDRProps) {
   const ctx = useCaseStudy();
   const meta = ctx?.metadata;
   const isLuci = meta?.slug === "luci";
+  const resolvedTone: Tone = tone ?? meta?.tone ?? "lilac";
+  const renderFullOverview = showAtAGlance ?? Boolean(meta);
 
   const resolvedProblem = problem ?? meta?.tldr.problem ?? "";
   const resolvedWhatIDid = whatIDid ?? meta?.tldr.whatIDid ?? "";
@@ -40,8 +49,7 @@ export function TLDR({
 
   const resolvedWhatLabel =
     whatIDidLabel ?? (isLuci ? "What I built" : "What I did");
-  const resolvedOutcomeLabel =
-    outcomeLabel ?? (isLuci ? "Where it is" : "Outcome");
+  const resolvedOutcomeLabel = outcomeLabel ?? "Outcome";
 
   const items = [
     {
@@ -51,6 +59,7 @@ export function TLDR({
           {problemLabel}
         </Chip>
       ),
+      number: "01.",
       body: <p className="text-text">{resolvedProblem}</p>,
     },
     {
@@ -60,6 +69,7 @@ export function TLDR({
           {resolvedWhatLabel}
         </Chip>
       ),
+      number: "02.",
       body: <p className="text-text">{resolvedWhatIDid}</p>,
     },
     {
@@ -69,21 +79,40 @@ export function TLDR({
           {resolvedOutcomeLabel}
         </Chip>
       ),
+      number: "03.",
       body: <p className="text-text">{resolvedOutcome}</p>,
     },
   ];
 
   return (
     <section
-      aria-label="Case study TL;DR summary"
+      id="at-a-glance"
+      aria-labelledby={renderFullOverview ? "at-a-glance-heading" : undefined}
+      aria-label={renderFullOverview ? undefined : "Case study TL;DR summary"}
       className={cn(
-        "w-full bg-bg px-4 py-12 md:px-10 md:py-16 lg:px-20",
+        "w-full bg-bg px-4 py-12 md:px-10 md:py-20 lg:px-20",
         className,
       )}
     >
-      <div className="w-full">
+      <div className="w-full space-y-10 md:space-y-12">
+        {renderFullOverview && (
+          <>
+            <Heading
+              id="at-a-glance-heading"
+              as="h2"
+              highlight="glance"
+              highlightTone={resolvedTone}
+            >
+              At a glance.
+            </Heading>
+
+            <MetaRow />
+          </>
+        )}
+
         <IndexColumns
           columns={3}
+          ordered
           bodySize="body-lg"
           staggerSeconds={stagger}
           items={items}

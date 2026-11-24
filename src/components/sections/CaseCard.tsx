@@ -9,7 +9,7 @@ import { springCalm } from "@/lib/motion";
 import { trackEvent } from "@/lib/analytics";
 import { Loaffy } from "@/components/mascot/Loaffy";
 import type { Form } from "@/components/mascot/LoaffyBus";
-import { BetaBadge } from "@/components/ui/BetaBadge";
+import { Badge } from "@/components/ui/Badge";
 import { HEADING_SCALE_CLASSES } from "@/components/ui/Heading";
 import { TextLink } from "@/components/ui/TextLink";
 
@@ -187,7 +187,7 @@ export function CaseCard({
         <div className="flex flex-col items-start gap-4">
           {(badge || year || role) && (
             <div className="flex flex-wrap items-center gap-3">
-              {badge && <BetaBadge label={badge} />}
+              {badge && <Badge label={badge} />}
               {year && (
                 <span className="font-mono text-label uppercase tracking-wider text-text-muted">
                   {year}
@@ -310,7 +310,7 @@ export function CaseCard({
       >
         {(badge || year || role) && (
           <div className="flex flex-wrap items-center gap-3">
-            {badge && <BetaBadge label={badge} />}
+            {badge && <Badge label={badge} />}
             {year && (
               <span className="font-mono text-label uppercase tracking-wider text-text-muted">
                 {year}
@@ -332,22 +332,23 @@ export function CaseCard({
           )}
         >
           {titleWords.map((word, i) => (
-            <span
-              key={`${word}-${i}`}
-              aria-hidden="true"
-              className="inline-block overflow-hidden pb-1 align-bottom"
-            >
-              <motion.span
-                className="inline-block"
-                initial={prefersReduced ? false : { y: "100%" }}
-                whileInView={{ y: "0%" }}
-                viewport={{ once: true, margin: "-10% 0px" }}
-                transition={{ ...springCalm, delay: i * WORD_STAGGER }}
+            <Fragment key={`${word}-${i}`}>
+              <span
+                aria-hidden="true"
+                className="inline-block overflow-hidden pb-1 align-bottom"
               >
-                {word}
-              </motion.span>
+                <motion.span
+                  className="inline-block"
+                  initial={prefersReduced ? false : { y: "100%" }}
+                  whileInView={{ y: "0%" }}
+                  viewport={{ once: true, margin: "-10% 0px" }}
+                  transition={{ ...springCalm, delay: i * WORD_STAGGER }}
+                >
+                  {word}
+                </motion.span>
+              </span>
               {i < titleWords.length - 1 && " "}
-            </span>
+            </Fragment>
           ))}
         </h3>
 

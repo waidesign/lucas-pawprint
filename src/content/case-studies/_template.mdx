@@ -1,11 +1,193 @@
 export const metadata = {
-  title: "Sample Case Study",
-  summary: "Placeholder MDX case study verifying static pre-rendering.",
-  publishedAt: "2026-11-23",
-  tags: ["Design Systems", "Next.js"],
+  title: "Project Name",
+  titleHighlight: "Name",
+  slug: "project-name",
+  order: 99,
   featured: false,
+  homeFeatured: false,
+  status: "draft",
+  visibility: "full",
+  badge: undefined,
+  client: "Client Name",
+  summary:
+    "One calm sentence stating what the product is and what I designed for it.",
+  year: "2026",
+  role: "Lead UI/UX Designer",
+  team: "Me, 1 PM, 2 developers",
+  timeline: "3 months",
+  platforms: ["Web", "Mobile web"],
+  industry: "Industry",
+  tags: ["Web", "Design systems"],
+  tools: ["Figma", "After Effects"],
+  tone: "sky",
+  form: "window",
+  cover: "/case-studies/project-name/cover",
+  coverAlt: "Desktop and mobile screens of the redesigned product.",
+  liveUrl: "https://example.com",
+  cta: {
+    label: "Visit live site",
+    href: "https://example.com",
+  },
+  secondaryCta: {
+    label: "All work →",
+    href: "/work",
+  },
+  tldr: {
+    problem: "What was broken or missing before the project began.",
+    whatIDid: "The flows, design system, and surfaces I designed and shipped.",
+    outcome: "Qualitative outcome: shipped and live, replacing the legacy site.",
+  },
+  seo: {
+    title: "Project Name · Lucas (Wai Phyo Aung)",
+    description:
+      "One calm sentence stating what the product is and what I designed for it.",
+  },
 };
 
-# Sample Case Study
+<Chapter
+  step="understand"
+  title="What was broken."
+  highlight="broken"
+  intro="Set the scene in one short sentence: who uses the product and what stopped them."
+>
+  <PainList
+    heading="What got in the way"
+    items={[
+      {
+        title: "First real friction point",
+        body: "Describe what users actually hit in plain words, with zero invented numbers.",
+      },
+      {
+        title: "Second real friction point",
+        body: "Keep every sentence short, first person, and grounded in real project facts.",
+      },
+    ]}
+  />
 
-This file lives in `src/content/case-studies/` to verify the MDX compilation pipeline.
+  <InsightList
+    heading="What we found"
+    items={[
+      {
+        title: "Key discovery",
+        body: "State what research or live auditing revealed before touching pixels.",
+      },
+    ]}
+  />
+
+  <PullQuote
+    quote="Optional real quote from Lucas or a collaborator."
+    author="Lucas (Wai Phyo Aung)"
+    role="Product Designer"
+  />
+</Chapter>
+
+<Chapter
+  step="shape"
+  title="Shaping the flow."
+  highlight="flow"
+  intro="How the architecture and user journeys changed before visual polish."
+>
+  <FeatureRow
+    number="01."
+    eyebrow="Core flow"
+    title="The first major problem we solved."
+    highlight="solved"
+    body="Explain the challenge and the structural fix in plain sentences."
+    points={[
+      { label: "Before", text: "What the old flow forced people to do." },
+      { label: "After", text: "What the new flow does instead." },
+    ]}
+    media={
+      <BrowserFrame
+        url="example.com"
+        src="/case-studies/project-name/screens/flow"
+        alt="Redesigned core user flow on desktop."
+      />
+    }
+    caption="Short caption describing what is visible in the frame."
+  />
+
+  <DecisionList
+    heading="Key decisions"
+    items={[
+      {
+        title: "Decision one",
+        problem: "The real user or technical problem.",
+        decision: "What we chose to build instead.",
+        why: "Qualitative reason the choice worked.",
+      },
+    ]}
+  />
+</Chapter>
+
+<Chapter
+  step="design"
+  title="Craft in the details."
+  highlight="details"
+  intro="How the interface, motion, and design system came together across screens."
+>
+  <FeatureRow
+    number="02."
+    eyebrow="Interaction"
+    title="Showing the product in motion."
+    highlight="motion"
+    reverse
+    body="Pair key interactive flows with a real looping screen recording."
+    media={
+      <BrowserFrame url="example.com">
+        <LoopVideo
+          webm="/case-studies/project-name/clips/demo.webm"
+          poster="/case-studies/project-name/clips/demo-poster.webp"
+          alt="Screen recording of the interactive flow."
+          start={1}
+        />
+      </BrowserFrame>
+    }
+    caption="Recorded live interaction with a 48×48 pause button and reduced-motion poster."
+  />
+
+  <Showcase
+    title="Across desktop and mobile"
+    description="Up to 2–3 real screenshots in one gallery per section."
+    items={[
+      {
+        src: "/case-studies/project-name/screens/home",
+        alt: "Desktop homepage screenshot.",
+        caption: "Homepage on desktop.",
+        url: "example.com",
+      },
+      {
+        src: "/case-studies/project-name/screens/mobile",
+        alt: "Mobile flow screenshot.",
+        caption: "Responsive flow on mobile.",
+        frame: "phone",
+      },
+    ]}
+  />
+
+  <Callout tone="sky" title="Design system note">
+    <p>Highlight one sharp design-system or accessibility detail without boxing it in a card.</p>
+  </Callout>
+</Chapter>
+
+<Chapter
+  step="ship"
+  title="Shipped and live."
+  highlight="live"
+  intro="Where the product is today and what stuck with me after launch."
+>
+  <CaseOutcome
+    statement="Shipped and live, replacing the legacy site with a faster, clearer flow."
+    shipped={[
+      "Redesigned core flows across desktop and mobile",
+      "Reusable Figma design system and component states",
+    ]}
+  />
+
+  <CaseLearnings
+    items={[
+      "First honest lesson learned on this project.",
+      "Second honest lesson learned on this project.",
+    ]}
+  />
+</Chapter>

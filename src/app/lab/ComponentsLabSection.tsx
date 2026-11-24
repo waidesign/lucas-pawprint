@@ -21,11 +21,20 @@ import { BeanStepper } from "@/components/ui/BeanStepper";
 import { BeanLoader } from "@/components/ui/BeanLoader";
 import { DeviceFrame } from "@/components/ui/DeviceFrame";
 import { VideoReel } from "@/components/ui/VideoReel";
-import { BetaBadge } from "@/components/ui/BetaBadge";
+import { Badge } from "@/components/ui/Badge";
 import { RuledList } from "@/components/ui/RuledList";
 import { IndexColumns } from "@/components/ui/IndexColumns";
 import { PullQuote } from "@/components/ui/PullQuote";
 import { Callout } from "@/components/case/Callout";
+import { BrowserFrame } from "@/components/case/BrowserFrame";
+import { FeatureRow } from "@/components/case/FeatureRow";
+import { DecisionList } from "@/components/case/DecisionList";
+import { Showcase } from "@/components/case/Showcase";
+import { PainList } from "@/components/case/PainList";
+import { InsightList } from "@/components/case/InsightList";
+import { Outcome as CaseOutcome } from "@/components/case/Outcome";
+import { Learnings as CaseLearnings } from "@/components/case/Learnings";
+import { CaseStepper } from "@/components/case/CaseStepper";
 import { SiteNav } from "@/components/site/SiteNav";
 import { MobileMenu } from "@/components/site/MobileMenu";
 import { SiteFooter } from "@/components/site/SiteFooter";
@@ -226,17 +235,19 @@ export function ComponentsLabSection() {
         </div>
       </div>
 
-      {/* 2. TextLink, Heading, Eyebrow & BetaBadge */}
+      {/* 2. TextLink, Heading, Eyebrow & Badge */}
       <div className="space-y-6 rounded-lg border-2 border-line-strong bg-surface p-6 shadow-sticker-sm">
         <h3 className="font-display text-h3 text-text">
-          02 · TextLink, Heading (Single Highlight), Eyebrow & BetaBadge
+          02 · TextLink, Heading (Single Highlight), Eyebrow &amp; Badge
         </h3>
 
         <div className="flex flex-wrap items-center gap-4">
           <Eyebrow beanDot tone="lilac">
-            Lucas (Wai Phyo Aung) · Product & Motion Designer
+            Lucas (Wai Phyo Aung) · Product &amp; Motion Designer
           </Eyebrow>
-          <BetaBadge />
+          <Badge label="Open source" tone="lilac" />
+          <Badge label="Live" tone="mint" />
+          <Badge label="Case study" tone="butter" />
         </div>
 
         <div className="space-y-4 border-t border-line pt-4">
@@ -750,6 +761,122 @@ export function ComponentsLabSection() {
               </p>
             </Callout>
           </div>
+        </div>
+      </div>
+
+      {/* 10. Case Study Template Patterns (FeatureRow, DecisionList, Showcase, BrowserFrame, PainList, InsightList, Outcome, Learnings, CaseStepper) */}
+      <div className="space-y-10 rounded-lg border-2 border-line-strong bg-surface p-6 shadow-sticker-sm">
+        <div className="border-b border-line pb-4">
+          <h3 className="font-display text-h3 text-text">
+            10 · Case Study Template Patterns
+          </h3>
+          <p className="mt-1 font-body text-caption text-text-muted">
+            Home-style case study storytelling primitives: BrowserFrame, FeatureRow
+            (left/right), DecisionList, Showcase (single &amp; gallery), PainList,
+            InsightList, Outcome, Learnings, and inline CaseStepper pill.
+          </p>
+        </div>
+
+        <div className="space-y-3">
+          <p className="font-mono text-label uppercase tracking-wider text-text-muted">
+            Floating chapter pill (inline preview)
+          </p>
+          <CaseStepper inline />
+        </div>
+
+        <div className="border-t border-line pt-6">
+          <FeatureRow
+            number="01."
+            eyebrow="FeatureRow · 7/5 split"
+            title="Plain copy beside one framed surface."
+            highlight="framed"
+            highlightTone="lilac"
+            body="Mirrors Home's CaseCard geometry with alternating media sides, display numerals, and optional labelled details."
+            points={[
+              { label: "Layout", text: "7/5 or 6/6 grid on desktop, stacked on mobile." },
+              { label: "Rule 18", text: "Only the media window wears a pen border and sticker shadow." },
+            ]}
+            media={
+              <BrowserFrame url="luci.pawprint.design" tone="lilac" padded>
+                <div className="flex aspect-16/10 items-center justify-center bg-bg p-8 text-center">
+                  <p className="font-display text-h4 text-text">
+                    BrowserFrame (padded pastel mat + 3 pastel dots)
+                  </p>
+                </div>
+              </BrowserFrame>
+            }
+            caption="BrowserFrame wraps screenshots or LoopVideo with consistent window chrome."
+          />
+        </div>
+
+        <div className="border-t border-line pt-6">
+          <DecisionList
+            heading="DecisionList"
+            intro="Numbered plain rows with Problem, Decision, and Why columns split by 1px hairlines."
+            items={[
+              {
+                title: "Alternating wavy chapter bands",
+                problem: "Stacked grey boxes made case studies feel disconnected from the Home page.",
+                decision: "Alternated bg and soft pastel bands joined by SectionSeam waves, with ProcessStory numerals.",
+                why: "Every case study now shares the exact rhythm and hierarchy of Home.",
+              },
+            ]}
+          />
+        </div>
+
+        <div className="grid grid-cols-1 gap-8 border-t border-line pt-6 lg:grid-cols-2">
+          <PainList
+            items={[
+              {
+                title: "PainList item",
+                body: "Highlights real user friction with blush numbered beans.",
+              },
+            ]}
+          />
+          <InsightList
+            items={[
+              {
+                title: "InsightList item",
+                body: "Highlights verified findings with mint numbered beans.",
+              },
+            ]}
+          />
+        </div>
+
+        <div className="border-t border-line pt-6">
+          <Showcase
+            title="Showcase (single frame)"
+            caption="Large framed media block with caption, or 2–3 frame lightbox gallery."
+            tone="sky"
+          >
+            <BrowserFrame url="classicdecoder.com" shadow="none">
+              <div className="flex aspect-16/10 items-center justify-center bg-bg p-8 text-center">
+                <p className="font-display text-h4 text-text">
+                  Single-frame Showcase on a pastel mat
+                </p>
+              </div>
+            </BrowserFrame>
+          </Showcase>
+        </div>
+
+        <div className="border-t border-line pt-6">
+          <CaseOutcome
+            statement="Shipped and live with one consistent design language."
+            shipped={[
+              "Home-style CaseHero with inline breadcrumb and tilted cover stage",
+              "Four alternating wavy chapters with floating lg+ chapter pill",
+            ]}
+            liveUrl="https://lucas.pawprint.design"
+            liveLabel="Visit portfolio"
+            tone="mint"
+          />
+          <CaseLearnings
+            items={[
+              "Hierarchy does the heavy lifting when cards get out of the way.",
+              "Real screenshots and short loops prove craft better than claims.",
+            ]}
+            tone="butter"
+          />
         </div>
       </div>
     </section>

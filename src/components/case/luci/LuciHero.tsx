@@ -16,7 +16,8 @@ import {
 } from "lucide-react";
 import { Eyebrow } from "@/components/ui/Eyebrow";
 import { Button } from "@/components/ui/Button";
-import { BetaBadge } from "@/components/case/BetaBadge";
+import { Badge } from "@/components/ui/Badge";
+import { resolveCaseCta } from "@/lib/schema";
 import { MetaRow, type MetaItem } from "@/components/case/MetaRow";
 import { useCaseStudy } from "@/components/case/CaseStudyContext";
 import { Loaffy } from "@/components/mascot/Loaffy";
@@ -64,15 +65,10 @@ export function LuciHero() {
 
   const badgeLabel = isFull ? "Live" : (meta?.badge ?? "Private beta");
 
-  const primaryCta = isFull
-    ? (meta?.cta?.full ?? {
-        label: "Try Luci",
-        href: "https://luci.pawprint.design",
-      })
-    : (meta?.cta?.teaser ?? {
-        label: "Request beta access",
-        href: "mailto:lucas@pawprint.design?subject=Luci%20beta",
-      });
+  const primaryCta = resolveCaseCta(meta?.cta, mode) ?? {
+    label: "Try Luci",
+    href: "https://luci.pawprint.design",
+  };
 
   const secondaryCta = isFull
     ? {
@@ -113,7 +109,7 @@ export function LuciHero() {
               >
                 {meta?.title ?? "Luci"}
               </h1>
-              <BetaBadge label={badgeLabel} />
+              <Badge label={badgeLabel} />
             </div>
 
             <p className="font-body text-body-lg text-text">

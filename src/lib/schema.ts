@@ -26,7 +26,7 @@ const BANNED_CLAIM_REGEX =
 function assertNoBannedClaims(
   text: string,
   ctx: z.RefinementCtx,
-  field: string
+  field: string,
 ) {
   if (BANNED_CLAIM_REGEX.test(text)) {
     ctx.addIssue({
@@ -41,21 +41,36 @@ export const ctaActionSchema = z.object({
   href: z.string().min(1),
 });
 
-export const caseStudyCtaSchema = z.object({
+export const legacyCaseStudyCtaSchema = z.object({
   teaser: ctaActionSchema,
   full: ctaActionSchema,
+});
+
+export const caseStudyCtaSchema = z.union([
+  ctaActionSchema,
+  legacyCaseStudyCtaSchema,
+]);
+
+export const coverVideoSchema = z.object({
+  webm: z.string().min(1),
+  mp4: z.string().min(1).optional(),
+  poster: z.string().min(1).optional(),
+  start: z.number().nonnegative().optional(),
 });
 
 export const caseStudyMetadataSchema = z
   .object({
     title: z.string().min(1),
+    /** Optional single word inside `title` to highlight with a pastel pill in CaseHero */
+    titleHighlight: z.string().min(1).optional(),
     slug: z
       .string()
       .min(1)
       .regex(/^[a-z0-9-]+$/, "Slug must be lowercase and hyphenated"),
     order: z.number().int().positive(),
     featured: z.boolean(),
-    status: z.enum(["published", "draft", "beta"]),
+    homeFeatured: z.boolean().optional(),
+    status: z.enum(["published", "draft"]),
     visibility: z.enum(["teaser", "full"]),
     badge: z.string().optional(),
     client: z.string().min(1),
@@ -72,8 +87,10 @@ export const caseStudyMetadataSchema = z
     form: z.enum(FORM_VALUES),
     cover: z.string().min(1),
     coverAlt: z.string().min(1),
+    coverVideo: coverVideoSchema.optional(),
     liveUrl: z.string().url().optional(),
     cta: caseStudyCtaSchema.optional(),
+    secondaryCta: ctaActionSchema.optional(),
     tldr: z.object({
       problem: z.string().min(1),
       whatIDid: z.string().min(1),
@@ -94,4 +111,15 @@ export const caseStudyMetadataSchema = z
 
 export type CaseStudyCtaAction = z.infer<typeof ctaActionSchema>;
 export type CaseStudyCta = z.infer<typeof caseStudyCtaSchema>;
+export type CaseStudyCoverVideo = z.infer<typeof coverVideoSchema>;
 export type CaseStudyMetadata = z.infer<typeof caseStudyMetadataSchema>;
+
+/** Resolve either a flat `{ label, href }` CTA or a legacy `{ teaser, full }` CTA. */
+export function resolveCaseCta(
+  cta: CaseStudyCta | undefined,
+  visibility: "teaser" | "full" = "full",
+): CaseStudyCtaAction | undefined {
+  if (!cta) return undefined;
+  if ("label" in cta && "href" in cta) return cta;
+  return visibility === "full" ? cta.full : cta.teaser;
+}

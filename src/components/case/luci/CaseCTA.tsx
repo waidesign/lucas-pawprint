@@ -8,6 +8,7 @@ import { profile } from "@/content/site";
 import { Button } from "@/components/ui/Button";
 import { NextCase } from "@/components/case/NextCase";
 import { useCaseStudy } from "@/components/case/CaseStudyContext";
+import { resolveCaseCta } from "@/lib/schema";
 import { Loaffy } from "@/components/mascot/Loaffy";
 import { emitLoaffyEvent } from "@/components/mascot/LoaffyBus";
 import { trackEvent } from "@/lib/analytics";
@@ -22,17 +23,11 @@ export function CaseCTA() {
   const ctx = useCaseStudy();
   const meta = ctx?.metadata;
   const mode = meta?.visibility ?? "teaser";
-  const isFull = mode === "full";
 
-  const primaryCta = isFull
-    ? (meta?.cta?.full ?? {
-        label: "Try Luci",
-        href: "https://luci.pawprint.design",
-      })
-    : (meta?.cta?.teaser ?? {
-        label: "Request beta access",
-        href: "mailto:lucas@pawprint.design?subject=Luci%20beta",
-      });
+  const primaryCta = resolveCaseCta(meta?.cta, mode) ?? {
+    label: "Try Luci",
+    href: "https://luci.pawprint.design",
+  };
 
   return (
     <section

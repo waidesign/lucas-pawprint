@@ -223,11 +223,7 @@ export function WorkIndex({ caseStudies }: WorkIndexProps) {
                 form={featuredCase.metadata.form}
                 liveUrl={featuredCase.metadata.liveUrl}
                 featured
-                badge={
-                  featuredCase.metadata.visibility === "full"
-                    ? "Live"
-                    : featuredCase.metadata.badge
-                }
+                badge={featuredCase.metadata.badge}
                 year={featuredCase.metadata.year}
                 role={featuredCase.metadata.role}
                 peek={false}

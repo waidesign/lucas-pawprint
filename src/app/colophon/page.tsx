@@ -155,7 +155,7 @@ export default function ColophonPage() {
             </nav>
 
             <div className="hidden lg:block">
-              <CaseStepper className="lg:static" />
+              <CaseStepper inline />
             </div>
           </div>
         </div>
