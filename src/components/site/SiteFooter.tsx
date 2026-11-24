@@ -109,7 +109,7 @@ export function SiteFooter({
                 tone="butter"
                 className="text-body md:text-caption"
               >
-                Luci (Private beta)
+                Luci (Open source)
               </TextLink>
             </span>
           </div>

@@ -304,21 +304,16 @@ async function generateCaseOgImages() {
     if (!meta || meta.status === "draft") continue;
 
     if (meta.slug === "luci") {
-      for (const [modeKey, statusLabel] of [
-        ["teaser", "Luci · private beta"],
-        ["full", "Luci · live"],
-      ]) {
-        await renderCaseOgPng({
-          slug: meta.slug,
-          title: meta.title,
-          summary: meta.summary,
-          tone: meta.tone,
-          form: meta.form,
-          badgeText: statusLabel,
-          outFile: path.join(ogDir, `luci-${modeKey}.png`),
-        });
-        generatedCount++;
-      }
+      await renderCaseOgPng({
+        slug: meta.slug,
+        title: meta.title,
+        summary: meta.summary,
+        tone: meta.tone,
+        form: meta.form,
+        badgeText: "Luci · open source",
+        outFile: path.join(ogDir, "luci.png"),
+      });
+      generatedCount++;
       continue;
     }
 

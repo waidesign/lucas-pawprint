@@ -234,7 +234,7 @@ export default function ColophonPage() {
               <TextLink href="/work/luci" tone="lilac">
                 Luci
               </TextLink>{" "}
-              (my own product, in private beta) to extract real font sizes, padding
+              (my own open-source product) to extract real font sizes, padding
               cadences, and layouts before writing a single line of CSS.
             </p>
           </Callout>

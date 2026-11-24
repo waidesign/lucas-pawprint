@@ -84,7 +84,7 @@ export const profile: ProfileData = {
   founderOf: {
     name: "Luci",
     url: "https://luci.pawprint.design",
-    status: "Private beta",
+    status: "Open source",
     slug: "luci",
   },
   socials: {
@@ -180,9 +180,9 @@ export const experience: ExperienceEntry[] = [
     period: "2026 – Now",
     role: "Founder & Product Designer",
     company: "Luci (Pawprint)",
-    location: "Own product, private beta",
+    location: "Own product, open source",
     summary:
-      "Designing and building an on-page toolbar that captures any website's components, sections and design tokens as design.md files for AI coding agents.",
+      "Designing and building open-source design control for AI coding agents: project memory, task-matched UI/UX skills, live DOM capture as DESIGN.md, and source-pinned feedback.",
   },
   {
     period: "2022 – Now",
