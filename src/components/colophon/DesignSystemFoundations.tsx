@@ -658,11 +658,11 @@ export function DesignSystemFoundations({
               className="rounded-lg border-2 border-line-strong bg-surface p-4 shadow-sticker-sm"
             >
               <div
-                className={`flex h-20 items-end justify-between rounded-sm border-2 border-line-strong p-3 ${item.bgClass} ${
-                  item.name === "on-pastel"
-                    ? "text-inverse-text"
+                data-theme={item.name === "on-pastel" ? "light" : undefined}
+                className={`flex h-20 items-end justify-between rounded-sm border-2 border-line-strong p-3 ${item.bgClass} ${item.name === "on-pastel"
+                    ? "text-bg"
                     : "text-on-pastel"
-                }`}
+                  }`}
               >
                 <span className="font-display text-h4">{item.name}</span>
                 <code className="font-mono text-caption">
@@ -736,11 +736,10 @@ export function DesignSystemFoundations({
                 type="button"
                 aria-pressed={typeMode === m.id}
                 onClick={() => setTypeMode(m.id)}
-                className={`min-h-12 rounded-pill px-4 font-body text-button transition-colors duration-200 ${
-                  typeMode === m.id
+                className={`min-h-12 rounded-pill px-4 font-body text-button transition-colors duration-200 ${typeMode === m.id
                     ? "bg-inverse-bg text-inverse-text"
                     : "bg-transparent text-text hover:bg-surface-2"
-                }`}
+                  }`}
               >
                 {m.label}
               </button>
@@ -771,7 +770,7 @@ export function DesignSystemFoundations({
               </div>
 
               {typeMode === "fluid" && (
-                <div className="mt-4 overflow-x-auto">
+                <div tabIndex={0} className="mt-4 overflow-x-auto">
                   <p className={`${spec.fontClass} ${spec.textClass} text-text`}>
                     {spec.sample}
                   </p>
@@ -779,11 +778,10 @@ export function DesignSystemFoundations({
               )}
 
               {typeMode === "375" && (
-                <div className="mt-4 overflow-x-auto">
+                <div tabIndex={0} className="mt-4 overflow-x-auto">
                   <p
-                    className={`${spec.fontClass} text-text ${
-                      spec.uppercase ? "uppercase" : ""
-                    }`}
+                    className={`${spec.fontClass} text-text ${spec.uppercase ? "uppercase" : ""
+                      }`}
                     style={{
                       fontSize: spec.minSizeRem,
                       lineHeight: spec.minLineRem,
@@ -797,11 +795,10 @@ export function DesignSystemFoundations({
               )}
 
               {typeMode === "1440" && (
-                <div className="mt-4 overflow-x-auto">
+                <div tabIndex={0} className="mt-4 overflow-x-auto">
                   <p
-                    className={`${spec.fontClass} text-text ${
-                      spec.uppercase ? "uppercase" : ""
-                    }`}
+                    className={`${spec.fontClass} text-text ${spec.uppercase ? "uppercase" : ""
+                      }`}
                     style={{
                       fontSize: spec.maxSizeRem,
                       lineHeight: spec.maxLineRem,
@@ -816,14 +813,16 @@ export function DesignSystemFoundations({
 
               {typeMode === "split" && (
                 <div className="mt-4 grid grid-cols-1 gap-6 lg:grid-cols-2">
-                  <div className="overflow-x-auto rounded-sm border border-line bg-bg p-4">
+                  <div
+                    tabIndex={0}
+                    className="overflow-x-auto rounded-sm border border-line bg-bg p-4"
+                  >
                     <p className="mb-2 font-mono text-caption text-text-muted">
                       @ 375 viewport ({spec.minSizeRem} / {spec.minLineRem})
                     </p>
                     <p
-                      className={`${spec.fontClass} text-text ${
-                        spec.uppercase ? "uppercase" : ""
-                      }`}
+                      className={`${spec.fontClass} text-text ${spec.uppercase ? "uppercase" : ""
+                        }`}
                       style={{
                         fontSize: spec.minSizeRem,
                         lineHeight: spec.minLineRem,
@@ -834,14 +833,16 @@ export function DesignSystemFoundations({
                       {spec.sample}
                     </p>
                   </div>
-                  <div className="overflow-x-auto rounded-sm border border-line bg-bg p-4">
+                  <div
+                    tabIndex={0}
+                    className="overflow-x-auto rounded-sm border border-line bg-bg p-4"
+                  >
                     <p className="mb-2 font-mono text-caption text-text-muted">
                       @ 1440 viewport ({spec.maxSizeRem} / {spec.maxLineRem})
                     </p>
                     <p
-                      className={`${spec.fontClass} text-text ${
-                        spec.uppercase ? "uppercase" : ""
-                      }`}
+                      className={`${spec.fontClass} text-text ${spec.uppercase ? "uppercase" : ""
+                        }`}
                       style={{
                         fontSize: spec.maxSizeRem,
                         lineHeight: spec.maxLineRem,
@@ -883,7 +884,7 @@ export function DesignSystemFoundations({
                 <span className="w-20 shrink-0 font-mono text-caption text-text-muted">
                   {step / 16}rem
                 </span>
-                <div className="flex-1 overflow-x-auto">
+                <div tabIndex={0} className="flex-1 overflow-x-auto">
                   <div
                     className="h-6 rounded-xs border-2 border-line-strong bg-mint"
                     style={{ width: `var(--space-${step})` }}

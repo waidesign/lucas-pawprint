@@ -459,6 +459,7 @@ export function ComponentsLabSection() {
           <BeanStepper
             steps={PROCESS_STEPS}
             current={activeStep}
+            label="Horizontal progress steps demo"
             onStepClick={setActiveStep}
           />
           <div className="flex gap-3">
@@ -488,6 +489,7 @@ export function ComponentsLabSection() {
             steps={PROCESS_STEPS}
             current={activeStep}
             orientation="vertical"
+            label="Vertical progress steps demo"
             onStepClick={setActiveStep}
           />
           <div className="space-y-2">
@@ -567,7 +569,7 @@ export function ComponentsLabSection() {
         </div>
 
         <div className="overflow-hidden rounded-lg border-2 border-line-strong">
-          <SiteFooter />
+          <SiteFooter navLabel="Footer navigation preview" />
         </div>
 
         <MobileMenu

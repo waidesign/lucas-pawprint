@@ -22,7 +22,7 @@ export default function NotFoundPage() {
     <div className="flex min-h-full flex-col bg-bg text-text">
       <SiteNav />
       <NotFoundTracker />
-      <main id="main-content" className="flex flex-1 items-center">
+      <main id="main-content" className="flex flex-1 flex-col justify-center">
         <Section
           id="not-found"
           labelledBy="not-found-heading"
@@ -39,10 +39,11 @@ export default function NotFoundPage() {
               <Heading
                 id="not-found-heading"
                 as="h1"
-                highlight="everywhere"
+                highlight="looked"
                 highlightTone="lilac"
+                className="break-words"
               >
-                Loaffy looked everywhere.
+                {"Loaffy looked every\u00ADwhere."}
               </Heading>
             </div>
 

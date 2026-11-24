@@ -7,6 +7,8 @@ export interface BeanStepperProps {
   orientation?: "horizontal" | "vertical";
   /** Keep all steps on one horizontal row (scrolls inside an overflow-x-auto parent) */
   nowrap?: boolean;
+  /** Accessible nav landmark label (default "Progress steps") */
+  label?: string;
   onStepClick?: (index: number) => void;
   className?: string;
 }
@@ -16,13 +18,14 @@ export function BeanStepper({
   current,
   orientation = "horizontal",
   nowrap = false,
+  label = "Progress steps",
   onStepClick,
   className,
 }: BeanStepperProps) {
   const isVertical = orientation === "vertical";
 
   return (
-    <nav aria-label="Progress steps" className={cn("inline-flex", className)}>
+    <nav aria-label={label} className={cn("inline-flex", className)}>
       <ol
         className={cn(
           "flex",
