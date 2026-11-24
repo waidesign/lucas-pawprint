@@ -15,7 +15,7 @@
 | Based | Phuket, Thailand · UTC+7 |
 | Availability | Open to remote roles · US · CA · NZ · SG |
 | Studio | Pawprint · pawprint.design |
-| Founder of | Luci · luci.pawprint.design (private beta) |
+| Founder of | Luci · luci.pawprint.design (open source) |
 | Socials | LinkedIn linkedin.com/in/waiphyoaung-design · Behance behance.net/waiphyoaungdesign · GitHub github.com/waidesign · Medium medium.com/@waiphyoaung.design |
 
 ## Home
@@ -28,7 +28,7 @@
 - CTAs: See selected work · Book a chat
 
 **Proof strip**
-- Founder of **Luci** (private beta) · 10 years in design · Now: Senior UI/UX & Motion Designer at Empire Pixel (Canada, remote)
+- Founder of **Luci** (open source) · 10 years in design · Now: Senior UI/UX & Motion Designer at Empire Pixel (Canada, remote)
 - Shipped for: Classic Decoder · Vehicle Databases · Detailed Vehicle History · Fierce Fight Gear · Sarayah Villas
 
 **Process story** — see `USER-FLOWS.md §5`.
@@ -44,7 +44,7 @@ I'm Lucas (Wai Phyo Aung), a product and motion designer based in Phuket, Thaila
 
 | Period | Role | Company | Where |
 |---|---|---|---|
-| 2026 – Now | Founder & Product Designer | Luci (Pawprint) | Own product, private beta |
+| 2026 – Now | Founder & Product Designer | Luci (Pawprint) | Own product, open source |
 | 2022 – Now | Senior UI/UX & Motion Designer | Empire Pixel Co., Ltd | Canada company, remote (Phuket) |
 | 2020 – 2022 | Motion Graphics Designer | Global Innovation Media | Myanmar, on-site |
 | 2019 – 2020 | Video Editor | YTV Digital Free To Air Channel | Myanmar, on-site |
@@ -69,7 +69,7 @@ Order on the site: **Luci first (featured)**, then the six client projects.
 
 | # | Slug | Title | Tone | Loaffy form | Year | Role | Team | Timeline | Live |
 |---|---|---|---|---|---|---|---|---|---|
-| 1 | luci | Luci | lilac | window | 2026 | Founder · Product Designer · builder with AI agents | Me + my AI coding agents | 2026 → beta (Nov 2026) | https://luci.pawprint.design (beta) |
+| 1 | luci | Luci | lilac | window | 2026 | Founder · Product Designer · builder with AI agents | Me + my AI coding agents | 2026 | https://luci.pawprint.design |
 | 2 | classic-decoder | Classic Decoder | sky | window | 2025 | Lead UI/UX & Motion Designer (Empire Pixel) | Me, 1 PM, 2 full-stack developers | 4 months, discovery to hand-off | https://classicdecoder.com |
 | 3 | classic-decoder-app | Classic Decoder App | mint | phone | 2025 | Lead UI/UX Designer | Me, 1 PM, 2 full-stack developers | 4 months | App Store: id1661077569 |
 | 4 | vehicle-databases | Vehicle Databases | butter | window | 2025 | Corporate UI/UX Designer | Me, 1 PM, 2 full-stack developers | 3 months | https://vehicledatabases.com |
@@ -81,9 +81,9 @@ Order on the site: **Luci first (featured)**, then the six client projects.
 
 **Full spec (outline, copy, visuals, two modes, agent prompt): `CASE-LUCI.md`.**
 
-- **One line:** A toolbar that turns any part of any website into a design.md your AI coding agent can build from.
-- **Mode:** `teaser` until the public launch (beta testers were asked to keep Luci quiet), then `full`.
-- **CTA:** Request beta access → `mailto:lucas@pawprint.design?subject=Luci%20beta` (teaser) · Try Luci → luci.pawprint.design (launch).
+- **One line:** Design control for AI coding agents: project memory, the right design skills, exact measurements from any page, and feedback pinned to the element. Runs on your machine. (Source: luci.pawprint.design hero.)
+- **Mode:** `full`. Badge "Open source". No version numbers, release dates or star counts (AGENTS.md rule 7).
+- **CTA:** Try Luci → luci.pawprint.design · secondary: GitHub → github.com/waidesign/luci-by-pawprint.design.
 - **Luci's brand** (ginger + Muzzle White) appears only inside its own visuals; the portfolio UI stays Loaffy Candy.
 
 ### 2–7 · Client case studies (summaries)

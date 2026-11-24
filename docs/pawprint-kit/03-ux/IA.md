@@ -6,7 +6,7 @@
 lucas.pawprint.design
 ├── /                         Home
 ├── /work                     All case studies (filterable)
-│   ├── /work/luci            ← lead case study (own product, private beta, teaser)
+│   ├── /work/luci            ← lead case study (own product, open source, full)
 │   ├── /work/classic-decoder
 │   ├── /work/classic-decoder-app
 │   ├── /work/vehicle-databases
@@ -56,13 +56,13 @@ Which client cases appear on home is a content switch (`homeFeatured: true` in t
 
 ### Work index (`/work`)
 1. **Page hero:** display-xl "Work." · one line: *Seven projects: one I founded, six I shipped for clients.* · filter chips (All · Own product · Web · Apps · Design systems · E-commerce · AI workflow) synced to `?tag=`, `aria-live` result count.
-2. **Luci** full-width featured card (7/5 split, BetaBadge).
+2. **Luci** full-width featured card (7/5 split, "Open source" badge).
 3. **Client cases** as cover tiles (only the cover is framed) in a 2-column grid (1 column below lg), each its own pastel.
 4. **Compact ContactPanel.**
 Page Loaffy: window form, peeking from the hero's right edge.
 
 ### Case study (`/work/[slug]`)
-Luci variant (`visibility: teaser`): BetaBadge, shorter page (TL;DR + 4 chapters at public level), "Request beta access" CTA, link to luci.pawprint.design.
+Luci (`visibility: full`): "Open source" badge, "Try Luci" CTA to luci.pawprint.design, real product screenshots and recordings. No version numbers, release dates or star counts (AGENTS.md rule 7).
 
 1. CaseHero (title, one-line summary, cover on pastel, Loaffy form peeking)
 2. MetaRow (Role · Team · Timeline · Platform · Tools · Live link)
@@ -144,8 +144,8 @@ export const metadata = {
   featured: false,             // Luci = true
   homeFeatured: true,          // show on the home page (max 2 client cases + Luci)
   status: "published",         // published | draft
-  visibility: "full",          // full | teaser  (Luci = teaser while in private beta)
-  badge: undefined,            // e.g. "Private beta" for Luci
+  visibility: "full",          // full | teaser  (every case is full; Luci is public)
+  badge: undefined,            // e.g. "Open source" for Luci
   client: "Classic Decoder",
   summary: "Full website redesign for a classic-car data platform, moved from WordPress to Next.js.",
   year: "2025",
@@ -161,7 +161,7 @@ export const metadata = {
   cover: "/case-studies/classic-decoder/cover",   // optimiser adds .avif/.webp
   coverAlt: "Classic Decoder homepage on desktop and phone, showing the VIN search.",
   liveUrl: "https://classicdecoder.com",
-  cta: undefined,              // Luci: { label: "Request beta access", href: "mailto:lucas@pawprint.design?subject=Luci%20beta" }
+  cta: undefined,              // Luci: { label: "Try Luci", href: "https://luci.pawprint.design" }
   tldr: { problem: "…", whatIDid: "…", outcome: "…" },   // outcome qualitative unless a real, sourced number exists
   seo: { title: "Classic Decoder · Lucas (Wai Phyo Aung)", description: "…" },
 };
@@ -174,7 +174,7 @@ Loader: existing `src/lib/case-studies.ts` (`getCaseStudySlugs`, `getCaseStudyBy
 export const profile = { name: "Lucas (Wai Phyo Aung)", short: "Lucas", title: "Product & Motion Designer", years: 10,
   email: "lucas@pawprint.design", bookingUrl: "https://cal.com/wai.design-start-a-virtual-chat",
   location: "Phuket, Thailand", timezone: "UTC+7", availability: "Open to remote roles · US · CA · NZ · SG",
-  founderOf: { name: "Luci", url: "https://luci.pawprint.design", status: "Private beta" },
+  founderOf: { name: "Luci", url: "https://luci.pawprint.design", status: "Open source" },
   socials: { linkedin: "https://linkedin.com/in/waiphyoaung-design", behance: "https://www.behance.net/waiphyoaungdesign",
              github: "https://github.com/waidesign", medium: "https://medium.com/@waiphyoaung.design" } };
 export const experience: { period: string; role: string; company: string; location: string; summary: string }[];
