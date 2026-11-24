@@ -323,7 +323,7 @@ export function ComponentsLabSection() {
             <strong>Except mine.</strong>
           </Sticker>
           <Sticker tone="mint" rotate={2} size="sm">
-            Open to remote roles · US · CA · NZ · SG
+            Calm page, lively character
           </Sticker>
           <Sticker tone="butter" rotate={-3} size="sm">
             Curious by nature, careful by habit.

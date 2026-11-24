@@ -9,7 +9,6 @@ import { Button } from "@/components/ui/Button";
 import { CopyEmail } from "@/components/ui/CopyEmail";
 import { Heading } from "@/components/ui/Heading";
 import { Section } from "@/components/ui/Section";
-import { Sticker } from "@/components/ui/Sticker";
 import { TextLink } from "@/components/ui/TextLink";
 
 export interface ContactPanelProps {
@@ -33,10 +32,6 @@ export function ContactPanel({ compact = false }: ContactPanelProps) {
       <div className="rounded-2xl border-2 border-line-strong bg-lilac p-6 text-on-pastel shadow-sticker md:p-12">
         <div className="grid grid-cols-1 items-center gap-8 lg:grid-cols-12">
           <div className="space-y-6 lg:col-span-8">
-            <Sticker tone="mint" rotate={-2} size="sm">
-              {profile.availability}
-            </Sticker>
-
             <Heading
               id="contact-heading"
               as="h2"

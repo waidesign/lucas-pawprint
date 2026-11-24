@@ -8,7 +8,6 @@ export interface ProfileData {
   location: string;
   timezone: string;
   timezoneNote: string;
-  availability: string;
   studio: {
     name: string;
     url: string;
@@ -67,9 +66,7 @@ export const profile: ProfileData = {
   bookingUrl: "https://cal.com/wai.design-start-a-virtual-chat",
   location: "Phuket, Thailand",
   timezone: "UTC+7",
-  timezoneNote:
-    "Phuket, Thailand · UTC+7 · Works across US, Canada, NZ and Singapore time zones",
-  availability: "Open to remote roles · US · CA · NZ · SG",
+  timezoneNote: "Based in Phuket, Thailand · UTC+7",
   studio: {
     name: "Pawprint",
     url: "https://pawprint.design",

@@ -61,6 +61,8 @@ If a task touches something these files don't cover, **stop and ask** instead of
 12. **Every case study is a real page with its own URL.** No modals for case studies.
 13. **Static-export safe.** No server-only features (no API routes, no runtime image optimisation, no middleware) unless Lucas approves a hosting change.
 14. **Full-width layout with 80px desktop horizontal padding.** Header, every section, and footer have no container `max-width` (do not constrain outer layout containers with `--container-max`); maintain `80px` (`lg:px-20` / `var(--space-80)`) left and right padding on desktop (`px-4 md:px-10 lg:px-20` for responsive mobile/tablet viewports).
+15. **No availability / remote-region badges anywhere on the site.** Never render `"Open to remote roles · US · CA · NZ · SG"` or any job-availability / country-region availability sticker or text on any page or section.
+16. **No decorative dots inside badges, chips, eyebrows, or ticket pills.** Badges (`BetaBadge`, skill badges, ticket stubs, `Chip`, `Eyebrow`) render clean text (or an explicit semantic icon/logo when required) — never leading/bullet status dots.
 
 ## 5. How to work
 
