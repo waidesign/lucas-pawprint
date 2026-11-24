@@ -72,10 +72,10 @@ Order on the site: **Luci first (featured)**, then the six client projects.
 | 1 | luci | Luci | lilac | window | 2026 | Founder · Product Designer · builder with AI agents | Me + my AI coding agents | 2026 | https://luci.pawprint.design |
 | 2 | classic-decoder | Classic Decoder | sky | window | 2025 | Lead UI/UX & Motion Designer (Empire Pixel) | Me, 1 PM, 2 full-stack developers | 4 months, discovery to hand-off | https://classicdecoder.com |
 | 3 | classic-decoder-app | Classic Decoder App | mint | phone | 2025 | Lead UI/UX Designer | Me, 1 PM, 2 full-stack developers | 4 months | App Store: id1661077569 |
-| 4 | vehicle-databases | Vehicle Databases | butter | window | 2025 | Corporate UI/UX Designer | Me, 1 PM, 2 full-stack developers | 3 months | https://vehicledatabases.com |
+| 4 | vehicle-databases | Vehicle Databases | butter | window | 2025 | Corporate UI/UX Designer | Me, 1 PM, 2 full-stack developers | — (not shown, Lucas 2026-11-25) | https://vehicledatabases.com |
 | 5 | detailed-vehicle-history | Detailed Vehicle History | pistachio | cube | 2025 | Lead UI/UX Designer | Me, 1 PM, 3 developers | 4 months | https://detailedvehiclehistory.com |
 | 6 | fierce-fight-gear | Fierce Fight Gear | blush | window | 2025 | Lead UI/UX Designer | Me, 1 PM, 2 full-stack developers | 3 months | https://fiercefightgear.com |
-| 7 | sarayah-phuket-villas | Sarayah Phuket Villas | lilac | window | 2025 *(confirm)* | Lead UI/UX Designer & AI workflow | Me (design + build), 1 PM, 1 developer, 1 SEO specialist | First launch, then a full AI-workflow rebuild | https://sarayahphuketvillas.com |
+| 7 | sarayah-phuket-villas | Sarayah Phuket Villas | lilac | window | 2025 | Lead UI/UX Designer & AI workflow | Me (design + build), 1 PM, 1 developer, 1 SEO specialist | First launch, then a full AI-workflow rebuild | https://sarayahphuketvillas.com |
 
 ### 1 · Luci — top featured case study
 
