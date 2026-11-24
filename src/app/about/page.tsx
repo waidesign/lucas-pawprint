@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { getVisibleMotionClips } from "@/content/motion";
 import { education, experience, profile } from "@/content/site";
 import type { Tone } from "@/lib/cn";
 import { SiteNav } from "@/components/site/SiteNav";
@@ -143,7 +144,7 @@ const CAPABILITY_AREAS: CapabilityArea[] = [
       },
       {
         label: "brand motion at Empire Pixel",
-        href: "/motion",
+        href: "/motion?type=brand",
         tone: "mint",
       },
       {
@@ -216,6 +217,10 @@ const TOOL_GROUPS: { label: string; items: string[] }[] = [
 
 export default function AboutPage() {
   const isDev = process.env.NODE_ENV !== "production";
+  const hasVisibleBrandClip = getVisibleMotionClips().some(
+    (clip) => clip.type === "brand",
+  );
+  const brandMotionHref = hasVisibleBrandClip ? "/motion?type=brand" : "/motion";
 
   const personJsonLd = {
     "@context": "https://schema.org",
@@ -284,7 +289,14 @@ export default function AboutPage() {
       <ul className="space-y-3 pt-1">
         {area.links.map((link) => (
           <li key={`${area.id}-${link.label}`}>
-            <TextLink href={link.href} tone={link.tone}>
+            <TextLink
+              href={
+                link.label === "brand motion at Empire Pixel"
+                  ? brandMotionHref
+                  : link.href
+              }
+              tone={link.tone}
+            >
               {link.label}
             </TextLink>
           </li>

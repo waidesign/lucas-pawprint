@@ -1,7 +1,8 @@
 "use client";
 
+import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
-import { Pause } from "lucide-react";
+import { Pause, Play } from "lucide-react";
 import { useReducedMotion } from "motion/react";
 import { cn, TONE_BG_CLASSES, type Tone } from "@/lib/cn";
 import { Loaffy } from "@/components/mascot/Loaffy";
@@ -13,6 +14,12 @@ export interface VideoReelProps {
   captionsSrc?: string;
   title?: string;
   tone?: Tone;
+  /** Render Loaffy play form inside the play button (default true = Home unchanged; pass false when page already has Loaffy). */
+  loaffyButton?: boolean;
+  /** When true and no `src` is provided, render a still poster frame with caption and no play control (default false = Home unchanged). */
+  staticWhenEmpty?: boolean;
+  /** Caption displayed when `staticWhenEmpty` is true and no `src` is set. */
+  emptyCaption?: string;
   className?: string;
 }
 
@@ -22,6 +29,9 @@ export function VideoReel({
   captionsSrc,
   title = "Lucas product & motion design showreel",
   tone = "sky",
+  loaffyButton = true,
+  staticWhenEmpty = false,
+  emptyCaption = "Showreel coming soon",
   className,
 }: VideoReelProps) {
   const prefersReduced = useReducedMotion() ?? false;
@@ -70,6 +80,43 @@ export function VideoReel({
     return () => observer.disconnect();
   }, [playing]);
 
+  if (!src && staticWhenEmpty) {
+    return (
+      <div
+        ref={containerRef}
+        className={cn(
+          "relative overflow-hidden rounded-xl border-2 border-line-strong p-4 shadow-sticker md:p-6",
+          TONE_BG_CLASSES[tone],
+          className
+        )}
+      >
+        <figure className="relative overflow-hidden rounded-md border-2 border-line-strong bg-bg">
+          {poster ? (
+            <Image
+              src={poster}
+              alt={title}
+              width={1600}
+              height={900}
+              unoptimized
+              className="block aspect-video w-full object-cover"
+            />
+          ) : (
+            <div className="flex aspect-video w-full flex-col items-center justify-center bg-surface p-8 text-center">
+              <p className="font-display text-h3 text-text">{title}</p>
+            </div>
+          )}
+
+          <figcaption className="flex flex-wrap items-center justify-between gap-2 border-t-2 border-line-strong bg-surface px-4 py-4">
+            <p className="font-display text-h4 text-text">{title}</p>
+            <p className="font-mono text-caption text-text-muted">
+              {emptyCaption}
+            </p>
+          </figcaption>
+        </figure>
+      </div>
+    );
+  }
+
   return (
     <div
       ref={containerRef}
@@ -115,7 +162,9 @@ export function VideoReel({
             <p className="mt-2 font-body text-body text-text-muted">
               {playing
                 ? "Playing showreel — Loaffy is vibing."
-                : "Paused — click Loaffy Play to start the reel."}
+                : loaffyButton
+                  ? "Paused — click Loaffy Play to start the reel."
+                  : "Paused — click Play to start the reel."}
             </p>
             {prefersReduced && (
               <p className="mt-2 font-mono text-caption text-text-muted">
@@ -137,7 +186,7 @@ export function VideoReel({
             >
               {playing ? (
                 <Pause className="h-8 w-8" aria-hidden="true" />
-              ) : (
+              ) : loaffyButton ? (
                 <Loaffy
                   form="play"
                   size={64}
@@ -146,6 +195,8 @@ export function VideoReel({
                   listenToBus={false}
                   decorative
                 />
+              ) : (
+                <Play className="h-8 w-8" aria-hidden="true" />
               )}
             </button>
 
