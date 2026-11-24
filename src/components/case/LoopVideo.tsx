@@ -149,7 +149,11 @@ export function LoopVideo({
         }}
         onPlay={() => setIsPlaying(true)}
         onPause={() => setIsPlaying(false)}
-        className="block h-full w-full object-cover"
+        className={
+          aspectClassName === "aspect-auto"
+            ? "block h-auto w-full"
+            : "block h-full w-full object-cover"
+        }
       >
         <source src={webm} type="video/webm" />
         {mp4 && <source src={mp4} type="video/mp4" />}

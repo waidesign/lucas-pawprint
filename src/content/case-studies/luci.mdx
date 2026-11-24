@@ -103,14 +103,14 @@ export const metadata = {
       { label: "Check", text: "Auto-check compares the build against your saved design after reload." },
     ]}
     media={
-      <BrowserFrame url="localhost:3000 · luci serve">
+      <div className="overflow-hidden rounded-xl border-2 border-line-strong bg-bg shadow-sticker">
         <LoopVideo
           webm="/case-studies/luci/clips/devtool.webm"
           poster="/case-studies/luci/clips/devtool-poster.webp"
           alt="Recording of Luci Devtool switching between Feedback, Layout, and Check modes on a running app."
-          start={1}
+          aspectClassName="aspect-auto"
         />
-      </BrowserFrame>
+      </div>
     }
     caption="Luci Devtool running on localhost via luci serve."
   />
@@ -129,14 +129,14 @@ export const metadata = {
       { label: "Proposals", text: "Agents propose new rules for review; only you approve what becomes law." },
     ]}
     media={
-      <BrowserFrame url="~/my-app · luci-mcp">
+      <div className="overflow-hidden rounded-xl border-2 border-line-strong bg-bg shadow-sticker">
         <LoopVideo
           webm="/case-studies/luci/clips/core.webm"
           poster="/case-studies/luci/clips/core-poster.webp"
           alt="Recording of Luci Core showing .luci/ project memory, rules, task-matched skills, and rule proposals."
-          start={1}
+          aspectClassName="aspect-auto"
         />
-      </BrowserFrame>
+      </div>
     }
     caption="Luci Core synchronizing project memory and skills across coding agents."
   />
@@ -154,14 +154,14 @@ export const metadata = {
       { label: "Remap tokens", text: "Rewrite captured values onto your own project's design tokens." },
     ]}
     media={
-      <BrowserFrame url="example.com · Luci Extension">
+      <div className="overflow-hidden rounded-xl border-2 border-line-strong bg-bg shadow-sticker">
         <LoopVideo
           webm="/case-studies/luci/clips/extension.webm"
           poster="/case-studies/luci/clips/extension-poster.webp"
           alt="Recording of Luci Extension capturing component tokens, colours, design checks, and the export basket."
-          start={1}
+          aspectClassName="aspect-auto"
         />
-      </BrowserFrame>
+      </div>
     }
     caption="Luci Chrome extension capturing components, tokens, and contrast checks."
   />
