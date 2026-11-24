@@ -191,13 +191,13 @@ export const metadata = {
         title: "Extend DESIGN.md instead of inventing a new format",
         problem: "Custom JSON schemas force you to teach every agent how to read them before it can write a line of code.",
         decision: "Extended markdown DESIGN.md files (.design.md) with component and section scope, anatomy, interactive states, motion, and accessibility findings.",
-        why: "Coding agents read the exports immediately with zero boilerplate prompting.",
+        why: "Agents already read DESIGN.md, so exports work without a custom parser.",
       },
       {
         title: "Local-first with zero telemetry",
         problem: "Teams working on unreleased products cannot send DOM trees, source paths, or design files to a third-party cloud.",
         decision: "Kept every module on localhost (127.0.0.1) with plain markdown and JSON files in .luci/. No accounts, no API keys, and no background network calls.",
-        why: "Everything stays in your repository, works offline, and passes security review by default.",
+        why: "Everything stays in your repository and works offline.",
       },
       {
         title: "Load only the skills a task needs within a token budget",
