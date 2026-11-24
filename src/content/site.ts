@@ -104,6 +104,70 @@ export const shippedForClients: string[] = [
   "Sarayah Villas",
 ];
 
+/**
+ * Exact skills list migrated from Lucas's legacy portfolio (`docs/legacy/skillsAndTools.ts`).
+ */
+export const legacySkills: string[] = [
+  "Product Thinking",
+  "User Research & Discovery",
+  "UX Strategy",
+  "Information Architecture",
+  "User Flows & Journeys",
+  "Usability Testing",
+  "Data-Informed Design",
+  "Accessibility (WCAG)",
+  "Interaction & Visual Design",
+  "Responsive Design",
+  "Prototyping & Wireframing",
+  "Design Systems & Tokens",
+  "Component Architecture",
+  "Micro-Interactions & Lottie",
+  "Motion Design & Animation",
+  "Storyboarding & Visual Storytelling",
+  "Video Editing",
+  "AI-First Design Workflows",
+  "AI-Assisted Ideation & Prototyping",
+  "AI-Powered UI Generation",
+  "Design-to-Code Workflows",
+  "AI-Assisted Front-End Dev",
+  "Prompt Engineering",
+  "Human-in-the-Loop Validation",
+  "HTML, CSS, JS, React & Tailwind",
+  "Git & Version Control",
+  "Developer Handoff Fidelity",
+];
+
+/**
+ * Exact tools list migrated from Lucas's legacy portfolio (`docs/legacy/skillsAndTools.ts`),
+ * plus Luci (own product).
+ */
+export const legacyTools: string[] = [
+  "Luci (Own Product)",
+  "Figma",
+  "Figma AI",
+  "FigJam",
+  "Claude Code",
+  "Google Antigravity",
+  "Cursor",
+  "Codex",
+  "Google AI Studio",
+  "v0.dev",
+  "Copilot",
+  "Framer",
+  "Webflow",
+  "Adobe After Effects",
+  "Lottiefiles",
+  "Adobe Premiere Pro",
+  "Adobe Illustrator",
+  "Adobe Photoshop",
+  "Adobe Firefly",
+  "Github",
+  "Bitbucket",
+  "Vercel",
+  "JIRA",
+  "Google Apps",
+];
+
 export const experience: ExperienceEntry[] = [
   {
     period: "2026 – Now",
