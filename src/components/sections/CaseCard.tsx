@@ -35,6 +35,8 @@ export interface CaseCardProps {
   variant?: "row" | "tile";
   /** Column ratio on lg+ for "row" variant (default "6/6"; /work featured row uses "7/5"). */
   split?: "6/6" | "7/5";
+  /** Optional resting tilt angle in degrees for the cover frame (straightens on hover). */
+  tilt?: number;
   className?: string;
 }
 
@@ -70,6 +72,7 @@ export function CaseCard({
   peek = true,
   variant = "row",
   split = "6/6",
+  tilt = 0,
   className,
 }: CaseCardProps) {
   const [hovered, setHovered] = useState(false);
@@ -118,37 +121,53 @@ export function CaseCard({
       {/* The image itself is the card: pen border, rounded-xl, lift on hover.
           Row covers keep a resting sticker shadow; tile covers reveal shadow on hover/focus only (rule 18).
           The case's pastel shows only while the image loads. */}
-      <Link
-        href={href}
-        tabIndex={-1}
-        aria-hidden="true"
-        onClick={handleOpen}
-        className={cn(
-          "group relative z-10 block w-full overflow-hidden rounded-xl border-2 border-line-strong",
-          variant === "tile"
-            ? "lp-tile-cover-interactive"
-            : "lp-sticker-interactive",
-          TONE_BG_CLASSES[tone],
-        )}
+      <div
+        style={
+          tilt !== 0
+            ? {
+                transform:
+                  hovered && !prefersReduced
+                    ? "rotate(0deg)"
+                    : `rotate(${tilt}deg)`,
+                transitionDuration: "var(--duration-base)",
+                transitionTimingFunction: "var(--ease-out-soft)",
+              }
+            : undefined
+        }
+        className={cn(tilt !== 0 && "relative z-10 transition-transform")}
       >
-        <picture>
-          <source srcSet={coverAvif} type="image/avif" />
-          <source srcSet={coverWebp} type="image/webp" />
-          <img
-            src={coverWebp}
-            alt=""
-            width={1200}
-            height={750}
-            loading="lazy"
-            decoding="async"
-            style={{
-              transitionDuration: "var(--duration-slow)",
-              transitionTimingFunction: "var(--ease-out-soft)",
-            }}
-            className="block aspect-16/10 h-auto w-full object-cover transition-transform group-hover:scale-105"
-          />
-        </picture>
-      </Link>
+        <Link
+          href={href}
+          tabIndex={-1}
+          aria-hidden="true"
+          onClick={handleOpen}
+          className={cn(
+            "group relative z-10 block w-full overflow-hidden rounded-xl border-2 border-line-strong",
+            variant === "tile"
+              ? "lp-tile-cover-interactive"
+              : "lp-sticker-interactive",
+            TONE_BG_CLASSES[tone],
+          )}
+        >
+          <picture>
+            <source srcSet={coverAvif} type="image/avif" />
+            <source srcSet={coverWebp} type="image/webp" />
+            <img
+              src={coverWebp}
+              alt=""
+              width={1200}
+              height={750}
+              loading="lazy"
+              decoding="async"
+              style={{
+                transitionDuration: "var(--duration-slow)",
+                transitionTimingFunction: "var(--ease-out-soft)",
+              }}
+              className="block aspect-16/10 h-auto w-full object-cover transition-transform group-hover:scale-105"
+            />
+          </picture>
+        </Link>
+      </div>
       {/* The cover's description stays available to screen readers once. */}
       <span className="sr-only">{coverAlt}</span>
     </>

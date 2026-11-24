@@ -1,10 +1,9 @@
 "use client";
 
 import { useRef, useState } from "react";
-import { Check, Copy, Mail } from "lucide-react";
+import { Check, Copy } from "lucide-react";
 import { cn } from "@/lib/cn";
 import { Button } from "./Button";
-import { IconButton } from "./IconButton";
 import { useToast } from "./Toast";
 import {
   emitLoaffyEvent,
@@ -112,14 +111,6 @@ export function CopyEmail({
       >
         {copied ? "Copied" : "Copy email"}
       </Button>
-
-      <IconButton
-        href={`mailto:${email}`}
-        variant="surface"
-        aria-label={`Send email to ${email}`}
-      >
-        <Mail className="h-5 w-5" aria-hidden="true" />
-      </IconButton>
 
       {failed && (
         <p className="w-full font-body text-caption text-text-muted">

@@ -552,7 +552,7 @@ export function AboutChangelog() {
       labelledBy="about-heading"
       tone="butter"
       soft
-      className="-mt-[var(--border-pen)] overflow-clip rounded-none border-2 border-line-strong md:rounded-none"
+      className="-mt-[var(--border-pen)] overflow-clip border-y-2 border-line-strong"
     >
       {/* Screen-reader version of the chat (the bio) */}
       <p className="sr-only">{profile.bioShort}</p>
@@ -727,7 +727,7 @@ export function AboutChangelog() {
               </div>
 
               <div className="border-t-2 border-line p-3">
-                <div className="flex items-center gap-2 rounded-md border-2 border-line bg-surface px-3 py-2">
+                <div className="flex items-center gap-2 rounded-sm border-2 border-line bg-surface px-3 py-2">
                   <span className="flex-1 font-body text-body text-text-subtle">
                     Ask about Lucas…
                   </span>
@@ -892,7 +892,7 @@ export function AboutChangelog() {
                   )}
 
                   {/* Zoom + Fit view controls */}
-                  <div className="absolute bottom-4 right-4 z-20 flex items-center gap-1 rounded-md border-2 border-line-strong bg-bg p-1 shadow-sticker-sm">
+                  <div className="absolute bottom-4 right-4 z-20 flex items-center gap-1 rounded-sm border-2 border-line-strong bg-bg p-1 shadow-sticker-sm">
                     <ControlButton
                       label="Zoom out"
                       onClick={() => zoomTo(camScale.get() - ZOOM.step)}

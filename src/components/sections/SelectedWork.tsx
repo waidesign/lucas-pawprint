@@ -28,6 +28,9 @@ export interface SelectedWorkProps {
   showFilters?: boolean;
 }
 
+/* Seeded organic resting tilt angles (degrees) so every Selected Work cover feels hand-placed. */
+const COVER_TILTS = [-2.4, 1.8, -1.4, 2.3, -1.9, 1.5, -2.1] as const;
+
 export function SelectedWork({
   caseStudies,
   headingLevel = "h2",
@@ -86,7 +89,12 @@ export function SelectedWork({
   ];
 
   return (
-    <Section id="work" labelledBy="work-heading" tone="bg">
+    <Section
+      id="work"
+      labelledBy="work-heading"
+      tone="bg"
+      className="overflow-x-clip"
+    >
       <div className="space-y-6 md:space-y-8">
         {/* Giant section word + filter chips */}
         <div className="flex flex-col justify-between gap-6 lg:flex-row lg:items-end">
@@ -166,6 +174,7 @@ export function SelectedWork({
                     year={item.metadata.year}
                     role={item.metadata.role}
                     reverse={idx % 2 === 1}
+                    tilt={COVER_TILTS[idx % COVER_TILTS.length]}
                   />
                 </FadeIn>
               );

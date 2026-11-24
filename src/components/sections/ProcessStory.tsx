@@ -451,8 +451,48 @@ export function ProcessStory() {
       return;
     }
 
+    // Reset immediately so cards never stay stuck at 1 from the initial SSR false→true flip
+    // while GSAP is loading asynchronously.
+    pinProgress.set(0);
+
     let cancelled = false;
     let revertFn: (() => void) | undefined;
+    let resizeObserver: ResizeObserver | null = null;
+    let refreshRaf: number | null = null;
+
+    const syncProgress = (p: number) => {
+      pinProgress.set(p);
+
+      const nextStep =
+        p < 0.2
+          ? 0
+          : p < 0.45
+            ? 1
+            : p < 0.7
+              ? 2
+              : p < 0.9
+                ? 3
+                : 4;
+
+      if (nextStep === 0) {
+        const local = p / 0.2;
+        emitLoaffyMessage({
+          kind: "state",
+          target: "process",
+          mood: "curious",
+          pose: "none",
+          form: "paw",
+          lookX: Math.round(-72 + local * 144),
+          lookY: 16,
+        });
+      }
+
+      if (nextStep !== lastScrubStepRef.current) {
+        lastScrubStepRef.current = nextStep;
+        setActive(nextStep);
+        driveSceneThroughBus(nextStep);
+      }
+    };
 
     (async () => {
       const [{ default: gsap }, { ScrollTrigger }] = await Promise.all([
@@ -463,8 +503,10 @@ export function ProcessStory() {
 
       gsap.registerPlugin(ScrollTrigger);
 
+      let trigger: ReturnType<typeof ScrollTrigger.create> | null = null;
+
       const ctx = gsap.context(() => {
-        ScrollTrigger.create({
+        trigger = ScrollTrigger.create({
           trigger: stageRef.current,
           start: "top top",
           end: "+=200%", // 100vh stage + 200vh pin distance = ~300vh total scroll
@@ -473,48 +515,49 @@ export function ProcessStory() {
           scrub: true,
           anticipatePin: 1,
           invalidateOnRefresh: true,
-          onUpdate: (self) => {
-            const p = self.progress;
-            pinProgress.set(p);
-
-            const nextStep =
-              p < 0.2
-                ? 0
-                : p < 0.45
-                  ? 1
-                  : p < 0.7
-                    ? 2
-                    : p < 0.9
-                      ? 3
-                      : 4;
-
-            if (nextStep === 0) {
-              const local = p / 0.2;
-              emitLoaffyMessage({
-                kind: "state",
-                target: "process",
-                mood: "curious",
-                pose: "none",
-                form: "paw",
-                lookX: Math.round(-72 + local * 144),
-                lookY: 16,
-              });
-            }
-
-            if (nextStep !== lastScrubStepRef.current) {
-              lastScrubStepRef.current = nextStep;
-              setActive(nextStep);
-              driveSceneThroughBus(nextStep);
-            }
-          },
+          onUpdate: (self) => syncProgress(self.progress),
+          onRefresh: (self) => syncProgress(self.progress),
         });
       }, trackRef);
+
+      const scheduleRefresh = () => {
+        if (cancelled) return;
+        if (refreshRaf !== null) window.cancelAnimationFrame(refreshRaf);
+        refreshRaf = window.requestAnimationFrame(() => {
+          refreshRaf = null;
+          if (!cancelled) {
+            ScrollTrigger.refresh();
+          }
+        });
+      };
+
+      // Measure accurate trigger bounds immediately & whenever content above (lazy images, fonts, intro) shifts height.
+      ScrollTrigger.refresh();
+      if (trigger) {
+        syncProgress((trigger as { progress: number }).progress);
+      }
+
+      if (typeof ResizeObserver !== "undefined") {
+        let lastHeight = document.body.scrollHeight;
+        resizeObserver = new ResizeObserver(() => {
+          const nextHeight = document.body.scrollHeight;
+          if (nextHeight !== lastHeight) {
+            lastHeight = nextHeight;
+            scheduleRefresh();
+          }
+        });
+        resizeObserver.observe(document.body);
+      }
+
+      document.fonts?.ready?.then(scheduleRefresh).catch(() => {});
 
       revertFn = () => ctx.revert();
     })();
 
     return () => {
       cancelled = true;
+      if (refreshRaf !== null) window.cancelAnimationFrame(refreshRaf);
+      resizeObserver?.disconnect();
       revertFn?.();
     };
   }, [isDesktopPinned, pinProgress]);
@@ -530,7 +573,7 @@ export function ProcessStory() {
       labelledBy="process-heading"
       tone="mint"
       soft
-      className="overflow-x-clip rounded-b-none border-2 border-line-strong md:rounded-b-none"
+      className="overflow-x-clip border-b-2 border-line-strong"
     >
       <div ref={trackRef}>
         <div

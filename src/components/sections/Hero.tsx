@@ -235,7 +235,7 @@ export function Hero() {
     <section
       id="hero"
       aria-labelledby="hero-heading"
-      className="relative mx-2 rounded-xl bg-bg md:mx-4 px-4 py-16 text-text md:rounded-2xl md:px-10 md:py-20 lg:px-20 lg:py-24"
+      className="relative bg-bg px-4 py-16 text-text md:px-10 md:py-20 lg:px-20 lg:py-24"
     >
       {/* Standalone Full-Viewport Intro Curtain (unmounts once settled) */}
       <LoaffyStage

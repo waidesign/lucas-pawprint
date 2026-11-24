@@ -44,7 +44,7 @@ export function MotionReel({
       tone="sky"
       soft
       className={cn(
-        "-mt-[var(--border-pen)] rounded-none border-2 border-line-strong md:rounded-none",
+        "-mt-[var(--border-pen)] border-y-2 border-line-strong",
         className,
       )}
     >

@@ -403,12 +403,12 @@ const SPACING_STEPS = [
 ] as const;
 
 const RADIUS_TOKENS = [
-  { name: "rounded-xs", className: "rounded-xs", size: "8", paw: "—" },
-  { name: "rounded-sm", className: "rounded-sm", size: "12", paw: "Toe" },
-  { name: "rounded-md", className: "rounded-md", size: "16", paw: "—" },
-  { name: "rounded-lg", className: "rounded-lg", size: "32", paw: "Main pad" },
-  { name: "rounded-xl", className: "rounded-xl", size: "40", paw: "—" },
-  { name: "rounded-2xl", className: "rounded-2xl", size: "56", paw: "—" },
+  { name: "rounded-xs", className: "rounded-xs", size: "4", paw: "—" },
+  { name: "rounded-sm", className: "rounded-sm", size: "8", paw: "Toe" },
+  { name: "rounded-md", className: "rounded-md", size: "12", paw: "—" },
+  { name: "rounded-lg", className: "rounded-lg", size: "16", paw: "Main pad" },
+  { name: "rounded-xl", className: "rounded-xl", size: "20", paw: "—" },
+  { name: "rounded-2xl", className: "rounded-2xl", size: "24", paw: "—" },
   {
     name: "rounded-pill",
     className: "rounded-pill",

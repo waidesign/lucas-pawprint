@@ -16,7 +16,8 @@ import { cn, type Tone } from "@/lib/cn";
  * The two sections lose their rounded corners at the join (see page.tsx).
  */
 
-const SOFT_FILL: Record<Tone, string> = {
+const SOFT_FILL: Record<Tone | "bg", string> = {
+  bg: "fill-bg",
   lilac: "fill-lilac-soft",
   mint: "fill-mint-soft",
   butter: "fill-butter-soft",
@@ -112,10 +113,10 @@ function tornPath(seed: number) {
 export type SectionSeamVariant = "wave" | "torn";
 
 export interface SectionSeamProps {
-  /** Tone of the section above (its soft variant is used). */
-  from: Tone;
-  /** Tone of the section below (its soft variant is used). */
-  to: Tone;
+  /** Tone of the section above (its soft variant is used, or "bg" for canvas). */
+  from: Tone | "bg";
+  /** Tone of the section below (its soft variant is used, or "bg" for canvas). */
+  to: Tone | "bg";
   /** Shape seed: give each seam a different number. */
   seed: number;
   /** Edge style (wave is the site default; torn paper kept as an option). */
@@ -136,7 +137,7 @@ export function SectionSeam({
     <div
       aria-hidden="true"
       className={cn(
-        "pointer-events-none relative z-10 mx-2 -my-6 h-12 border-x-2 border-line-strong md:mx-4",
+        "pointer-events-none relative z-10 -my-6 h-12",
         className,
       )}
     >

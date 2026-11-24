@@ -1,15 +1,19 @@
 "use client";
 
-import Link from "next/link";
 import type { ReactNode } from "react";
 import { motion, useReducedMotion } from "motion/react";
-import { ArrowRight } from "lucide-react";
+import { Calendar } from "lucide-react";
 import { cn } from "@/lib/cn";
+import { profile } from "@/content/site";
 import { trackEvent } from "@/lib/analytics";
+import { emitLoaffyEvent } from "@/components/mascot/LoaffyBus";
 import { LoaffyWorkspace } from "@/components/mascot/LoaffyWorkspace";
+import { Button } from "@/components/ui/Button";
 import { ClawdMark } from "@/components/ui/ClawdMark";
+import { CopyEmail } from "@/components/ui/CopyEmail";
 import { HEADING_SCALE_CLASSES } from "@/components/ui/Heading";
 import { Section } from "@/components/ui/Section";
+import { TextLink } from "@/components/ui/TextLink";
 
 /** Claude: Clawd, Claude Code's 8-bit mascot (ink pixels on the pastel tile). */
 function ClaudeGlyph() {
@@ -93,9 +97,8 @@ export function BuiltWith() {
     <Section
       id="built-with"
       labelledBy="built-with-heading"
-      tone="sky"
-      soft
-      className="-mt-[var(--border-pen)] rounded-t-none border-2 border-line-strong max-md:py-14 md:rounded-t-none"
+      tone="bg"
+      className="max-md:py-14"
     >
       <div className="grid grid-cols-1 items-center gap-12 lg:grid-cols-12 lg:gap-16">
         <div className="flex flex-col items-start gap-8 lg:col-span-5">
@@ -128,19 +131,46 @@ export function BuiltWith() {
             </span>
           </h2>
 
-          <p className="max-w-xl font-body text-body-lg text-text-muted">
-            Luci and Claude&apos;s brains, open-source skills, and Gemini coding
-            models: Argon and Neon.
-          </p>
+          <div className="space-y-2">
+            <p className="max-w-xl font-body text-body-lg text-text-muted">
+              Luci and Claude&apos;s brains, open-source skills, and Gemini
+              coding models: Argon and Neon.
+            </p>
+            <p className="font-mono text-caption text-text-muted">
+              {profile.timezoneNote}
+            </p>
+          </div>
 
-          <Link
-            href="/work/luci"
-            onClick={() => trackEvent("luci_click", { location: "built_with" })}
-            className="inline-flex min-h-14 items-center justify-center gap-2 rounded-pill border-2 border-transparent bg-inverse-bg px-6 font-body text-button font-semibold text-inverse-text lp-btn-primary"
-          >
-            <span>See how Luci works</span>
-            <ArrowRight className="h-5 w-5" aria-hidden="true" />
-          </Link>
+          <div className="flex flex-col items-start gap-4">
+            <CopyEmail email={profile.email} />
+
+            <div className="flex flex-wrap items-center gap-6 pt-1">
+              <Button
+                variant="primary"
+                size="lg"
+                href={profile.bookingUrl}
+                external
+                iconStart={<Calendar className="h-5 w-5" />}
+                onClick={() => {
+                  trackEvent("book_chat_click", { location: "built_with_cta" });
+                  emitLoaffyEvent("book-chat-click");
+                }}
+              >
+                Book a chat
+              </Button>
+
+              <TextLink
+                href="/work/luci"
+                tone="lilac"
+                onClick={() =>
+                  trackEvent("luci_click", { location: "built_with" })
+                }
+                className="min-h-12 items-center font-body text-button font-semibold"
+              >
+                See how Luci works →
+              </TextLink>
+            </div>
+          </div>
         </div>
 
         <div className="lg:col-span-7">

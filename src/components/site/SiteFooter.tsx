@@ -1,5 +1,6 @@
 import { cn } from "@/lib/cn";
 import { CursorToggle } from "@/components/ui/CursorToggle";
+import { SectionSeam } from "@/components/ui/SectionSeam";
 import { TextLink } from "@/components/ui/TextLink";
 import { ThemeSwitch } from "@/components/ui/ThemeSwitch";
 import { PRIMARY_NAV_ITEMS, SOCIAL_LINKS } from "@/content/site";
@@ -21,13 +22,15 @@ export function SiteFooter({
   className,
 }: SiteFooterProps) {
   return (
-    <footer
-      className={cn(
-        "mx-2 rounded-t-xl border-2 md:mx-4 border-line-strong bg-pistachio-soft px-4 py-12 text-text md:rounded-t-2xl md:px-10 md:py-16 lg:px-20",
-        className
-      )}
-    >
-      <div className="w-full space-y-12">
+    <>
+      <SectionSeam from="bg" to="pistachio" seed={53} />
+      <footer
+        className={cn(
+          "overflow-hidden bg-pistachio-soft px-4 pt-12 text-text md:px-10 md:pt-16 lg:px-20",
+          className
+        )}
+      >
+      <div className="w-full space-y-12 pb-6 md:pb-8">
         {/* Top row: Wordmark, Navigation & Socials */}
         <div className="grid grid-cols-1 gap-8 md:grid-cols-12">
           <div className="space-y-3 md:col-span-5">
@@ -120,6 +123,17 @@ export function SiteFooter({
           </TextLink>
         </div>
       </div>
+
+      {/* Monumental cropped sign-off (~75% top visible on viewport) */}
+      <div
+        aria-hidden="true"
+        className="-mx-4 mt-4 select-none overflow-hidden px-2 md:-mx-10 md:px-4 lg:-mx-20 lg:px-6"
+      >
+        <p className="translate-y-[24%] whitespace-nowrap text-center font-display text-[clamp(2rem,8.4vw,10rem)] font-extrabold leading-[0.88] tracking-[-0.045em] text-text">
+          Think Outside the Box
+        </p>
+      </div>
     </footer>
+    </>
   );
 }

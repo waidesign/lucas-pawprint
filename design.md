@@ -91,7 +91,7 @@ typography:
   caption: { fontFamily: "Inter", fontWeight: "500", fontSize: "0.75rem", lineHeight: "1rem", letterSpacing: "0" }
   button: { fontFamily: "Inter", fontWeight: "600", fontSize: "1rem", lineHeight: "1rem", letterSpacing: "-0.005em" }
 fonts: { display: "Bricolage Grotesque", body: "Inter", mono: "JetBrains Mono" }
-rounded: { xs: 8px, sm: 12px, md: 16px, lg: 32px, xl: 40px, 2xl: 56px, pill: 9999px }
+rounded: { xs: 4px, sm: 8px, md: 12px, lg: 16px, xl: 20px, 2xl: 24px, pill: 9999px }
 spacing: { unit: 4px, scale: [0, 4, 8, 12, 16, 20, 24, 32, 40, 48, 56, 64, 80, 96, 128, 160], section: "80→160px", gutter: "16→64px", container: 1312px, prose: 720px }
 sizes: { control-sm: 40px, control-md: 48px, control-lg: 56px, icon-sm: 16px, icon-md: 20px, icon-lg: 24px, icon-xl: 32px, target-min: 48px }
 borders: { hairline: 1px, pen: 2px, focus-width: 2px, focus-offset: 4px }
@@ -264,12 +264,12 @@ Rules: max line length 68ch (`--prose-max` 720px). Headlines `text-wrap: balance
 
 | Token | Value | From the paw | Use |
 |---|---|---|---|
-| `rounded-xs` | 8px | — | Tooltips, small images |
-| `rounded-sm` | 12px | Toe | Inputs, small cards, chips (non-pill) |
-| `rounded-md` | 16px | — | Image frames, screenshots |
-| `rounded-lg` | 32px | Main pad | Cards, stickers |
-| `rounded-xl` | 40px | — | Case cards, section panels |
-| `rounded-2xl` | 56px | — | Contact panel, hero stage |
+| `rounded-xs` | 4px | — | Tooltips, inline highlights, small tags |
+| `rounded-sm` | 8px | Toe | Inputs, nested controls, small cards |
+| `rounded-md` | 12px | — | Image frames, screenshots, device screens |
+| `rounded-lg` | 16px | Main pad | Cards, stickers, dialogs |
+| `rounded-xl` | 20px | — | Case covers, app windows, media panels |
+| `rounded-2xl` | 24px | — | Contact panel, hero stage |
 | `rounded-pill` | 9999px | Toe bean | Buttons, nav pill, tags |
 
 **Strokes:** hairline 1px `line` · pen 2px `line-strong` · focus 2px `focus` with 4px offset.

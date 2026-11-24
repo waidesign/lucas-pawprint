@@ -9,7 +9,6 @@ import { MotionReel } from "@/components/sections/MotionReel";
 import { AboutChangelog } from "@/components/sections/AboutChangelog";
 import { KindWords } from "@/components/sections/KindWords";
 import { BuiltWith } from "@/components/sections/BuiltWith";
-import { ContactPanel } from "@/components/sections/ContactPanel";
 import { SectionSeam } from "@/components/ui/SectionSeam";
 
 export default async function HomePage() {
@@ -23,6 +22,7 @@ export default async function HomePage() {
         <ProofStrip />
         <SelectedWork caseStudies={caseStudies} showFilters={false} />
         {/* Attached sections meet along hand-cut wavy seams (no corners at the joins) */}
+        <SectionSeam from="bg" to="mint" seed={7} />
         <ProcessStory />
         <SectionSeam from="mint" to="sky" seed={11} />
         <MotionReel />
@@ -30,9 +30,8 @@ export default async function HomePage() {
         <AboutChangelog />
         <SectionSeam from="butter" to="blush" seed={37} />
         <KindWords />
-        <SectionSeam from="blush" to="sky" seed={41} />
+        <SectionSeam from="blush" to="bg" seed={41} />
         <BuiltWith />
-        <ContactPanel />
       </main>
       <SiteFooter />
     </div>
