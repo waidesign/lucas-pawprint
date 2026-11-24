@@ -19,7 +19,7 @@ export function SiteFooter({ className }: SiteFooterProps) {
   return (
     <footer
       className={cn(
-        "mt-4 w-full rounded-xl border-2 border-line-strong bg-pistachio-soft px-4 py-12 text-text md:mt-6 md:rounded-2xl md:px-10 md:py-16 lg:px-20",
+        "w-full rounded-t-xl border-2 border-line-strong bg-pistachio-soft px-4 py-12 text-text md:rounded-t-2xl md:px-10 md:py-16 lg:px-20",
         className
       )}
     >

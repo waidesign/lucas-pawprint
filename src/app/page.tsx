@@ -16,7 +16,7 @@ export default async function HomePage() {
   return (
     <div className="flex min-h-full flex-col bg-bg text-text">
       <SiteNav />
-      <main id="main-content" className="flex-1 space-y-4 py-4 md:space-y-6">
+      <main id="main-content" className="flex-1">
         <Hero />
         <ProofStrip />
         <SelectedWork caseStudies={caseStudies} />
