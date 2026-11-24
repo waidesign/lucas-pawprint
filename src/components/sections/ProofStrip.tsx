@@ -27,9 +27,12 @@ function TicketStub({
 }
 
 /**
- * Skills & Tools Ticket Strip (`#proof`) on Ink (`bg-on-pastel`, `#2B2B2B`):
+ * Skills & Tools Ticket Strip (`#proof`), no background of its own: it sits on the
+ * page background, so all text/borders use theme tokens (`text-text`, `border-text/*`)
+ * and pass AA in Light, Dark, Warm Dark and System.
  * - Row 1: Dot-free skill pills (`[P1-A6]` — no decorative dots in badges).
  * - Row 2: Vector Tool Logos (`[P1-A5]` — visual SVG logos instead of plain text).
+ * - Left/right edge blurs inside the frame (`lp-ticker-edge`: ink tint + backdrop blur).
  * - Pauses on hover/focus; static accessible wrap under `prefers-reduced-motion`.
  */
 export function ProofStrip() {
@@ -39,7 +42,7 @@ export function ProofStrip() {
     <section
       id="proof"
       aria-label="Skills and tools ticket strip"
-      className="lp-ticker-group w-full overflow-hidden rounded-b-xl border-2 border-line-strong bg-on-pastel py-6 text-inverse-text md:rounded-b-2xl dark:text-text"
+      className="lp-ticker-group relative mx-2 overflow-hidden rounded-b-xl py-6 text-text md:mx-4 md:rounded-b-2xl"
     >
       {prefersReduced ? (
         <div className="space-y-6 px-4 md:px-10 lg:px-20">
@@ -49,7 +52,7 @@ export function ProofStrip() {
               {legacySkills.map((skill) => (
                 <li
                   key={skill}
-                  className="inline-flex h-10 items-center rounded-pill border border-inverse-text/25 px-4 font-body text-caption font-medium text-inverse-text dark:border-text/25 dark:text-text"
+                  className="inline-flex h-10 items-center rounded-pill border border-text/25 px-4 font-body text-caption font-medium text-text"
                 >
                   <span>{skill}</span>
                 </li>
@@ -57,7 +60,7 @@ export function ProofStrip() {
             </ul>
           </div>
 
-          <div className="space-y-3 border-t border-inverse-text/15 pt-4 dark:border-text/15">
+          <div className="space-y-3 border-t border-text/15 pt-4">
             <TicketStub label="Tools" toneClass="bg-butter" />
             <ul className="flex flex-wrap items-center gap-3">
               {TOOL_LOGOS.map((tool) => (
@@ -70,7 +73,7 @@ export function ProofStrip() {
                       onClick={() =>
                         trackEvent("luci_click", { location: "proof_strip" })
                       }
-                      className="inline-flex h-12 items-center justify-center rounded-md border border-inverse-text/20 px-4 text-inverse-text dark:border-text/20 dark:text-text"
+                      className="inline-flex h-12 items-center justify-center rounded-md border border-text/20 px-4 text-text transition-all hover:-translate-y-1 hover:bg-surface"
                     >
                       {tool.renderLogo()}
                     </Link>
@@ -79,7 +82,7 @@ export function ProofStrip() {
                       role="img"
                       aria-label={tool.name}
                       title={tool.name}
-                      className="inline-flex h-12 w-14 items-center justify-center rounded-md border border-inverse-text/20 text-inverse-text dark:border-text/20 dark:text-text"
+                      className="inline-flex h-12 w-14 items-center justify-center rounded-md border border-text/20 text-text"
                     >
                       {tool.renderLogo()}
                     </span>
@@ -106,7 +109,7 @@ export function ProofStrip() {
                   {legacySkills.map((skill) => (
                     <li
                       key={`${copyIdx}-${skill}`}
-                      className="inline-flex h-10 shrink-0 items-center rounded-pill border border-inverse-text/20 px-4 font-body text-body font-medium text-inverse-text dark:border-text/20 dark:text-text"
+                      className="inline-flex h-10 shrink-0 items-center rounded-pill border border-text/20 px-4 font-body text-body font-medium text-text"
                     >
                       <span className="whitespace-nowrap">{skill}</span>
                     </li>
@@ -119,7 +122,7 @@ export function ProofStrip() {
           {/* Perforated ticket divider */}
           <div
             aria-hidden="true"
-            className="mx-4 border-t border-dashed border-inverse-text/20 md:mx-10 lg:mx-20 dark:border-text/20"
+            className="mx-4 border-t border-dashed border-text/20 md:mx-10 lg:mx-20"
           />
 
           {/* Row 2: Tool Logos Strip ([P1-A5], py-2 prevents top clipping on hover:-translate-y-1 [P1-A3]) */}
@@ -135,19 +138,25 @@ export function ProofStrip() {
                     <TicketStub label="Tools" toneClass="bg-butter" />
                   </li>
                   {TOOL_LOGOS.map((tool) => {
-                    if (tool.href && copyIdx === 0) {
+                    if (tool.href) {
                       return (
                         <li key={`${copyIdx}-${tool.id}`} className="shrink-0">
                           <Link
                             href={tool.href}
-                            aria-label={`${tool.name} — Read case study`}
+                            tabIndex={copyIdx === 1 ? -1 : undefined}
+                            aria-hidden={copyIdx === 1 ? "true" : undefined}
+                            aria-label={
+                              copyIdx === 0
+                                ? `${tool.name} — Read case study`
+                                : undefined
+                            }
                             title={tool.name}
                             onClick={() =>
                               trackEvent("luci_click", {
                                 location: "proof_strip",
                               })
                             }
-                            className="inline-flex h-12 items-center justify-center rounded-md border border-inverse-text/20 px-4 text-inverse-text transition-transform hover:-translate-y-1 dark:border-text/20 dark:text-text"
+                            className="inline-flex h-12 items-center justify-center rounded-md border border-text/20 px-4 text-text transition-all hover:-translate-y-1 hover:bg-surface"
                           >
                             {tool.renderLogo()}
                           </Link>
@@ -162,7 +171,7 @@ export function ProofStrip() {
                           aria-label={copyIdx === 0 ? tool.name : undefined}
                           title={tool.name}
                           className={cn(
-                            "group/logo relative inline-flex h-12 items-center justify-center rounded-md border border-inverse-text/20 text-inverse-text transition-transform hover:-translate-y-1 dark:border-text/20 dark:text-text",
+                            "group/logo relative inline-flex h-12 items-center justify-center rounded-md border border-text/20 text-text transition-transform hover:-translate-y-1",
                             tool.href ? "px-4" : "w-14 px-3"
                           )}
                         >
@@ -176,6 +185,14 @@ export function ProofStrip() {
             </div>
           </div>
         </div>
+      )}
+
+      {/* Left/right edge blurs, inside the frame, over both ticker rows */}
+      {!prefersReduced && (
+        <>
+          <div aria-hidden="true" className="lp-ticker-edge lp-ticker-edge-left" />
+          <div aria-hidden="true" className="lp-ticker-edge lp-ticker-edge-right" />
+        </>
       )}
     </section>
   );

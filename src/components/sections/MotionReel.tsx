@@ -3,7 +3,8 @@ import { stagger } from "@/lib/motion";
 import { FadeIn } from "@/components/motion/FadeIn";
 import { Button } from "@/components/ui/Button";
 import { Card } from "@/components/ui/Card";
-import { Heading } from "@/components/ui/Heading";
+import { cn } from "@/lib/cn";
+import { Heading, HEADING_SCALE_CLASSES } from "@/components/ui/Heading";
 import { Section } from "@/components/ui/Section";
 import { VideoReel } from "@/components/ui/VideoReel";
 
@@ -22,24 +23,35 @@ const MOTION_CLIPS = [
   },
 ];
 
+export interface MotionReelProps {
+  headingLevel?: "h1" | "h2";
+  className?: string;
+}
+
 /**
  * MotionReel section per COMPONENTS.md §D & DESIGN.md §1.4:
  * - Section colour: sky-soft.
- * - display-xl "Motion." + VideoReel + 2 clips + Behance link.
+ * - VideoReel + motion clips + Behance link.
  */
-export function MotionReel() {
+export function MotionReel({
+  headingLevel = "h2",
+  className,
+}: MotionReelProps = {}) {
   return (
     <Section
       id="motion"
       labelledBy="motion-heading"
       tone="sky"
       soft
-      className="-mt-[var(--border-pen)] border-2 border-line-strong"
+      className={cn(
+        "-mt-[var(--border-pen)] rounded-none border-2 border-line-strong md:rounded-none",
+        className,
+      )}
     >
       <div className="space-y-8">
         <div className="flex flex-col justify-between gap-6 lg:flex-row lg:items-end">
           <div>
-            <Heading id="motion-heading" as="h2" size="display-xl">
+            <Heading id="motion-heading" as={headingLevel}>
               Motion.
             </Heading>
             <p className="mt-2 max-w-xl font-body text-body-lg text-text-muted">
@@ -72,7 +84,14 @@ export function MotionReel() {
                 <span className="inline-block rounded-pill border border-line-strong bg-sky px-3 py-1 font-mono text-caption font-semibold text-on-pastel">
                   {clip.tag}
                 </span>
-                <h3 className="font-display text-h3 text-text">{clip.title}</h3>
+                <h3
+                  className={cn(
+                    "font-display text-text",
+                    HEADING_SCALE_CLASSES.h3,
+                  )}
+                >
+                  {clip.title}
+                </h3>
                 <p className="font-body text-body text-text-muted">
                   {clip.summary}
                 </p>

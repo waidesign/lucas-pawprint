@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { cn } from "@/lib/cn";
 import { testimonials } from "@/content/site";
 import { stagger } from "@/lib/motion";
 import { FadeIn } from "@/components/motion/FadeIn";
@@ -8,13 +9,21 @@ import { Card } from "@/components/ui/Card";
 import { Heading } from "@/components/ui/Heading";
 import { Section } from "@/components/ui/Section";
 
+export interface KindWordsProps {
+  expandAll?: boolean;
+  className?: string;
+}
+
 /**
  * KindWords section per COMPONENTS.md §D & DESIGN.md §1.4:
  * - Section colour: blush-soft.
  * - 2 real manager testimonials (Hafsa A. & Fahad Qaiser) with pull quote
  *   and an accessible "Read the full note" disclosure.
  */
-export function KindWords() {
+export function KindWords({
+  expandAll = false,
+  className,
+}: KindWordsProps = {}) {
   const [openIds, setOpenIds] = useState<Record<string, boolean>>({});
 
   const toggleNote = (id: string) => {
@@ -27,14 +36,16 @@ export function KindWords() {
       labelledBy="kind-words-heading"
       tone="blush"
       soft
-      className="-mt-[var(--border-pen)] border-2 border-line-strong"
+      className={cn(
+        "-mt-[var(--border-pen)] rounded-none border-2 border-line-strong md:rounded-none",
+        className,
+      )}
     >
       <div className="space-y-8">
         <div>
           <Heading
             id="kind-words-heading"
             as="h2"
-            size="h1"
             highlight="managers"
             highlightTone="blush"
           >
@@ -47,7 +58,7 @@ export function KindWords() {
 
         <div className="grid grid-cols-1 gap-8 lg:grid-cols-2">
           {testimonials.map((t, idx) => {
-            const isExpanded = Boolean(openIds[t.id]);
+            const isExpanded = expandAll || Boolean(openIds[t.id]);
             const noteId = `testimonial-note-${t.id}`;
 
             return (
@@ -62,15 +73,17 @@ export function KindWords() {
                     </blockquote>
 
                     <div>
-                      <button
-                        type="button"
-                        aria-expanded={isExpanded}
-                        aria-controls={noteId}
-                        onClick={() => toggleNote(t.id)}
-                        className="inline-flex min-h-12 items-center rounded-pill border-2 border-line-strong bg-blush px-4 font-body text-button text-on-pastel lp-sticker-sm-interactive"
-                      >
-                        {isExpanded ? "Hide full note ↑" : "Read the full note ↓"}
-                      </button>
+                      {!expandAll && (
+                        <button
+                          type="button"
+                          aria-expanded={isExpanded}
+                          aria-controls={noteId}
+                          onClick={() => toggleNote(t.id)}
+                          className="inline-flex min-h-12 items-center rounded-pill border-2 border-line-strong bg-blush px-4 font-body text-button text-on-pastel lp-sticker-sm-interactive"
+                        >
+                          {isExpanded ? "Hide full note ↑" : "Read the full note ↓"}
+                        </button>
+                      )}
 
                       {isExpanded && (
                         <div

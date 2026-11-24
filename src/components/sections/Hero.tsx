@@ -5,7 +5,12 @@ import { motion, useReducedMotion } from "motion/react";
 import { ArrowDown, ArrowRight, Calendar } from "lucide-react";
 import { profile } from "@/content/site";
 import { trackEvent } from "@/lib/analytics";
-import { emitLoaffyEvent, type Pose } from "@/components/mascot/LoaffyBus";
+import {
+  emitLoaffyEvent,
+  emitLoaffyMessage,
+  emitLoaffyTrigger,
+  type Pose,
+} from "@/components/mascot/LoaffyBus";
 import { Loaffy } from "@/components/mascot/Loaffy";
 import {
   LoaffyStage,
@@ -16,6 +21,12 @@ import { Sticker } from "@/components/ui/Sticker";
 import { springBouncy, springCalm, stagger } from "@/lib/motion";
 
 const INLINE_POSES: readonly Pose[] = ["wink", "shades", "vibing", "loaf"];
+
+/**
+ * Module-level flag: resets on a full page load/refresh, persists across
+ * client-side navigation. The landing intro only plays on a fresh load.
+ */
+let landingIntroStarted = false;
 
 /**
  * Hero Section:
@@ -30,7 +41,7 @@ const INLINE_POSES: readonly Pose[] = ["wink", "shades", "vibing", "loaf"];
 export function Hero() {
   const prefersReduced = useReducedMotion() ?? false;
   const [phase, setPhase] = useState<HeroStagePhase>(() =>
-    prefersReduced ? "settled" : "drop"
+    prefersReduced || landingIntroStarted ? "settled" : "drop"
   );
   const [poseBeat, setPoseBeat] = useState(0);
   const [inlinePoseIdx, setInlinePoseIdx] = useState(0);
@@ -117,7 +128,9 @@ export function Hero() {
 
   useEffect(() => {
     const startId = window.setTimeout(() => {
-      runChoreography();
+      // Skip when returning home via client-side navigation (intro already seen).
+      if (!landingIntroStarted) runChoreography();
+      landingIntroStarted = true;
     }, 0);
     return () => {
       window.clearTimeout(startId);
@@ -146,6 +159,68 @@ export function Hero() {
     };
   }, [phase, prefersReduced]);
 
+  // §6.2 Hero → Work scroll morph: as #work enters (0 → 1 over 400px), look down and morph paw → window
+  useEffect(() => {
+    if (prefersReduced || phase !== "settled") return;
+
+    let cancelled = false;
+    let revertFn: (() => void) | undefined;
+    let wasMorphed = false;
+
+    (async () => {
+      const [{ default: gsap }, { ScrollTrigger }] = await Promise.all([
+        import("gsap"),
+        import("gsap/ScrollTrigger"),
+      ]);
+      if (cancelled) return;
+
+      const workEl = document.getElementById("work");
+      if (!workEl) return;
+
+      gsap.registerPlugin(ScrollTrigger);
+      const ctx = gsap.context(() => {
+        ScrollTrigger.create({
+          trigger: workEl,
+          start: "top bottom",
+          end: "+=400",
+          scrub: true,
+          invalidateOnRefresh: true,
+          onUpdate: (self) => {
+            const p = self.progress;
+            const morphed = p >= 0.45;
+
+            emitLoaffyMessage({
+              kind: "state",
+              target: "hero",
+              form: morphed ? "window" : "paw",
+              lookY: p > 0.04 ? Math.round(p * 92) : null,
+            });
+
+            if (morphed && !wasMorphed) {
+              wasMorphed = true;
+              emitLoaffyTrigger("land", "hero");
+            } else if (!morphed && wasMorphed) {
+              wasMorphed = false;
+            }
+          },
+        });
+      });
+
+      revertFn = () => ctx.revert();
+    })();
+
+    return () => {
+      cancelled = true;
+      revertFn?.();
+      emitLoaffyMessage({
+        kind: "state",
+        target: "hero",
+        form: "paw",
+        lookY: null,
+      });
+    };
+  }, [prefersReduced, phase]);
+
   const handleSkipIntro = () => {
     clearTimers();
     setPhase("settled");
@@ -160,7 +235,7 @@ export function Hero() {
     <section
       id="hero"
       aria-labelledby="hero-heading"
-      className="relative w-full rounded-xl bg-bg px-4 py-16 text-text md:rounded-2xl md:px-10 md:py-20 lg:px-20 lg:py-24"
+      className="relative mx-2 rounded-xl bg-bg md:mx-4 px-4 py-16 text-text md:rounded-2xl md:px-10 md:py-20 lg:px-20 lg:py-24"
     >
       {/* Standalone Full-Viewport Intro Curtain (unmounts once settled) */}
       <LoaffyStage
@@ -185,7 +260,12 @@ export function Hero() {
           }
           transition={prefersReduced ? { duration: 0 } : springCalm}
         >
-          <Sticker tone="blush" rotate={-2} size="md">
+          <Sticker
+            tone="blush"
+            rotate={-2}
+            size="md"
+            className="px-4 py-3 md:px-6 md:py-4"
+          >
             Everyone designs with AI now. It all looks like slop.{" "}
             <span className="inline-block rounded-xs border border-line-strong bg-butter px-2 py-1 font-display font-bold text-on-pastel">
               Except mine.
@@ -288,6 +368,7 @@ export function Hero() {
                   className="relative -mr-1 inline-flex h-[0.82em] w-[0.82em] translate-y-[0.12em] items-center justify-center align-baseline [&>div]:!h-full [&>div]:!w-full"
                 >
                   <Loaffy
+                    targetId="hero"
                     form="paw"
                     pose={currentInlinePose}
                     mood={currentInlinePose === "vibing" ? "curious" : "happy"}
@@ -368,7 +449,7 @@ export function Hero() {
               ? { duration: 0 }
               : { duration: 0.28, delay: stagger * 5 }
           }
-          className="mt-10"
+          className="mt-10 hidden md:block"
         >
           <a
             href="#work"

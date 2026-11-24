@@ -1,7 +1,7 @@
 "use client";
 
 import { usePathname } from "next/navigation";
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { cn } from "@/lib/cn";
 import { Button } from "@/components/ui/Button";
 import { ThemeSwitch } from "@/components/ui/ThemeSwitch";
@@ -21,11 +21,11 @@ export interface SiteNavProps {
 const HIDE_SCROLL_THRESHOLD = 120;
 
 /**
- * SiteNav Header with intuitive & playful centered Menu Navigation inspired by dontboardme.com:
+ * SiteNav Header:
  * - Left: Wordmark with ginger toe bean.
- * - Center: Playful animated Menu toggle button (`=` morphs to `X`).
- * - Right: ThemeSwitch (compact) + Resume CTA.
- * - Overlay: Full-width organic scalloped cloud curtain with display typography and socials.
+ * - Right: ThemeSwitch (compact) + Resume CTA + Menu toggle (`=` morphs to `X`).
+ * - Menu: a full-page overlay that fades in *under* this header. The header itself stays
+ *   put (raised above the menu, never hidden while open), so there is never a second header.
  */
 export function SiteNav({
   activePathOverride,
@@ -37,6 +37,8 @@ export function SiteNav({
   const [hidden, setHidden] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const lastScrollYRef = useRef(0);
+  const headerRef = useRef<HTMLElement | null>(null);
+  const closeMenu = useCallback(() => setMenuOpen(false), []);
 
   useEffect(() => {
     if (previewMode) return;
@@ -61,36 +63,33 @@ export function SiteNav({
   return (
     <>
       <header
+        ref={headerRef}
         style={{
-          zIndex: previewMode ? undefined : "var(--z-nav)",
+          // While the menu is open the header sits above it (menu = --z-overlay).
+          zIndex: previewMode
+            ? undefined
+            : menuOpen
+              ? "var(--z-modal)"
+              : "var(--z-nav)",
           transitionDuration: "var(--duration-base)",
           transitionTimingFunction: "var(--ease-out-soft)",
         }}
         className={cn(
           "w-full border-b-2 border-line-strong bg-bg px-4 py-3 transition-transform md:px-10 lg:px-20",
           !previewMode && "sticky top-0",
-          !previewMode && hidden && "-translate-y-full",
-          className
+          !previewMode && hidden && !menuOpen && "-translate-y-full",
+          className,
         )}
       >
-        <div className="relative flex w-full items-center justify-between gap-4">
+        <div className="flex w-full items-center justify-between gap-4">
           {/* Left: Wordmark */}
           <div className="flex items-center">
             <Wordmark />
           </div>
 
-          {/* Center: Playful Menu Toggle Button (inspired by dontboardme.com) */}
-          <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
-            <HeaderMenuButton
-              open={menuOpen}
-              onClick={() => setMenuOpen((prev) => !prev)}
-              ariaControls="site-header-menu"
-            />
-          </div>
-
-          {/* Right: ThemeSwitch (compact) + Resume CTA */}
+          {/* Right: ThemeSwitch (compact, md+) + Resume CTA + Menu toggle */}
           <div className="flex items-center gap-2 md:gap-3">
-            <ThemeSwitch variant="compact" />
+            <ThemeSwitch variant="compact" className="hidden md:inline-block" />
             <div
               onClick={() =>
                 trackEvent("resume_download", { location: "nav_desktop" })
@@ -107,15 +106,21 @@ export function SiteNav({
                 Resume
               </Button>
             </div>
+            <HeaderMenuButton
+              open={menuOpen}
+              onClick={() => setMenuOpen((prev) => !prev)}
+              ariaControls="site-header-menu"
+            />
           </div>
         </div>
       </header>
 
-      {/* Playful Scalloped Cloud Menu Curtain */}
+      {/* Full-page menu, fading in under the header */}
       <HeaderMenu
         open={menuOpen}
-        onClose={() => setMenuOpen(false)}
+        onClose={closeMenu}
         currentPath={currentPath}
+        headerRef={headerRef}
       />
     </>
   );

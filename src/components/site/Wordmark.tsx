@@ -22,7 +22,7 @@ export function Wordmark({ href = "/", className }: WordmarkProps) {
       aria-label="Lucas — Home"
       onMouseEnter={() => emitLoaffyEvent("logo-hover")}
       className={cn(
-        "inline-flex min-h-12 items-center gap-1 rounded-xs px-2 font-display text-h3 font-extrabold text-text select-none",
+        "inline-flex min-h-12 items-center gap-1 rounded-xs px-2 font-display text-h3 font-extrabold text-text transition-opacity hover:opacity-80 select-none",
         className
       )}
     >

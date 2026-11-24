@@ -2,7 +2,6 @@
 
 import { useEffect, useMemo, useState } from "react";
 import type { CaseStudySummary } from "@/lib/case-studies";
-import { stagger } from "@/lib/motion";
 import { FadeIn } from "@/components/motion/FadeIn";
 import { Chip } from "@/components/ui/Chip";
 import { Heading } from "@/components/ui/Heading";
@@ -25,12 +24,15 @@ export interface SelectedWorkProps {
   headingLevel?: "h1" | "h2";
   /** Sync active tag filter with `?tag=` in the browser URL on `/work` */
   syncUrlQuery?: boolean;
+  /** Show the tag filter chips + result count (hidden on Home for now) */
+  showFilters?: boolean;
 }
 
 export function SelectedWork({
   caseStudies,
   headingLevel = "h2",
   syncUrlQuery = false,
+  showFilters = true,
 }: SelectedWorkProps) {
   const [selectedTag, setSelectedTag] = useState<string>("All");
 
@@ -41,7 +43,7 @@ export function SelectedWork({
       const tagParam = params.get("tag");
       const matched = tagParam
         ? WORK_FILTER_TAGS.find(
-            (t) => t.toLowerCase() === tagParam.toLowerCase()
+            (t) => t.toLowerCase() === tagParam.toLowerCase(),
           )
         : "All";
       if (matched) {
@@ -73,55 +75,59 @@ export function SelectedWork({
     if (selectedTag === "All") return caseStudies;
     return caseStudies.filter((c) =>
       c.metadata.tags.some(
-        (t) => t.toLowerCase() === selectedTag.toLowerCase()
-      )
+        (t) => t.toLowerCase() === selectedTag.toLowerCase(),
+      ),
     );
   }, [caseStudies, selectedTag]);
 
-  const featuredCase = filtered.find((c) => c.metadata.featured);
-  const standardCases = filtered.filter((c) => !c.metadata.featured);
+  const orderedCases = [
+    ...filtered.filter((c) => c.metadata.featured),
+    ...filtered.filter((c) => !c.metadata.featured),
+  ];
 
   return (
     <Section id="work" labelledBy="work-heading" tone="bg">
-      <div className="space-y-8">
+      <div className="space-y-6 md:space-y-8">
         {/* Giant section word + filter chips */}
         <div className="flex flex-col justify-between gap-6 lg:flex-row lg:items-end">
           <div>
-            <Heading id="work-heading" as={headingLevel} size="display-xl">
+            <Heading id="work-heading" as={headingLevel}>
               Work.
             </Heading>
             <p className="mt-2 max-w-xl font-body text-body-lg text-text-muted">
-              My own product first, followed by client platforms I designed across
-              automotive data, SaaS, e-commerce and hospitality.
+              My own product first, followed by client platforms I designed
+              across automotive data, SaaS, e-commerce and hospitality.
             </p>
           </div>
 
-          <div className="space-y-2">
-            <div
-              role="group"
-              aria-label="Filter case studies by category"
-              className="flex flex-wrap items-center gap-1"
-            >
-              {WORK_FILTER_TAGS.map((tag) => (
-                <Chip
-                  key={tag}
-                  as="button"
-                  selected={selectedTag === tag}
-                  onClick={() => handleSelectTag(tag)}
-                >
-                  {tag}
-                </Chip>
-              ))}
+          {showFilters && (
+            <div className="space-y-2">
+              <div
+                role="group"
+                aria-label="Filter case studies by category"
+                className="flex flex-wrap items-center gap-1"
+              >
+                {WORK_FILTER_TAGS.map((tag) => (
+                  <Chip
+                    key={tag}
+                    as="button"
+                    selected={selectedTag === tag}
+                    onClick={() => handleSelectTag(tag)}
+                  >
+                    {tag}
+                  </Chip>
+                ))}
+              </div>
+              <p
+                aria-live="polite"
+                className="font-mono text-caption text-text-muted"
+              >
+                Showing {filtered.length}{" "}
+                {filtered.length === 1 ? "case study" : "case studies"}
+                {selectedTag !== "All" ? ` in "${selectedTag}"` : ""}
+              </p>
             </div>
-            <p
-              aria-live="polite"
-              className="font-mono text-caption text-text-muted"
-            >
-              Showing {filtered.length}{" "}
-              {filtered.length === 1 ? "case study" : "case studies"}
-              {selectedTag !== "All" ? ` in "${selectedTag}"` : ""}
-            </p>
-          </div>
+          )}
         </div>
 
         {/* Empty filter state (BRAND.md §4) */}
@@ -133,53 +139,37 @@ export function SelectedWork({
           </div>
         )}
 
-        {/* Featured first card (Luci: 7/5 split layout, lilac, BetaBadge, Loaffy window-form peek on hover) */}
-        {featuredCase && (
-          <FadeIn delay={0}>
-            <CaseCard
-              slug={featuredCase.slug}
-              title={featuredCase.metadata.title}
-              summary={featuredCase.metadata.summary}
-              tags={featuredCase.metadata.tags}
-              tone={featuredCase.metadata.tone}
-              cover={featuredCase.metadata.cover}
-              coverAlt={featuredCase.metadata.coverAlt}
-              form={featuredCase.metadata.form}
-              liveUrl={featuredCase.metadata.liveUrl}
-              featured
-              badge={
-                featuredCase.metadata.visibility === "full"
-                  ? "Live"
-                  : featuredCase.metadata.badge
-              }
-              year={featuredCase.metadata.year}
-              role={featuredCase.metadata.role}
-            />
-          </FadeIn>
-        )}
-
-        {/* 6 Client case studies in 2-column grid */}
-        {standardCases.length > 0 && (
-          <div className="grid grid-cols-1 gap-8 lg:grid-cols-2">
-            {standardCases.map((item, idx) => (
-              <FadeIn key={item.slug} delay={Math.min(idx + 1, 5) * stagger}>
-                <CaseCard
-                  slug={item.slug}
-                  title={item.metadata.title}
-                  summary={item.metadata.summary}
-                  tags={item.metadata.tags}
-                  tone={item.metadata.tone}
-                  cover={item.metadata.cover}
-                  coverAlt={item.metadata.coverAlt}
-                  form={item.metadata.form}
-                  liveUrl={item.metadata.liveUrl}
-                  featured={false}
-                  badge={item.metadata.badge}
-                  year={item.metadata.year}
-                  role={item.metadata.role}
-                />
-              </FadeIn>
-            ))}
+        {/* Case study rows (slush.app-inspired): thumbnail card + plain-on-canvas copy,
+            featured (Luci) first, thumbnails alternating left / right on large screens. */}
+        {orderedCases.length > 0 && (
+          <div className="space-y-16 pt-4 md:space-y-24 md:pt-8 lg:space-y-40 lg:pt-16">
+            {orderedCases.map((item, idx) => {
+              const isFeatured = Boolean(item.metadata.featured);
+              return (
+                <FadeIn key={item.slug} delay={0}>
+                  <CaseCard
+                    slug={item.slug}
+                    title={item.metadata.title}
+                    summary={item.metadata.summary}
+                    tags={item.metadata.tags}
+                    tone={item.metadata.tone}
+                    cover={item.metadata.cover}
+                    coverAlt={item.metadata.coverAlt}
+                    form={item.metadata.form}
+                    liveUrl={item.metadata.liveUrl}
+                    featured={isFeatured}
+                    badge={
+                      isFeatured && item.metadata.visibility === "full"
+                        ? "Live"
+                        : item.metadata.badge
+                    }
+                    year={item.metadata.year}
+                    role={item.metadata.role}
+                    reverse={idx % 2 === 1}
+                  />
+                </FadeIn>
+              );
+            })}
           </div>
         )}
       </div>

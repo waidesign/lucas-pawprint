@@ -19,7 +19,7 @@ export function SiteFooter({ className }: SiteFooterProps) {
   return (
     <footer
       className={cn(
-        "w-full rounded-t-xl border-2 border-line-strong bg-pistachio-soft px-4 py-12 text-text md:rounded-t-2xl md:px-10 md:py-16 lg:px-20",
+        "mx-2 rounded-t-xl border-2 md:mx-4 border-line-strong bg-pistachio-soft px-4 py-12 text-text md:rounded-t-2xl md:px-10 md:py-16 lg:px-20",
         className
       )}
     >
@@ -78,8 +78,8 @@ export function SiteFooter({ className }: SiteFooterProps) {
         </div>
 
         {/* Bottom row: Pawprint umbrella, Luci link, copyright & colophon */}
-        <div className="flex flex-wrap items-center justify-between gap-4 border-t border-line pt-6 font-body text-caption text-text-muted">
-          <div className="flex flex-wrap items-center gap-4">
+        <div className="flex flex-wrap items-center justify-between gap-4 border-t border-line pt-6 font-body text-body text-text-muted md:text-caption">
+          <div className="flex flex-wrap items-center gap-3 md:gap-4">
             <span>© 2026 Lucas (Wai Phyo Aung)</span>
             <span aria-hidden="true">·</span>
             <span>
@@ -88,7 +88,7 @@ export function SiteFooter({ className }: SiteFooterProps) {
                 href="https://pawprint.design"
                 external
                 tone="lilac"
-                className="text-caption"
+                className="text-body md:text-caption"
               >
                 pawprint.design
               </TextLink>
@@ -100,14 +100,18 @@ export function SiteFooter({ className }: SiteFooterProps) {
                 href="https://luci.pawprint.design"
                 external
                 tone="butter"
-                className="text-caption"
+                className="text-body md:text-caption"
               >
                 Luci (Private beta)
               </TextLink>
             </span>
           </div>
 
-          <TextLink href="/colophon" tone="sky" className="text-caption">
+          <TextLink
+            href="/colophon"
+            tone="sky"
+            className="text-body md:text-caption"
+          >
             Colophon & design system →
           </TextLink>
         </div>

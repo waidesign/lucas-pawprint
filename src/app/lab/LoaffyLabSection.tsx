@@ -20,7 +20,10 @@ import {
   type CatHandEdge,
   type CatHandSide,
 } from "@/components/mascot/CatHand";
+import { HandSketch } from "@/components/mascot/HandSketch";
+import { PeekingHand } from "@/components/mascot/PeekingHand";
 import { usePawCursor } from "@/components/mascot/PawCursorProvider";
+import { useLoaffyOnScreen } from "@/components/mascot/stage";
 import {
   computeMinBeanPadGap,
   REST_BEANS,
@@ -195,6 +198,10 @@ export function LoaffyLabSection() {
   const [handClaws, setHandClaws] = useState(true);
   const [handEdge, setHandEdge] = useState<CatHandEdge>("bottom");
   const [handAction, setHandAction] = useState<CatHandAction>("idle");
+  const [handPlayKey, setHandPlayKey] = useState(0);
+  const [peekActive, setPeekActive] = useState(false);
+  const [sketchRun, setSketchRun] = useState(0);
+  const loaffyOnScreen = useLoaffyOnScreen();
   const pawCursor = usePawCursor();
 
   const clearanceChecks = useMemo(
@@ -759,13 +766,18 @@ export function LoaffyLabSection() {
               )
             )}
 
-            {(["idle", "enter", "tap", "bat", "sketch"] as CatHandAction[]).map(
+            {(
+              ["idle", "enter", "tap", "bat", "sketch", "exit"] as CatHandAction[]
+            ).map(
               (act) => (
                 <button
                   key={act}
                   type="button"
                   aria-pressed={handAction === act}
-                  onClick={() => setHandAction(act)}
+                  onClick={() => {
+                    setHandAction(act);
+                    setHandPlayKey((k) => k + 1);
+                  }}
                   className={`min-h-12 rounded-pill border-2 border-line-strong px-3 font-mono text-caption ${
                     handAction === act
                       ? "bg-blush text-on-pastel"
@@ -804,6 +816,7 @@ export function LoaffyLabSection() {
                     from={handEdge}
                     claws={handClaws}
                     action={handAction}
+                    playKey={handPlayKey}
                     size={160}
                   />
                 </div>
@@ -826,6 +839,64 @@ export function LoaffyLabSection() {
               </p>
             </div>
           ))}
+        </div>
+
+        {/* Site placements: peek over an edge, and the Shape sketch scene */}
+        <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+          <div className="space-y-4 rounded-lg border-2 border-line-strong bg-surface p-6 shadow-sticker-sm">
+            <div className="flex items-center justify-between border-b border-line pb-2">
+              <span className="font-display text-h4 text-text">
+                &lt;PeekingHand&gt;
+              </span>
+              <code className="font-mono text-caption text-text-muted">
+                Loaffy on screen: {loaffyOnScreen ? "yes (hand waits)" : "no"}
+              </code>
+            </div>
+            <p className="font-body text-caption text-text-muted">
+              Case CTA (bat on hover/focus) and DecisionCard (hangs once per
+              page). Waits while any Loaffy is on screen, so scroll the gallery
+              above out of view to see it.
+            </p>
+            <div className="flex min-h-40 items-end justify-center pt-12">
+              <span className="relative inline-flex">
+                <PeekingHand
+                  active={peekActive}
+                  then="bat"
+                  className="bottom-0 right-6 z-0"
+                />
+                <button
+                  type="button"
+                  aria-pressed={peekActive}
+                  onClick={() => setPeekActive((a) => !a)}
+                  className="relative z-10 inline-flex min-h-14 items-center rounded-pill bg-inverse-bg px-6 font-body text-button font-semibold text-inverse-text lp-btn-primary"
+                >
+                  {peekActive ? "Hand: in (click to exit)" : "Hand: out (click to peek)"}
+                </button>
+              </span>
+            </div>
+          </div>
+
+          <div className="space-y-4 rounded-lg border-2 border-line-strong bg-surface p-6 shadow-sticker-sm">
+            <div className="flex items-center justify-between border-b border-line pb-2">
+              <span className="font-display text-h4 text-text">
+                &lt;HandSketch&gt;
+              </span>
+              <button
+                type="button"
+                onClick={() => setSketchRun((n) => n + 1)}
+                className="min-h-12 rounded-pill border-2 border-line-strong bg-sky px-4 font-body text-button text-on-pastel shadow-sticker-sm"
+              >
+                Replay
+              </button>
+            </div>
+            <p className="font-body text-caption text-text-muted">
+              Process &quot;Shape&quot; and /about: enter 480 · draw 720 · hold
+              480 · exit 280. Scroll-scrubbed when pinned on Home.
+            </p>
+            <div className="relative h-36 w-full overflow-hidden rounded-md border-2 border-on-pastel bg-sky">
+              <HandSketch key={sketchRun} play handSize={144} />
+            </div>
+          </div>
         </div>
       </div>
     </section>

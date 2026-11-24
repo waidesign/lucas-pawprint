@@ -543,9 +543,9 @@ export function ComponentsLabSection() {
               08 · Site Chrome (SiteNav, MobileMenu & SiteFooter)
             </h3>
             <p className="font-body text-caption text-text-muted">
-              Wordmark with ginger toe bean, centered playful HeaderMenuButton, compact
-              ThemeSwitch, Resume button, full-screen HeaderMenu cloud curtain with
-              focus trap, and pistachio-soft SiteFooter.
+              Wordmark with ginger toe bean; right group: compact ThemeSwitch, Resume
+              button and HeaderMenuButton; full-page HeaderMenu that fades in under the
+              header, with focus trap; and pistachio-soft SiteFooter.
             </p>
           </div>
           <Button
@@ -554,7 +554,7 @@ export function ComponentsLabSection() {
             size="md"
             onClick={() => setMobileSheetDemoOpen(true)}
           >
-            Open HeaderMenu Cloud (Esc to close)
+            Open header menu (Esc to close)
           </Button>
         </div>
 

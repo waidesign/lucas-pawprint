@@ -1,19 +1,31 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useRef, useState } from "react";
-import { AnimatePresence, motion, useReducedMotion } from "motion/react";
+import {
+  useEffect,
+  useId,
+  useRef,
+  useState,
+  type ReactNode,
+  type RefObject,
+} from "react";
+import {
+  animate,
+  motion,
+  useMotionValue,
+  useReducedMotion,
+  useTransform,
+} from "motion/react";
 import { cn } from "@/lib/cn";
-import { profile } from "@/content/site";
-import { Button } from "@/components/ui/Button";
 import { ThemeSwitch } from "@/components/ui/ThemeSwitch";
-import { HeaderMenuButton } from "./HeaderMenuButton";
-import { Wordmark } from "./Wordmark";
+import { profile } from "@/content/site";
 
 export interface HeaderMenuProps {
   open: boolean;
   onClose: () => void;
   currentPath?: string;
+  /** The site header: stays on top of the menu and is part of the focus loop. */
+  headerRef?: RefObject<HTMLElement | null>;
 }
 
 const MENU_ITEMS = [
@@ -25,51 +37,296 @@ const MENU_ITEMS = [
   },
   {
     label: "Motion",
-    href: "/#motion",
+    href: "/motion",
     tag: "02 · Showreel",
     toneClass: "bg-sky text-on-pastel",
   },
   {
     label: "About",
-    href: "/#about",
-    tag: "03 · Bio & Changelog",
+    href: "/about",
+    tag: "03 · Bio & changelog",
     toneClass: "bg-butter text-on-pastel",
   },
   {
     label: "Contact",
-    href: "/#contact",
+    href: "/contact",
     tag: "04 · Say hi!",
     toneClass: "bg-blush text-on-pastel",
   },
 ] as const;
 
+const SOCIAL_ICON_PROPS = {
+  "aria-hidden": true,
+  viewBox: "0 0 24 24",
+  fill: "none",
+  stroke: "currentColor",
+  strokeWidth: 2,
+  strokeLinecap: "round",
+  strokeLinejoin: "round",
+  className: "h-5 w-5",
+} as const;
+
+const SOCIALS: {
+  label: string;
+  href: string;
+  external: boolean;
+  hoverClass: string;
+  icon: ReactNode;
+}[] = [
+  {
+    label: "LinkedIn profile (opens in new tab)",
+    href: profile.socials.linkedin,
+    external: true,
+    hoverClass: "hover:bg-lilac",
+    icon: (
+      <svg {...SOCIAL_ICON_PROPS}>
+        <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z" />
+        <rect x="2" y="9" width="4" height="12" />
+        <circle cx="4" cy="4" r="2" />
+      </svg>
+    ),
+  },
+  {
+    label: "GitHub profile (opens in new tab)",
+    href: profile.socials.github,
+    external: true,
+    hoverClass: "hover:bg-mint",
+    icon: (
+      <svg {...SOCIAL_ICON_PROPS}>
+        <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22" />
+      </svg>
+    ),
+  },
+  {
+    label: "Behance profile (opens in new tab)",
+    href: profile.socials.behance,
+    external: true,
+    hoverClass: "hover:bg-sky",
+    icon: (
+      <svg {...SOCIAL_ICON_PROPS}>
+        <path d="M3 8h4.5a2.5 2.5 0 0 1 0 5H3V8z" />
+        <path d="M3 13h5a2.5 2.5 0 0 1 0 5H3v-5z" />
+        <path d="M14 13.5a3.5 3.5 0 1 0 6.5 1.5h-7" />
+        <path d="M15 8h4" />
+      </svg>
+    ),
+  },
+  {
+    label: "Medium articles (opens in new tab)",
+    href: profile.socials.medium,
+    external: true,
+    hoverClass: "hover:bg-butter",
+    icon: (
+      <svg {...SOCIAL_ICON_PROPS}>
+        <ellipse cx="6" cy="12" rx="4" ry="7" />
+        <ellipse cx="15" cy="12" rx="3" ry="6.5" />
+        <ellipse cx="21" cy="12" rx="1" ry="5.5" />
+      </svg>
+    ),
+  },
+  {
+    label: `Send email to ${profile.email}`,
+    href: `mailto:${profile.email}`,
+    external: false,
+    hoverClass: "hover:bg-blush",
+    icon: (
+      <svg {...SOCIAL_ICON_PROPS}>
+        <rect width="20" height="16" x="2" y="4" rx="2" />
+        <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" />
+      </svg>
+    ),
+  },
+];
+
+/* Motion (DESIGN.md easings on the 40ms grid). */
+const EASE_OUT_SOFT = [0.22, 1, 0.36, 1] as const;
+const EASE_IN_OUT = [0.65, 0, 0.35, 1] as const;
+
+/* Two-layer "sticker cut" wipe from the top-right corner (where the menu toggle lives):
+   a lilac lead layer sweeps in first, the paper menu sheet follows a beat later. Both
+   edges get a 2px pen outline, so the shape is visible even though the sheet is the
+   same colour as the page. Close plays it backwards: sheet first, then the lilac. */
+/* ease-in-out (not ease-out) so the shape visibly emerges from the corner and sweeps
+   across, instead of covering the screen in the first few frames. */
+const LEAD_OPEN = { duration: 0.8, ease: EASE_IN_OUT } as const;
+const SHEET_OPEN = { duration: 0.8, ease: EASE_IN_OUT, delay: 0.16 } as const;
+const SHEET_CLOSE = { duration: 0.64, ease: EASE_IN_OUT, delay: 0.12 } as const;
+const LEAD_CLOSE = { duration: 0.64, ease: EASE_IN_OUT, delay: 0.28 } as const;
+
+/* Wavy, hand-cut edge: 12 big lobes + a 7-lobe ripple for irregularity. The lobes slide
+   along the edge as it grows (phase follows progress), so it morphs rather than zooms. */
+const BLOB_POINTS = 48;
+const BLOB_LOBES = 12;
+const BLOB_RIPPLE_LOBES = 7;
+const BLOB_AMPLITUDE = 0.08;
+const BLOB_RIPPLE = 0.04;
+/* Max radius in bounding-box units: the deepest dip (1 − 0.12) still clears the far
+   bottom-left corner (distance √2 ≈ 1.41 from the top-right). */
+const BLOB_MAX_RADIUS = 1.75;
+const BLOB_PHASE_TRAVEL = Math.PI * 1.5;
+
+/** Smooth closed wavy path (Catmull-Rom → cubic Bézier) in 0–1 box units. */
+function blobPath(progress: number, phaseOffset = 0) {
+  const radius = progress * BLOB_MAX_RADIUS;
+  const phase = progress * BLOB_PHASE_TRAVEL + phaseOffset;
+  const n = BLOB_POINTS;
+  const pts = Array.from({ length: n }, (_, i) => {
+    const a = (i / n) * Math.PI * 2;
+    const r =
+      radius *
+      (1 +
+        BLOB_AMPLITUDE * Math.sin(BLOB_LOBES * a + phase) +
+        BLOB_RIPPLE * Math.sin(BLOB_RIPPLE_LOBES * a - phase * 1.3));
+    return [1 + Math.cos(a) * r, Math.sin(a) * r] as const;
+  });
+  const at = (i: number) => pts[(i + n) % n] as readonly [number, number];
+  const f = (v: number) => v.toFixed(4);
+  let d = `M${f(at(0)[0])},${f(at(0)[1])}`;
+  for (let i = 0; i < n; i++) {
+    const p0 = at(i - 1);
+    const p1 = at(i);
+    const p2 = at(i + 1);
+    const p3 = at(i + 2);
+    const c1x = p1[0] + (p2[0] - p0[0]) / 6;
+    const c1y = p1[1] + (p2[1] - p0[1]) / 6;
+    const c2x = p2[0] - (p3[0] - p1[0]) / 6;
+    const c2y = p2[1] - (p3[1] - p1[1]) / 6;
+    d += ` C${f(c1x)},${f(c1y)} ${f(c2x)},${f(c2y)} ${f(p2[0])},${f(p2[1])}`;
+  }
+  return `${d} Z`;
+}
+
+/* Nav links: each word rises out of its own mask, one after another. */
+const LINK_VARIANTS = {
+  hidden: (idx: number) => ({
+    y: "110%",
+    rotate: 4,
+    transition: { duration: 0.24, ease: EASE_IN_OUT, delay: (3 - idx) * 0.04 },
+  }),
+  shown: (idx: number) => ({
+    y: "0%",
+    rotate: 0,
+    transition: {
+      duration: 0.56,
+      ease: EASE_OUT_SOFT,
+      delay: 0.48 + idx * 0.08,
+    },
+  }),
+};
+
+const SOCIAL_VARIANTS = {
+  hidden: {
+    opacity: 0,
+    y: 8,
+    transition: { duration: 0.16, ease: EASE_IN_OUT },
+  },
+  shown: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.48, ease: EASE_OUT_SOFT, delay: 0.8 },
+  },
+};
+
+const FOCUSABLE =
+  'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])';
+
 /**
- * Intuitive, playful Header Menu Navigation inspired by dontboardme.com:
- * - Full-width organic scalloped cloud curtain sliding down with spring physics.
- * - Double-layered cartoon scalloped bottom rim with soft blush underlay peek.
- * - Massive display navigation typography with interactive sticker tags on hover.
- * - Centered circular social icon buttons (LinkedIn, GitHub, Behance, Medium, Email).
- * - Full keyboard trap, Escape dismissal, scroll locking, and WCAG 2.2 AA compliance.
+ * Full-page Header Menu (inspired by dontboardme.com, built with our tokens):
+ * - A full-viewport page (`bg-bg`) under the real site header (which never moves; its
+ *   toggle in the right button group morphs `=` → `X`).
+ * - Open: a two-layer sticker-cut wipe from the top-right corner. A lilac lead layer
+ *   sweeps in, the paper menu sheet follows 160ms later; both have a wavy, morphing,
+ *   pen-outlined edge (800ms, ease-in-out). As the sheet passes the centre, each nav
+ *   link slides up out of its own mask (80ms stagger) and the socials fade up.
+ * - Close: links drop back into their masks (bottom link first), socials fade, the sheet
+ *   retracts into the corner (uncovering the lilac), then the lilac follows (640ms each).
+ * - Reduced motion: no mask or slides, a short fade only.
+ * - Sentence-case display links with a pastel tag sticker on hover.
+ * - Focus loops through header + menu; Escape closes; page scroll is locked and the
+ *   content behind is made `inert`. WCAG 2.2 AA.
  */
-export function HeaderMenu({ open, onClose, currentPath }: HeaderMenuProps) {
+export function HeaderMenu({
+  open,
+  onClose,
+  currentPath,
+  headerRef,
+}: HeaderMenuProps) {
   const dialogRef = useRef<HTMLDivElement | null>(null);
-  const previousFocusRef = useRef<HTMLElement | null>(null);
   const prefersReduced = useReducedMotion() ?? false;
   const [hoveredIdx, setHoveredIdx] = useState<number | null>(null);
+  // Stays mounted through the close animation; unmounts once the blob is gone.
+  const [rendered, setRendered] = useState(open);
+  // True once fully open: the clip-path is dropped so scrolling stays cheap.
+  const [settled, setSettled] = useState(false);
+  const leadProgress = useMotionValue(0);
+  const sheetProgress = useMotionValue(0);
+  // Different phase offsets so the two outlined edges never line up.
+  const leadD = useTransform(leadProgress, (p) => blobPath(p, Math.PI / 2));
+  const sheetD = useTransform(sheetProgress, (p) => blobPath(p));
+  const uid = useId().replace(/:/g, "");
+  const leadMaskId = `site-menu-lead-${uid}`;
+  const sheetMaskId = `site-menu-sheet-${uid}`;
+
+  // Mount on open (adjusting state while rendering, React's recommended pattern).
+  if (open && !rendered) setRendered(true);
+  // Closing: put the clip back on so a quick re-open grows from the corner again.
+  if (!open && settled) setSettled(false);
+
+  useEffect(() => {
+    if (!rendered) return;
+    if (prefersReduced) {
+      leadProgress.set(open ? 1 : 0);
+      sheetProgress.set(open ? 1 : 0);
+      if (!open) {
+        const t = window.setTimeout(() => setRendered(false), 120);
+        return () => window.clearTimeout(t);
+      }
+      return;
+    }
+    if (open) {
+      const lead = animate(leadProgress, 1, LEAD_OPEN);
+      const sheet = animate(sheetProgress, 1, SHEET_OPEN);
+      sheet.then(() => setSettled(true));
+      return () => {
+        lead.stop();
+        sheet.stop();
+      };
+    }
+    const sheet = animate(sheetProgress, 0, SHEET_CLOSE);
+    const lead = animate(leadProgress, 0, LEAD_CLOSE);
+    lead.then(() => {
+      setRendered(false);
+      setSettled(false);
+    });
+    return () => {
+      sheet.stop();
+      lead.stop();
+    };
+  }, [open, rendered, prefersReduced, leadProgress, sheetProgress]);
 
   useEffect(() => {
     if (!open) return;
 
-    previousFocusRef.current = document.activeElement as HTMLElement | null;
     const prevOverflow = document.body.style.overflow;
     document.body.style.overflow = "hidden";
 
+    // Make the page content behind the menu inert (everything next to the header
+    // and the menu itself, e.g. <main> and the footer).
+    const header = headerRef?.current ?? null;
     const dialog = dialogRef.current;
-    const focusables = dialog?.querySelectorAll<HTMLElement>(
-      'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])'
+    const siblings = Array.from(header?.parentElement?.children ?? []).filter(
+      (el): el is HTMLElement =>
+        el instanceof HTMLElement && el !== header && el !== dialog,
     );
-    // Focus the center close button or first item
-    focusables?.[0]?.focus();
+    siblings.forEach((el) => el.setAttribute("inert", ""));
+
+    const getFocusables = () => [
+      ...Array.from(header?.querySelectorAll<HTMLElement>(FOCUSABLE) ?? []),
+      ...Array.from(dialog?.querySelectorAll<HTMLElement>(FOCUSABLE) ?? []),
+    ];
+
+    // Start on the first menu link.
+    dialog?.querySelector<HTMLElement>(FOCUSABLE)?.focus();
 
     const onKeyDown = (e: KeyboardEvent) => {
       if (e.key === "Escape") {
@@ -78,7 +335,9 @@ export function HeaderMenu({ open, onClose, currentPath }: HeaderMenuProps) {
         return;
       }
 
-      if (e.key === "Tab" && focusables && focusables.length > 0) {
+      if (e.key === "Tab") {
+        const focusables = getFocusables();
+        if (focusables.length === 0) return;
         const first = focusables[0];
         const last = focusables[focusables.length - 1];
         if (e.shiftKey && document.activeElement === first) {
@@ -94,307 +353,203 @@ export function HeaderMenu({ open, onClose, currentPath }: HeaderMenuProps) {
     window.addEventListener("keydown", onKeyDown);
     return () => {
       document.body.style.overflow = prevOverflow;
+      siblings.forEach((el) => el.removeAttribute("inert"));
       window.removeEventListener("keydown", onKeyDown);
-      previousFocusRef.current?.focus();
     };
-  }, [open, onClose]);
+  }, [open, onClose, headerRef, rendered]);
+
+  if (!rendered) return null;
+
+  const phase = open ? "shown" : "hidden";
+  // While the wipe runs: clip both layers and draw their pen outlines.
+  const wiping = !prefersReduced && !(open && settled);
+  const layerZ = { zIndex: "var(--z-overlay)" } as const;
+
+  /** Full-viewport SVG that strokes a 0–1 box path with a constant 2px pen line. */
+  const outline = (d: typeof sheetD) => (
+    <svg
+      aria-hidden="true"
+      viewBox="0 0 1 1"
+      preserveAspectRatio="none"
+      style={layerZ}
+      className="pointer-events-none fixed inset-0 h-full w-full"
+    >
+      <motion.path
+        d={d}
+        fill="none"
+        stroke="var(--color-line-strong)"
+        strokeWidth={2}
+        vectorEffect="non-scaling-stroke"
+      />
+    </svg>
+  );
 
   return (
-    <AnimatePresence>
-      {open && (
-        <div
-          ref={dialogRef}
-          role="dialog"
-          aria-modal="true"
-          aria-label="Site navigation menu"
-          style={{ zIndex: "var(--z-modal)" }}
-          className="fixed inset-0 flex flex-col justify-between overflow-y-auto"
-        >
-          {/* Dimmed backdrop (click to dismiss) */}
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.2 }}
-            onClick={onClose}
-            className="fixed inset-0 bg-ink/30 backdrop-blur-[2px]"
+    <>
+      {/* Clip paths (objectBoundingBox units, so they scale with the viewport) */}
+      <svg aria-hidden="true" width="0" height="0" className="absolute">
+        <defs>
+          <clipPath id={leadMaskId} clipPathUnits="objectBoundingBox">
+            <motion.path d={leadD} />
+          </clipPath>
+          <clipPath id={sheetMaskId} clipPathUnits="objectBoundingBox">
+            <motion.path d={sheetD} />
+          </clipPath>
+        </defs>
+      </svg>
+
+      {/* Lilac lead layer + its outline (only while the wipe runs) */}
+      {wiping && (
+        <>
+          <div
+            aria-hidden="true"
+            style={{ ...layerZ, clipPath: `url(#${leadMaskId})` }}
+            className="pointer-events-none fixed inset-0 bg-lilac"
           />
+          {outline(leadD)}
+        </>
+      )}
 
-          {/* Scalloped Cloud Menu Curtain */}
-          <motion.div
-            initial={prefersReduced ? { opacity: 0 } : { y: "-100%" }}
-            animate={prefersReduced ? { opacity: 1 } : { y: 0 }}
-            exit={prefersReduced ? { opacity: 0 } : { y: "-100%" }}
-            transition={
-              prefersReduced
-                ? { duration: 0.16 }
-                : {
-                    type: "spring",
-                    stiffness: 280,
-                    damping: 26,
-                    mass: 0.9,
-                  }
-            }
-            className="relative z-10 flex w-full flex-col bg-bg text-text shadow-sticker"
+      <motion.div
+        id="site-header-menu"
+        ref={dialogRef}
+        role="dialog"
+        aria-label="Site navigation menu"
+        aria-hidden={!open || undefined}
+        style={{
+          ...layerZ,
+          // Clip only while the wipe runs; once fully open, drop it (cheap scrolling).
+          clipPath: wiping ? `url(#${sheetMaskId})` : undefined,
+        }}
+        initial={prefersReduced ? { opacity: 0 } : false}
+        animate={
+          prefersReduced
+            ? { opacity: open ? 1 : 0, transition: { duration: 0.12 } }
+            : undefined
+        }
+        className="fixed inset-0 h-dvh overflow-y-auto bg-bg text-text"
+      >
+        {/* pt clears the sticky site header that stays on top of this page */}
+        <div className="flex min-h-full flex-col items-center px-4 pb-10 pt-28 text-center md:px-10 md:pb-12 md:pt-32 lg:px-20">
+          {/* Giant display navigation links (sentence case) */}
+          <nav
+            aria-label="Menu primary"
+            className="flex w-full max-w-2xl flex-1 items-center justify-center"
           >
-            {/* Header bar inside curtain */}
-            <div className="flex w-full items-center justify-between border-b-2 border-line-strong px-4 py-3 md:px-10 lg:px-20">
-              {/* Left: Wordmark */}
-              <div onClick={onClose} className="cursor-pointer">
-                <Wordmark />
-              </div>
+            <ul className="flex flex-col items-center gap-2 md:gap-4">
+              {MENU_ITEMS.map((item, idx) => {
+                const isActive =
+                  currentPath === item.href ||
+                  Boolean(currentPath?.startsWith(`${item.href}/`));
+                const isHovered = hoveredIdx === idx;
 
-              {/* Center: Synchronized close button */}
-              <HeaderMenuButton open={true} onClick={onClose} />
-
-              {/* Right: ThemeSwitch + Resume */}
-              <div className="flex items-center gap-2 md:gap-3">
-                <ThemeSwitch variant="compact" />
-                <Button
-                  variant="secondary"
-                  tone="lilac"
-                  size="md"
-                  href="/resume.pdf"
-                  external
-                  className="px-3 md:px-5"
-                >
-                  Resume
-                </Button>
-              </div>
-            </div>
-
-            {/* Curtain Body: Main links + Socials */}
-            <div className="flex w-full flex-col items-center justify-center px-4 pb-12 pt-8 text-center md:pb-16 md:pt-12">
-              {/* Giant Display Navigation Links */}
-              <nav aria-label="Menu primary" className="w-full max-w-2xl">
-                <ul className="flex flex-col items-center gap-2 md:gap-4">
-                  {MENU_ITEMS.map((item, idx) => {
-                    const isActive =
-                      currentPath === item.href ||
-                      Boolean(currentPath?.startsWith(`${item.href}/`));
-                    const isHovered = hoveredIdx === idx;
-
-                    return (
-                      <motion.li
-                        key={item.href}
-                        initial={
-                          prefersReduced
-                            ? false
-                            : { opacity: 0, y: -16, scale: 0.92 }
-                        }
-                        animate={{ opacity: 1, y: 0, scale: 1 }}
-                        transition={{
-                          delay: prefersReduced ? 0 : 0.08 + idx * 0.04,
-                          type: "spring",
-                          stiffness: 340,
-                          damping: 22,
-                        }}
-                        className="relative flex items-center justify-center"
-                        onMouseEnter={() => setHoveredIdx(idx)}
-                        onMouseLeave={() => setHoveredIdx(null)}
-                      >
-                        <Link
-                          href={item.href}
-                          aria-current={isActive ? "page" : undefined}
-                          onClick={onClose}
-                          className={cn(
-                            "group relative inline-flex items-center gap-3 px-6 py-2 font-display text-4xl font-extrabold uppercase tracking-tight text-text transition-transform duration-200 hover:scale-105 active:scale-95 md:text-6xl lg:text-7xl",
-                            idx % 2 === 0
-                              ? "hover:-rotate-1"
-                              : "hover:rotate-1",
-                            isActive && "text-line-strong underline decoration-lilac decoration-4 underline-offset-8"
-                          )}
+                return (
+                  <li
+                    key={item.href}
+                    className="relative flex items-center justify-center"
+                    onMouseEnter={() => setHoveredIdx(idx)}
+                    onMouseLeave={() => setHoveredIdx(null)}
+                  >
+                    <Link
+                      href={item.href}
+                      aria-current={isActive ? "page" : undefined}
+                      onClick={onClose}
+                      className={cn(
+                        "group relative inline-flex items-center gap-3 px-6 py-2 font-display text-4xl font-extrabold tracking-tight text-text transition-transform duration-200 hover:scale-105 active:scale-95 md:text-6xl lg:text-7xl",
+                        idx % 2 === 0 ? "hover:-rotate-1" : "hover:rotate-1",
+                        isActive &&
+                          "underline decoration-lilac decoration-4 underline-offset-8",
+                      )}
+                    >
+                      {/* Mask: the word slides up out of it (and back down on close) */}
+                      <span className="inline-block overflow-hidden pb-2 -mb-2">
+                        <motion.span
+                          className="inline-block origin-bottom-left"
+                          custom={idx}
+                          variants={LINK_VARIANTS}
+                          initial={prefersReduced ? false : "hidden"}
+                          animate={prefersReduced ? undefined : phase}
                         >
-                          <span>{item.label}</span>
+                          {item.label}
+                        </motion.span>
+                      </span>
 
-                          {/* Playful sticker pill on hover */}
-                          <motion.span
-                            initial={false}
-                            animate={
-                              isHovered
-                                ? {
-                                    opacity: 1,
-                                    scale: 1,
-                                    x: 0,
-                                    rotate: idx % 2 === 0 ? 3 : -3,
-                                  }
-                                : { opacity: 0, scale: 0.8, x: -8 }
-                            }
-                            transition={{
-                              type: "spring",
-                              stiffness: 400,
-                              damping: 20,
-                            }}
-                            className={cn(
-                              "pointer-events-none absolute -right-20 top-1/2 hidden -translate-y-1/2 whitespace-nowrap rounded-pill border-2 border-line-strong px-3 py-1 font-mono text-xs font-bold uppercase shadow-sticker-sm md:inline-block",
-                              item.toneClass
-                            )}
-                          >
-                            {item.tag}
-                          </motion.span>
-                        </Link>
-                      </motion.li>
-                    );
-                  })}
-                </ul>
-              </nav>
+                      {/* Pastel tag sticker on hover (sentence case) */}
+                      <motion.span
+                        initial={false}
+                        animate={
+                          isHovered && open
+                            ? {
+                                opacity: 1,
+                                scale: 1,
+                                x: 0,
+                                rotate: idx % 2 === 0 ? 3 : -3,
+                              }
+                            : { opacity: 0, scale: 0.92, x: -8 }
+                        }
+                        transition={{ duration: 0.32, ease: EASE_OUT_SOFT }}
+                        className={cn(
+                          "pointer-events-none absolute -right-24 top-1/2 hidden -translate-y-1/2 whitespace-nowrap rounded-pill border-2 border-line-strong px-3 py-1 font-mono text-caption font-semibold shadow-sticker-sm md:inline-block",
+                          item.toneClass,
+                        )}
+                      >
+                        {item.tag}
+                      </motion.span>
+                    </Link>
+                  </li>
+                );
+              })}
+            </ul>
+          </nav>
 
-              {/* Social Channels Row (inspired by dontboardme.com round icons) */}
-              <div className="mt-8 flex flex-col items-center gap-4 border-t-2 border-line-strong/15 pt-8 md:mt-10">
-                <p className="font-mono text-caption uppercase tracking-wider text-text-muted">
-                  Connect &amp; Socials
-                </p>
-
-                <div className="flex flex-wrap items-center justify-center gap-3">
-                  {/* LinkedIn */}
-                  <a
-                    href={profile.socials.linkedin}
-                    target="_blank"
-                    rel="noreferrer noopener"
-                    aria-label="LinkedIn profile (opens in new tab)"
-                    className="flex h-12 w-12 items-center justify-center rounded-pill border-2 border-line-strong bg-surface text-text shadow-sticker-sm transition-all duration-200 hover:scale-110 hover:bg-lilac hover:text-on-pastel active:scale-95"
-                  >
-                    <svg
-                      aria-hidden="true"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth={2}
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      className="h-5 w-5"
-                    >
-                      <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z" />
-                      <rect x="2" y="9" width="4" height="12" />
-                      <circle cx="4" cy="4" r="2" />
-                    </svg>
-                  </a>
-
-                  {/* GitHub */}
-                  <a
-                    href={profile.socials.github}
-                    target="_blank"
-                    rel="noreferrer noopener"
-                    aria-label="GitHub profile (opens in new tab)"
-                    className="flex h-12 w-12 items-center justify-center rounded-pill border-2 border-line-strong bg-surface text-text shadow-sticker-sm transition-all duration-200 hover:scale-110 hover:bg-mint hover:text-on-pastel active:scale-95"
-                  >
-                    <svg
-                      aria-hidden="true"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth={2}
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      className="h-5 w-5"
-                    >
-                      <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22" />
-                    </svg>
-                  </a>
-
-                  {/* Behance */}
-                  <a
-                    href={profile.socials.behance}
-                    target="_blank"
-                    rel="noreferrer noopener"
-                    aria-label="Behance profile (opens in new tab)"
-                    className="flex h-12 w-12 items-center justify-center rounded-pill border-2 border-line-strong bg-surface text-text shadow-sticker-sm transition-all duration-200 hover:scale-110 hover:bg-sky hover:text-on-pastel active:scale-95"
-                  >
-                    <svg
-                      aria-hidden="true"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth={2}
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      className="h-5 w-5"
-                    >
-                      <path d="M3 8h4.5a2.5 2.5 0 0 1 0 5H3V8z" />
-                      <path d="M3 13h5a2.5 2.5 0 0 1 0 5H3v-5z" />
-                      <path d="M14 13.5a3.5 3.5 0 1 0 6.5 1.5h-7" />
-                      <path d="M15 8h4" />
-                    </svg>
-                  </a>
-
-                  {/* Medium */}
-                  <a
-                    href={profile.socials.medium}
-                    target="_blank"
-                    rel="noreferrer noopener"
-                    aria-label="Medium articles (opens in new tab)"
-                    className="flex h-12 w-12 items-center justify-center rounded-pill border-2 border-line-strong bg-surface text-text shadow-sticker-sm transition-all duration-200 hover:scale-110 hover:bg-butter hover:text-on-pastel active:scale-95"
-                  >
-                    <svg
-                      aria-hidden="true"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth={2}
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      className="h-5 w-5"
-                    >
-                      <ellipse cx="6" cy="12" rx="4" ry="7" />
-                      <ellipse cx="15" cy="12" rx="3" ry="6.5" />
-                      <ellipse cx="21" cy="12" rx="1" ry="5.5" />
-                    </svg>
-                  </a>
-
-                  {/* Email */}
-                  <a
-                    href={`mailto:${profile.email}`}
-                    aria-label={`Send email to ${profile.email}`}
-                    className="flex h-12 w-12 items-center justify-center rounded-pill border-2 border-line-strong bg-surface text-text shadow-sticker-sm transition-all duration-200 hover:scale-110 hover:bg-blush hover:text-on-pastel active:scale-95"
-                  >
-                    <svg
-                      aria-hidden="true"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth={2}
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      className="h-5 w-5"
-                    >
-                      <rect width="20" height="16" x="2" y="4" rx="2" />
-                      <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" />
-                    </svg>
-                  </a>
-                </div>
-
-                <p className="mt-2 font-body text-caption text-text-muted">
-                  Curious by nature, careful by habit. · Phuket, Thailand · UTC+7
-                </p>
-              </div>
+          {/* Theme + Socials, pinned to the bottom of the full-page menu */}
+          <motion.div
+            variants={SOCIAL_VARIANTS}
+            initial={prefersReduced ? false : "hidden"}
+            animate={prefersReduced ? undefined : phase}
+            className="mt-10 flex w-full flex-col items-center gap-6 border-t-2 border-line-strong/15 pt-8"
+          >
+            <div className="flex flex-col items-center gap-2 md:hidden">
+              <p className="font-mono text-caption tracking-wider text-text-muted">
+                Theme
+              </p>
+              <ThemeSwitch variant="segmented" />
             </div>
 
-            {/* Organic Scalloped Cloud Bottom Border (inspired by dontboardme.com) */}
-            <div className="relative -mb-1 w-full overflow-hidden text-line-strong">
-              <svg
-                aria-hidden="true"
-                viewBox="0 0 1440 84"
-                preserveAspectRatio="none"
-                className="h-12 w-full sm:h-16 md:h-20"
-              >
-                {/* Layer 1: Soft Blush Underlay (shifted down by 8px) */}
-                <path
-                  d="M0,0 L0,28 Q120,68 240,28 Q360,68 480,28 Q600,68 720,28 Q840,68 960,28 Q1080,68 1200,28 Q1320,68 1440,28 L1440,0 Z"
-                  className="fill-blush-soft dark:fill-blush-soft/20"
-                  transform="translate(0, 8)"
-                />
-                {/* Layer 2: Main Cloud Body with 2.5px Pen Outline */}
-                <path
-                  d="M0,0 L0,28 Q120,68 240,28 Q360,68 480,28 Q600,68 720,28 Q840,68 960,28 Q1080,68 1200,28 Q1320,68 1440,28 L1440,0 Z"
-                  fill="var(--color-bg)"
-                  stroke="currentColor"
-                  strokeWidth={2.5}
-                />
-              </svg>
+            <div className="flex flex-col items-center gap-4">
+              <p className="font-mono text-caption tracking-wider text-text-muted">
+                Connect &amp; socials
+              </p>
+
+              <ul className="flex flex-wrap items-center justify-center gap-3">
+              {SOCIALS.map((social) => (
+                <li key={social.href}>
+                  <a
+                    href={social.href}
+                    target={social.external ? "_blank" : undefined}
+                    rel={social.external ? "noreferrer noopener" : undefined}
+                    aria-label={social.label}
+                    className={cn(
+                      "flex h-12 w-12 items-center justify-center rounded-pill border-2 border-line-strong bg-surface text-text shadow-sticker-sm transition-all duration-200 hover:scale-110 hover:text-on-pastel active:scale-95",
+                      social.hoverClass,
+                    )}
+                  >
+                    {social.icon}
+                  </a>
+                </li>
+              ))}
+              </ul>
             </div>
+
+            <p className="font-body text-caption text-text-muted">
+              Curious by nature, careful by habit. · Phuket, Thailand · UTC+7
+            </p>
           </motion.div>
         </div>
-      )}
-    </AnimatePresence>
+      </motion.div>
+
+      {/* Pen outline on the paper sheet's edge (only while the wipe runs) */}
+      {wiping && outline(sheetD)}
+    </>
   );
 }

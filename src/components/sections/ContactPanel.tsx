@@ -11,30 +11,22 @@ import { Heading } from "@/components/ui/Heading";
 import { Section } from "@/components/ui/Section";
 import { TextLink } from "@/components/ui/TextLink";
 
-export interface ContactPanelProps {
-  compact?: boolean;
-}
-
 /**
  * ContactPanel per COMPONENTS.md §D & DESIGN.md §1.4:
  * - Lilac panel (`rounded-2xl`, 2px pen border, `shadow-sticker`).
- * - Headline "Let's build something calm and curious.", CopyEmail, Book a chat,
- *   socials, time-zone line, and Loaffy in `bubble` form.
+ * - Headline "Let's build something calm and curious." (h2, so the site heading scale
+ *   sets its size; no compact variant), CopyEmail, Book a chat, socials, time-zone line,
+ *   and Loaffy in `bubble` form.
  */
-export function ContactPanel({ compact = false }: ContactPanelProps) {
+export function ContactPanel() {
   return (
-    <Section
-      id="contact"
-      labelledBy="contact-heading"
-      tone="bg"
-    >
+    <Section id="contact" labelledBy="contact-heading" tone="bg">
       <div className="rounded-2xl border-2 border-line-strong bg-lilac p-6 text-on-pastel shadow-sticker md:p-12">
         <div className="grid grid-cols-1 items-center gap-8 lg:grid-cols-12">
           <div className="space-y-6 lg:col-span-8">
             <Heading
               id="contact-heading"
               as="h2"
-              size={compact ? "h2" : "h1"}
               highlight="curious"
               highlightTone="mint"
               className="text-on-pastel"
