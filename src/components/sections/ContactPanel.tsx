@@ -27,7 +27,6 @@ export function ContactPanel({ compact = false }: ContactPanelProps) {
       id="contact"
       labelledBy="contact-heading"
       tone="bg"
-      className="border-t-2 border-line-strong"
     >
       <div className="rounded-2xl border-2 border-line-strong bg-lilac p-6 text-on-pastel shadow-sticker md:p-12">
         <div className="grid grid-cols-1 items-center gap-8 lg:grid-cols-12">

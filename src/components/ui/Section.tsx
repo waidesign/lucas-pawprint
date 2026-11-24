@@ -40,7 +40,7 @@ export function Section({
         paddingBottom: "var(--space-section)",
       }}
       className={cn(
-        "w-full",
+        "w-full rounded-xl md:rounded-2xl",
         !bleed && "px-4 md:px-10 lg:px-20",
         toneClasses,
         className

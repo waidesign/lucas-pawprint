@@ -39,7 +39,7 @@ export function ProofStrip() {
     <section
       id="proof"
       aria-label="Skills and tools ticket strip"
-      className="lp-ticker-group w-full overflow-hidden border-y-2 border-line-strong bg-on-pastel py-6 text-inverse-text dark:text-text"
+      className="lp-ticker-group w-full overflow-hidden rounded-xl border-2 border-line-strong bg-on-pastel py-6 text-inverse-text md:rounded-2xl dark:text-text"
     >
       {prefersReduced ? (
         <div className="space-y-6 px-4 md:px-10 lg:px-20">

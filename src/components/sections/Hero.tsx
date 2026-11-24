@@ -160,7 +160,7 @@ export function Hero() {
     <section
       id="hero"
       aria-labelledby="hero-heading"
-      className="relative w-full bg-bg px-4 py-16 text-text md:px-10 md:py-20 lg:px-20 lg:py-24"
+      className="relative w-full rounded-xl bg-bg px-4 py-16 text-text md:rounded-2xl md:px-10 md:py-20 lg:px-20 lg:py-24"
     >
       {/* Standalone Full-Viewport Intro Curtain (unmounts once settled) */}
       <LoaffyStage

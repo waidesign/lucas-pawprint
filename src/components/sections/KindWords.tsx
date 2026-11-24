@@ -27,7 +27,7 @@ export function KindWords() {
       labelledBy="kind-words-heading"
       tone="blush"
       soft
-      className="border-t-2 border-line-strong"
+      className="border-2 border-line-strong"
     >
       <div className="space-y-8">
         <div>

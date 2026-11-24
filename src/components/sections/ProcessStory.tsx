@@ -98,7 +98,7 @@ export function ProcessStory() {
       labelledBy="process-heading"
       tone="mint"
       soft
-      className="border-y-2 border-line-strong"
+      className="border-2 border-line-strong"
     >
       <div className="space-y-8">
         <div className="flex flex-col justify-between gap-6 lg:flex-row lg:items-end">
