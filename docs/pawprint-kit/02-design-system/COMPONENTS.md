@@ -43,6 +43,8 @@ type HeadingProps = { as?: "h1"|"h2"|"h3"|"h4"; size?: "display-xl"|"display"|"h
 ```
 Renders the text and wraps the first match of `highlight` in a pastel pill. Only one highlight allowed (throw in dev if more). `text-wrap: balance`.
 
+**Size follows the tag (one heading scale, every page):** `h1` → display-xl (160px) · `h2` → h1 token (64px) · `h3` → h2 token (48px) · `h4` → h3 token (32px). Don't pass `size` outside `/lab` demos. Hand-written heading tags (MDX, cards) use `HEADING_SCALE_CLASSES[tag]`. If a title doesn't fit, change the layout, not the size. (AGENTS.md rule 17; `.luci/decisions/2026-11-24-heading-scale.md`.)
+
 ### Eyebrow
 Label style (12/16, uppercase, +0.08em), `text-muted`. Optional leading bean dot (8×12 ellipse in a pastel).
 
@@ -165,18 +167,23 @@ Pistachio-soft section: wordmark, nav links, socials (LinkedIn, Behance, GitHub,
 |---|---|---|
 | `Hero` | Eyebrow, headline with "box" highlight, LoaffyStage, smash Sticker (blush), availability Sticker (mint), 2 CTAs | Loaffy ≈ 60% visual weight. Eyes track. Scroll cue at bottom. |
 | `ProofStrip` | "Founder of Luci · 10 years in design · Now: Senior UI/UX & Motion Designer at Empire Pixel" + "Shipped for: …" | Surface pill row; Luci links to its case study. |
-| `SelectedWork` | display-xl word "Work." + filter chips + CaseCards | **Luci first (featured, BetaBadge)**, then 6 client cases; each card its own pastel; Loaffy peeks on hover (Curious). |
+| `SelectedWork` | h2 "Work." (h1 on `/work`) + filter chips (hidden on Home) + CaseCard rows | **Luci first (featured, BetaBadge)**, then 6 client cases, one row each; thumbnails alternate left / right on `lg+`; Loaffy peeks on hover (Curious). |
 | `ProcessStory` | The signature scroll story (see `03-ux/USER-FLOWS.md §5`) | GSAP ScrollTrigger; stepped fallback. |
-| `MotionReel` | display-xl "Motion." + VideoReel + 2 clips + Behance link | Loaffy Vibing pose when playing. |
-| `AboutChangelog` | Portrait, short bio, changelog list, education, resume link | Chill-lean pose. |
+| `MotionReel` | h2 "Motion." + VideoReel + 2 clips + Behance link | Loaffy Vibing pose when playing. |
+| `AboutChangelog` | h2 + Resume CTA, then an app window: Claude-style chat (visitor asks, assistant answers with portrait + short bio, a "Changelog" artifact card and the resume) beside a FigJam-style dotted canvas with one sticky note per role and live cursors | Scroll story: pinned on xl + tall screens (scroll drives the steps, reversible), otherwise plays once in view; reduced motion shows all. No education. Screen readers get a plain bio + changelog list. |
 | `KindWords` | 2 testimonial Quotes (pull quote + "Read the full note" disclosure) | Real quotes only. |
 | `ContactPanel` | Lilac panel: headline, CopyEmail, Book a chat, socials, time-zone line | Loaffy bubble form. |
 
 ### CaseCard
 ```ts
-type CaseCardProps = { slug: string; title: string; summary: string; tags: string[]; tone: Tone; cover: Image; form: Form; liveUrl?: string; featured?: boolean; badge?: string };
+type CaseCardProps = { slug: string; title: string; summary: string; tags: string[]; tone: Tone; cover: Image; coverAlt: string; form: Form; liveUrl?: string; featured?: boolean; badge?: string; year?: string; role?: string; reverse?: boolean };
 ```
-Whole card is one link (`<a>` wrapping, with the live-site link as a separate, non-nested link outside the card's main anchor). Pastel bg, 2px pen border, `rounded-xl`, `shadow-sticker`, padding 32. Hover: lift + cover wipe + Loaffy (form) peeks from the top-right corner (outside the cover, no overlap with text). Featured = 7/5 split layout; others = stacked.
+A case study **row**, not a boxed card (layout inspired by slush.app's "Your shortcut to DeFi" section, built with our tokens).
+
+- **Thumbnail = the only card.** The cover image itself is the card: 16:10, 2px pen border, `rounded-xl`, `shadow-sticker`; the case's pastel `tone` shows only while it loads. Hover: lift (`lp-sticker-interactive`) + slow cover zoom (`duration-slow`, `ease-out-soft`) + Loaffy (form, Curious) peeks from behind the image's top-right edge (no overlap with text).
+- **Everything else sits plain on the canvas** (no background, theme tokens only): meta line (BetaBadge, year in mono label, role in muted caption) → `h3` title at the site heading scale (48px), in the case's own capitalisation, never all caps, revealed word by word on scroll (40ms stagger; off under reduced motion) → summary (`body-lg`, medium) → outlined tag pills → primary pill CTA "Read case study →" (sentence case, never all caps) + optional "Live site ↗" text link.
+- **Layout:** 6/6 columns on `lg+`, `reverse` puts the thumbnail on the right (rows alternate); stacked thumbnail-first below `lg`. Every case uses the same row; `featured` only orders Luci first and sets the "Live" badge.
+- **Links:** the CTA is the case's one accessible link; the thumbnail repeats it for pointer users (`tabIndex={-1}`, `aria-hidden`). The live-site link is a separate, non-nested link. `coverAlt` is still read once (visually hidden).
 
 ---
 

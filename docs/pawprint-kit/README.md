@@ -28,6 +28,7 @@ Visual canvas (mascot, poses, hand, palette, heroes, moodboard, live animation k
 | `04-build/TECH-STACK.md` | Agent | Stack as built + additions, folder structure, tokens pipeline, budgets, SEO |
 | `04-build/PROMPTS.md` | **You** | 9 phases: what you do, the prompt to paste, what to check, when it's done + your Rive track |
 | `04-build/LUCI-BUILD-STEPS.md` | **You** | Luci case study in 9 small agent sessions + your assets + launch-day switch |
+| `04-build/PAGES-BUILD-STEPS.md` | **You** | Separate Work, Motion, About, Contact pages + trailer home + page transitions, in 7 sessions |
 | `04-build/DEPLOY-CLOUDFLARE.md` | Both | Static export on Cloudflare Workers, preview URLs, custom domain, Email Routing, old-site redirect |
 | `06-references/` | Agent | The 8 real Luci exports used for the moodboard (proof data for the Luci case study) |
 | `05-assets/loaffy/` | Agent | 27 SVGs: expressions, poses, forms, hand, cursors (outlines use `currentColor`) |

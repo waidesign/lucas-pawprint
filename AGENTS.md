@@ -63,6 +63,7 @@ If a task touches something these files don't cover, **stop and ask** instead of
 14. **Full-width layout with 80px desktop horizontal padding.** Header, every section, and footer have no container `max-width` (do not constrain outer layout containers with `--container-max`); maintain `80px` (`lg:px-20` / `var(--space-80)`) left and right padding on desktop (`px-4 md:px-10 lg:px-20` for responsive mobile/tablet viewports).
 15. **No availability / remote-region badges anywhere on the site.** Never render `"Open to remote roles · US · CA · NZ · SG"` or any job-availability / country-region availability sticker or text on any page or section.
 16. **No decorative dots inside badges, chips, eyebrows, or ticket pills.** Badges (`BetaBadge`, skill badges, ticket stubs, `Chip`, `Eyebrow`) render clean text (or an explicit semantic icon/logo when required) — never leading/bullet status dots.
+17. **One heading scale, every page.** Each heading level has exactly one size: `h1` → `text-display-xl` (160px), `h2` → `text-h1` (64px), `h3` → `text-h2` (48px), `h4` → `text-h3` (32px). Choose the semantic tag and let the size follow: use `<Heading as="…">` (no `size` prop outside `/lab`) or `HEADING_SCALE_CLASSES` from `src/components/ui/Heading.tsx` for hand-written tags. Never give a heading its own size, and if a title doesn't fit, change the layout, not the size. See `.luci/decisions/2026-11-24-heading-scale.md`.
 
 ## 5. How to work
 

@@ -215,12 +215,14 @@ Fluid sizes interpolate between a mobile value at 375px and a desktop value at 1
 
 | Role | Font | Size (375→1440) | Line height | Tracking | Use |
 |---|---|---|---|---|---|
-| display-xl | Bricolage Grotesque 800 | 64→160px | 64→144px | -0.05em | One giant word per section |
-| display | Bricolage Grotesque 800 | 48→96px | 48→88px | -0.045em | Hero headline |
-| h1 | Bricolage Grotesque 700 | 40→64px | 44→64px | -0.035em | Page titles |
-| h2 | Bricolage Grotesque 700 | 32→48px | 36→52px | -0.03em | Section titles |
-| h3 | Bricolage Grotesque 700 | 24→32px | 28→36px | -0.02em | Card titles |
-| h4 | Bricolage Grotesque 700 | 20→24px | 28→32px | -0.01em | Small headings |
+| display-xl | Bricolage Grotesque 800 | 64→160px | 64→144px | -0.05em | **`<h1>`**: every page title (Hero, `/work`, case studies) |
+| display | Bricolage Grotesque 800 | 48→96px | 48→88px | -0.045em | Not used for headings (decorative display text only) |
+| h1 | Bricolage Grotesque 700 | 40→64px | 44→64px | -0.035em | **`<h2>`**: every section / chapter title |
+| h2 | Bricolage Grotesque 700 | 32→48px | 36→52px | -0.03em | **`<h3>`**: card, case, step and sub-section titles |
+| h3 | Bricolage Grotesque 700 | 24→32px | 28→36px | -0.02em | **`<h4>`**: small headings (e.g. changelog roles) |
+| h4 | Bricolage Grotesque 700 | 20→24px | 28→32px | -0.01em | Not used for headings (UI text such as nav labels) |
+
+**Heading scale (one size per level, every page; decision 2026-11-24):** `h1` → display-xl (160px) · `h2` → h1 token (64px) · `h3` → h2 token (48px) · `h4` → h3 token (32px). Pick the semantic tag; the size follows. In code use `<Heading as="…">` or `HEADING_SCALE_CLASSES` from `src/components/ui/Heading.tsx`; never set a heading size by hand.
 | body-lg | Inter 400 | 20→20px | 32→32px | -0.01em | Reading prose, intros, TL;DR |
 | body | Inter 400 | 16→16px | 24→24px | -0.005em | UI text, chips, meta values |
 | label | Inter 600 | 12→12px | 16→16px | 0.08em | Eyebrows (uppercase) |

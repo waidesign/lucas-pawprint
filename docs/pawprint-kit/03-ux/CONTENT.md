@@ -100,3 +100,44 @@ Order on the site: **Luci first (featured)**, then the six client projects.
 Source material (long text, challenges, features): old repo `src/data/projects.ts`. When migrating: keep facts; drop all sales/percentage claims and invented baselines; short plain sentences; first person.
 
 **Outcome wording that is allowed (qualitative):** "Shipped and live." · "Replaced the legacy WordPress site." · "Now used by the team for every new page." · "Guests can now book directly on the site." Only add numbers you can prove.
+
+---
+
+## About page (`/about`) — drafts, edit freely
+
+**Intro (body-lg):** I'm Lucas (Wai Phyo Aung), a product and motion designer in Phuket, Thailand. I've spent 10 years making things look right and move right, and lately, building my own tools.
+
+**My story**
+- *Video and animation · 2016–2020* — I started as a freelance creative designer in Myanmar, then edited video for a free-to-air TV channel. Cutting stories to the second taught me timing.
+- *Motion design · 2020–2022* — At Global Innovation Media I delivered motion projects from concept and storyboard to the final render. I learned to explain ideas with movement.
+- *Product design · 2022–now* — At Empire Pixel I moved into UI/UX: research, design systems, websites and apps for automotive, SaaS, e-commerce and hospitality clients. In 2026 I founded Luci.
+
+**Working principles** (this is "How I work" on /about; the step-by-step process stays on Home only):
+- *Measure before I design.* `[one line]`
+- *Design the system, not the screen.* `[one line]`
+- *Ship, then check twice.* `[one line]`
+
+Link after the principles: See the process, step by step → (`/#process`)
+
+**What I'm good at**
+| Area | Examples (link to cases) |
+|---|---|
+| Product design | Vehicle Databases pricing and checkout · Classic Decoder classifieds and dashboard · Fierce Fight Gear customizer |
+| Design systems | Classic Decoder · Detailed Vehicle History · this site |
+| Motion | Showreel · brand motion at Empire Pixel · Loaffy |
+| Building with AI | Luci · Sarayah Phuket Villas rebuild · this portfolio |
+
+**Beyond work:** `[2–3 things you enjoy outside work — or remove the section]`
+**Education line:** `[one line on how a civil-engineering degree shapes how you design]`
+
+## Contact page (`/contact`) — drafts
+
+- **Headline:** Let's talk.
+- **Sub:** Email me, book a 30-minute chat, or find me on LinkedIn.
+- **First-message tips:** the role and team · your time zone · timeline · a link to the job post.
+- **Quick answers:**
+  - *How fast do you reply?* `[e.g. within 1–2 working days]`
+- **No availability copy** (AGENTS.md rule 15): no "open to remote roles", country or region lists, availability sticker, relocation, notice period, contract type or work-rights answers.
+
+## Home previews — link labels
+See all work (7) → · See all motion → · More about me → · All kind words → · All the ways to reach me →

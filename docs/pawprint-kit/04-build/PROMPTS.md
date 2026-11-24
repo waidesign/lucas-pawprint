@@ -174,6 +174,8 @@ Use existing components only. /colophon renders the live design system (tokens i
 
 ---
 
+> **Before Phase 9:** do `PAGES-BUILD-STEPS.md` (separate Work, Motion, About and Contact pages; trailer home; page transitions). It replaces Phase 8's Motion/About/Contact part; Colophon and 404 from Phase 8 still apply.
+
 ## Phase 9 · QA, Cloudflare deploy, domain, email, launch
 **You do:** follow `DEPLOY-CLOUDFLARE.md` §3–§6 in the Cloudflare dashboard, Gmail and the old Vercel repo.
 
