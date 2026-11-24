@@ -1,8 +1,10 @@
 export const metadata = {
   title: "Sarayah Phuket Villas",
+  titleHighlight: "Villas",
   slug: "sarayah-phuket-villas",
   order: 7,
   featured: false,
+  homeFeatured: false,
   status: "published",
   visibility: "full",
   client: "Sarayah Phuket Villas",
@@ -25,15 +27,23 @@ export const metadata = {
   form: "window",
   cover: "/case-studies/sarayah-phuket-villas/cover",
   coverAlt:
-    "Sarayah Phuket Villas homepage and embedded Hostex direct booking flow.",
+    "Three flat-framed screens of Sarayah Phuket Villas on a lilac background: the desktop homepage with availability search, the villa collection page, and the mobile homepage.",
   liveUrl: "https://sarayahphuketvillas.com",
+  cta: {
+    label: "Visit Sarayah Villas",
+    href: "https://sarayahphuketvillas.com",
+  },
+  secondaryCta: {
+    label: "All work →",
+    href: "/work",
+  },
   tldr: {
     problem:
-      "A new luxury pool-villa retreat in Phuket needed its first web presence and a direct booking flow so guests would not drop off on manual email inquiries or jarring third-party redirects.",
+      "A new pool-villa retreat in Phuket needed its first web presence and a direct booking flow so guests would not drop off on manual email inquiries or third-party redirects.",
     whatIDid:
-      "I designed the initial brand website and later rebuilt the full platform using an AI-first design-to-code workflow in Google AI Studio and Google Antigravity, embedding the Hostex booking engine directly into the site.",
+      "I designed the initial website and later rebuilt the full platform with an AI-first workflow in Google AI Studio and Google Antigravity, embedding the Hostex booking widget directly into the site.",
     outcome:
-      "Shipped and live. Guests can now check live availability and book Two-Bedroom and Four-Bedroom Pool Villas directly on the site.",
+      "Shipped and live. Guests can now check real-time availability and book Two-Bedroom and Four-Bedroom villas directly on the site.",
   },
   seo: {
     title: "Sarayah Phuket Villas · Lucas (Wai Phyo Aung)",
@@ -42,64 +52,163 @@ export const metadata = {
   },
 };
 
-<Chapter step="understand" title="A first digital home for a Phuket villa retreat">
-  Sarayah Phuket Villas is a private retreat of Two-Bedroom and Four-Bedroom Pool Villas near Surin, Yamu, Bang Tao, and Mai Khao beaches in Phuket.
+<Chapter
+  step="understand"
+  title="A calm first home online."
+  highlight="calm"
+  intro="Sarayah Phuket Villas is a private retreat in North Phuket offering Two-Bedroom Pool Villas and spacious Four-Bedroom Villas near Surin, Yamu, Bang Tao, and Mai Khao beaches."
+>
+  <p>
+    As a newly opened retreat, the estate needed its first digital presence from
+    scratch — setting the tone, page structure, photography rhythm, and a
+    booking path that felt peaceful while making direct reservations easy on
+    mobile.
+  </p>
 
-  At launch, the estate needed its very first digital presence. International travelers wanted clear floor plans, privacy details, nearby beach distances, and transparent calendar availability without being bounced to a generic external booking page or waiting on manual email inquiries.
-</Chapter>
-
-<Chapter step="shape" title="Direct Hostex booking and an AI-first rebuild">
-  I led the initial UI/UX design and later returned to rebuild the entire site using an AI-first workflow, combining Figma, Google AI Studio, and Google Antigravity to go from design direction to a live production web app.
-
-  <DecisionCard
-    title="Embedded Hostex direct booking flow"
-    problem="Redirecting guests to an external third-party booking portal broke the calm visual tone and added mobile friction."
-    decision="Integrated the Hostex booking widget and availability calendar directly into the villa pages and mobile checkout flow."
-    why="Guests can browse a villa, check real-time dates, and complete a reservation in one continuous experience."
+  <PainList
+    heading="What gets in the way of direct villa bookings"
     tone="lilac"
+    items={[
+      {
+        title: "Manual email inquiry friction",
+        body: "Waiting on manual email replies caused international travelers on mobile to abandon bookings or return to third-party platforms.",
+      },
+      {
+        title: "Jarring third-party booking redirects",
+        body: "Bouncing guests out to a generic external booking engine broke the calm mood of the estate and added unnecessary mobile steps.",
+      },
+      {
+        title: "Missing local context on typical villa listings",
+        body: "Travelers wanted clear details on privacy, floor plans, beach proximity, and curated Phuket tours before booking.",
+      },
+    ]}
   />
 
-  <DecisionCard
-    title="AI-first design-to-code rebuild (Google AI Studio + Antigravity)"
-    problem="Iterating on layout details, SEO structure, and booking widget integration across staging builds needed a tighter loop between design and code."
-    decision="Authored a detailed master prompt in Google AI Studio to scaffold the rebuild, then refined the UI, responsive gallery, and Hostex integration in Google Antigravity with live preview checks."
-    why="Let me control the final front-end craft directly while collaborating with the PM, developer, and SEO specialist."
+  <InsightList
+    heading="What guests needed to feel confident"
     tone="mint"
-  />
-</Chapter>
-
-<Chapter step="design" title="Villa showcases, local guide, and calm editorial layout">
-  Every page was designed to match the quiet, unhurried feel of the estate while keeping booking actions clear:
-
-  - **Villa detail pages:** Dedicated pages for the Two-Bedroom and Four-Bedroom Pool Villas with layouts, amenities, high-resolution galleries, and nearby beach guides.
-  - **Support & offer pages:** Special Offers, Facilities, FAQs, and Contact pages designed for mobile travelers.
-  - **Search discoverability:** Server-rendered page structure, metadata, and sitemap architecture built with the SEO specialist.
-
-  <ImageGallery
-    images={[
+    items={[
       {
-        src: "/case-studies/sarayah-phuket-villas/screen-1.webp",
-        alt: "Sarayah Phuket Villas homepage hero and luxury pool villa showcase.",
-        caption: "Homepage hero and villa collection overview.",
+        title: "Clarity on space and privacy",
+        body: "Clear villa detail pages showing guest capacity, bedroom layouts, amenities, and high-resolution galleries.",
       },
       {
-        src: "/case-studies/sarayah-phuket-villas/screen-2.webp",
-        alt: "Sarayah Phuket Villas detail page showing floor plans, amenities, and photo gallery.",
-        caption: "Two-Bedroom and Four-Bedroom Pool Villa detail views.",
-      },
-      {
-        src: "/case-studies/sarayah-phuket-villas/screen-3.webp",
-        alt: "Sarayah Phuket Villas embedded Hostex booking widget and mobile reservation flow.",
-        caption: "Embedded Hostex calendar and direct booking flow.",
+        title: "Live calendar availability on mobile",
+        body: "Minimal booking steps with transparent dates and direct confirmation right on the villa page.",
       },
     ]}
   />
 </Chapter>
 
-<Chapter step="ship" title="Shipped and taking direct bookings">
-  The rebuilt site is live at [sarayahphuketvillas.com](https://sarayahphuketvillas.com), where guests can explore the estate and book directly online.
+<Chapter
+  step="shape"
+  title="Story, booking, and an AI rebuild."
+  highlight="AI"
+  intro="I designed the initial launch, then returned to rebuild the entire site end to end using an AI-first design-to-code workflow."
+>
+  <FeatureRow
+    number="01."
+    eyebrow="Full AI-workflow rebuild"
+    title="From master prompt to live production app."
+    highlight="production"
+    highlightTone="lilac"
+    body="For the rebuild, I wrote a detailed master prompt in Google AI Studio to scaffold the first layout, then refined the responsive UI, galleries, and Hostex booking integration in Google Antigravity — reviewing every change on live Vercel staging previews with the team."
+    points={[
+      { label: "Story + booking", text: "Editorial pacing paired with an immediate Check Availability bar in the hero." },
+      { label: "Collaboration", text: "Iterated live on mobile viewports with the PM, developer, and SEO specialist." },
+    ]}
+    media={
+      <BrowserFrame url="sarayahphuketvillas.com">
+        <LoopVideo
+          webm="/case-studies/sarayah-phuket-villas/clips/villas.webm"
+          poster="/case-studies/sarayah-phuket-villas/clips/villas-poster.webp"
+          alt="Screen recording scrolling through the Sarayah Phuket Villas homepage, availability bar, and villa collection."
+          start={1}
+        />
+      </BrowserFrame>
+    }
+    caption="The rebuilt Sarayah Phuket Villas website live at sarayahphuketvillas.com."
+  />
 
-  <Callout tone="lilac" title="Key takeaway">
-    Pairing an AI-first prototyping workflow with careful front-end review let us ship a calm, high-craft hospitality site with live direct booking in place of manual email inquiries.
+  <DecisionList
+    heading="Key decisions"
+    items={[
+      {
+        title: "Embedded Hostex direct booking flow",
+        problem: "Redirecting guests to an external third-party booking portal broke visual continuity and added mobile friction.",
+        decision: "Embedded the Hostex booking widget and real-time availability calendar directly into the villa pages and booking flow.",
+        why: "Guests can browse a villa, check real-time dates, and complete a reservation without leaving the site.",
+      },
+      {
+        title: "AI-first design-to-code workflow",
+        problem: "Tightening typography, gallery pacing, SEO structure, and widget integration across staging rounds needed faster iteration between design and code.",
+        decision: "Combined Figma direction with Google AI Studio scaffolding and Google Antigravity refinement, verifying every screen on live Vercel previews.",
+        why: "Let me control the final front-end craft directly while collaborating closely with the PM, developer, and SEO specialist.",
+      },
+    ]}
+  />
+</Chapter>
+
+<Chapter
+  step="design"
+  title="Editorial calm across every page."
+  highlight="calm"
+  intro="Warm neutrals, deep Andaman green accents, and generous photo galleries let the villas speak for themselves."
+>
+  <Showcase
+    title="Villas, direct booking, and mobile flow"
+    description="Live desktop and mobile screens from sarayahphuketvillas.com."
+    items={[
+      {
+        src: "/case-studies/sarayah-phuket-villas/screens/villa-desktop",
+        alt: "Sarayah Phuket Villas collection page comparing the 2-bedroom pool villa and 4-bedroom villa.",
+        caption: "Our Villas collection comparing the 2-bedroom and 4-bedroom residences.",
+        url: "sarayahphuketvillas.com/villas",
+      },
+      {
+        src: "/case-studies/sarayah-phuket-villas/screens/booking-desktop",
+        alt: "Sarayah Phuket Villas direct booking page with villa selection cards and live availability flow.",
+        caption: "Direct booking page with real-time availability.",
+        url: "sarayahphuketvillas.com/booking",
+      },
+      {
+        src: "/case-studies/sarayah-phuket-villas/screens/home-mobile",
+        alt: "Sarayah Phuket Villas mobile homepage with hero villa selector and Check Availability button.",
+        caption: "Mobile hero with immediate availability search.",
+        frame: "phone",
+      },
+    ]}
+  />
+
+  <Callout tone="lilac" title="Support pages and search discoverability">
+    <p>
+      Alongside the villa showcases and galleries, I structured Experiences,
+      Tours, Reviews, About, Blog, and Contact pages with server-rendered
+      metadata and sitemaps built alongside the SEO specialist.
+    </p>
   </Callout>
+</Chapter>
+
+<Chapter
+  step="ship"
+  title="Shipped and taking bookings."
+  highlight="bookings"
+  intro="Tested on live mobile viewports via Vercel staging before going live."
+>
+  <CaseOutcome
+    statement="Shipped and live at sarayahphuketvillas.com. Guests can check live availability and book directly on the site without manual email inquiries."
+    shipped={[
+      "Editorial hospitality website covering Home, Our Villas, 2-Bedroom and 4-Bedroom detail pages, Experiences, Tours, Reviews, Blog, and Contact",
+      "Embedded Hostex booking widget and real-time availability flow",
+      "Full AI-first rebuild using Google AI Studio and Google Antigravity",
+      "Server-rendered SEO metadata and sitemap structure",
+    ]}
+  />
+
+  <CaseLearnings
+    items={[
+      "An AI-first workflow speeds up real-browser iteration while keeping visual craft firmly in the designer's hands.",
+      "Embedding the booking calendar directly inside the editorial experience removes the drop-off of external redirects.",
+    ]}
+  />
 </Chapter>
