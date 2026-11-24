@@ -1,18 +1,20 @@
 export const metadata = {
   title: "Vehicle Databases",
+  titleHighlight: "Databases",
   slug: "vehicle-databases",
   order: 4,
   featured: false,
+  homeFeatured: false,
   status: "published",
   visibility: "full",
   client: "Vehicle Databases",
   summary:
-    "Pricing page and checkout for a vehicle-data API product, with an API-call slider that recommends a plan.",
+    "Full website redesign for a vehicle-data API platform, plus the pricing page and checkout inside the member dashboard.",
   year: "2025",
   role: "Corporate UI/UX Designer",
   team: "Me, 1 PM, 2 full-stack developers",
   timeline: "3 months",
-  platforms: ["Web", "User dashboard"],
+  platforms: ["Web", "Mobile web", "Member dashboard"],
   industry: "Automotive Data SaaS",
   tags: ["Web", "Design systems"],
   tools: [
@@ -26,76 +28,270 @@ export const metadata = {
   form: "window",
   cover: "/case-studies/vehicle-databases/cover",
   coverAlt:
-    "Vehicle Databases API pricing dashboard showing the interactive call-volume slider.",
+    "Three flat-framed browser windows on a butter background showing the redesigned Vehicle Databases homepage, OCR Scanner API product page, and the member dashboard API-call volume pricing slider.",
   liveUrl: "https://vehicledatabases.com",
+  cta: {
+    label: "Visit Vehicle Databases",
+    href: "https://vehicledatabases.com",
+  },
+  secondaryCta: {
+    label: "All work →",
+    href: "/work",
+  },
   tldr: {
     problem:
-      "Developers and enterprise buyers struggled to estimate monthly costs across 25+ automotive data APIs from static pricing tables.",
+      "A 25+ API automotive data platform needed a clear public website for developers and industry buyers, plus a replacement for static dashboard pricing tables that left users guessing their tier.",
     whatIDid:
-      "I redesigned the dashboard pricing and checkout flow with an interactive API-call volume slider, side-by-side plan comparison, an annual switch card at checkout, and a custom enterprise quote builder.",
+      "I redesigned the full public website at vehicledatabases.com (home, API product pages, industry solutions, docs entry, and blog) and rebuilt the member dashboard pricing and checkout around an interactive API-call slider and custom quote builder.",
     outcome:
-      "Shipped and live inside the Vehicle Databases member dashboard, making self-serve API plan selection and custom quote requests clear.",
+      "Shipped and live: the redesigned website at vehicledatabases.com and the new pricing and checkout in the member dashboard.",
   },
   seo: {
     title: "Vehicle Databases · Lucas (Wai Phyo Aung)",
     description:
-      "Pricing page and checkout for a vehicle-data API product, with an API-call slider that recommends a plan.",
+      "Full website redesign for a vehicle-data API platform, plus the pricing page and checkout inside the member dashboard.",
   },
 };
 
-<Chapter step="understand" title="Why API buyers got stuck on the old pricing tables">
-  Vehicle Databases offers more than 25 automotive data APIs, including VIN decoding, license plate OCR, market value, maintenance, repair, and title checks.
+<Chapter
+  step="understand"
+  title="Two surfaces, one API platform."
+  highlight="platform"
+  intro="Vehicle Databases serves developers, dealerships, insurers, and fleet platforms with more than 25 automotive data APIs."
+>
+  <p>
+    The work spanned two connected parts: redesigning the public marketing and
+    product website at vehicledatabases.com so technical and business buyers can
+    explore 25+ endpoints by capability or industry, and rebuilding the pricing
+    and checkout experience inside the member dashboard.
+  </p>
 
-  Inside the member dashboard, engineering leads and fleet operators had to compare monthly subscriptions, annual commitments, and pay-as-you-go credits across static tables. Many could not tell which tier fit their call volume without emailing sales first.
-</Chapter>
-
-<Chapter step="shape" title="Interactive quota slider and custom quote builder">
-  I reshaped the pricing page so self-serve developers can calculate their exact tier in seconds, while enterprise buyers with custom endpoint mixes can request a tailored quote without leaving the dashboard.
-
-  <DecisionCard
-    title="Interactive API-call slider that recommends a plan"
-    problem="Static tier tables forced buyers to do mental math on cost-per-call and overage thresholds."
-    decision="Designed an interactive slider where users drag their expected monthly API calls and immediately see the recommended package, unit price, and included endpoints."
-    why="Replaced guesswork with an instant recommendation and let buyers move straight to checkout with confidence."
+  <PainList
+    heading="What made buying APIs hard"
     tone="butter"
+    items={[
+      {
+        title: "Static dashboard pricing tables",
+        body: "Inside the member dashboard, static tier tables made it difficult to compare monthly subscriptions, yearly commitments, and pay-as-you-go credits across 25+ endpoints.",
+      },
+      {
+        title: "Unclear rate limits and enterprise quotes",
+        body: "Rate-limiting rules were ambiguous, and buyers with custom endpoint mixes had no direct way to price custom queries without back-and-forth emails.",
+      },
+      {
+        title: "A broad catalog to organize publicly",
+        body: "The public website has to serve two different visitors at once: engineers inspecting VIN, OCR, and specs endpoints, and non-technical teams browsing by automotive industry.",
+      },
+    ]}
   />
 
-  <DecisionCard
-    title="Transparent checkout order summary with annual switch card"
-    problem="Buyers reaching checkout were unsure which APIs were bundled and missed the savings of annual billing."
-    decision="Built a clear order summary listing every selected API alongside a one-click card to switch from monthly to yearly billing."
-    why="Kept the checkout summary unambiguous and made billing options visible right when the buyer reviews their total."
+  <InsightList
+    heading="What technical buyers look for"
     tone="mint"
-  />
-</Chapter>
-
-<Chapter step="design" title="Dashboard pricing, comparison matrix, and enterprise quotes">
-  I designed the full pricing and checkout flow inside the existing user dashboard:
-
-  - **Plan & feature comparison:** Clear monthly, yearly, and pay-as-you-go views with sticky mobile columns so developers can compare endpoints on any screen.
-  - **Custom quote builder:** Buyers can select specific APIs, describe custom dataset requirements not listed in standard tiers, or book a meeting with sales directly from the pricing view.
-
-  <ImageGallery
-    images={[
+    items={[
       {
-        src: "/case-studies/vehicle-databases/screen-1.webp",
-        alt: "Vehicle Databases interactive API call slider and pricing tier cards.",
-        caption: "Interactive API-call volume slider and recommended plan cards.",
+        title: "Real sample responses before signing up",
+        body: "CTOs and lead engineers wanted to see structured API output and documentation links upfront before creating an account.",
       },
       {
-        src: "/case-studies/vehicle-databases/screen-2.webp",
-        alt: "Vehicle Databases dashboard checkout flow with order summary and annual billing switch.",
-        caption: "Streamlined checkout with itemized API summary and annual switch card.",
-      },
-      {
-        src: "/case-studies/vehicle-databases/screen-3.webp",
-        alt: "Vehicle Databases custom enterprise API quote builder and meeting booking interface.",
-        caption: "Custom API quote generator for enterprise data buyers.",
+        title: "Volume thresholds at a glance",
+        body: "Fleet operators and high-volume platforms needed transparent cost-per-call math and volume discounts rather than mental arithmetic.",
       },
     ]}
   />
 </Chapter>
 
-<Chapter step="ship" title="Shipped in the member dashboard">
-  The redesigned pricing, custom quote builder, and checkout flow shipped at [vehicledatabases.com](https://vehicledatabases.com).
+<Chapter
+  step="shape"
+  title="Structuring the site and the slider."
+  highlight="slider"
+  intro="We organized the public website around clear discovery paths and reshaped dashboard pricing around an interactive call-volume calculator."
+>
+  <InsightList
+    heading="Public website architecture (Part A)"
+    intro="The live site at vehicledatabases.com is structured into seven public page types so both developers and business buyers find their path quickly."
+    tone="butter"
+    items={[
+      {
+        title: "Homepage & API gateway overview",
+        body: "Pairs a focused hero and quick-start actions (Start for Free, Schedule a Demo) with a visual diagram showing how requests flow from a client domain to the API gateway.",
+      },
+      {
+        title: "API Services catalog & individual product pages",
+        body: "A top-level All APIs directory (/api) plus dedicated product pages for 16+ core endpoints including OCR Scanner, VIN Decoder, Classic VIN Decoder, Market Value, Maintenance, Repair Pricing, Title Check, Window Sticker, and EV Specs.",
+      },
+      {
+        title: "Industry solutions pages",
+        body: "Dedicated vertical pages (/industry/auto-parts, car dealerships, auto insurance, car rental, classifieds, and auto finance) grouping relevant APIs by business workflow.",
+      },
+      {
+        title: "Docs, Demo booking, Downloads & Articles",
+        body: "Direct navigation to API documentation (/docs), meeting scheduling (/schedule-a-demo), bulk automotive databases (/downloads), blog articles (/articles), plus multi-language (EN/FR/ES) and light/dark mode controls.",
+      },
+    ]}
+  />
+
+  <DecisionList
+    heading="Key pricing & checkout decisions (Part B)"
+    items={[
+      {
+        title: "Interactive API-call volume slider",
+        problem: "Customers could not estimate their monthly spend or pick a tier from static multi-column tables without emailing sales.",
+        decision: "Designed a live call-volume slider (1K to 5M+ monthly calls) that highlights the recommended package, per-credit price, overage fee, and included API count in real time.",
+        why: "Replaced guesswork with an immediate recommendation so developers can evaluate plans on their own.",
+      },
+      {
+        title: "Itemized checkout summary with one-click annual switch",
+        problem: "Buyers reaching checkout were unsure which APIs were bundled and often overlooked yearly billing savings.",
+        decision: "Built a clear order summary listing selected APIs, call limits, and overage rates alongside a dedicated card to switch from monthly to yearly billing.",
+        why: "Kept checkout transparent right when buyers review their total.",
+      },
+      {
+        title: "Self-serve custom quote builder inside the dashboard",
+        problem: "Enterprise teams needing a custom mix of endpoints or datasets not listed in standard tiers hit a dead end.",
+        decision: "Added an API checklist where buyers pick exact endpoints, describe custom data needs, and book a sales call directly from the pricing view.",
+        why: "Gave the sales team structured requirements upfront instead of vague contact emails.",
+      },
+    ]}
+  />
+</Chapter>
+
+<Chapter
+  step="design"
+  title="Public website and member dashboard."
+  highlight="dashboard"
+  intro="Part A covers the redesigned public pages live at vehicledatabases.com; Part B shows the pricing slider, custom quote builder, and checkout inside the member dashboard."
+>
+  <FeatureRow
+    number="01."
+    eyebrow="Part A · Public homepage"
+    title="Clear entry points for developers and enterprises."
+    highlight="entry"
+    highlightTone="butter"
+    body="The public homepage leads with a visual API gateway diagram, paired Free Trial and Schedule a Demo actions, and top-bar dropdowns splitting API Services by endpoint and Industries by use case."
+    points={[
+      { label: "Top navigation", text: "API Services, Industries, Docs, Book A Meeting, Blog, and Automotive Database." },
+      { label: "Controls", text: "Client Login, Free Trial, language selector, and a light/dark theme toggle." },
+    ]}
+    media={
+      <BrowserFrame url="vehicledatabases.com">
+        <LoopVideo
+          webm="/case-studies/vehicle-databases/clips/home-walkthrough.webm"
+          poster="/case-studies/vehicle-databases/clips/home-walkthrough-poster.webp"
+          alt="Screen recording walking through the redesigned Vehicle Databases public homepage."
+          start={1}
+        />
+      </BrowserFrame>
+    }
+    caption="The live public homepage at vehicledatabases.com."
+  />
+
+  <FeatureRow
+    number="02."
+    eyebrow="Part A · API product pages"
+    title="Each API paired with live-style output previews."
+    highlight="output"
+    highlightTone="butter"
+    reverse
+    body="Every API product page follows one repeatable layout: breadcrumb trail, plain headline, Free Trial and View Docs buttons, and a clean visual showing sample JSON and UI output for that endpoint."
+    media={
+      <BrowserFrame url="vehicledatabases.com/api/ocr">
+        <LoopVideo
+          webm="/case-studies/vehicle-databases/clips/api-product.webm"
+          poster="/case-studies/vehicle-databases/clips/api-product-poster.webp"
+          alt="Screen recording scrolling through the Vehicle Databases OCR Scanner API product page."
+          start={1}
+        />
+      </BrowserFrame>
+    }
+    caption="OCR Scanner API product page showing structured JSON output alongside upload UI."
+  />
+
+  <Showcase
+    title="Part A · Across the public site"
+    description="Real screens from the All APIs catalog, Industry Solutions, and mobile homepage."
+    items={[
+      {
+        src: "/case-studies/vehicle-databases/screens/all-apis-desktop",
+        alt: "Vehicle Databases All APIs directory page listing automotive data endpoints.",
+        caption: "All APIs directory (/api).",
+        url: "vehicledatabases.com/api",
+      },
+      {
+        src: "/case-studies/vehicle-databases/screens/solutions-desktop",
+        alt: "Vehicle Databases Auto Parts industry solution page.",
+        caption: "Industry solutions template (/industry/auto-parts).",
+        url: "vehicledatabases.com/industry/auto-parts",
+      },
+      {
+        src: "/case-studies/vehicle-databases/screens/home-mobile",
+        alt: "Vehicle Databases public homepage on a mobile viewport.",
+        caption: "Responsive public homepage on mobile.",
+        frame: "phone",
+      },
+    ]}
+  />
+
+  <FeatureRow
+    number="03."
+    eyebrow="Part B · Member dashboard pricing"
+    title="Drag your call volume, see the recommended plan."
+    highlight="recommended"
+    highlightTone="butter"
+    body="Inside the member dashboard, developers switch between Subscription, Pay as you go, and Testing credits, toggle Monthly or Yearly billing, and drag the API-call slider to see the right package highlighted immediately."
+    points={[
+      { label: "Plan clarity", text: "Each card states included credits, per-credit price, rate limit, and overage fees." },
+      { label: "Responsive tables", text: "Feature comparison rows keep key plan columns readable across screen sizes." },
+    ]}
+    media={
+      <BrowserFrame
+        url="vehicledatabases.com/portal · API Packages"
+        src="/case-studies/vehicle-databases/screen-2"
+        alt="Vehicle Databases member dashboard pricing view showing the interactive API-call slider set to 50K calls and recommended Enterprise, Premium Plus, and Premium plan cards."
+      />
+    }
+    caption="Member dashboard pricing with the interactive API-call volume slider and plan cards."
+  />
+
+  <FeatureRow
+    number="04."
+    eyebrow="Part B · Checkout & custom quotes"
+    title="Custom API selection and transparent checkout."
+    highlight="transparent"
+    highlightTone="butter"
+    reverse
+    body="Buyers can pick individual endpoints from a checklist to request a custom enterprise quote, or move straight into checkout with an itemized API summary and a one-click yearly upgrade card."
+    media={
+      <BrowserFrame
+        url="vehicledatabases.com/portal · Checkout & Custom Quote"
+        src="/case-studies/vehicle-databases/screen-3"
+        alt="Vehicle Databases member dashboard custom API quote checklist and checkout view with itemized order summary and yearly subscription switch card."
+      />
+    }
+    caption="Custom API quote selector, checkout order summary, and annual switch card inside the member dashboard."
+  />
+</Chapter>
+
+<Chapter
+  step="ship"
+  title="Shipped across site and portal."
+  highlight="Shipped"
+  intro="Tested with engineering leads and product managers to verify navigation clarity and pricing transparency."
+>
+  <CaseOutcome
+    statement="Shipped and live: the redesigned website at vehicledatabases.com and the new pricing and checkout in the member dashboard."
+    shipped={[
+      "Redesigned public website: Home, All APIs catalog, 16+ API product pages, Industry solutions, Docs entry, Demo booking, and Blog",
+      "Member dashboard pricing with Subscription, Pay-as-you-go, and Testing credit views",
+      "Interactive API-call volume slider with real-time plan recommendation",
+      "Custom enterprise API quote builder and itemized dashboard checkout with annual billing switch",
+    ]}
+  />
+
+  <CaseLearnings
+    items={[
+      "Interactive plan recommendation tools and transparent order summaries give technical buyers confidence without waiting on a sales email.",
+      "Grouping a large API catalog by both endpoint and industry lets developers and business teams enter from the angle they understand.",
+    ]}
+  />
 </Chapter>
