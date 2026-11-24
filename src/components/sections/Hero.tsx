@@ -18,19 +18,17 @@ import { springCalm, stagger } from "@/lib/motion";
 
 /**
  * Hero Section:
- * 1. Plays the full-viewport standalone Loaffy Box Hatch → Explosion → Quick Pose Reel
- *    curtain FIRST (`phase !== "settled"`), hiding the Header and all Hero elements.
- * 2. Only AFTER Loaffy finishes its pose reel (`phase === "settled"` at 2560ms) do the
- *    Header and Hero elements reveal:
- *    - Compact Loaffy (`size={128}`) + Eyebrow (no availability badge per [P1-A2])
- *    - Blush Smash Sticker ABOVE H1 ([P1-A3])
- *    - Giant `display-xl` H1 ([P1-A4])
+ * 1. Full-viewport Landing Intro plays alone first (`drop` -> `tremor` -> `swell` -> `exploding` -> 6 `posing` beats).
+ * 2. Settled Hero contains NO Loaffy ([P1-A1]), and orders elements top-to-bottom:
+ *    - Blush Smash Sticker ("Everyone designs with AI now. It all looks like slop. Except mine.")
+ *    - Eyebrow ("LUCAS (WAI PHYO AUNG) · PRODUCT & MOTION DESIGNER") directly under the sticker ([P1-A2])
+ *    - Giant `display-xl` H1 ("Think outside the box with Lucas & Loaffy.")
  *    - Supporting copy + CTAs + Scroll cue.
  */
 export function Hero() {
   const prefersReduced = useReducedMotion() ?? false;
   const [phase, setPhase] = useState<HeroStagePhase>(() =>
-    prefersReduced ? "settled" : "shaking"
+    prefersReduced ? "settled" : "drop"
   );
   const [poseBeat, setPoseBeat] = useState(0);
   const timersRef = useRef<number[]>([]);
@@ -50,36 +48,68 @@ export function Hero() {
       return;
     }
 
-    setPhase("shaking");
+    // 0–360ms: Box drops in with gravity & impact squash
+    setPhase("drop");
     setPoseBeat(0);
 
-    // 880ms (22 * 40ms): Box explodes & BIG Loaffy jumps out
+    // 360–840ms: First curious knock-knock tremor + brief anticipation pause
+    const tTremor = window.setTimeout(() => {
+      setPhase("tremor");
+    }, 360);
+
+    // 840–1480ms (640ms): Exponential pressure swell + violent hatch rattle (Loaffy tucked inside!)
+    const tSwell = window.setTimeout(() => {
+      setPhase("swell");
+    }, 840);
+
+    // 1480–2120ms (640ms): BOOM! 4 box pieces blast apart as Loaffy erupts UP from INSIDE the box!
     const tExplode = window.setTimeout(() => {
       setPhase("exploding");
-    }, 880);
+    }, 1480);
 
-    // 1360ms (34 * 40ms): Quick Pose 1 (Shades)
-    const tPose0 = window.setTimeout(() => {
+    // 2120–4520ms (6 x 400ms = 2400ms): 6-Act Loaffy Pose & Shape-Shift Showcase!
+    const tBeat0 = window.setTimeout(() => {
       setPhase("posing");
-      setPoseBeat(0);
-    }, 1360);
+      setPoseBeat(0); // Shades
+    }, 2120);
 
-    // 1760ms (44 * 40ms): Quick Pose 2 (Wink)
-    const tPose1 = window.setTimeout(() => {
-      setPoseBeat(1);
-    }, 1760);
+    const tBeat1 = window.setTimeout(() => {
+      setPoseBeat(1); // Wink
+    }, 2520);
 
-    // 2160ms (54 * 40ms): Quick Pose 3 (Vibing)
-    const tPose2 = window.setTimeout(() => {
-      setPoseBeat(2);
-    }, 2160);
+    const tBeat2 = window.setTimeout(() => {
+      setPoseBeat(2); // Vibing
+    }, 2920);
 
-    // 2560ms (64 * 40ms): Intro curtain lifts; Header + Hero Text & Components appear!
+    const tBeat3 = window.setTimeout(() => {
+      setPoseBeat(3); // Browser Window morph
+    }, 3320);
+
+    const tBeat4 = window.setTimeout(() => {
+      setPoseBeat(4); // 3D Design Cube morph
+    }, 3720);
+
+    const tBeat5 = window.setTimeout(() => {
+      setPoseBeat(5); // 3D Paw celebratory jump
+    }, 4120);
+
+    // 4560ms (114 * 40ms): Intro curtain dissolves; Header + Hero Text & Components cascade in!
     const tSettle = window.setTimeout(() => {
       setPhase("settled");
-    }, 2560);
+    }, 4560);
 
-    timersRef.current = [tExplode, tPose0, tPose1, tPose2, tSettle];
+    timersRef.current = [
+      tTremor,
+      tSwell,
+      tExplode,
+      tBeat0,
+      tBeat1,
+      tBeat2,
+      tBeat3,
+      tBeat4,
+      tBeat5,
+      tSettle,
+    ];
   }, [clearTimers, prefersReduced]);
 
   useEffect(() => {
@@ -115,36 +145,18 @@ export function Hero() {
     <section
       id="hero"
       aria-labelledby="hero-heading"
-      className="relative w-full bg-bg px-4 py-12 text-text md:px-10 md:py-16 lg:px-20 lg:py-20"
+      className="relative w-full bg-bg px-4 py-16 text-text md:px-10 md:py-20 lg:px-20 lg:py-24"
     >
+      {/* Standalone Full-Viewport Intro Curtain (renders `null` once settled — [P1-A1]) */}
+      <LoaffyStage
+        phase={prefersReduced ? "settled" : phase}
+        poseBeat={poseBeat}
+        onSkip={handleSkipIntro}
+        reducedMotion={prefersReduced}
+      />
+
       <div className="flex w-full flex-col items-center text-center">
-        {/* Top-level LoaffyStage (no transform/opacity wrapper so its fixed z-modal curtain covers 100vw x 100dvh above SiteNav) */}
-        <LoaffyStage
-          phase={prefersReduced ? "settled" : phase}
-          poseBeat={poseBeat}
-          onSkip={handleSkipIntro}
-          reducedMotion={prefersReduced}
-        />
-
-        {/* Eyebrow (dot-free per [P1-A6], no availability badge per [P1-A2]) */}
-        <motion.div
-          initial={prefersReduced ? false : { opacity: 0, y: 16 }}
-          animate={
-            heroRevealed ? { opacity: 1, y: 0 } : { opacity: 0, y: 16 }
-          }
-          transition={
-            prefersReduced
-              ? { duration: 0 }
-              : { ...springCalm, delay: stagger }
-          }
-          className="mt-4"
-        >
-          <Eyebrow>
-            {profile.name} · {profile.title}
-          </Eyebrow>
-        </motion.div>
-
-        {/* Blush Smash Sticker moved ABOVE H1 ([P1-A3]) */}
+        {/* 1. Blush Smash Sticker at top ([P1-A3]) */}
         <motion.div
           initial={
             prefersReduced
@@ -156,12 +168,7 @@ export function Hero() {
               ? { opacity: 1, scale: 1, rotate: 0, y: 0 }
               : { opacity: 0, scale: 1.16, rotate: 0, y: 16 }
           }
-          transition={
-            prefersReduced
-              ? { duration: 0 }
-              : { ...springCalm, delay: stagger * 2 }
-          }
-          className="mt-6"
+          transition={prefersReduced ? { duration: 0 } : springCalm}
         >
           <Sticker tone="blush" rotate={-2} size="md">
             Everyone designs with AI now. It all looks like slop.{" "}
@@ -171,7 +178,25 @@ export function Hero() {
           </Sticker>
         </motion.div>
 
-        {/* Giant Display-XL H1 ([P1-A4]) */}
+        {/* 2. Eyebrow moved directly UNDER the Smash Sticker ([P1-A2]) */}
+        <motion.div
+          initial={prefersReduced ? false : { opacity: 0, y: 16 }}
+          animate={
+            heroRevealed ? { opacity: 1, y: 0 } : { opacity: 0, y: 16 }
+          }
+          transition={
+            prefersReduced
+              ? { duration: 0 }
+              : { ...springCalm, delay: stagger }
+          }
+          className="mt-6"
+        >
+          <Eyebrow>
+            {profile.name} · {profile.title}
+          </Eyebrow>
+        </motion.div>
+
+        {/* 3. Giant Display-XL H1 */}
         <motion.div
           initial={prefersReduced ? false : { opacity: 0, y: 24, scale: 0.96 }}
           animate={
@@ -182,7 +207,7 @@ export function Hero() {
           transition={
             prefersReduced
               ? { duration: 0 }
-              : { ...springCalm, delay: stagger * 3 }
+              : { ...springCalm, delay: stagger * 2 }
           }
           className="mt-6 w-full"
         >
@@ -197,7 +222,7 @@ export function Hero() {
           </Heading>
         </motion.div>
 
-        {/* Supporting copy */}
+        {/* 4. Supporting copy */}
         <motion.p
           initial={prefersReduced ? false : { opacity: 0, y: 24 }}
           animate={
@@ -206,7 +231,7 @@ export function Hero() {
           transition={
             prefersReduced
               ? { duration: 0 }
-              : { ...springCalm, delay: stagger * 4 }
+              : { ...springCalm, delay: stagger * 3 }
           }
           className="mt-6 max-w-2xl font-body text-body-lg text-text-muted"
         >
@@ -214,7 +239,7 @@ export function Hero() {
           data-heavy platforms, and I build my own.
         </motion.p>
 
-        {/* Primary & Secondary CTAs */}
+        {/* 5. Primary & Secondary CTAs */}
         <motion.div
           initial={prefersReduced ? false : { opacity: 0, y: 24 }}
           animate={
@@ -223,7 +248,7 @@ export function Hero() {
           transition={
             prefersReduced
               ? { duration: 0 }
-              : { ...springCalm, delay: stagger * 5 }
+              : { ...springCalm, delay: stagger * 4 }
           }
           className="mt-8 flex flex-wrap items-center justify-center gap-4"
         >
@@ -252,14 +277,14 @@ export function Hero() {
           </Button>
         </motion.div>
 
-        {/* Scroll cue */}
+        {/* 6. Scroll cue */}
         <motion.div
           initial={prefersReduced ? false : { opacity: 0 }}
           animate={heroRevealed ? { opacity: 1 } : { opacity: 0 }}
           transition={
             prefersReduced
               ? { duration: 0 }
-              : { duration: 0.28, delay: stagger * 6 }
+              : { duration: 0.28, delay: stagger * 5 }
           }
           className="mt-10"
         >

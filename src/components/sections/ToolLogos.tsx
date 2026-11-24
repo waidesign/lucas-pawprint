@@ -55,40 +55,15 @@ export const TOOL_LOGOS: readonly ToolLogoDef[] = [
     name: "Luci",
     href: "/work/luci",
     renderLogo: () => (
-      <span className="inline-flex items-center gap-2">
-        <svg viewBox="16 0 168 180" aria-hidden="true" className="h-8 w-8 shrink-0">
-          <path
-            d="M162 98 L151 26 Q148 18 141 23 L104 60 Z"
-            fill="var(--color-ginger)"
-            stroke="var(--color-on-pastel)"
-            strokeWidth="5"
-            strokeLinejoin="round"
-          />
-          <path
-            d="M38 98 L49 26 Q52 18 59 23 L96 60 Z"
-            fill="var(--color-ginger)"
-            stroke="var(--color-on-pastel)"
-            strokeWidth="5"
-            strokeLinejoin="round"
-          />
-          <path
-            d="M100 54 C140 54 166 72 169 104 L180 114 L169 121 L178 133 L163 139 L168 152 L149 156 C136 170 118 176 100 176 C82 176 64 170 51 156 L32 152 L37 139 L22 133 L31 121 L20 114 L31 104 C34 72 60 54 100 54 Z"
-            fill="var(--color-ginger)"
-            stroke="var(--color-on-pastel)"
-            strokeWidth="5"
-            strokeLinejoin="round"
-          />
-          <path
-            d="M78 130 C78 118 92 114 100 121 C108 114 122 118 122 130 C122 147 110 154 100 154 C90 154 78 147 78 130 Z"
-            fill="var(--color-claw)"
-          />
-          <circle cx="73" cy="104" r="8" fill="var(--color-on-pastel)" />
-          <circle cx="127" cy="104" r="8" fill="var(--color-on-pastel)" />
-        </svg>
-        <span className="font-display text-body font-extrabold tracking-tight text-on-pastel">
-          luci
-        </span>
-      </span>
+      <picture>
+        <img
+          src="/images/luci-logo-horizontal-dark.svg"
+          alt=""
+          width={100}
+          height={36}
+          className="block h-9 w-auto shrink-0"
+        />
+      </picture>
     ),
   },
   {

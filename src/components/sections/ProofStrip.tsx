@@ -70,7 +70,7 @@ export function ProofStrip() {
                       onClick={() =>
                         trackEvent("luci_click", { location: "proof_strip" })
                       }
-                      className="inline-flex h-12 items-center justify-center rounded-pill border-2 border-on-pastel bg-lilac px-4 text-on-pastel"
+                      className="inline-flex h-12 items-center justify-center rounded-md border border-inverse-text/20 px-4 text-inverse-text dark:border-text/20 dark:text-text"
                     >
                       {tool.renderLogo()}
                     </Link>
@@ -147,7 +147,7 @@ export function ProofStrip() {
                                 location: "proof_strip",
                               })
                             }
-                            className="inline-flex h-12 items-center justify-center rounded-pill border-2 border-on-pastel bg-lilac px-4 text-on-pastel transition-transform hover:-translate-y-1"
+                            className="inline-flex h-12 items-center justify-center rounded-md border border-inverse-text/20 px-4 text-inverse-text transition-transform hover:-translate-y-1 dark:border-text/20 dark:text-text"
                           >
                             {tool.renderLogo()}
                           </Link>
@@ -162,10 +162,8 @@ export function ProofStrip() {
                           aria-label={copyIdx === 0 ? tool.name : undefined}
                           title={tool.name}
                           className={cn(
-                            "group/logo relative inline-flex h-12 items-center justify-center transition-transform hover:-translate-y-1",
-                            tool.href
-                              ? "rounded-pill border-2 border-on-pastel bg-lilac px-4 text-on-pastel"
-                              : "w-14 rounded-md border border-inverse-text/20 px-3 text-inverse-text dark:border-text/20 dark:text-text"
+                            "group/logo relative inline-flex h-12 items-center justify-center rounded-md border border-inverse-text/20 text-inverse-text transition-transform hover:-translate-y-1 dark:border-text/20 dark:text-text",
+                            tool.href ? "px-4" : "w-14 px-3"
                           )}
                         >
                           {tool.renderLogo()}
