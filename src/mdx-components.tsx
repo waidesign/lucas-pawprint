@@ -14,7 +14,6 @@ import { CaseStepper } from "@/components/case/CaseStepper";
 import { MetaRow } from "@/components/case/MetaRow";
 import { TLDR } from "@/components/case/TLDR";
 import { NextCase } from "@/components/case/NextCase";
-import { LaunchOnly } from "@/components/case/LaunchOnly";
 import { DecisionCard } from "@/components/case/DecisionCard";
 import { DecisionList } from "@/components/case/DecisionList";
 import { FeatureRow } from "@/components/case/FeatureRow";
@@ -25,26 +24,17 @@ import { PainList } from "@/components/case/PainList";
 import { InsightList } from "@/components/case/InsightList";
 import { Outcome as CaseOutcome } from "@/components/case/Outcome";
 import { Learnings as CaseLearnings } from "@/components/case/Learnings";
-import { CaseCTA as GenericCaseCTA } from "@/components/case/CaseCTA";
+import { CaseCTA } from "@/components/case/CaseCTA";
 import { Callout } from "@/components/case/Callout";
 import { ImageGallery } from "@/components/case/ImageGallery";
 import { Clip } from "@/components/case/Clip";
-import { LuciHero } from "@/components/case/luci/LuciHero";
-import { ProblemDiagram } from "@/components/case/luci/ProblemDiagram";
-import { AudienceCards } from "@/components/case/luci/AudienceCards";
+import { LuciProblems } from "@/components/case/luci/LuciProblems";
+import { LuciWorkflow } from "@/components/case/luci/LuciWorkflow";
 import { PrincipleCards } from "@/components/case/luci/PrincipleCards";
 import { AnnotatedExport } from "@/components/case/luci/AnnotatedExport";
 import { A11yFindings } from "@/components/case/luci/A11yFindings";
 import { CaptureFlow } from "@/components/case/luci/CaptureFlow";
-import { Outcome as LuciOutcome } from "@/components/case/luci/Outcome";
-import { Learnings as LuciLearnings } from "@/components/case/luci/Learnings";
-import { CaseCTA as LuciCaseCTA } from "@/components/case/luci/CaseCTA";
-import { ToolbarAnatomy } from "@/components/case/luci/ToolbarAnatomy";
-import { HowSteps } from "@/components/case/luci/HowSteps";
-import { ArchitectureDiagram } from "@/components/case/luci/ArchitectureDiagram";
-import { FeedbackBeforeAfter } from "@/components/case/luci/FeedbackBeforeAfter";
 import { BrandBoard } from "@/components/case/luci/BrandBoard";
-import { BuildTimeline } from "@/components/case/luci/BuildTimeline";
 
 const components: MDXComponents = {
   Badge,
@@ -60,7 +50,6 @@ const components: MDXComponents = {
   MetaRow,
   TLDR,
   NextCase,
-  LaunchOnly,
   DecisionCard,
   DecisionList,
   FeatureRow,
@@ -71,26 +60,19 @@ const components: MDXComponents = {
   InsightList,
   CaseOutcome,
   CaseLearnings,
-  GenericCaseCTA,
+  Outcome: CaseOutcome,
+  Learnings: CaseLearnings,
+  CaseCTA,
   Callout,
   ImageGallery,
   Clip,
-  LuciHero,
-  ProblemDiagram,
-  AudienceCards,
+  LuciProblems,
+  LuciWorkflow,
   PrincipleCards,
   AnnotatedExport,
   A11yFindings,
   CaptureFlow,
-  Outcome: LuciOutcome,
-  Learnings: LuciLearnings,
-  CaseCTA: LuciCaseCTA,
-  ToolbarAnatomy,
-  HowSteps,
-  ArchitectureDiagram,
-  FeedbackBeforeAfter,
   BrandBoard,
-  BuildTimeline,
   h1: ({ children, ...props }) => (
     <h1
       className={cn(

@@ -1,12 +1,11 @@
-/**
- * Scoped Luci brand tokens (CASE-LUCI.md §4 §1, §9.4 & BRAND.md §11).
- * Allowed ONLY inside `.luci-brand-frame` (V1, V4, V5, V10 frames).
- * Never leaked to `:root` or the global portfolio design system.
- */
+/* Scoped strictly to Luci's brand showcase frame (AGENTS.md rule 4: ginger never leaks into portfolio UI). */
 .luci-brand-frame {
-  --luci-surface: #f5efea;
-  --luci-ink: #2b2b2b;
-  --luci-accent: #f4a878;
-  --luci-accent-deep: #cd8d65;
-  --luci-accent-soft: #f8caaa;
+  --luci-surface: #F5EFEA;
+  --luci-surface-alt: #EBE5E0;
+  --luci-ink: #2B2B2B;
+  --luci-ink-muted: #656360;
+  --luci-accent: #EC862B;
+  --luci-accent-deep: #AD4F1A;
+  --luci-accent-soft: #FEEBD1;
+  --luci-collar-lime: #B4D43C;
 }
