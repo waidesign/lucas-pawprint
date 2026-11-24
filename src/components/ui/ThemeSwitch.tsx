@@ -164,7 +164,7 @@ export function ThemeSwitch({
       role="radiogroup"
       aria-label="Theme preference"
       className={cn(
-        "inline-flex flex-wrap items-center gap-1 rounded-pill border-2 border-line-strong bg-surface p-1 shadow-sticker-sm",
+        "inline-flex flex-nowrap items-center gap-1 rounded-pill border-2 border-line-strong bg-surface p-1 shadow-sticker-sm md:flex-wrap",
         className
       )}
     >
@@ -178,7 +178,9 @@ export function ThemeSwitch({
             }}
             type="button"
             role="radio"
+            aria-label={label}
             aria-checked={active}
+            title={label}
             tabIndex={active ? 0 : -1}
             onKeyDown={(e) => handleRadioKeyDown(e, idx)}
             onClick={() => {
@@ -186,14 +188,14 @@ export function ThemeSwitch({
               trackEvent("theme_change", { theme: id });
             }}
             className={cn(
-              "inline-flex min-h-12 items-center gap-2 rounded-pill px-4 font-body text-button transition-colors",
+              "inline-flex min-h-12 min-w-12 items-center justify-center gap-2 rounded-pill px-0 font-body text-button transition-colors md:min-w-0 md:px-4",
               active
                 ? "bg-inverse-bg text-inverse-text"
                 : "bg-transparent text-text hover:bg-surface-2"
             )}
           >
             <Icon className="h-4 w-4 shrink-0" aria-hidden="true" />
-            <span>{label}</span>
+            <span className="hidden md:inline">{label}</span>
           </button>
         );
       })}

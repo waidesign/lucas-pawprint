@@ -44,7 +44,7 @@ export function Button({
       );
     }
     // ghost
-    return "bg-transparent text-text border-2 border-transparent underline decoration-1 hover:decoration-2 underline-offset-4 transition-all";
+    return "bg-transparent text-text border-2 border-transparent underline decoration-1 hover:decoration-2 hover:bg-surface-2 underline-offset-4 transition-all";
   })();
 
   const sharedClasses = cn(

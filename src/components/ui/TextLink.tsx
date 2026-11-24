@@ -33,7 +33,7 @@ export function TextLink({
     href.endsWith(".pdf");
 
   const sharedClasses = cn(
-    "group relative inline-flex items-baseline gap-1 rounded-xs px-1 -mx-1 font-body font-medium text-text underline decoration-1 underline-offset-4 transition-all hover:decoration-2 hover:text-on-pastel",
+    "group relative isolate inline-flex items-baseline gap-1 rounded-xs px-1 -mx-1 font-body font-medium text-text underline decoration-1 underline-offset-4 transition-all hover:decoration-2 hover:text-on-pastel",
     className
   );
 
@@ -41,7 +41,7 @@ export function TextLink({
     <>
       <span
         aria-hidden="true"
-        className="pointer-events-none absolute inset-0 -z-10 origin-left scale-x-0 rounded-xs transition-transform group-hover:scale-x-100 group-focus-visible:scale-x-100"
+        className="pointer-events-none absolute inset-0 -z-10 origin-left scale-x-0 rounded-[inherit] transition-transform group-hover:scale-x-100 group-focus-visible:scale-x-100"
         style={{
           backgroundColor: TONE_HIGHLIGHT_VAR[tone],
           transitionDuration: "var(--duration-base)",
@@ -51,7 +51,14 @@ export function TextLink({
       <span>{children}</span>
       {external && (
         <>
-          <span aria-hidden="true" className="inline-block leading-none">
+          <span
+            aria-hidden="true"
+            className="inline-block leading-none transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+            style={{
+              transitionDuration: "var(--duration-fast)",
+              transitionTimingFunction: "var(--ease-out-soft)",
+            }}
+          >
             ↗
           </span>
           <span className="sr-only"> (opens in new tab)</span>

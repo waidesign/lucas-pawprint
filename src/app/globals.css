@@ -3,15 +3,68 @@
 @custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *, [data-theme="warm-dark"], [data-theme="warm-dark"] *));
 
 @layer base {
-  html { background: var(--lp-bg); color: var(--lp-text); font-family: var(--font-body); }
+  /* scrollbar-gutter: the header must not shift when the menu locks page scroll. */
+  html { background: var(--lp-bg); color: var(--lp-text); font-family: var(--font-body); scrollbar-gutter: stable; }
   :focus-visible { outline: var(--focus-width) solid var(--lp-focus); outline-offset: var(--focus-offset); }
   ::selection { background: var(--color-lilac); color: var(--color-on-pastel); }
-  :root[data-paw-cursor="on"] body { cursor: url("/cursors/cursor-default.svg") 10 8, auto; }
-  :root[data-paw-cursor="on"] :is(a, button, [role="button"], summary, label[for]) { cursor: url("/cursors/cursor-link.svg") 12 7, pointer; }
-  :root[data-paw-cursor="on"] :is(a, button):active { cursor: url("/cursors/cursor-pressed.svg") 13 8, pointer; }
-  :root[data-paw-cursor="on"] :is(input, textarea, [contenteditable]) { cursor: text; }
-  @media (pointer: coarse), (prefers-reduced-motion: reduce) { :root body { cursor: auto; } }
+
+  /* Ensure every interactive control gets a pointer cursor even without Tailwind preflight or custom paw cursor. */
+  :is(
+    a[href],
+    area[href],
+    button:not(:disabled):not([aria-disabled="true"]),
+    [role="button"]:not([aria-disabled="true"]),
+    [role="link"]:not([aria-disabled="true"]),
+    [role="tab"]:not([aria-disabled="true"]),
+    [role="switch"]:not([aria-disabled="true"]),
+    [role="menuitem"]:not([aria-disabled="true"]),
+    [role="option"]:not([aria-disabled="true"]),
+    summary,
+    label[for],
+    select:not(:disabled),
+    input:is([type="button"], [type="submit"], [type="reset"], [type="checkbox"], [type="radio"]):not(:disabled)
+  ) {
+    cursor: pointer;
+  }
+  :is(button, [role="button"], select, input):is(:disabled, [aria-disabled="true"]) {
+    cursor: not-allowed;
+  }
 }
+
+/* Custom Paw cursor overrides utilities like `.cursor-pointer` when active */
+:root[data-paw-cursor="on"] body { cursor: url("/cursors/cursor-default.svg") 10 8, auto; }
+:root[data-paw-cursor="on"] :is(
+  a[href],
+  area[href],
+  button:not(:disabled):not([aria-disabled="true"]),
+  [role="button"]:not([aria-disabled="true"]),
+  [role="link"]:not([aria-disabled="true"]),
+  [role="tab"]:not([aria-disabled="true"]),
+  [role="switch"]:not([aria-disabled="true"]),
+  [role="menuitem"]:not([aria-disabled="true"]),
+  [role="option"]:not([aria-disabled="true"]),
+  summary,
+  label[for],
+  select:not(:disabled),
+  input:is([type="button"], [type="submit"], [type="reset"], [type="checkbox"], [type="radio"]):not(:disabled),
+  .cursor-pointer
+) { cursor: url("/cursors/cursor-link.svg") 12 7, pointer; }
+:root[data-paw-cursor="on"] :is(
+  a[href],
+  area[href],
+  button:not(:disabled):not([aria-disabled="true"]),
+  [role="button"]:not([aria-disabled="true"]),
+  [role="link"]:not([aria-disabled="true"]),
+  [role="tab"]:not([aria-disabled="true"]),
+  [role="switch"]:not([aria-disabled="true"]),
+  [role="menuitem"]:not([aria-disabled="true"]),
+  [role="option"]:not([aria-disabled="true"]),
+  summary,
+  label[for],
+  .cursor-pointer
+):active { cursor: url("/cursors/cursor-pressed.svg") 13 8, pointer; }
+:root[data-paw-cursor="on"] :is(input:not([type="button"]):not([type="submit"]):not([type="reset"]):not([type="checkbox"]):not([type="radio"]), textarea, [contenteditable]) { cursor: text; }
+@media (pointer: coarse), (prefers-reduced-motion: reduce) { :root body { cursor: auto; } }
 
 @layer components {
   .lp-btn-primary {
@@ -86,6 +139,39 @@
 
   .lp-ticker-track-right {
     animation: lp-ticker-right 48s linear infinite;
+  }
+
+  /* Left/right edge blurs inside the ticker frame ([P1-A1], requested exception to the
+     no-blur rule). Page-background tint + backdrop blur, masked so both are strongest at the edge
+     and dissolve toward the centre. The mask colour is irrelevant (alpha only). */
+  .lp-ticker-edge {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    z-index: 1;
+    width: var(--space-48);
+    pointer-events: none;
+    background-color: var(--color-bg);
+    -webkit-backdrop-filter: blur(var(--space-8));
+    backdrop-filter: blur(var(--space-8));
+  }
+
+  .lp-ticker-edge-left {
+    left: 0;
+    -webkit-mask-image: linear-gradient(to right, var(--color-on-pastel), transparent);
+    mask-image: linear-gradient(to right, var(--color-on-pastel), transparent);
+  }
+
+  .lp-ticker-edge-right {
+    right: 0;
+    -webkit-mask-image: linear-gradient(to left, var(--color-on-pastel), transparent);
+    mask-image: linear-gradient(to left, var(--color-on-pastel), transparent);
+  }
+
+  @media (min-width: 1024px) {
+    .lp-ticker-edge {
+      width: var(--space-128);
+    }
   }
 
   .lp-ticker-group:hover .lp-ticker-track-left,

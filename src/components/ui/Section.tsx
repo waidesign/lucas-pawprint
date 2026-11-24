@@ -35,12 +35,10 @@ export function Section({
     <section
       id={id}
       aria-labelledby={labelledBy}
-      style={{
-        paddingTop: "var(--space-section)",
-        paddingBottom: "var(--space-section)",
-      }}
       className={cn(
-        "w-full rounded-xl md:rounded-2xl",
+        // Side margins inset every section block from the viewport (8px mobile, 16px md+).
+        // No `w-full`: a block with auto width fills the space minus its margins.
+        "mx-2 rounded-xl py-[var(--space-section)] md:mx-4 md:rounded-2xl",
         !bleed && "px-4 md:px-10 lg:px-20",
         toneClasses,
         className
