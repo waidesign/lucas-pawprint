@@ -46,7 +46,7 @@ Show me the home page at 375 and 1440 and the new links working.
 **Check:** home is noticeably shorter · every preview links to its page · nothing exists only on home.
 Commit: `feat(home): trailer layout with page links`.
 
-## Step 3 · Work page polish (session C)
+## Step 3 · Work page polish (session C) — Replaced by `LAYOUT-STEPS.md` (Step 4)
 
 ```
 Task — Pages split, step 3: /work. Read IA.md §3 Work index.
@@ -54,7 +54,7 @@ Task — Pages split, step 3: /work. Read IA.md §3 Work index.
 ```
 Commit: `feat(work): page hero + layout`.
 
-## Step 4 · Motion page (session D)
+## Step 4 · Motion page (session D) — Replaced by `LAYOUT-STEPS.md` (Step 6)
 
 ```
 Task — Pages split, step 4: /motion. Read IA.md §3 Motion, LOAFFY-ANIMATION.md §4.14 and §6.5 (reel → vibing), COMPONENTS.md VideoReel.
@@ -64,7 +64,7 @@ Task — Pages split, step 4: /motion. Read IA.md §3 Motion, LOAFFY-ANIMATION.m
 ```
 Commit: `feat(motion): motion page`.
 
-## Step 5 · About page (session E)
+## Step 5 · About page (session E) — Replaced by `LAYOUT-STEPS.md` (Step 5)
 
 ```
 Task — Pages split, step 5: /about. Read IA.md §3 About and CONTENT.md "About page" drafts + Changelog + Kind words.
@@ -73,7 +73,7 @@ Use the copy exactly as drafted; keep [placeholders] visible only in dev, hidden
 ```
 Commit: `feat(about): about page`.
 
-## Step 6 · Contact page (session F)
+## Step 6 · Contact page (session F) — Replaced by `LAYOUT-STEPS.md` (Step 7)
 
 ```
 Task — Pages split, step 6: /contact. Read IA.md §3 Contact and CONTENT.md "Contact page" drafts.
