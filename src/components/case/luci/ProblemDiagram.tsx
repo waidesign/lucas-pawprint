@@ -4,7 +4,6 @@ import { cn } from "@/lib/cn";
 import { HEADING_SCALE_CLASSES } from "@/components/ui/Heading";
 
 import { motion, useReducedMotion } from "motion/react";
-import { Card } from "@/components/ui/Card";
 import { Chip } from "@/components/ui/Chip";
 import { springCalm, stagger } from "@/lib/motion";
 
@@ -205,9 +204,9 @@ export function ProblemDiagram() {
     <div
       role="group"
       aria-label="Comparison of whole-site extractors, screenshots, and multi-page feedback versus Luci"
-      className="my-8 space-y-6"
+      className="my-8 space-y-8"
     >
-      <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
+      <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
         {PROBLEM_COLUMNS.map(({ title, copy, Scene }, index) => (
           <motion.div
             key={title}
@@ -219,38 +218,34 @@ export function ProblemDiagram() {
                 ? { duration: 0 }
                 : { ...springCalm, delay: index * stagger }
             }
+            className="flex h-full flex-col justify-between gap-4"
           >
-            <Card
-              tone="surface"
-              className="flex h-full flex-col justify-between gap-4"
-            >
-              <div className="flex items-center justify-between gap-3">
-                <h3
-                  className={cn(
-                    "font-display text-text text-balance hyphens-auto break-words",
-                    HEADING_SCALE_CLASSES.h3,
-                  )}
-                >
-                  {title}
-                </h3>
-                <Chip tone="blush" size="sm">
-                  <span aria-hidden="true">✕</span>
-                  <span className="sr-only">Problem</span>
-                </Chip>
-              </div>
+            <div className="flex items-center justify-between gap-3">
+              <h3
+                className={cn(
+                  "font-display text-text text-balance hyphens-auto break-words",
+                  HEADING_SCALE_CLASSES.h3,
+                )}
+              >
+                {title}
+              </h3>
+              <Chip tone="blush" size="sm">
+                <span aria-hidden="true">✕</span>
+                <span className="sr-only">Problem</span>
+              </Chip>
+            </div>
 
-              <div className="flex items-center justify-center rounded-md border border-line bg-bg py-4">
-                <Scene />
-              </div>
+            <div className="flex items-center justify-center rounded-md border-2 border-line-strong bg-bg py-4">
+              <Scene />
+            </div>
 
-              <p className="font-body text-body text-text">{copy}</p>
-            </Card>
+            <p className="font-body text-body text-text-muted">{copy}</p>
           </motion.div>
         ))}
       </div>
 
-      {/* Full-width mint resolution bar */}
-      <motion.div
+      {/* Margin-note resolution */}
+      <motion.aside
         initial={prefersReduced ? false : { opacity: 0, y: 24 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, margin: "-10% 0px" }}
@@ -259,18 +254,18 @@ export function ProblemDiagram() {
             ? { duration: 0 }
             : { ...springCalm, delay: PROBLEM_COLUMNS.length * stagger }
         }
-        className="flex flex-wrap items-center gap-3 rounded-lg border-2 border-line-strong bg-mint px-6 py-4 text-on-pastel shadow-sticker-sm"
+        className="flex flex-wrap items-center gap-3 border-l-2 border-line-strong pl-6"
       >
         <span
           aria-hidden="true"
-          className="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-pill border-2 border-line-strong bg-bg font-mono text-body font-bold text-text"
+          className="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-pill border-2 border-line-strong bg-mint font-mono text-body font-bold text-on-pastel"
         >
           ✓
         </span>
-        <p className="font-body text-body-lg font-semibold text-on-pastel">
+        <p className="font-body text-body-lg font-semibold text-text">
           Luci: one component, measured values, one feedback session.
         </p>
-      </motion.div>
+      </motion.aside>
     </div>
   );
 }

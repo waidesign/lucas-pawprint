@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { getAllCaseStudies } from "@/lib/case-studies";
 import { SiteNav } from "@/components/site/SiteNav";
 import { SiteFooter } from "@/components/site/SiteFooter";
-import { SelectedWork } from "@/components/sections/SelectedWork";
+import { WorkIndex } from "@/components/work/WorkIndex";
 import { ContactPanel } from "@/components/sections/ContactPanel";
 
 export const metadata: Metadata = {
@@ -36,11 +36,7 @@ export default async function WorkIndexPage() {
     <>
       <SiteNav />
       <main id="main-content">
-        <SelectedWork
-          caseStudies={caseStudies}
-          headingLevel="h1"
-          syncUrlQuery
-        />
+        <WorkIndex caseStudies={caseStudies} />
         <ContactPanel />
       </main>
       <SiteFooter />

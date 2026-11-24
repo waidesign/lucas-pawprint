@@ -6,6 +6,9 @@ export type CardProps = {
   children: ReactNode;
 } & ComponentPropsWithoutRef<"div">;
 
+/**
+ * Rule 18: only for a clickable whole, a media/demo frame, or one standout panel per section.
+ */
 export function Card({
   tone = "surface",
   className,

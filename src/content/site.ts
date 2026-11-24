@@ -8,6 +8,11 @@ export interface ProfileData {
   location: string;
   timezone: string;
   timezoneNote: string;
+  workingHours: {
+    timeZone: string;
+    start: string;
+    end: string;
+  };
   studio: {
     name: string;
     url: string;
@@ -67,6 +72,11 @@ export const profile: ProfileData = {
   location: "Phuket, Thailand",
   timezone: "UTC+7",
   timezoneNote: "Based in Phuket, Thailand · UTC+7",
+  workingHours: {
+    timeZone: "Asia/Bangkok",
+    start: "09:00",
+    end: "18:00",
+  },
   studio: {
     name: "Pawprint",
     url: "https://pawprint.design",

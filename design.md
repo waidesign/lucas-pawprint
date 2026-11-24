@@ -241,6 +241,25 @@ Rules: max line length 68ch (`--prose-max` 720px). Headlines `text-wrap: balance
 - **Sizes:** controls 40 / 48 / 56px tall · icons 16 / 20 / 24 / 32px · minimum hit target **48×48**.
 - **Breakpoints:** sm 480 · md 768 · lg 1024 · xl 1280 · 2xl 1536. Check at 375, 768, 1024, 1440, 1920.
 
+### 3.1 Containers
+
+**Rule 18 — Cards are the exception, not the layout.** A card is a filled box with a 2px pen border and a sticker shadow. Use one only for **(a)** a thing you click as a whole (`NextCase`, a case cover), **(b)** a frame around media or a live demo (image, video, device, code, diagram, token specimen), or **(c)** the one standout moment of a section (`ContactPanel`, `CaseCTA`). Everything else sits plain on the page with type, spacing, 1px hairlines and labelled or numbered lists. Never cards inside cards, never a grid of text-only cards, at most one card group per section.
+
+**Rule test:**
+1. Whole box is one clickable thing? → card OK.
+2. Framing media or a live demo? → frame OK (`2px` pen border; sticker shadow only on main media).
+3. Single standout moment of this section? → one panel OK.
+4. Otherwise → no box; use the layout kit:
+
+| Pattern | Component | Structure |
+|---|---|---|
+| Ruled list | `RuledList` | 2px top rule + 1px hairline rows (12-col: marker · title · body · aside) |
+| Index columns | `IndexColumns` | 2–4 plain columns topped by 2px pen rules, optional label/numeral |
+| Spec row | `MetaRow` | `<dl>` between 2px top rule and 1px hairline bottom |
+| Pull quote | `PullQuote` | `<figure>` in `font-display text-h3` + `<figcaption>` + optional note toggle |
+| Margin note | `Callout` | `border-l-2 border-line-strong pl-6`, pastel-highlighted title, no fill/shadow |
+| Section band | `Section` | Whole-band `<pastel>-soft` tint on alternating sections |
+
 ## 4. Shape
 
 | Token | Value | From the paw | Use |

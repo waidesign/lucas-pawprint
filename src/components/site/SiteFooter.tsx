@@ -6,6 +6,7 @@ import { PRIMARY_NAV_ITEMS, SOCIAL_LINKS } from "@/content/site";
 import { Wordmark } from "./Wordmark";
 
 export interface SiteFooterProps {
+  navLabel?: string;
   className?: string;
 }
 
@@ -15,7 +16,10 @@ const FOOTER_NAV_ITEMS = [
   { label: "Resume", href: "/resume.pdf", external: true },
 ];
 
-export function SiteFooter({ className }: SiteFooterProps) {
+export function SiteFooter({
+  navLabel = "Footer navigation",
+  className,
+}: SiteFooterProps) {
   return (
     <footer
       className={cn(
@@ -36,7 +40,7 @@ export function SiteFooter({ className }: SiteFooterProps) {
             </p>
           </div>
 
-          <nav aria-label="Footer navigation" className="md:col-span-4">
+          <nav aria-label={navLabel} className="md:col-span-4">
             <p className="font-body text-label uppercase text-text-muted">
               Explore
             </p>

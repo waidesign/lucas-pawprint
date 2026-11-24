@@ -24,6 +24,23 @@ const STEP_META: Record<
   ship: { number: "04", label: "Ship", badgeTone: "mint" },
 };
 
+const CHAPTER_BG_VARS: Record<ChapterTone, string> = {
+  bg: "var(--lp-bg)",
+  surface: "var(--lp-surface)",
+  lilac: "var(--color-lilac)",
+  mint: "var(--color-mint)",
+  butter: "var(--color-butter)",
+  sky: "var(--color-sky)",
+  blush: "var(--color-blush)",
+  pistachio: "var(--color-pistachio)",
+  "lilac-soft": "var(--lp-lilac-soft)",
+  "mint-soft": "var(--lp-mint-soft)",
+  "butter-soft": "var(--lp-butter-soft)",
+  "sky-soft": "var(--lp-sky-soft)",
+  "blush-soft": "var(--lp-blush-soft)",
+  "pistachio-soft": "var(--lp-pistachio-soft)",
+};
+
 const CHAPTER_BG_CLASSES: Record<ChapterTone, string> = {
   bg: "bg-bg text-text",
   surface: "bg-surface text-text",
@@ -71,6 +88,7 @@ export function Chapter({
       id={sectionId}
       data-chapter-step={step}
       aria-labelledby={headingId}
+      style={{ ["--chapter-bg" as string]: CHAPTER_BG_VARS[tone] }}
       className={cn(
         "w-full scroll-mt-28 border-t border-line px-4 py-[var(--space-section)] md:px-10 lg:px-20",
         CHAPTER_BG_CLASSES[tone],

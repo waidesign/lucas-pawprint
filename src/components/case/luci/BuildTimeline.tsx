@@ -18,7 +18,7 @@ const TIMELINE_STEPS = [
  */
 export function BuildTimeline() {
   return (
-    <div className="my-8 overflow-x-auto rounded-xl border-2 border-line-strong bg-surface p-6 shadow-sticker-sm">
+    <div className="my-8 overflow-x-auto border-y border-line py-6">
       <BeanStepper
         steps={TIMELINE_STEPS}
         current={4}

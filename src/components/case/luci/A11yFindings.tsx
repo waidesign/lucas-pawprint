@@ -22,25 +22,28 @@ export function A11yFindings() {
       transition={prefersReduced ? { duration: 0 } : springCalm}
       className="my-10 space-y-3"
     >
-      <div className="overflow-x-auto rounded-lg border-2 border-line-strong bg-bg shadow-sticker-sm">
+      <div className="overflow-x-auto">
         <table className="w-full border-collapse text-left font-body text-body text-text">
+          <caption className="sr-only">
+            Accessibility findings measured by Luci
+          </caption>
           <thead>
-            <tr className="border-b-2 border-line-strong bg-surface">
+            <tr className="border-b-2 border-line-strong">
               <th
                 scope="col"
-                className="px-6 py-4 font-mono text-label uppercase tracking-wider text-text-subtle"
+                className="px-4 py-4 font-mono text-label uppercase tracking-wider text-text-muted"
               >
                 Finding
               </th>
               <th
                 scope="col"
-                className="px-6 py-4 font-mono text-label uppercase tracking-wider text-text-subtle"
+                className="px-4 py-4 font-mono text-label uppercase tracking-wider text-text-muted"
               >
                 Measured
               </th>
               <th
                 scope="col"
-                className="px-6 py-4 font-mono text-label uppercase tracking-wider text-text-subtle"
+                className="px-4 py-4 font-mono text-label uppercase tracking-wider text-text-muted"
               >
                 Verdict
               </th>
@@ -50,14 +53,14 @@ export function A11yFindings() {
             {LUCI_A11Y_FINDINGS.map((row) => {
               const isPass = row.verdict === "AAA";
               return (
-                <tr key={row.label} className="hover:bg-surface/50">
-                  <td className="px-6 py-4 font-medium text-text">
+                <tr key={row.label} className="hover:bg-surface/40">
+                  <td className="px-4 py-4 font-medium text-text">
                     {row.label}
                   </td>
-                  <td className="px-6 py-4 font-mono text-body text-text">
+                  <td className="px-4 py-4 font-mono text-body text-text">
                     {row.measured}
                   </td>
-                  <td className="px-6 py-4">
+                  <td className="px-4 py-4">
                     <Chip tone={isPass ? "mint" : "blush"} size="sm">
                       <span aria-hidden="true">{isPass ? "✓ " : "✕ "}</span>
                       <span>{row.verdict}</span>

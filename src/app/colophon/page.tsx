@@ -12,9 +12,9 @@ import { TLDR } from "@/components/case/TLDR";
 import { ContactPanel } from "@/components/sections/ContactPanel";
 import { SiteFooter } from "@/components/site/SiteFooter";
 import { SiteNav } from "@/components/site/SiteNav";
-import { Card } from "@/components/ui/Card";
 import { Chip } from "@/components/ui/Chip";
 import { Heading } from "@/components/ui/Heading";
+import { IndexColumns, type IndexColumnItem } from "@/components/ui/IndexColumns";
 import { TextLink } from "@/components/ui/TextLink";
 
 export const metadata: Metadata = {
@@ -62,6 +62,73 @@ const A11Y_COMMITMENTS = [
 ] as const;
 
 export default function ColophonPage() {
+  const shipColumns: IndexColumnItem[] = [
+    {
+      id: "colophon-accessibility",
+      label: "WCAG 2.2 AA",
+      title: "Accessibility",
+      body: (
+        <ul className="list-disc space-y-2 pl-5 font-body text-body text-text-muted">
+          {A11Y_COMMITMENTS.map((line) => (
+            <li key={line}>{line}</li>
+          ))}
+        </ul>
+      ),
+    },
+    {
+      id: "colophon-stack",
+      label: "Architecture",
+      title: "Tech stack",
+      body: (
+        <div className="space-y-4">
+          <div className="flex flex-wrap gap-2">
+            {TECH_STACK.map((item) => (
+              <Chip key={item}>{item}</Chip>
+            ))}
+          </div>
+          <p className="font-body text-body text-text-muted">
+            Static export built ahead of time with Zod MDX validation, AVIF/WebP
+            image optimization, and build-time OG share cards.
+          </p>
+        </div>
+      ),
+    },
+    {
+      id: "colophon-credits",
+      label: "Pawprint",
+      title: "Credits",
+      body: (
+        <ul className="space-y-3 font-body text-body text-text-muted">
+          <li>
+            <strong className="text-text">Pawprint umbrella:</strong>{" "}
+            <TextLink href="https://pawprint.design" external tone="mint">
+              pawprint.design
+            </TextLink>
+          </li>
+          <li>
+            <strong className="text-text">Design extraction &amp; QA:</strong>{" "}
+            <TextLink
+              href="https://luci.pawprint.design"
+              external
+              tone="lilac"
+            >
+              Luci (luci.pawprint.design)
+            </TextLink>
+          </li>
+          <li>
+            <strong className="text-text">Typefaces:</strong> Bricolage
+            Grotesque &amp; Inter (via{" "}
+            <code className="font-mono text-caption">next/font/google</code>).
+          </li>
+          <li>
+            <strong className="text-text">Author:</strong> Lucas (Wai Phyo Aung)
+            — Made with care in Phuket, Thailand.
+          </li>
+        </ul>
+      ),
+    },
+  ];
+
   return (
     <div className="flex min-h-full flex-col bg-bg text-text">
       <SiteNav />
@@ -190,7 +257,7 @@ export default function ColophonPage() {
           title="Loaffy character gallery, reactions & components"
           tone="bg"
         >
-          <div className="space-y-16 pt-8">
+          <div className="space-y-16 overflow-x-clip pt-8">
             <LoaffyLabSection />
             <ComponentsLabSection />
           </div>
@@ -202,58 +269,9 @@ export default function ColophonPage() {
           title="Accessibility, tech stack & Pawprint credits"
           tone="pistachio-soft"
         >
-          <div className="grid grid-cols-1 gap-8 pt-6 lg:grid-cols-3">
-            <Card tone="surface" className="space-y-4">
-              <Heading as="h4">Accessibility</Heading>
-              <ul className="list-disc space-y-2 pl-5 font-body text-body text-text-muted">
-                {A11Y_COMMITMENTS.map((line) => (
-                  <li key={line}>{line}</li>
-                ))}
-              </ul>
-            </Card>
-
-            <Card tone="surface" className="space-y-4">
-              <Heading as="h4">Tech stack</Heading>
-              <div className="flex flex-wrap gap-2">
-                {TECH_STACK.map((item) => (
-                  <Chip key={item}>{item}</Chip>
-                ))}
-              </div>
-              <p className="font-body text-body text-text-muted">
-                Static export built ahead of time with Zod MDX validation, AVIF/WebP
-                image optimization, and build-time OG share cards.
-              </p>
-            </Card>
-
-            <Card tone="surface" className="space-y-4">
-              <Heading as="h4">Credits</Heading>
-              <ul className="space-y-3 font-body text-body text-text-muted">
-                <li>
-                  <strong className="text-text">Pawprint umbrella:</strong>{" "}
-                  <TextLink href="https://pawprint.design" external tone="mint">
-                    pawprint.design
-                  </TextLink>
-                </li>
-                <li>
-                  <strong className="text-text">Design extraction &amp; QA:</strong>{" "}
-                  <TextLink
-                    href="https://luci.pawprint.design"
-                    external
-                    tone="lilac"
-                  >
-                    Luci (luci.pawprint.design)
-                  </TextLink>
-                </li>
-                <li>
-                  <strong className="text-text">Typefaces:</strong> Bricolage
-                  Grotesque &amp; Inter (via <code className="font-mono text-caption">next/font/google</code>).
-                </li>
-                <li>
-                  <strong className="text-text">Author:</strong> Lucas (Wai Phyo
-                  Aung) — Made with care in Phuket, Thailand.
-                </li>
-              </ul>
-            </Card>
+          <h3 className="sr-only">Accessibility, tech stack and credits</h3>
+          <div className="pt-6">
+            <IndexColumns items={shipColumns} columns={3} as="h4" />
           </div>
         </Chapter>
 

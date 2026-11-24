@@ -22,6 +22,10 @@ import { BeanLoader } from "@/components/ui/BeanLoader";
 import { DeviceFrame } from "@/components/ui/DeviceFrame";
 import { VideoReel } from "@/components/ui/VideoReel";
 import { BetaBadge } from "@/components/ui/BetaBadge";
+import { RuledList } from "@/components/ui/RuledList";
+import { IndexColumns } from "@/components/ui/IndexColumns";
+import { PullQuote } from "@/components/ui/PullQuote";
+import { Callout } from "@/components/case/Callout";
 import { SiteNav } from "@/components/site/SiteNav";
 import { MobileMenu } from "@/components/site/MobileMenu";
 import { SiteFooter } from "@/components/site/SiteFooter";
@@ -455,6 +459,7 @@ export function ComponentsLabSection() {
           <BeanStepper
             steps={PROCESS_STEPS}
             current={activeStep}
+            label="Horizontal progress steps demo"
             onStepClick={setActiveStep}
           />
           <div className="flex gap-3">
@@ -484,6 +489,7 @@ export function ComponentsLabSection() {
             steps={PROCESS_STEPS}
             current={activeStep}
             orientation="vertical"
+            label="Vertical progress steps demo"
             onStepClick={setActiveStep}
           />
           <div className="space-y-2">
@@ -563,7 +569,7 @@ export function ComponentsLabSection() {
         </div>
 
         <div className="overflow-hidden rounded-lg border-2 border-line-strong">
-          <SiteFooter />
+          <SiteFooter navLabel="Footer navigation preview" />
         </div>
 
         <MobileMenu
@@ -571,6 +577,180 @@ export function ComponentsLabSection() {
           onClose={() => setMobileSheetDemoOpen(false)}
           currentPath="/work"
         />
+      </div>
+
+      {/* 9. Layout Kit & Rule 18 (RuledList, IndexColumns, PullQuote, Callout & Card rule test) */}
+      <div className="space-y-8 rounded-lg border-2 border-line-strong bg-surface p-6 shadow-sticker-sm">
+        <div className="border-b border-line pb-4">
+          <h3 className="font-display text-h3 text-text">
+            09 · Layout Kit &amp; Rule 18 (No Card Overuse)
+          </h3>
+          <p className="mt-1 font-body text-caption text-text-muted">
+            Plain type, 1px hairlines, 2px pen rules, and open column rhythm
+            replace text-only boxes across non-Home routes. Works in Light, Dark
+            and Warm Dark at 375 and 1440.
+          </p>
+        </div>
+
+        {/* Card: when (not) to use + rule test */}
+        <div className="space-y-4">
+          <p className="font-mono text-label uppercase tracking-wider text-text-muted">
+            Card: when (not) to use — The 4-step rule test
+          </p>
+          <RuledList
+            ordered
+            as="h4"
+            items={[
+              {
+                bean: 1,
+                beanTone: "lilac",
+                title: "Clickable whole?",
+                body: "If clicking anywhere on the entire container navigates or triggers an action (NextCase, cover card), Card is allowed.",
+                aside: "Card OK",
+              },
+              {
+                bean: 2,
+                beanTone: "sky",
+                title: "Media or live demo frame?",
+                body: "Screenshots, device frames, video players, code frames, diagrams, and token specimens keep a 2px pen border.",
+                aside: "Frame OK",
+              },
+              {
+                bean: 3,
+                beanTone: "mint",
+                title: "Single standout panel in the section?",
+                body: "One standout moment per section (ContactPanel, CaseCTA) earns a Card or panel.",
+                aside: "1 Panel OK",
+              },
+              {
+                bean: 4,
+                beanTone: "butter",
+                title: "Text, lists, stats, or multi-column info?",
+                body: "Never box text-only content or nest cards inside cards. Use RuledList, IndexColumns, PullQuote, or a Callout margin note.",
+                aside: "No Box",
+              },
+            ]}
+          />
+        </div>
+
+        {/* IndexColumns: 2, 3, and 4 columns with labels, big numbers, Chip & actions */}
+        <div className="space-y-6 border-t border-line pt-6">
+          <p className="font-mono text-label uppercase tracking-wider text-text-muted">
+            IndexColumns (2 / 3 / 4 columns · mono or Chip labels · optional display numerals · actions)
+          </p>
+
+          <IndexColumns
+            columns={3}
+            ordered
+            bodySize="body-lg"
+            items={[
+              {
+                label: (
+                  <Chip tone="butter" size="sm">
+                    Problem
+                  </Chip>
+                ),
+                number: "01",
+                title: "Understand first",
+                body: "Map the messy reality and real constraints before touching visual layout.",
+              },
+              {
+                label: (
+                  <Chip tone="mint" size="sm">
+                    What I did
+                  </Chip>
+                ),
+                number: "02",
+                title: "Design the system",
+                body: "Turn recurring states into shared tokens and predictable primitives.",
+              },
+              {
+                label: "Shipped",
+                number: "03",
+                title: "Check twice",
+                body: "Verify accessibility, reduced motion, and breakpoints before release.",
+                actions: (
+                  <TextLink href="#lab-components-heading" tone="lilac">
+                    Inspect primitives →
+                  </TextLink>
+                ),
+              },
+            ]}
+          />
+
+          <IndexColumns
+            columns={4}
+            items={[
+              {
+                label: "01",
+                title: "Two-column / Four-column",
+                body: "Plain typography under a 2px pen rule scales cleanly down to 375px.",
+              },
+              {
+                label: "02",
+                title: "Zero fill",
+                body: "Background contrast comes from alternating soft section bands, not repeated card fills.",
+              },
+              {
+                label: "03",
+                title: "Zero shadow",
+                body: "Sticker shadows stay reserved for clickable controls and primary media.",
+              },
+              {
+                label: "04",
+                title: "Token scale",
+                body: "Every heading follows Rule 17 through HEADING_SCALE_CLASSES.",
+              },
+            ]}
+          />
+        </div>
+
+        {/* PullQuote: stacked with hairline separator + full note disclosure */}
+        <div className="space-y-4 border-t border-line pt-6">
+          <p className="font-mono text-label uppercase tracking-wider text-text-muted">
+            PullQuote (sibling hairline separator, role caption, relationship Chip, optional full note disclosure)
+          </p>
+          <div>
+            <PullQuote
+              quote="Quiet hierarchy makes technical products feel effortless without shouting."
+              author="Example Collaborator"
+              role="Engineering Lead"
+              company="Pawprint Lab"
+              relationship="Colleague"
+              chipTone="blush"
+              fullNote="This disclosure reveals the full unabridged quote in a clean left-ruled block without boxing it in another card."
+            />
+            <PullQuote
+              quote="Reserving sticker borders for real media and CTAs immediately makes every interactive element easier to spot."
+              author="Second Reviewer"
+              role="Design Systems"
+              company="Pawprint Lab"
+              relationship="Client"
+              chipTone="mint"
+            />
+          </div>
+        </div>
+
+        {/* Callout margin notes */}
+        <div className="space-y-4 border-t border-line pt-6">
+          <p className="font-mono text-label uppercase tracking-wider text-text-muted">
+            Callout (restyled margin note — 2px left rule, pastel highlight title, zero fill/shadow)
+          </p>
+          <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+            <Callout tone="butter" title="Margin note">
+              <p>
+                A restyled Callout uses a 2px left pen border and highlighted
+                title pill instead of a heavy boxed card.
+              </p>
+            </Callout>
+            <Callout tone="mint" title="No nested boxes">
+              <p>
+                Reads smoothly inside white, dark, warm-dark, and pastel chapter
+                backgrounds while staying on the 4/8 grid.
+              </p>
+            </Callout>
+          </div>
+        </div>
       </div>
     </section>
   );

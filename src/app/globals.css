@@ -115,6 +115,23 @@
     transition-duration: var(--duration-instant);
   }
 
+  .lp-tile-cover-interactive {
+    box-shadow: none;
+    transition-property: transform, box-shadow, background-color, color, opacity;
+    transition-duration: var(--duration-fast);
+    transition-timing-function: var(--ease-out-soft);
+  }
+  .lp-tile-cover-interactive:hover:not(:disabled):not([aria-disabled="true"]),
+  .lp-tile-cover-interactive:focus-visible:not(:disabled):not([aria-disabled="true"]) {
+    transform: translate(var(--lift-shift), var(--lift-shift));
+    box-shadow: var(--shadow-sticker);
+  }
+  .lp-tile-cover-interactive:active:not(:disabled):not([aria-disabled="true"]) {
+    transform: translate(var(--press-shift), var(--press-shift)) scale(var(--press-scale));
+    box-shadow: none;
+    transition-duration: var(--duration-instant);
+  }
+
   @keyframes lp-ticker-left {
     0% {
       transform: translate3d(0, 0, 0);

@@ -25,6 +25,7 @@ Portfolio Website for **Lucas (Wai Phyo Aung), Product & Motion Designer**, at `
 - Build: `npm run build`
 - Lint: `npm run lint`
 - Type check: `npm run typecheck`
+- Visual & a11y QA (Playwright + axe): `npm run qa` (`scripts/qa.mjs`)
 
 ## Folder Map (confirmed)
 - `docs/pawprint-kit/`: Brand, design system, UX (`CASE-LUCI.md`), build playbook (`LUCI-BUILD-STEPS.md`), 8 real Luci reference exports (`06-references/`), and reference Loaffy SVGs (read-only for agents)
@@ -33,14 +34,15 @@ Portfolio Website for **Lucas (Wai Phyo Aung), Product & Motion Designer**, at `
 - `public/loaffy/` & `public/cursors/`: Loaffy SVG expressions, forms, poses, hand, and paw cursors
 - `public/rive/`: Rive `.riv` animation files
 - `public/resume.pdf`: Lucas's resume (≤ 1 MB)
-- `scripts/generate-tokens.mjs` & `scripts/optimize-images.mjs`: Token and image build scripts
-- `src/app/`: App Router routes (`/`, `/work`, `/work/[slug]`, `/lab` dev-only)
-- `src/components/sections/`: Home sections (`Hero`, `ProofStrip`, `SelectedWork`, `CaseCard`, `ProcessStory`, `MotionReel`, `AboutChangelog`, `KindWords`, `ContactPanel`)
-- `src/components/ui/`: Core design system primitives
-- `src/components/site/`: Site chrome (`Wordmark`, `SkipLink`, `SiteNav`, `MobileMenu`, `SiteFooter`)
+- `scripts/generate-tokens.mjs`, `scripts/optimize-images.mjs`, & `scripts/qa.mjs`: Token, image, and Playwright + axe QA scripts
+- `src/app/`: App Router routes (`/`, `/work`, `/work/[slug]`, `/motion`, `/about`, `/contact`, `/colophon`, `/lab` dev-only, `not-found.tsx`)
+- `src/components/sections/`: Home & shared sections (`Hero`, `ProofStrip`, `SelectedWork`, `CaseCard`, `ProcessStory`, `MotionReel`, `AboutChangelog`, `KindWords`, `ContactPanel`)
+- `src/components/ui/`: Core design system primitives (including card-free layout kit: `RuledList`, `IndexColumns`, `PullQuote`)
+- `src/components/work/`, `src/components/motion/`, `src/components/contact/`, `src/components/colophon/`: Page-specific interactive sections (`WorkIndex`, `MotionCatalog`, `TimezoneOverlap`, `BookChatButton`, `DesignSystemFoundations`)
+- `src/components/site/`: Site chrome (`Wordmark`, `SkipLink`, `SiteNav`, `HeaderMenu`, `SiteFooter`)
 - `src/components/case/`: Generic case study shell & MDX components (`CaseLayout`, `CaseStudyContext`, `CaseStepper`, `MetaRow`, `TLDR`, `NextCase`, `LaunchOnly`, `BetaBadge`, `Chapter`, `DecisionCard`, `Callout`, `ImageGallery`, `Clip`) + `src/components/case/luci/` (`LuciHero`, `ProblemDiagram`, `AudienceCards`, `PrincipleCards`, `ToolbarAnatomy`, `HowSteps`, `AnnotatedExport`, `A11yFindings`, `ArchitectureDiagram`, `FeedbackBeforeAfter`, `BrandBoard`, `BuildTimeline`, `CaptureFlow`, `Outcome`, `Learnings`, `CaseCTA`, `luci.css`)
 - `src/components/mascot/` & `src/components/motion/`: `Loaffy`, `LoaffyStage`, `LoaffySVG`, `RiveMascot`, `CatHand`, `PawCursorProvider`, `FadeIn`
-- `src/content/`: `site.ts`, `case-studies/*.mdx` (7 case studies, `luci` first), and `case-studies/luci/proof.ts`
+- `src/content/`: `site.ts` (including `profile.workingHours`), `motion.ts` (`MOTION_CLIPS`, `getVisibleMotionClips`), `case-studies/*.mdx` (7 case studies, `luci` first), and `case-studies/luci/proof.ts`
 - `src/lib/`: `analytics.ts`, `schema.ts`, `case-studies.ts`, `cn.ts`, `theme.ts`, `motion.ts`
 - `src/styles/tokens.css`: Generated Tailwind v4 tokens
 
@@ -66,11 +68,20 @@ Portfolio Website for **Lucas (Wai Phyo Aung), Product & Motion Designer**, at `
 - **Done — Phase 8 (Remaining pages: `/motion`, `/about`, `/contact`, `/colophon`, `not-found.tsx`):**
   - Built `/motion`, `/about` (portrait + bio, full changelog + education, 5-step process + capabilities/tools, expanded `KindWords`, `Person` JSON-LD, Resume CTA), `/contact` (without availability/remote-region badge per AGENTS.md §4.15), `/colophon` (case-study layout wrapping shared `<DesignSystemFoundations />`, `<LoaffyLabSection />`, `<ComponentsLabSection />`, Accessibility statement, stack, Luci + Pawprint credits), and `not-found.tsx` (`Loaffy` `lost` form + `BRAND.md` copy + `NotFoundTracker`).
   - Extracted shared `src/components/colophon/DesignSystemFoundations.tsx` from `LabClient.tsx` and pointed `HeaderMenu.tsx` to `/work`, `/motion`, `/about`, `/contact`.
-- **Done — Cat hand choreography (`feat-cathand-choreography`, uncommitted):**
+- **Done — Cat hand choreography (`feat-cathand-choreography`, fast-forwarded into local `main` at `34ea357`):**
   - `CatHand` gained `exit` (280ms), full-frame `enter`, claws flicking out at 120ms in `bat`, `playKey` (replay) and `onActionComplete`; timings in `handTiming` (`src/lib/motion.ts`).
   - New `stage.ts` (one-character check: visible Loaffys register; `<Loaffy onStage>`), `PeekingHand`, `HandSketch`, `case/DecisionHandPeek`.
-  - Placements: Process Shape (scroll-scrubbed), About changelog board pats (xl), case-row CTA bat, first DecisionCard per page, /about Shape card. Case-row Loaffy peek now triggers on cover hover only. See `.luci/decisions/2026-11-24-cat-hand-placements.md`.
+  - Placements: Process Shape (scroll-scrubbed), About changelog board pats (xl), case-row CTA bat, first DecisionCard per page. Case-row Loaffy peek triggers on cover hover only. See `.luci/decisions/2026-11-24-cat-hand-placements.md`.
   - Kit docs to update when Lucas approves: COMPONENTS.md CatHand props (`action` incl. `exit`, `playKey`, `onActionComplete`), LOAFFY-ANIMATION.md §6.3 (peek on cover hover).
-- **Done — Kit update for the pages split (2026-11-24):** copied `README.md`, `03-ux/IA.md`, `03-ux/CONTENT.md`, `04-build/PROMPTS.md`, new `04-build/PAGES-BUILD-STEPS.md`; adjusted for rule 15 (no availability copy), the full-page Header Menu, and /about not repeating Home's process. See `.luci/decisions/2026-11-24-pages-split-kit-update.md`. Next build work: PAGES-BUILD-STEPS Steps 1–7.
-- **Next — Remaining Phase 6 1-by-1 client case walkthroughs (`Classic Decoder App` → `Sarayah Phuket Villas`) and pre-launch SEO/performance audit (`sitemap.xml`, `robots.txt`, Home first-load JS optimization).**
-- **Open Questions:** Review `/work/classic-decoder-app` next, or optimize `/` first-load JS under `176 KB gzip` (`TECH-STACK.md §4`).
+- **Done — Kit update for the pages split (2026-11-24):** copied `README.md`, `03-ux/IA.md`, `03-ux/CONTENT.md`, `04-build/PROMPTS.md`, `04-build/PAGES-BUILD-STEPS.md`, and `04-build/LAYOUT-STEPS.md`; adjusted for rule 15 (no availability copy), the full-page Header Menu, and /about not repeating Home's process. See `.luci/decisions/2026-11-24-pages-split-kit-update.md`.
+- **Done — Layouts without card overuse (`feat-no-card-layouts`, Steps 1–8):**
+  - **Step 1 (`b43090f`):** Added Rule 18 to `AGENTS.md`/`CLAUDE.md` and built card-free layout primitives (`RuledList`, `IndexColumns`, `PullQuote`, margin-note `Callout`, `/lab` section 09).
+  - **Step 2 (`75b4537`):** Refactored case study shell (`MetaRow` spec row, `TLDR` `IndexColumns`, `Chapter` `--chapter-bg`, `DecisionCard` decision block with `DecisionHandPeek`).
+  - **Step 3 (`3848ec0`):** Refactored all 10 Luci case components without cards, fixed mobile `CaseStepper` single-row layout and `AnnotatedExport` left-gutter digit markers, added Playwright + `@axe-core/playwright` (`41a3792`) and `scripts/qa.mjs` (`npm run qa`, hardened in `f455fa3`).
+  - **Step 4 (`ffb6107`):** Rebuilt `/work` (`WorkIndex.tsx`) with cover-only client tiles (hover/focus-only shadow), 7/5 featured Luci row, hero window Loaffy, and `?tag=` URL sync with unknown-tag fallback.
+  - **Step 5 (`19b184a`):** Rebuilt `/about` without cards (portrait frame, `My story`, `Changelog` + Education, `How I work` principles, `What I'm good at` + `Tools`, `KindWords variant="quotes"`, removed availability line and `HandSketch`).
+  - **Step 6 (`fb0d0cb`):** Rebuilt `/motion` without cards (`src/content/motion.ts` with prod-hidden placeholders, `MotionCatalog` still/playable tiles + dialog player, `VideoReel` `loaffyButton` + `staticWhenEmpty`, play-form Loaffy in hero).
+  - **Step 7 (`6a6af97`):** Rebuilt `/contact` without cards (`Three ways` `IndexColumns`, live `Intl.DateTimeFormat` `TimezoneOverlap` reading `profile.workingHours` with same-TZ view and zero-CLS no-JS fallback, `RuledList` first-message tips, hairline `<details>` Quick answers, `Elsewhere`).
+  - **Step 8 (in review):** Replaced `/colophon` Ship text cards with `IndexColumns`, verified `404` (`not-found.tsx`), completed Rule 18 audit and full multi-theme/multi-width/keyboard/reduced-motion QA with Home (`/`) unchanged.
+- **Next:** Review & merge `feat-no-card-layouts` (PR), fill remaining content items when ready (`/about` working principle lines & education line; `/contact` reply-time answer; `/motion` real clips, posters & captions), then Phase 9 static export (`DEPLOY-CLOUDFLARE.md`), SEO (`sitemap.xml`, `robots.txt`), and Home performance/axe cleanup.
+- **Open Questions:** Content still needed from Lucas: (1) one line per working principle & civil-engineering education line for `/about`; (2) reply-time answer for `/contact` Quick answers; (3) showreel + motion clips, posters & captions in `public/motion/` + `src/content/motion.ts`. Pre-existing findings (deferred while Home guard is active): (1) Home (`/`) transient `color-contrast` hit during scroll/intro opacity fade-in (`0` violations once animations settle at `375px` & `1440px` in Light and Warm Dark), (2) Home `aria-prohibited-attr` during initial intro curtain on `<div aria-label="A rumbling mystery box hatching open">` in `LoaffyStage` (needs `role="img"` or `aria-hidden`), and (3) React hydration warning `#418` when `prefers-reduced-motion: reduce` is active because `motion/react`'s `useReducedMotion()` returns `null` during SSR vs `true` on initial client hydration (e.g. `FadeIn`, `LoaffySVG`).

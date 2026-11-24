@@ -84,22 +84,22 @@ export function MetaRow({
   return (
     <dl
       className={cn(
-        "grid grid-cols-2 gap-4 rounded-lg border-2 border-line-strong bg-surface p-6 shadow-sticker-sm sm:grid-cols-3 lg:grid-cols-5",
+        "grid grid-cols-2 gap-6 border-b border-t-2 border-b-line border-t-line-strong py-6 sm:grid-cols-3 lg:grid-cols-5",
         className,
       )}
     >
       {resolvedItems.map((item) => (
-        <div key={item.label} className="space-y-1">
-          <dt className="font-mono text-label uppercase tracking-wider text-text-subtle">
+        <div key={item.label} className="min-w-0 space-y-1">
+          <dt className="font-mono text-label uppercase tracking-wider text-text-muted">
             {item.label}
           </dt>
-          <dd className="font-body text-body font-medium text-text">
+          <dd className="min-w-0 break-words font-body text-body font-medium text-text">
             {item.href ? (
               <a
                 href={item.href}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-1 underline decoration-2 underline-offset-4 hover:text-text-muted"
+                className="inline-flex max-w-full flex-wrap items-center gap-1 break-all underline decoration-2 underline-offset-4 hover:text-text-muted"
               >
                 <span>{item.value}</span>
                 <span aria-hidden="true">↗</span>

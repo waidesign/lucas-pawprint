@@ -57,7 +57,7 @@ Which client cases appear on home is a content switch (`homeFeatured: true` in t
 ### Work index (`/work`)
 1. **Page hero:** display-xl "Work." · one line: *Seven projects: one I founded, six I shipped for clients.* · filter chips (All · Own product · Web · Apps · Design systems · E-commerce · AI workflow) synced to `?tag=`, `aria-live` result count.
 2. **Luci** full-width featured card (7/5 split, BetaBadge).
-3. **Client cases** in a 2-column grid (1 column below lg), each its own pastel, Loaffy form peek on hover.
+3. **Client cases** as cover tiles (only the cover is framed) in a 2-column grid (1 column below lg), each its own pastel.
 4. **Compact ContactPanel.**
 Page Loaffy: window form, peeking from the hero's right edge.
 
@@ -89,7 +89,7 @@ Clip data lives in `src/content/motion.ts` (title, type, year, role, tools, post
 2. **My story:** 3 short chapters with years — *Video and animation (2016–2020)* → *Motion design (2020–2022)* → *Product design and building my own tools (2022–now)*. Plain first person, 2–3 sentences each.
 3. **Changelog:** full experience list (CONTENT.md), newest first, Luci on top.
 4. **How I work:** the 3 working principles from CONTENT.md ("Measure before I design", "Design the system, not the screen", "Ship, then check twice"), each with one line `[Lucas's line]`, then a link **See the process, step by step →** to `/#process`. The step-by-step process lives on Home only; About does not repeat it (decision 2026-11-24).
-5. **What I'm good at:** 4 cards — Product design · Design systems · Motion · Building with AI — each with 3 concrete examples linking to case studies.
+5. **What I'm good at:** 4 index columns — Product design · Design systems · Motion · Building with AI — each with 3 concrete examples linking to case studies.
 6. **Tools:** grouped chips (Design · Motion · Build).
 7. **Kind words** (`#kind-words`): both full testimonials with pull quote + "Read the full note" disclosure.
 8. **Beyond work** *(optional, Lucas fills or removes)*: `[2–3 things you enjoy outside work]`.
@@ -98,7 +98,7 @@ Clip data lives in `src/content/motion.ts` (title, type, year, role, tools, post
 
 ### Contact (`/contact`)
 1. **Page hero:** display "Let's talk." · *Email me, book a 30-minute chat, or find me on LinkedIn.* · Loaffy in the bubble form. No availability sticker or text (AGENTS.md rule 15).
-2. **Three ways** (3 cards): **Email** — CopyEmail `lucas@pawprint.design` + mailto · **Book a 30-min chat** — cal.com (new tab) · **LinkedIn** — profile link.
+2. **Three ways** (3 index columns): **Email** — CopyEmail `lucas@pawprint.design` + mailto · **Book a 30-min chat** — cal.com (new tab) · **LinkedIn** — profile link.
 3. **Time zones:** Lucas's live local time (Phuket, UTC+7, updates each minute, client-only) next to the visitor's own local time (read from the browser), with the overlap of working hours highlighted (Lucas's hours `[e.g. 09:00–18:00 — confirm]`). Computed with `Intl.DateTimeFormat`; no hard-coded offsets (handles daylight saving). No list of countries or regions (rule 15).
 4. **What helps in a first message:** short list — role and team, time zone, timeline, link to the job post.
 5. **Quick answers:** FAQ disclosures — response time `[placeholder]`. Lucas may add more, but none about availability, remote or relocation, notice period or work rights (rule 15).

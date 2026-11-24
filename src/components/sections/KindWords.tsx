@@ -7,9 +7,12 @@ import { stagger } from "@/lib/motion";
 import { FadeIn } from "@/components/motion/FadeIn";
 import { Card } from "@/components/ui/Card";
 import { Heading } from "@/components/ui/Heading";
+import { PullQuote } from "@/components/ui/PullQuote";
 import { Section } from "@/components/ui/Section";
 
 export interface KindWordsProps {
+  /** "cards" = Home default (2 surface cards); "quotes" = card-free PullQuote stack (/about) */
+  variant?: "cards" | "quotes";
   expandAll?: boolean;
   className?: string;
 }
@@ -21,6 +24,7 @@ export interface KindWordsProps {
  *   and an accessible "Read the full note" disclosure.
  */
 export function KindWords({
+  variant = "cards",
   expandAll = false,
   className,
 }: KindWordsProps = {}) {
@@ -29,6 +33,49 @@ export function KindWords({
   const toggleNote = (id: string) => {
     setOpenIds((prev) => ({ ...prev, [id]: !prev[id] }));
   };
+
+  if (variant === "quotes") {
+    return (
+      <Section
+        id="kind-words"
+        labelledBy="kind-words-heading"
+        tone="blush"
+        soft
+        className={className}
+      >
+        <div className="space-y-12">
+          <div>
+            <Heading
+              id="kind-words-heading"
+              as="h2"
+              highlight="managers"
+              highlightTone="blush"
+            >
+              Kind words from direct managers.
+            </Heading>
+            <p className="mt-2 max-w-xl font-body text-body-lg text-text-muted">
+              Real notes from the product and art leadership I work with every day.
+            </p>
+          </div>
+
+          <div className="space-y-10">
+            {testimonials.map((t) => (
+              <PullQuote
+                key={t.id}
+                quote={t.pull}
+                author={t.author}
+                role={t.role}
+                company={t.company}
+                relationship={t.relationship}
+                chipTone="surface"
+                fullNote={t.quote}
+              />
+            ))}
+          </div>
+        </div>
+      </Section>
+    );
+  }
 
   return (
     <Section

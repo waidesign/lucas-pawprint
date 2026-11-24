@@ -64,6 +64,7 @@ If a task touches something these files don't cover, **stop and ask** instead of
 15. **No availability / remote-region badges anywhere on the site.** Never render `"Open to remote roles · US · CA · NZ · SG"` or any job-availability / country-region availability sticker or text on any page or section.
 16. **No decorative dots inside badges, chips, eyebrows, or ticket pills.** Badges (`BetaBadge`, skill badges, ticket stubs, `Chip`, `Eyebrow`) render clean text (or an explicit semantic icon/logo when required) — never leading/bullet status dots.
 17. **One heading scale, every page.** Each heading level has exactly one size: `h1` → `text-display-xl` (160px), `h2` → `text-h1` (64px), `h3` → `text-h2` (48px), `h4` → `text-h3` (32px). Choose the semantic tag and let the size follow: use `<Heading as="…">` (no `size` prop outside `/lab`) or `HEADING_SCALE_CLASSES` from `src/components/ui/Heading.tsx` for hand-written tags. Never give a heading its own size, and if a title doesn't fit, change the layout, not the size. See `.luci/decisions/2026-11-24-heading-scale.md`.
+18. **Cards are the exception, not the layout.** A card is a filled box with a 2px pen border and a sticker shadow. Use one only for **(a)** a thing you click as a whole (NextCase, a case cover), **(b)** a frame around media or a live demo (image, video, device, code, diagram, token specimen), or **(c)** the one standout moment of a section (ContactPanel, CaseCTA). Everything else sits plain on the page: type, spacing, 1px hairlines and labelled or numbered lists. Never cards inside cards, never a grid of text-only cards, at most one card group per section. Stickers, chips, pills and badges are not cards. Home keeps its current design until it is redesigned on purpose.
 
 ## 5. How to work
 
@@ -89,4 +90,5 @@ Branch per phase (`phase-1-foundations`, …). Conventional commits (`feat(ui): 
 - [ ] `npm run build` (static export) succeeds; Lighthouse budgets in TECH-STACK.md §4 met.
 - [ ] Copy follows BRAND.md voice; no invented facts.
 - [ ] Shown in `/lab` with all variants and states.
+- [ ] No card overuse (rule 18): every box passes the rule test in LAYOUT-STEPS.md.
 - [ ] `.luci/context.md` updated.

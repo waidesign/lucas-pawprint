@@ -61,7 +61,16 @@ type StickerProps = { tone: Tone; rotate?: -4|-3|-2|0|2|3|4; size?: "sm"|"md"|"l
 Pastel fill, 2px pen border, `rounded-lg`, padding 16/24, `shadow-sticker-sm`, slight rotation. Hover: wobble ±2° with spring. Used for the hero smash line, availability, callouts.
 
 ### Card
-Base surface. `rounded-lg`, 2px pen border, `shadow-sticker-sm`, padding 24 (mobile) / 32 (desktop). Tone optional.
+Use only per rule 18 (a clickable whole, a media/demo frame, or one standout panel per section). `rounded-lg`, 2px pen border, `shadow-sticker-sm`, padding 24 (mobile) / 32 (desktop). Tone optional.
+
+### RuledList
+`ol` (when ordered) or `ul` topped by a 2px pen rule (`border-line-strong`), rows separated by 1px hairlines (`border-line`), `py-6 md:py-8`. Each row is a 12-col grid (stacks below `md`): marker (`md:col-span-2`: mono label, years, or numbered bean) · title (`md:col-span-4`: heading via `as`, default `h4`) · body (`md:col-span-6`: `body-lg`, `text-muted`) + optional right-aligned `aside` (`caption`). Reveal: rise 16px + fade, 40ms stagger, max 6 items, off under reduced motion.
+
+### IndexColumns
+2–4 plain columns (`gap-10`; 1 col → 2 at `md` → n at `lg`). Each column starts with a 2px pen rule, optional label (mono uppercase or pastel `Chip`), optional decorative `font-display` numeral (`aria-hidden`), heading via `as` (default `h4`), body, and optional actions. No fill, no shadow.
+
+### PullQuote
+`<figure>` for testimonials outside Home: `<blockquote>` in `font-display text-h3` (max width `--prose-max`), `<figcaption>` with author (`text-h4` on `<p>`), role · company caption, relationship chip, and optional "Read the full note" disclosure. Sibling quotes separate with a 1px hairline and `pt-10`.
 
 ### Container / Section
 ```ts
@@ -192,11 +201,11 @@ A case study **row**, not a boxed card (layout inspired by slush.app's "Your sho
 | Component | Purpose |
 |---|---|
 | `CaseHero` | Title (h1), one-line summary, DeviceFrame cover on the case's pastel, Loaffy form peeking |
-| `MetaRow` | Role · Team · Timeline · Platform · Tools (definition list `<dl>`) |
-| `TLDR` | Three stickers: Problem · What I did · Outcome (qualitative; no invented numbers) |
+| `MetaRow` | Spec row: `<dl>` between a 2px pen rule (top) and 1px hairline (bottom), `py-6`, 2 → 3 → 5 columns |
+| `TLDR` | `IndexColumns` (3 columns): label as pastel `Chip` (butter / mint / sky), text in `body-lg`, 80ms reveal stagger; no boxes |
 | `BeanStepper` | Sticky progress through Understand → Shape → Design → Ship |
-| `DecisionCard` | Problem → Decision → Why, with before/after images |
-| `Callout` | Pastel sticker for a key insight or quote |
+| `DecisionCard` | Decision block: 2px pen rule top; `h3` title + "Key decision" chip; 3-col `<dl>` (Problem · Decision · Why it worked) split by hairlines; children below as allowed frames; hairline bottom; no boxes |
+| `Callout` | Margin note: `border-l-2 border-line-strong pl-6`, title highlighted in `tone`, body below; no fill, no shadow |
 | `ImageGallery` | 1–3 images, captions, zoom (dialog with focus trap) |
 | `NextCase` | Big link to the next case with its Loaffy form |
 | `BetaBadge` | "Private beta" pill (butter, 2px border) for Luci; also used on the Luci CaseCard |

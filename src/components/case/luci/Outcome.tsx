@@ -1,13 +1,10 @@
 "use client";
 
-import { Card } from "@/components/ui/Card";
 import { useCaseStudy } from "@/components/case/CaseStudyContext";
 
 /**
- * Outcome (§11 of CASE-LUCI.md):
- * - Mint card with mode-aware outcome copy:
- *   Teaser: "In private beta with invited designers and developers."
- *   Launch: "Launched [date] on luci.pawprint.design."
+ * Outcome (§11 of CASE-LUCI.md & LAYOUT-STEPS.md Step 3):
+ * - Mono label + statement in font-display text-h3 under a 2px pen rule (no Card).
  */
 export function Outcome() {
   const ctx = useCaseStudy();
@@ -19,13 +16,13 @@ export function Outcome() {
       : "In private beta with invited designers and developers.";
 
   return (
-    <div className="my-6">
-      <Card tone="mint" className="space-y-2">
-        <span className="font-mono text-label uppercase tracking-wider text-on-pastel/80">
-          Outcome
-        </span>
-        <p className="font-display text-h3 text-on-pastel">{copy}</p>
-      </Card>
+    <div className="my-8 space-y-3 border-t-2 border-line-strong pt-6">
+      <span className="block font-mono text-label uppercase tracking-wider text-text-muted">
+        Outcome
+      </span>
+      <p className="max-w-[var(--prose-max)] font-display text-h3 text-text">
+        {copy}
+      </p>
     </div>
   );
 }
