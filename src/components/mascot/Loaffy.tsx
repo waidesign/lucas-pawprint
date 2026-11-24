@@ -5,6 +5,7 @@ import { useEffect, useRef, useState } from "react";
 import type { Form, Mood, Pose } from "./LoaffyBus";
 import { LoaffySVG, type LoaffySize } from "./LoaffySVG";
 import { useLoaffyMachine } from "./useLoaffyMachine";
+import { useLoaffyStagePresence } from "./stage";
 
 const LazyRiveMascot = dynamic(
   () => import("./RiveMascot").then((mod) => mod.RiveMascot),
@@ -29,10 +30,17 @@ export interface LoaffyProps {
   label?: string;
   /** Subscribe to global LoaffyBus events (default true) */
   listenToBus?: boolean;
+  /** Optional target ID to filter targeted LoaffyBus messages/triggers */
+  targetId?: string;
   /** Show ground shadow (defaults to true when size > 128) */
   showGroundShadow?: boolean;
   /** Happy hop on click (5 clicks in 3s -> mid-flip) */
   onClick?: () => void;
+  /**
+   * Counts as "on screen" for the one-character rule (default true). Pass false while
+   * this Loaffy is mounted but hidden, e.g. a hover peek at rest.
+   */
+  onStage?: boolean;
   className?: string;
 }
 
@@ -67,11 +75,14 @@ export function Loaffy({
   decorative = false,
   label,
   listenToBus = true,
+  targetId,
   showGroundShadow,
   onClick,
+  onStage = true,
   className,
 }: LoaffyProps) {
   const containerRef = useRef<HTMLDivElement | null>(null);
+  useLoaffyStagePresence(containerRef, onStage);
   const [shouldMountRive, setShouldMountRive] = useState(false);
   const [riveReady, setRiveReady] = useState(false);
 
@@ -83,6 +94,7 @@ export function Loaffy({
     track,
     blink,
     listenToBus,
+    targetId,
     containerRef,
   });
 

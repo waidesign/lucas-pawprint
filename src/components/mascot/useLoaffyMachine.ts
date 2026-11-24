@@ -44,6 +44,7 @@ export interface UseLoaffyMachineOptions {
   track?: boolean;
   blink?: boolean;
   listenToBus?: boolean;
+  targetId?: string;
   containerRef: RefObject<HTMLElement | null>;
 }
 
@@ -75,6 +76,7 @@ export function useLoaffyMachine({
   track,
   blink = true,
   listenToBus = true,
+  targetId,
   containerRef,
 }: UseLoaffyMachineOptions): UseLoaffyMachineResult {
   const prefersReduced = useReducedMotion() ?? false;
@@ -83,6 +85,10 @@ export function useLoaffyMachine({
   const [overrideMood, setOverrideMood] = useState<Mood | null>(null);
   const [overridePose, setOverridePose] = useState<Pose | null>(null);
   const [overrideForm, setOverrideForm] = useState<Form | null>(null);
+  const [overrideLook, setOverrideLook] = useState<{
+    x: number | null;
+    y: number | null;
+  }>({ x: null, y: null });
   const [isSleepyIdle, setIsSleepyIdle] = useState(false);
 
   const [blinking, setBlinking] = useState(false);
@@ -335,6 +341,7 @@ export function useLoaffyMachine({
     if (!listenToBus) return;
 
     const unsub = subscribeLoaffyBus((msg) => {
+      if (msg.target && msg.target !== targetId) return;
       if (msg.kind === "event") {
         handleSiteEvent(msg.event);
       } else if (msg.kind === "trigger") {
@@ -344,6 +351,12 @@ export function useLoaffyMachine({
         if (msg.pose !== undefined)
           setOverridePose(msg.pose === "none" ? null : msg.pose);
         if (msg.form !== undefined) setOverrideForm(msg.form);
+        if (msg.lookX !== undefined || msg.lookY !== undefined) {
+          setOverrideLook((prev) => ({
+            x: msg.lookX === undefined ? prev.x : msg.lookX,
+            y: msg.lookY === undefined ? prev.y : msg.lookY,
+          }));
+        }
       }
     });
 
@@ -356,7 +369,7 @@ export function useLoaffyMachine({
       unsub();
       window.removeEventListener("lp-theme-change", onThemeChange);
     };
-  }, [listenToBus, handleSiteEvent, fireTrigger]);
+  }, [listenToBus, targetId, handleSiteEvent, fireTrigger]);
 
   // Cleanup timeouts
   useEffect(() => {
@@ -373,8 +386,20 @@ export function useLoaffyMachine({
   const effectivePose: Pose = overridePose ?? pose;
   const effectiveForm: Form = overrideForm ?? form;
 
-  const activeLookX = shouldTrack ? lookNormalized.x : 0;
-  const activeLookY = shouldTrack ? lookNormalized.y : 0;
+  const activeLookX = prefersReduced
+    ? 0
+    : overrideLook.x !== null
+      ? overrideLook.x
+      : shouldTrack
+        ? lookNormalized.x
+        : 0;
+  const activeLookY = prefersReduced
+    ? 0
+    : overrideLook.y !== null
+      ? overrideLook.y
+      : shouldTrack
+        ? lookNormalized.y
+        : 0;
 
   // Map -100..100 to <= 3 units in 200-viewBox SVG coordinates
   const lookSvgOffset = {

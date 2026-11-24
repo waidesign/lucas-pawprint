@@ -50,13 +50,16 @@ export type LoaffySiteEvent =
   | "theme-change";
 
 export type LoaffyBusMessage =
-  | { kind: "event"; event: LoaffySiteEvent }
-  | { kind: "trigger"; trigger: LoaffyTrigger }
+  | { kind: "event"; event: LoaffySiteEvent; target?: string }
+  | { kind: "trigger"; trigger: LoaffyTrigger; target?: string }
   | {
       kind: "state";
+      target?: string;
       mood?: Mood;
       pose?: Pose;
       form?: Form;
+      lookX?: number | null;
+      lookY?: number | null;
     };
 
 type LoaffyListener = (msg: LoaffyBusMessage) => void;
@@ -76,10 +79,10 @@ export function emitLoaffyMessage(msg: LoaffyBusMessage): void {
   }
 }
 
-export function emitLoaffyEvent(event: LoaffySiteEvent): void {
-  emitLoaffyMessage({ kind: "event", event });
+export function emitLoaffyEvent(event: LoaffySiteEvent, target?: string): void {
+  emitLoaffyMessage({ kind: "event", event, target });
 }
 
-export function emitLoaffyTrigger(trigger: LoaffyTrigger): void {
-  emitLoaffyMessage({ kind: "trigger", trigger });
+export function emitLoaffyTrigger(trigger: LoaffyTrigger, target?: string): void {
+  emitLoaffyMessage({ kind: "trigger", trigger, target });
 }

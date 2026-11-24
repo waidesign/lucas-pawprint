@@ -2,6 +2,7 @@
 
 import { useId } from "react";
 import { motion, useReducedMotion } from "motion/react";
+import { handTiming } from "@/lib/motion";
 import {
   LOAFFY_COLORS,
   MAIN_PAD_PATH,
@@ -11,20 +12,38 @@ import {
 
 export type CatHandSide = "fur" | "beans";
 export type CatHandEdge = "bottom" | "top" | "left" | "right";
-export type CatHandAction = "idle" | "enter" | "tap" | "bat" | "sketch";
+export type CatHandAction =
+  | "idle"
+  | "enter"
+  | "tap"
+  | "bat"
+  | "sketch"
+  | "exit";
 
 export interface CatHandProps {
   side?: CatHandSide;
   from?: CatHandEdge;
   angle?: number;
   size?: number;
+  /** Claws out at rest. When false, `bat` still flicks them out at 120ms (§5). */
   claws?: boolean;
   wobble?: boolean;
+  /**
+   * Timeline (LOAFFY-ANIMATION.md §5). `enter` slides in from the frame edge (the
+   * SVG's own bottom edge, rotated by `from`), `exit` slides back out and stays hidden.
+   */
   action?: CatHandAction;
+  /** Change to replay the current action (e.g. a second `tap`). */
+  playKey?: number | string;
+  /** Called when a one-shot action finishes (not for the `sketch` loop). */
+  onActionComplete?: (action: CatHandAction) => void;
   decorative?: boolean;
   label?: string;
   className?: string;
 }
+
+/** Frame height in viewBox units: moving this far hides the hand below the edge. */
+const OFF_FRAME = 200;
 
 const HAND_SILHOUETTE_PATH =
   "M51,200 L49,96 C48,86 49,78 52,73 C50,57 64,47 76,52 C79,40 97,36 100,46 C103,36 121,40 124,52 C136,47 150,57 148,73 C151,78 152,86 151,96 L149,200 Z";
@@ -69,6 +88,8 @@ export function CatHand({
   claws = true,
   wobble = true,
   action = "idle",
+  playKey,
+  onActionComplete,
   decorative = false,
   label,
   className,
@@ -82,16 +103,29 @@ export function CatHand({
   const ariaLabel = label ?? `Loaffy's paw, ${side} side`;
 
   const actionAnimate = (() => {
-    if (prefersReduced) return { x: 0, y: 0, rotate: 0, scaleY: 1 };
+    // §2.10 Reduced motion: one static frame; enter/exit become cross-fades ≤ 120ms
+    if (prefersReduced) {
+      return {
+        x: 0,
+        y: 0,
+        rotate: 0,
+        scaleY: 1,
+        opacity: action === "exit" ? 0 : 1,
+      };
+    }
     switch (action) {
       case "enter":
-        // §5 enter_<edge> 480ms: slides in from edge with 4% overshoot and 4deg settle
+        // §5 enter_<edge> 480ms: slides in from the frame edge, 4% overshoot, 4deg settle
         return {
-          y: [48, -4, 0],
+          y: [OFF_FRAME, -8, 0],
           rotate: [-4, 2, 0],
           x: 0,
           scaleY: 1,
+          opacity: 1,
         };
+      case "exit":
+        // §5 exit_<edge> 280ms: ease-in back out of frame (stays hidden)
+        return { y: [0, OFF_FRAME], rotate: 0, x: 0, scaleY: 1, opacity: 1 };
       case "tap":
         // §5 tap 240ms: 0 -> 120 press moves 8 toward target, toes squash 6% -> 240 return
         return {
@@ -99,6 +133,7 @@ export function CatHand({
           scaleY: [1, 0.94, 1],
           x: 0,
           rotate: 0,
+          opacity: 1,
         };
       case "bat":
         // §5 bat 480ms: quick swipe 16deg toward target and back
@@ -107,6 +142,7 @@ export function CatHand({
           x: [0, -12, 4, 0],
           y: 0,
           scaleY: 1,
+          opacity: 1,
         };
       case "sketch":
         // §5 sketch loop 1600ms: small circular writing motion
@@ -115,32 +151,52 @@ export function CatHand({
           y: [0, -4, -8, -4, 0],
           rotate: [0, 3, 0, -3, 0],
           scaleY: 1,
+          opacity: 1,
         };
       case "idle":
       default:
-        return { x: 0, y: 0, rotate: 0, scaleY: 1 };
+        return { x: 0, y: 0, rotate: 0, scaleY: 1, opacity: 1 };
     }
   })();
 
   const actionTransition = (() => {
-    if (prefersReduced) return { duration: 0 };
+    if (prefersReduced) return { duration: handTiming.fade };
     switch (action) {
       case "enter":
+        return { duration: handTiming.enter, ease: "easeOut" as const };
       case "bat":
-        return { duration: 0.48, ease: "easeOut" as const };
+        return { duration: handTiming.bat, ease: "easeOut" as const };
+      case "exit":
+        return { duration: handTiming.exit, ease: "easeIn" as const };
       case "tap":
-        return { duration: 0.24, ease: "easeInOut" as const };
+        return { duration: handTiming.tap, ease: "easeInOut" as const };
       case "sketch":
         return {
-          duration: 1.6,
+          duration: handTiming.sketch,
           repeat: Number.POSITIVE_INFINITY,
           ease: "easeInOut" as const,
         };
       case "idle":
       default:
-        return { duration: 0.28 };
+        return { duration: handTiming.exit };
     }
   })();
+
+  // §5 bat: claws flick out at 120ms and tuck back in by the end of the swipe
+  const flickClaws = action === "bat" && !claws && !prefersReduced;
+  const clawsAnimate = flickClaws
+    ? { scale: [0, 0, 1.08, 1, 1, 0], opacity: [0, 0, 1, 1, 1, 0] }
+    : claws
+      ? // §5 claws_out 120ms with 8% overshoot
+        { scale: prefersReduced ? 1 : [0, 1.08, 1], opacity: 1 }
+      : { scale: 0, opacity: 0 };
+  const clawsTransition = flickClaws
+    ? {
+        duration: handTiming.bat,
+        times: [0, 0.25, 0.42, 0.5, 0.83, 1],
+        ease: "easeOut" as const,
+      }
+    : { duration: prefersReduced ? 0 : handTiming.claws, ease: "easeOut" as const };
 
   return (
     <svg
@@ -180,22 +236,22 @@ export function CatHand({
         transform={rotation !== 0 ? `rotate(${rotation} 100 100)` : undefined}
       >
         <motion.g
+          key={playKey}
           style={{ transformOrigin: "100px 200px" }}
+          // A hand that starts out of frame stays there without playing the exit
+          initial={action === "exit" ? false : undefined}
           animate={actionAnimate}
           transition={actionTransition}
+          onAnimationComplete={() => {
+            if (action !== "sketch") onActionComplete?.(action);
+          }}
         >
           {/* 1. Four claws growing out of each toe tip (LOAFFY.md §7) */}
           <motion.g
             style={{ transformOrigin: "100px 56px" }}
-            initial={false}
-            animate={{
-              scale: claws ? 1 : 0,
-              opacity: claws ? 1 : 0,
-            }}
-            transition={{
-              duration: prefersReduced ? 0 : 0.12,
-              ease: "easeOut",
-            }}
+            initial={flickClaws ? undefined : false}
+            animate={clawsAnimate}
+            transition={clawsTransition}
           >
             {CLAW_TRANSFORMS.map((transformStr, idx) => (
               <PenShape
