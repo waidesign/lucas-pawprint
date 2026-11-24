@@ -1,5 +1,5 @@
 import { cn } from "@/lib/cn";
-import { HEADING_SCALE_CLASSES } from "@/components/ui/Heading";
+import { Heading, HEADING_SCALE_CLASSES } from "@/components/ui/Heading";
 import type { MDXComponents } from "mdx/types";
 import { Badge } from "@/components/ui/Badge";
 import { BeanStepper } from "@/components/ui/BeanStepper";
@@ -37,6 +37,7 @@ import { CaptureFlow } from "@/components/case/luci/CaptureFlow";
 import { BrandBoard } from "@/components/case/luci/BrandBoard";
 
 const components: MDXComponents = {
+  Heading,
   Badge,
   PullQuote,
   RuledList,
