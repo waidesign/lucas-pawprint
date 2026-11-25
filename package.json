@@ -6,6 +6,7 @@
     "tokens": "node scripts/generate-tokens.mjs",
     "tokens:check": "node scripts/generate-tokens.mjs --check",
     "images": "node scripts/optimize-images.mjs",
+    "icons": "node scripts/build-icons.mjs",
     "predev": "npm run tokens",
     "dev": "next dev",
     "prebuild": "npm run tokens && npm run images",
