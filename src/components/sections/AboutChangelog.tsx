@@ -18,6 +18,7 @@ import {
   useMotionValueEvent,
   useReducedMotion,
   useScroll,
+  useSpring,
 } from "motion/react";
 import {
   ArrowLeft,
@@ -88,9 +89,14 @@ const CAMERA_EASE = [0.22, 1, 0.36, 1] as const;
 const CAMERA_GLIDE = 0.64;
 /** How long the paw stays after a pat before leaving (s, 40ms grid). */
 const PAT_HOLD = 0.48;
+/** Minimum ms between advancing desktop sticky notes so Loaffy's full hand animation completes (40ms grid). */
+const NOTE_PACE_MS = Math.round(
+  (CAMERA_GLIDE + handTiming.tap + PAT_HOLD + handTiming.exit) * 1000,
+);
 
-const PIN_QUERY = "(min-width: 1280px) and (min-height: 820px)";
-const XL_QUERY = "(min-width: 1280px)";
+const PIN_QUERY = "(min-width: 1024px) and (min-height: 520px)";
+const XL_QUERY = "(min-width: 1024px)";
+const LG_QUERY = "(min-width: 1024px)";
 
 function useMediaQuery(query: string) {
   return useSyncExternalStore(
@@ -302,6 +308,7 @@ export function AboutChangelog() {
   const prefersReduced = useReducedMotion() ?? false;
   const isPinned = useMediaQuery(PIN_QUERY) && !prefersReduced;
   const isXl = useMediaQuery(XL_QUERY);
+  const isLg = useMediaQuery(LG_QUERY);
   const trackRef = useRef<HTMLDivElement>(null);
   const stageRef = useRef<HTMLDivElement>(null);
   const chatColRef = useRef<HTMLDivElement>(null);
@@ -322,30 +329,72 @@ export function AboutChangelog() {
     setZoomPct(Math.round(v * 100)),
   );
 
-  // Pinned: scroll progress through the track → step 1 … STEP_MAX.
+  // Pinned: bind page scroll directly & smoothly via spring-damped progress ([P3-A2]).
+  // Drives step reveals AND smooth camera pan directly from scroll so it tracks scroll 1:1.
   const { scrollYProgress } = useScroll({
     target: trackRef,
     offset: ["start start", "end end"],
   });
-  useMotionValueEvent(scrollYProgress, "change", (v) => {
-    const next = Math.min(STEP_MAX, 1 + Math.floor(v * (STEP_MAX + 0.5)));
-    setScrollStep((cur) => (cur === next ? cur : next));
+  const smoothProgress = useSpring(scrollYProgress, {
+    stiffness: 110,
+    damping: 26,
+    mass: 0.45,
   });
 
-  // Not pinned: play the steps once, in time, when the stage comes into view.
+  useMotionValueEvent(smoothProgress, "change", (v) => {
+    if (!isPinned) return;
+    let next: number;
+    if (v < 0.2) {
+      // Intro chat bubbles (steps 1..4)
+      next = 1 + Math.min(3, Math.floor((v / 0.2) * 4));
+    } else if (v < 0.9) {
+      // 5 sticky notes (steps 5..9), equal generous scroll bands (~14% of 520svh each)
+      const noteIdx = Math.min(
+        NOTE_COUNT - 1,
+        Math.floor(((v - 0.2) / 0.7) * NOTE_COUNT),
+      );
+      next = STEP.firstNote + noteIdx;
+    } else {
+      next = STEP_MAX;
+    }
+    setScrollStep((cur) => (cur === next ? cur : next));
+
+    // Continuously glide the board camera between note centers as the user scrolls
+    if (isXl && !userMovedRef.current && v >= 0.18) {
+      const el = viewportRef.current;
+      if (el && el.clientWidth > 0) {
+        const w = el.clientWidth;
+        const h = el.clientHeight;
+        const noteSpan = Math.min(
+          NOTE_COUNT - 1,
+          Math.max(0, ((v - 0.2) / 0.7) * NOTE_COUNT - 0.35),
+        );
+        const i0 = Math.floor(noteSpan);
+        const i1 = Math.min(NOTE_COUNT - 1, i0 + 1);
+        const frac = noteSpan - i0;
+        // Smoothstep between notes so the camera pauses gently on each note center
+        const eased = frac * frac * (3 - 2 * frac);
+        const p0 = NOTE_POS[i0] ?? NOTE_POS[0];
+        const p1 = NOTE_POS[i1] ?? p0;
+        const cx = p0.x + (p1.x - p0.x) * eased + NOTE_W / 2;
+        const cy = p0.y + (p1.y - p0.y) * eased + NOTE_H_EST / 2;
+        camX.set(w / 2 - cx * DEFAULT_ZOOM);
+        camY.set(h / 2 - cy * DEFAULT_ZOOM);
+        camScale.set(DEFAULT_ZOOM);
+      }
+    }
+  });
+
+  // Not pinned on very short desktop viewports (< 520px tall): play steps once in view.
   useEffect(() => {
-    if (isPinned || prefersReduced || !inView) return;
-    const id = window.setInterval(() => {
-      setTimedStep((s) => {
-        if (s >= STEP_MAX) {
-          window.clearInterval(id);
-          return s;
-        }
-        return s + 1;
-      });
-    }, 640);
-    return () => window.clearInterval(id);
-  }, [isPinned, prefersReduced, inView]);
+    if (!isLg || isPinned || prefersReduced || !inView) return;
+    const delayMs = timedStep >= STEP.firstNote ? NOTE_PACE_MS : 640;
+    if (timedStep >= STEP_MAX) return;
+    const id = window.setTimeout(() => {
+      setTimedStep((s) => Math.min(STEP_MAX, s + 1));
+    }, delayMs);
+    return () => window.clearTimeout(id);
+  }, [isLg, isPinned, prefersReduced, inView, timedStep]);
 
   const step = prefersReduced ? STEP_MAX : isPinned ? scrollStep : timedStep;
   const notesShown = Math.max(
@@ -353,10 +402,12 @@ export function AboutChangelog() {
     Math.min(NOTE_COUNT, step - STEP.firstNote + 1),
   );
   const focusNote = Math.max(0, notesShown - 1);
-  const typing = step === STEP.ask1 || step === STEP.ask2;
+  const typing = isLg && (step === STEP.ask1 || step === STEP.ask2);
 
-  // Keep wheel/trackpad scrolling isolated to the left chat column whenever the pointer is inside it.
+  // Keep wheel/trackpad scrolling isolated to the left chat column on desktop (lg+) only;
+  // on mobile (< lg) the chat flows naturally with page scroll ([P1-A5]).
   useEffect(() => {
+    if (!isLg) return;
     const col = chatColRef.current;
     const scroller = chatScrollRef.current;
     if (!col || !scroller) return;
@@ -379,10 +430,11 @@ export function AboutChangelog() {
 
     col.addEventListener("wheel", onWheel, { passive: false });
     return () => col.removeEventListener("wheel", onWheel);
-  }, []);
+  }, [isLg]);
 
-  // Auto-scroll to the latest chat bubble when the page scroll story advances (paused while reading in chat).
+  // Auto-scroll to the latest chat bubble on desktop (lg+) when the scroll story advances.
   useEffect(() => {
+    if (!isLg) return;
     const scroller = chatScrollRef.current;
     if (!scroller || chatHoverRef.current) return;
     const raf = window.requestAnimationFrame(() => {
@@ -392,7 +444,7 @@ export function AboutChangelog() {
       });
     });
     return () => window.cancelAnimationFrame(raf);
-  }, [step, typing, prefersReduced]);
+  }, [isLg, step, typing, prefersReduced]);
 
   /* ── Camera helpers ── */
   const viewport = () => {
@@ -464,11 +516,11 @@ export function AboutChangelog() {
     );
   };
 
-  // Camera follows the newest note during the story, until the visitor takes over.
+  // Camera centres the newest note when not smoothly driven by pinned scroll (or on initial mount).
   useEffect(() => {
-    if (!isXl || userMovedRef.current) return;
+    if (!isXl || userMovedRef.current || (isPinned && notesShown > 0)) return;
     followNote(focusNote);
-  }, [isXl, focusNote, followNote]);
+  }, [isXl, isPinned, notesShown, focusNote, followNote]);
 
   /* ── Cat hand pats each new note down (xl board, LOAFFY.md §7) ──────────
      The camera centres each new note, so the paw rises from the canvas's bottom
@@ -552,12 +604,12 @@ export function AboutChangelog() {
       labelledBy="about-heading"
       tone="butter"
       soft
-      className="-mt-[var(--border-pen)] overflow-clip rounded-none border-2 border-line-strong md:rounded-none"
+      className="-mt-[var(--border-pen)] overflow-clip border-y-2 border-line-strong"
     >
-      {/* Screen-reader version of the chat (the bio) */}
-      <p className="sr-only">{profile.bioShort}</p>
+      {/* Screen-reader version of the chat bio on desktop where the chat pane is aria-hidden */}
+      {isLg && <p className="sr-only">{profile.bioShort}</p>}
 
-      <div ref={trackRef} className={cn(isPinned && "h-[320svh]")}>
+      <div ref={trackRef} className={cn(isPinned && "h-[520svh]")}>
         <div
           className={cn(
             "flex flex-col gap-10",
@@ -590,7 +642,7 @@ export function AboutChangelog() {
             </div>
           </div>
 
-          {/* ── App window: chat + canvas ───────────────────────── */}
+          {/* ── App window: chat (+ canvas on lg+ only; mobile shows scroll-revealed chat messages [P1-A5]) ── */}
           <div
             ref={stageRef}
             className={cn(
@@ -598,17 +650,20 @@ export function AboutChangelog() {
               isPinned && "min-h-0 flex-1",
             )}
           >
-            {/* Chat panel (visual; the bio is in the sr-only paragraph above) */}
+            {/* Chat panel */}
             <div
               ref={chatColRef}
-              aria-hidden="true"
+              aria-hidden={isLg ? true : undefined}
               onMouseEnter={() => {
                 chatHoverRef.current = true;
               }}
               onMouseLeave={() => {
                 chatHoverRef.current = false;
               }}
-              className="flex min-h-0 flex-col border-b-2 border-line-strong lg:col-span-4 lg:border-b-0 lg:border-r-2"
+              className={cn(
+                "flex min-h-0 flex-col",
+                isLg && "lg:col-span-4 lg:border-r-2 lg:border-line-strong",
+              )}
             >
               <div className="flex h-14 items-center gap-3 border-b-2 border-line px-4">
                 <ArrowLeft className="h-5 w-5 text-text-muted" />
@@ -618,116 +673,266 @@ export function AboutChangelog() {
                 <X className="h-5 w-5 text-text-muted" />
               </div>
 
-              <div
-                ref={chatScrollRef}
-                className={cn(
-                  "min-h-0 flex-1 overflow-y-auto overscroll-contain",
-                  !isPinned && "h-128 flex-none",
-                )}
-              >
-                <div className="flex min-h-full flex-col justify-end gap-4 p-4">
-                  <AnimatePresence initial={false}>
-                    {step >= STEP.ask1 && (
-                      <UserBubble key="ask1">Who&apos;s Lucas?</UserBubble>
-                    )}
-                    {step >= STEP.bio && (
-                      <AssistantMessage key="bio">
-                        <span className="flex items-center gap-3">
-                          <picture>
-                            <source
-                              srcSet={profile.portrait.src.replace(
-                                /\.webp$/i,
-                                ".avif",
-                              )}
-                              type="image/avif"
-                            />
-                            <source
-                              srcSet={profile.portrait.src}
-                              type="image/webp"
-                            />
-                            <img
-                              src={profile.portrait.src}
-                              alt=""
-                              width={48}
-                              height={48}
-                              loading="lazy"
-                              decoding="async"
-                              className="block h-12 w-12 rounded-sm border-2 border-line-strong object-cover"
-                            />
-                          </picture>
-                          <span className="font-display font-bold text-text">
-                            {profile.name}
-                          </span>
-                        </span>
-                        <p>{profile.bioShort}</p>
-                      </AssistantMessage>
-                    )}
-                    {step >= STEP.ask2 && (
-                      <UserBubble key="ask2">
-                        What has he worked on since 2016?
-                      </UserBubble>
-                    )}
-                    {step >= STEP.reply && (
-                      <AssistantMessage key="reply">
-                        <p>
-                          Here&apos;s his changelog, one sticky note per role.
-                          It&apos;s on the canvas.
-                        </p>
-                        <span className="flex items-center gap-3 rounded-md border-2 border-line-strong bg-bg p-3">
-                          <span className="inline-flex h-10 w-10 items-center justify-center rounded-xs border-2 border-on-pastel bg-butter text-on-pastel">
-                            <StickyNote className="h-5 w-5" />
-                          </span>
-                          <span className="min-w-0">
-                            <span className="block font-body text-body font-semibold text-text">
-                              Changelog (2016 → Now)
-                            </span>
-                            <span className="block font-body text-caption text-text-muted">
-                              {NOTE_COUNT} notes · {profile.years} years in
-                              design
-                            </span>
-                          </span>
-                        </span>
-                      </AssistantMessage>
-                    )}
-                    {step >= STEP_RESUME && (
-                      <AssistantMessage key="resume">
-                        <p>Want the full story? The resume has it all.</p>
-                        <a
-                          href="/resume.pdf"
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          tabIndex={-1}
-                          aria-label="Resume (PDF) (opens in new tab)"
-                          onClick={() =>
-                            trackEvent("resume_download", {
-                              location: "about_chat_card",
-                            })
-                          }
-                          className="lp-sticker-sm-interactive flex min-h-12 items-center justify-between gap-3 rounded-md border-2 border-on-pastel bg-butter p-3 text-on-pastel"
-                        >
+              {isLg ? (
+                <div
+                  ref={chatScrollRef}
+                  className={cn(
+                    "min-h-0 flex-1 overflow-y-auto overscroll-contain",
+                    !isPinned && "h-128 flex-none",
+                  )}
+                >
+                  <div className="flex min-h-full flex-col justify-end gap-4 p-4">
+                    <AnimatePresence initial={false}>
+                      {step >= STEP.ask1 && (
+                        <UserBubble key="ask1">Who&apos;s Lucas?</UserBubble>
+                      )}
+                      {step >= STEP.bio && (
+                        <AssistantMessage key="bio">
                           <span className="flex items-center gap-3">
-                            <FileText
+                            <picture>
+                              <source
+                                srcSet={profile.portrait.src.replace(
+                                  /\.webp$/i,
+                                  ".avif",
+                                )}
+                                type="image/avif"
+                              />
+                              <source
+                                srcSet={profile.portrait.src}
+                                type="image/webp"
+                              />
+                              <img
+                                src={profile.portrait.src}
+                                alt=""
+                                width={48}
+                                height={48}
+                                loading="lazy"
+                                decoding="async"
+                                className="block h-12 w-12 rounded-sm border-2 border-line-strong object-cover"
+                              />
+                            </picture>
+                            <span className="font-display font-bold text-text">
+                              {profile.name}
+                            </span>
+                          </span>
+                          <p>{profile.bioShort}</p>
+                        </AssistantMessage>
+                      )}
+                      {step >= STEP.ask2 && (
+                        <UserBubble key="ask2">
+                          What has he worked on since 2016?
+                        </UserBubble>
+                      )}
+                      {step >= STEP.reply && (
+                        <AssistantMessage key="reply">
+                          <p>
+                            Here&apos;s his changelog, one sticky note per role.
+                            It&apos;s on the canvas.
+                          </p>
+                          <span className="flex items-center gap-3 rounded-md border-2 border-line-strong bg-bg p-3">
+                            <span className="inline-flex h-10 w-10 items-center justify-center rounded-xs border-2 border-on-pastel bg-butter text-on-pastel">
+                              <StickyNote className="h-5 w-5" />
+                            </span>
+                            <span className="min-w-0">
+                              <span className="block font-body text-body font-semibold text-text">
+                                Changelog (2016 – Now)
+                              </span>
+                              <span className="block font-body text-caption text-text-muted">
+                                {NOTE_COUNT} notes · {profile.years} years in
+                                design
+                              </span>
+                            </span>
+                          </span>
+                        </AssistantMessage>
+                      )}
+                      {step >= STEP_RESUME && (
+                        <AssistantMessage key="resume">
+                          <p>Want the full story? The resume has it all.</p>
+                          <a
+                            href="/resume.pdf"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            tabIndex={-1}
+                            aria-label="Resume (PDF) (opens in new tab)"
+                            onClick={() =>
+                              trackEvent("resume_download", {
+                                location: "about_chat_card",
+                              })
+                            }
+                            className="lp-sticker-sm-interactive flex min-h-12 items-center justify-between gap-3 rounded-md border-2 border-on-pastel bg-butter p-3 text-on-pastel"
+                          >
+                            <span className="flex items-center gap-3">
+                              <FileText
+                                className="h-5 w-5 shrink-0"
+                                aria-hidden="true"
+                              />
+                              <span className="font-body text-body font-semibold">
+                                Resume (PDF)
+                              </span>
+                            </span>
+                            <ArrowUpRight
                               className="h-5 w-5 shrink-0"
                               aria-hidden="true"
                             />
-                            <span className="font-body text-body font-semibold">
-                              Resume (PDF)
-                            </span>
-                          </span>
-                          <ArrowUpRight
+                          </a>
+                        </AssistantMessage>
+                      )}
+                      {typing && <TypingBubble key={`typing-${step}`} />}
+                    </AnimatePresence>
+                  </div>
+                </div>
+              ) : (
+                /* Mobile (< lg): no internal scroll, sticky notes reveal as messages on page scroll ([P1-A5]) */
+                <div className="flex flex-col gap-4 p-4">
+                  <motion.div
+                    initial={prefersReduced ? false : { opacity: 0, y: 16 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true, amount: 0.25 }}
+                    transition={prefersReduced ? { duration: 0 } : springCalm}
+                  >
+                    <UserBubble>Who&apos;s Lucas?</UserBubble>
+                  </motion.div>
+
+                  <motion.div
+                    initial={prefersReduced ? false : { opacity: 0, y: 16 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true, amount: 0.25 }}
+                    transition={prefersReduced ? { duration: 0 } : springCalm}
+                  >
+                    <AssistantMessage>
+                      <span className="flex items-center gap-3">
+                        <picture>
+                          <source
+                            srcSet={profile.portrait.src.replace(
+                              /\.webp$/i,
+                              ".avif",
+                            )}
+                            type="image/avif"
+                          />
+                          <source
+                            srcSet={profile.portrait.src}
+                            type="image/webp"
+                          />
+                          <img
+                            src={profile.portrait.src}
+                            alt=""
+                            width={48}
+                            height={48}
+                            loading="lazy"
+                            decoding="async"
+                            className="block h-12 w-12 rounded-sm border-2 border-line-strong object-cover"
+                          />
+                        </picture>
+                        <span className="font-display font-bold text-text">
+                          {profile.name}
+                        </span>
+                      </span>
+                      <p>{profile.bioShort}</p>
+                    </AssistantMessage>
+                  </motion.div>
+
+                  <motion.div
+                    initial={prefersReduced ? false : { opacity: 0, y: 16 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true, amount: 0.25 }}
+                    transition={prefersReduced ? { duration: 0 } : springCalm}
+                  >
+                    <UserBubble>What has he worked on since 2016?</UserBubble>
+                  </motion.div>
+
+                  <motion.div
+                    initial={prefersReduced ? false : { opacity: 0, y: 16 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true, amount: 0.25 }}
+                    transition={prefersReduced ? { duration: 0 } : springCalm}
+                  >
+                    <AssistantMessage>
+                      <p>Here&apos;s his changelog, one sticky note per role.</p>
+                    </AssistantMessage>
+                  </motion.div>
+
+                  <ol
+                    aria-label="Changelog, 2016 to now"
+                    className="flex flex-col gap-4"
+                  >
+                    {experience.map((item, i) => {
+                      const rotate = NOTE_POS[i % NOTE_POS.length]?.rotate ?? 0;
+                      return (
+                        <motion.li
+                          key={`${item.company}-${item.period}`}
+                          initial={
+                            prefersReduced
+                              ? false
+                              : { opacity: 0, y: 20, rotate: rotate + 3 }
+                          }
+                          whileInView={{
+                            opacity: 1,
+                            y: 0,
+                            rotate: prefersReduced ? 0 : rotate * 0.6,
+                          }}
+                          viewport={{ once: true, amount: 0.25 }}
+                          transition={
+                            prefersReduced ? { duration: 0 } : springCalm
+                          }
+                          className="flex items-start gap-3"
+                        >
+                          <Avatar toneClass="bg-butter">
+                            <ClawdMark className="w-6" />
+                          </Avatar>
+                          <div
+                            className={cn(
+                              "min-w-0 flex-1 flex flex-col gap-2 rounded-lg rounded-tl-xs border-2 border-on-pastel p-4 text-on-pastel shadow-sticker-sm",
+                              NOTE_TONES[i % NOTE_TONES.length],
+                            )}
+                          >
+                            <NoteBody item={item} />
+                          </div>
+                        </motion.li>
+                      );
+                    })}
+                  </ol>
+
+                  <motion.div
+                    initial={prefersReduced ? false : { opacity: 0, y: 16 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true, amount: 0.25 }}
+                    transition={prefersReduced ? { duration: 0 } : springCalm}
+                  >
+                    <AssistantMessage>
+                      <p>Want the full story? The resume has it all.</p>
+                      <a
+                        href="/resume.pdf"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        aria-label="Resume (PDF) (opens in new tab)"
+                        onClick={() =>
+                          trackEvent("resume_download", {
+                            location: "about_chat_card",
+                          })
+                        }
+                        className="lp-sticker-sm-interactive flex min-h-12 items-center justify-between gap-3 rounded-md border-2 border-on-pastel bg-butter p-3 text-on-pastel"
+                      >
+                        <span className="flex items-center gap-3">
+                          <FileText
                             className="h-5 w-5 shrink-0"
                             aria-hidden="true"
                           />
-                        </a>
-                      </AssistantMessage>
-                    )}
-                    {typing && <TypingBubble key={`typing-${step}`} />}
-                  </AnimatePresence>
+                          <span className="font-body text-body font-semibold">
+                            Resume (PDF)
+                          </span>
+                        </span>
+                        <ArrowUpRight
+                          className="h-5 w-5 shrink-0"
+                          aria-hidden="true"
+                        />
+                      </a>
+                    </AssistantMessage>
+                  </motion.div>
                 </div>
-              </div>
+              )}
 
               <div className="border-t-2 border-line p-3">
-                <div className="flex items-center gap-2 rounded-md border-2 border-line bg-surface px-3 py-2">
+                <div className="flex items-center gap-2 rounded-sm border-2 border-line bg-surface px-3 py-2">
                   <span className="flex-1 font-body text-body text-text-subtle">
                     Ask about Lucas…
                   </span>
@@ -738,14 +943,15 @@ export function AboutChangelog() {
               </div>
             </div>
 
-            {/* ── Canvas ────────────────────────────────────────── */}
-            <section
-              aria-label="Changelog canvas, 2016 to now"
-              className={cn(
-                "relative overflow-hidden bg-surface lg:col-span-8",
-                isXl ? (isPinned ? "min-h-0" : "min-h-160") : "p-4 pl-20",
-              )}
-            >
+            {/* ── Canvas (desktop lg+ only; hidden on mobile per [P1-A5]) ────────── */}
+            {isLg && (
+              <section
+                aria-label="Changelog canvas, 2016 to now"
+                className={cn(
+                  "relative overflow-hidden bg-surface lg:col-span-8",
+                  isXl ? (isPinned ? "min-h-0" : "min-h-160") : "p-4 pl-20",
+                )}
+              >
               <CanvasDots id="about-canvas-dots" />
 
               {/* Tool rail (decorative) */}
@@ -771,7 +977,7 @@ export function AboutChangelog() {
                 aria-hidden="true"
                 className="absolute right-4 top-4 z-20 rounded-pill border-2 border-line-strong bg-bg px-3 py-1 font-body text-caption font-semibold text-text"
               >
-                Changelog (2016 → Now)
+                Changelog (2016 – Now)
               </span>
 
               {isXl ? (
@@ -892,7 +1098,7 @@ export function AboutChangelog() {
                   )}
 
                   {/* Zoom + Fit view controls */}
-                  <div className="absolute bottom-4 right-4 z-20 flex items-center gap-1 rounded-md border-2 border-line-strong bg-bg p-1 shadow-sticker-sm">
+                  <div className="absolute bottom-4 right-4 z-20 flex items-center gap-1 rounded-sm border-2 border-line-strong bg-bg p-1 shadow-sticker-sm">
                     <ControlButton
                       label="Zoom out"
                       onClick={() => zoomTo(camScale.get() - ZOOM.step)}
@@ -963,6 +1169,7 @@ export function AboutChangelog() {
                 </ol>
               )}
             </section>
+            )}
           </div>
         </div>
       </div>

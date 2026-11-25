@@ -12,146 +12,13 @@ const PUBLIC_CASE_DIR = path.join(ROOT_DIR, "public", "case-studies");
 const PUBLIC_IMAGES_DIR = path.join(ROOT_DIR, "public", "images");
 const CONTENT_CASE_DIR = path.join(ROOT_DIR, "src", "content", "case-studies");
 
-const LEGACY_CASE_MAP = [
-  {
-    slug: "classic-decoder",
-    files: [
-      ["cdsite-thumbnail.webp", "cover.webp"],
-      ["cdsite1.webp", "screen-1.webp"],
-      ["cdsite2.webp", "screen-2.webp"],
-      ["cdsite3.webp", "screen-3.webp"],
-    ],
-  },
-  {
-    slug: "classic-decoder-app",
-    files: [
-      ["cdapp-thumbnail.webp", "cover.webp"],
-      ["cdapp1.webp", "screen-1.webp"],
-      ["cdapp2.webp", "screen-2.webp"],
-      ["cdapp3.webp", "screen-3.webp"],
-    ],
-  },
-  {
-    slug: "vehicle-databases",
-    files: [
-      ["vdbsite-thumbnail.webp", "cover.webp"],
-      ["vdb1.webp", "screen-1.webp"],
-      ["vdb2.webp", "screen-2.webp"],
-      ["vdb3.webp", "screen-3.webp"],
-    ],
-  },
-  {
-    slug: "detailed-vehicle-history",
-    files: [
-      ["dvhsite-thumbnail.webp", "cover.webp"],
-      ["dvh1.webp", "screen-1.webp"],
-      ["dvh2.webp", "screen-2.webp"],
-      ["dvh3.webp", "screen-3.webp"],
-    ],
-  },
-  {
-    slug: "fierce-fight-gear",
-    files: [
-      ["ffg-thumbnail.webp", "cover.webp"],
-      ["ffg1.webp", "screen-1.webp"],
-      ["ffg2.webp", "screen-2.webp"],
-      ["ffg3.webp", "screen-3.webp"],
-    ],
-  },
-  {
-    slug: "sarayah-phuket-villas",
-    files: [
-      ["sarayah-thumbnail.webp", "cover.webp"],
-      ["sarayah1.webp", "screen-1.webp"],
-      ["sarayah2.webp", "screen-2.webp"],
-      ["sarayah3.webp", "screen-3.webp"],
-    ],
-  },
-];
-
 async function stageLegacyImages() {
-  for (const entry of LEGACY_CASE_MAP) {
-    const destDir = path.join(PUBLIC_CASE_DIR, entry.slug);
-    fs.mkdirSync(destDir, { recursive: true });
-
-    for (const [srcName, destName] of entry.files) {
-      const srcPath = path.join(LEGACY_DIR, srcName);
-      const destPath = path.join(destDir, destName);
-      if (fs.existsSync(srcPath) && !fs.existsSync(destPath)) {
-        fs.copyFileSync(srcPath, destPath);
-      }
-    }
-  }
-
-  // Portrait image
+  // Portrait image (case study covers and screens are now captured from live sites / scripts/build-covers.mjs)
   fs.mkdirSync(PUBLIC_IMAGES_DIR, { recursive: true });
   const portraitSrc = path.join(LEGACY_DIR, "profileimg.webp");
   const portraitDest = path.join(PUBLIC_IMAGES_DIR, "lucas-portrait.webp");
   if (fs.existsSync(portraitSrc) && !fs.existsSync(portraitDest)) {
     fs.copyFileSync(portraitSrc, portraitDest);
-  }
-
-  // Luci V1 illustration cover (/case-studies/luci/hero.{webp,avif}) + build-time OG images (/og/luci-{teaser,full}.png)
-  const luciDestDir = path.join(PUBLIC_CASE_DIR, "luci");
-  fs.mkdirSync(luciDestDir, { recursive: true });
-  const luciCoverWebp = path.join(luciDestDir, "cover.webp");
-  const luciHeroWebp = path.join(luciDestDir, "hero.webp");
-  const luciHeroAvif = path.join(luciDestDir, "hero.avif");
-
-  const v1HeroSvg = `<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="750" viewBox="0 0 1200 750">
-    <rect width="1200" height="750" fill="#F5EFEA"/>
-    <!-- Left landing page area -->
-    <rect x="48" y="48" width="664" height="568" rx="16" fill="#F5EFEA" stroke="#2B2B2B" stroke-width="3"/>
-    <circle cx="80" cy="80" r="8" fill="#FFC9D5" stroke="#2B2B2B" stroke-width="2"/>
-    <circle cx="104" cy="80" r="8" fill="#FFE591" stroke="#2B2B2B" stroke-width="2"/>
-    <circle cx="128" cy="80" r="8" fill="#AEE8CC" stroke="#2B2B2B" stroke-width="2"/>
-    <line x1="48" y1="112" x2="712" y2="112" stroke="#2B2B2B" stroke-width="3"/>
-    <rect x="88" y="164" width="140" height="16" rx="8" fill="#2B2B2B" opacity="0.25"/>
-    <text x="88" y="232" font-family="sans-serif" font-size="38" font-weight="800" fill="#2B2B2B">Ship calm interfaces faster.</text>
-    <rect x="88" y="260" width="360" height="14" rx="7" fill="#2B2B2B" opacity="0.2"/>
-    <!-- Selection chip -->
-    <rect x="88" y="330" width="332" height="44" rx="22" fill="#F4A878" stroke="#2B2B2B" stroke-width="3"/>
-    <text x="112" y="358" font-family="monospace" font-size="18" font-weight="700" fill="#2B2B2B">Button · 4 states · can export ✓</text>
-    <!-- Selected Get started button + dashed outline -->
-    <rect x="88" y="392" width="216" height="64" rx="32" fill="none" stroke="#CD8D65" stroke-width="3" stroke-dasharray="10 8"/>
-    <rect x="98" y="402" width="196" height="44" rx="22" fill="#2B2B2B"/>
-    <text x="148" y="430" font-family="sans-serif" font-size="20" font-weight="700" fill="#F5EFEA">Get started</text>
-    <!-- Right design.md panel -->
-    <rect x="736" y="48" width="416" height="568" rx="16" fill="#2B2B2B" stroke="#2B2B2B" stroke-width="3"/>
-    <text x="768" y="96" font-family="monospace" font-size="20" font-weight="700" fill="#F5EFEA">design.md</text>
-    <rect x="1012" y="72" width="108" height="32" rx="16" fill="#F4A878"/>
-    <text x="1028" y="93" font-family="monospace" font-size="16" font-weight="700" fill="#2B2B2B">measured</text>
-    <line x1="768" y1="120" x2="1120" y2="120" stroke="#F5EFEA" stroke-opacity="0.2" stroke-width="2"/>
-    <text x="768" y="168" font-family="monospace" font-size="17" fill="#F5EFEA">1  component: button.get-started</text>
-    <text x="768" y="208" font-family="monospace" font-size="17" fill="#F5EFEA">2  scope: single-element</text>
-    <text x="768" y="248" font-family="monospace" font-size="17" fill="#F5EFEA">3  states: [default, hover, focus]</text>
-    <text x="768" y="288" font-family="monospace" font-size="17" fill="#F4A878">4  backgroundColor: "{colors.surface}"</text>
-    <text x="768" y="328" font-family="monospace" font-size="17" fill="#F5EFEA">5  rounded: "{rounded.r-9999}"</text>
-    <text x="768" y="368" font-family="monospace" font-size="17" fill="#F5EFEA">6  padding: "1.25rem 1.75rem"</text>
-    <text x="768" y="408" font-family="monospace" font-size="17" fill="#AEE8CC">7  wcag: "AAA · passes contrast"</text>
-    <!-- Docked Luci toolbar pill -->
-    <rect x="210" y="644" width="780" height="64" rx="32" fill="#2B2B2B" stroke="#2B2B2B" stroke-width="3"/>
-    <rect x="226" y="656" width="112" height="40" rx="20" fill="#F4A878"/>
-    <text x="252" y="682" font-family="monospace" font-size="16" font-weight="700" fill="#2B2B2B">Capture</text>
-    <text x="366" y="682" font-family="monospace" font-size="16" fill="#F5EFEA">Text</text>
-    <text x="450" y="682" font-family="monospace" font-size="16" fill="#F5EFEA">Colour</text>
-    <text x="554" y="682" font-family="monospace" font-size="16" fill="#F5EFEA">Spacing</text>
-    <text x="668" y="682" font-family="monospace" font-size="16" fill="#F5EFEA">Basket</text>
-    <text x="772" y="682" font-family="monospace" font-size="16" fill="#F5EFEA">Feedback</text>
-    <text x="892" y="682" font-family="monospace" font-size="16" fill="#F5EFEA">Settings</text>
-  </svg>`;
-
-  const v1WebpBuffer = await sharp(Buffer.from(v1HeroSvg))
-    .webp({ quality: 88 })
-    .toBuffer();
-  const v1AvifBuffer = await sharp(Buffer.from(v1HeroSvg))
-    .avif({ quality: 72 })
-    .toBuffer();
-
-  fs.writeFileSync(luciHeroWebp, v1WebpBuffer);
-  fs.writeFileSync(luciHeroAvif, v1AvifBuffer);
-  if (!fs.existsSync(luciCoverWebp)) {
-    fs.writeFileSync(luciCoverWebp, v1WebpBuffer);
   }
 
   // Generate build-time OG share images for every published case study
@@ -219,16 +86,11 @@ function parseMdxMetadata(filePath) {
   return vm.runInNewContext(`(${objSource})`, {});
 }
 
-async function loadLoaffyFormBuffer(form) {
-  const formPath = path.join(ROOT_DIR, "public", "loaffy", "forms", `${form}.svg`);
-  const fallbackPath = path.join(ROOT_DIR, "public", "loaffy", "forms", "window.svg");
-  const resolved = fs.existsSync(formPath)
-    ? formPath
-    : fs.existsSync(fallbackPath)
-      ? fallbackPath
-      : null;
-  if (!resolved) return null;
-  return sharp(resolved)
+/** Loaffy is always a cat paw: every OG image uses the shaded paw. */
+async function loadLoaffyPawBuffer() {
+  const pawPath = path.join(ROOT_DIR, "public", "loaffy", "forms", "paw-3d.svg");
+  if (!fs.existsSync(pawPath)) return null;
+  return sharp(pawPath)
     .resize({ width: 304, height: 304, fit: "contain" })
     .png()
     .toBuffer();
@@ -239,9 +101,9 @@ async function renderCaseOgPng({
   title,
   summary,
   tone,
-  form,
   badgeText,
   outFile,
+  urlText = `lucas.pawprint.design/work/${slug}`,
 }) {
   const bgHex = PASTEL_HEX[tone] ?? PASTEL_HEX.lilac;
   const safeBadge = escapeXml(badgeText);
@@ -278,10 +140,10 @@ async function renderCaseOgPng({
     <text x="108" y="111" font-family="monospace" font-size="20" font-weight="700" fill="#2B2B2B">${safeBadge}</text>
     ${titleSvg}
     ${summarySvg}
-    <text x="80" y="532" font-family="monospace" font-size="22" font-weight="600" fill="#2B2B2B">lucas.pawprint.design/work/${escapeXml(slug)}</text>
+    <text x="80" y="532" font-family="monospace" font-size="22" font-weight="600" fill="#2B2B2B">${escapeXml(urlText)}</text>
   </svg>`;
 
-  const loaffyBuffer = await loadLoaffyFormBuffer(form);
+  const loaffyBuffer = await loadLoaffyPawBuffer();
   const baseOg = sharp(Buffer.from(ogSvg));
   if (loaffyBuffer) {
     baseOg.composite([{ input: loaffyBuffer, left: 824, top: 160 }]);
@@ -299,26 +161,34 @@ async function generateCaseOgImages() {
 
   let generatedCount = 0;
 
+  // Site-wide share image for Home, Work, About, Contact and Colophon (copy taken from
+  // the site itself: About h1, profile.title, footer tagline).
+  await renderCaseOgPng({
+    slug: "",
+    title: "Hi, I'm Lucas.",
+    summary:
+      "Product & Motion Designer in Phuket, Thailand. Curious by nature, careful by habit.",
+    tone: "lilac",
+    badgeText: "Wai Phyo Aung · Portfolio",
+    outFile: path.join(ogDir, "site.png"),
+    urlText: "lucas.pawprint.design",
+  });
+  generatedCount++;
+
   for (const file of mdxFiles) {
     const meta = parseMdxMetadata(path.join(CONTENT_CASE_DIR, file));
     if (!meta || meta.status === "draft") continue;
 
     if (meta.slug === "luci") {
-      for (const [modeKey, statusLabel] of [
-        ["teaser", "Luci · private beta"],
-        ["full", "Luci · live"],
-      ]) {
-        await renderCaseOgPng({
-          slug: meta.slug,
-          title: meta.title,
-          summary: meta.summary,
-          tone: meta.tone,
-          form: meta.form,
-          badgeText: statusLabel,
-          outFile: path.join(ogDir, `luci-${modeKey}.png`),
-        });
-        generatedCount++;
-      }
+      await renderCaseOgPng({
+        slug: meta.slug,
+        title: meta.title,
+        summary: meta.summary,
+        tone: meta.tone,
+        badgeText: "Luci · open source",
+        outFile: path.join(ogDir, "luci.png"),
+      });
+      generatedCount++;
       continue;
     }
 
@@ -327,7 +197,6 @@ async function generateCaseOgImages() {
       title: meta.title,
       summary: meta.summary,
       tone: meta.tone,
-      form: meta.form,
       badgeText: `${meta.client} · ${meta.year}`,
       outFile: path.join(ogDir, `${meta.slug}.png`),
     });

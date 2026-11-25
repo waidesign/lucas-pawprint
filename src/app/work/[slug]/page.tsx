@@ -26,19 +26,12 @@ export async function generateMetadata({
   const { metadata } = await getCaseStudyBySlug(slug);
   const canonicalUrl = `https://lucas.pawprint.design/work/${metadata.slug}`;
 
-  const ogImageUrl =
-    metadata.slug === "luci"
-      ? `https://lucas.pawprint.design/og/luci-${
-          metadata.visibility === "full" ? "full" : "teaser"
-        }.png`
-      : `https://lucas.pawprint.design/og/${metadata.slug}.png`;
+  const ogImageUrl = `https://lucas.pawprint.design/og/${metadata.slug}.png`;
 
   const ogAlt =
     metadata.slug === "luci"
-      ? `Loaffy in window form on lilac with "${
-          metadata.visibility === "full" ? "Luci · live" : "Luci · private beta"
-        }"`
-      : `Loaffy in ${metadata.form} form on ${metadata.tone} with "${metadata.title}"`;
+      ? `Loaffy the paw on lilac with "Luci · open source"`
+      : `Loaffy the paw on ${metadata.tone} with "${metadata.title}"`;
 
   return {
     title: metadata.seo.title,
@@ -101,12 +94,7 @@ export default async function CaseStudyPage({
   };
 
   const canonicalUrl = `https://lucas.pawprint.design/work/${metadata.slug}`;
-  const ogImageUrl =
-    metadata.slug === "luci"
-      ? `https://lucas.pawprint.design/og/luci-${
-          metadata.visibility === "full" ? "full" : "teaser"
-        }.png`
-      : `https://lucas.pawprint.design/og/${metadata.slug}.png`;
+  const ogImageUrl = `https://lucas.pawprint.design/og/${metadata.slug}.png`;
 
   const creativeWorkJsonLd = {
     "@context": "https://schema.org",
@@ -136,12 +124,7 @@ export default async function CaseStudyPage({
       : null;
 
   return (
-    <CaseLayout
-      metadata={metadata}
-      nextCase={nextCase}
-      renderDefaultHero={slug !== "luci"}
-      renderDefaultFooter={slug !== "luci"}
-    >
+    <CaseLayout metadata={metadata} nextCase={nextCase}>
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{

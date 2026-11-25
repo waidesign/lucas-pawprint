@@ -42,7 +42,7 @@ export function ProofStrip() {
     <section
       id="proof"
       aria-label="Skills and tools ticket strip"
-      className="lp-ticker-group relative mx-2 overflow-hidden rounded-b-xl py-6 text-text md:mx-4 md:rounded-b-2xl"
+      className="lp-ticker-group relative overflow-x-clip py-12 text-text md:py-16"
     >
       {prefersReduced ? (
         <div className="space-y-6 px-4 md:px-10 lg:px-20">
@@ -93,7 +93,7 @@ export function ProofStrip() {
           </div>
         </div>
       ) : (
-        <div className="space-y-2">
+        <div className="-mx-6 -rotate-2 space-y-2 py-2">
           {/* Row 1: Skills Ticket Strip (dot-free pills per [P1-A6], scrolls left) */}
           <div className="relative flex w-full overflow-hidden py-2">
             <div className="lp-ticker-track-left flex w-max items-center gap-3 pr-3">

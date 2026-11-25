@@ -26,7 +26,7 @@ import {
 
 export interface LoaffyInputsContract {
   mood: 0 | 1 | 2 | 3 | 4 | 5;
-  form: 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7;
+  form: 0 | 1 | 7;
   pose: 0 | 1 | 2 | 3 | 4;
   lookX: number;
   lookY: number;

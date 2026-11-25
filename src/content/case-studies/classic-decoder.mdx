@@ -1,8 +1,10 @@
 export const metadata = {
   title: "Classic Decoder",
+  titleHighlight: "Decoder",
   slug: "classic-decoder",
   order: 2,
   featured: false,
+  homeFeatured: true,
   status: "published",
   visibility: "full",
   client: "Classic Decoder",
@@ -24,18 +26,25 @@ export const metadata = {
     "Lottiefiles",
   ],
   tone: "sky",
-  form: "window",
   cover: "/case-studies/classic-decoder/cover",
   coverAlt:
-    "Classic Decoder homepage on desktop and mobile, showing the VIN search.",
+    "Three flat-framed screens of Classic Decoder on a sky background: the desktop VIN lookup homepage, the build sheet lookup page, and the mobile VIN search.",
   liveUrl: "https://classicdecoder.com",
+  cta: {
+    label: "Visit Classic Decoder",
+    href: "https://classicdecoder.com",
+  },
+  secondaryCta: {
+    label: "All work",
+    href: "/work",
+  },
   tldr: {
     problem:
-      "Classic car buyers faced an outdated WordPress site with a long upfront form and no preview of whether their pre-1981 VIN was even found before checkout.",
+      "Classic car buyers faced an outdated WordPress site with a 14-field upfront form and no preview of whether their pre-1981 VIN was even found before checkout.",
     whatIDid:
-      "I redesigned the website for Next.js, replaced the long form with a 3-step progressive lookup, added live report preview cards, built a Figma design system from scratch, and designed an online classic-car classifieds marketplace and user dashboard.",
+      "I redesigned the website for Next.js, replaced the long form with a 3-step progressive lookup, added live report preview cards, built a Figma design system from scratch, and designed an online classifieds marketplace and buyer/seller dashboard.",
     outcome:
-      "Shipped and live. Replaced the legacy WordPress site and added a new classifieds marketplace for buying and selling classic cars.",
+      "Shipped and live: the redesigned website replaced the legacy WordPress site. The classifieds marketplace and buyer/seller dashboard are designed and not public yet.",
   },
   seo: {
     title: "Classic Decoder · Lucas (Wai Phyo Aung)",
@@ -44,68 +53,200 @@ export const metadata = {
   },
 };
 
-<Chapter step="understand" title="What was broken on the old site">
-  Classic Decoder decodes VINs and provides historical build sheets for pre-1981 classic vehicles. Classic cars before 1981 use non-standard VIN formats that vary across manufacturers, which makes lookup harder than modern 17-character VINs.
+<Chapter
+  step="understand"
+  title="What was broken."
+  highlight="broken"
+  intro="Classic Decoder decodes VINs and provides history reports and build sheets for pre-1981 vehicles, where VIN formats vary across every manufacturer."
+>
 
-  The legacy WordPress site asked visitors to fill out a long form before telling them if a record existed. Most visitors arrived on mobile while inspecting a car in person, and the old layout was hard to use on a phone.
+    Before the rebuild, the platform ran on a legacy WordPress setup with dated
+    styling, rigid form fields, and no instant feedback. Collectors arrived on
+    their phones while inspecting a car in person, only to hit a wall of form
+    inputs before knowing whether their car was even in the database.
 
-  - **Upfront friction:** Visitors had to complete 14 form fields before seeing if their VIN matched a vehicle in the database.
-  - **Trust gap:** Classic car collectors wanted proof that the database recognized their specific year, make, and model before paying.
-  - **Missing mobile parity:** On-the-lot buyers needed a fast, readable lookup flow on small screens.
-</Chapter>
 
-<Chapter step="shape" title="Restructuring the lookup flow and marketplace">
-  Moving from WordPress to React and Next.js gave us a clean slate. I restructured the product around two core journeys: instant VIN verification and a new classic-car classifieds marketplace.
-
-  <DecisionCard
-    title="3-step progressive VIN lookup instead of a 14-field form"
-    problem="Asking for 14 fields upfront caused visitors to leave before running a search."
-    decision="Reduced the hero entry to a single VIN input that pings the database immediately and reveals the remaining steps in a progressive drawer."
-    why="Visitors get immediate confirmation that their classic VIN is supported before entering checkout details."
+  <PainList
+    heading="Where buyers got stuck"
     tone="sky"
+    items={[
+      {
+        title: "Fourteen fields before a single answer",
+        body: "Visitors had to fill out a 14-field upfront form before the site would tell them whether their classic VIN matched a record.",
+      },
+      {
+        title: "No mobile layout for on-the-lot checks",
+        body: "Buyers often inspect classic cars at auctions or private garages on their phones, and the old layout was cramped and slow on small screens.",
+      },
+      {
+        title: "Hidden pricing and report jargon",
+        body: "Buyers could not see clear pricing early in the flow, and dense technical labels made report tiers hard to tell apart.",
+      },
+    ]}
   />
 
-  <DecisionCard
-    title="Live decoded spec preview cards before payment"
-    problem="Buyers hesitated to pay without knowing what data the report actually contained for their car."
-    decision="Designed a live preview card showing the decoded year, make, model, and engine specs with locked report sections clearly outlined."
-    why="Showing real decoded vehicle data upfront proved authenticity and removed guesswork at checkout."
+  <InsightList
+    heading="What we learned from collectors"
     tone="mint"
-  />
-</Chapter>
-
-<Chapter step="design" title="Design system, classifieds, and motion feedback">
-  I built a new Figma design system from scratch for the Next.js rebuild, covering typography, color tokens, form states, landing pages, and inner tools.
-
-  - **Online classifieds from scratch:** For buyers, I designed smart filters, listing cards, detail pages, and photo galleries. For sellers, I mapped the listing flow covering car specs, photo uploads, privacy settings, pricing, and VIN-linked report upsells.
-  - **Buyer & seller dashboard:** Buyers can save cars and manage search alerts. Sellers can manage listings, message buyers, and track notifications.
-  - **Motion feedback during database lookups:** Pre-1981 archive lookups take a moment to resolve, so I designed lightweight Lottie scanning animations in After Effects to explain what the system is checking.
-
-  <ImageGallery
-    images={[
+    items={[
       {
-        src: "/case-studies/classic-decoder/screen-1.webp",
-        alt: "Classic Decoder VIN lookup flow and decoded vehicle preview screens.",
-        caption: "Progressive VIN lookup and decoded vehicle preview.",
+        title: "Proof comes before payment",
+        body: "Collectors wanted immediate confirmation that their specific year, make, and model existed in the archive before entering checkout details.",
       },
       {
-        src: "/case-studies/classic-decoder/screen-2.webp",
-        alt: "Classic Decoder online classifieds marketplace and vehicle listing cards.",
-        caption: "Classic-car classifieds marketplace and filter system.",
+        title: "Authenticity drives trust",
+        body: "Pre-1981 vehicles have irregular VIN lengths and serial numbers, so buyers needed reassurance that the tool understood their vintage format.",
       },
       {
-        src: "/case-studies/classic-decoder/screen-3.webp",
-        alt: "Classic Decoder buyer and seller dashboard screens on desktop and mobile.",
-        caption: "Buyer and seller dashboard with saved vehicles and listing controls.",
+        title: "More than one job to do",
+        body: "Beyond decoding VINs and build sheets, enthusiasts wanted a place to browse, save, and list classic cars directly on the platform.",
       },
     ]}
   />
 </Chapter>
 
-<Chapter step="ship" title="Outcome and what I learned">
-  The redesigned platform shipped on Next.js at [classicdecoder.com](https://classicdecoder.com), replacing the legacy WordPress site and launching the new classic-car classifieds marketplace.
+<Chapter
+  step="shape"
+  title="Shaping the lookup flow."
+  highlight="lookup"
+  intro="Moving from WordPress to React and Next.js gave us a clean slate to rebuild the lookup journey and the build sheet path, and to design a new classifieds marketplace."
+>
+  <FeatureRow
+    number="01."
+    eyebrow="Progressive lookup"
+    title="One VIN bar first. Details after."
+    highlight="first"
+    highlightTone="sky"
+    body="I stripped the hero down to a single 5-to-17-character VIN input that checks the database right away. Remaining steps open in a 3-step progressive flow only after the vehicle is recognized."
+    points={[
+      { label: "Coverage", text: "Pre-1981 classic VINs, chassis numbers, and short serial numbers." },
+      { label: "Live feedback", text: "Instant decoded preview showing year, make, model, and engine specs." },
+    ]}
+    media={
+      <BrowserFrame url="classicdecoder.com">
+        <LoopVideo
+          webm="/case-studies/classic-decoder/clips/lookup.webm"
+          poster="/case-studies/classic-decoder/clips/lookup-poster.webp"
+          alt="Screen recording of typing a classic VIN into the Classic Decoder homepage lookup bar and browsing decoded spec previews."
+          start={1}
+        />
+      </BrowserFrame>
+    }
+    caption="The redesigned homepage on classicdecoder.com with a single VIN input and decoded spec cards."
+  />
 
-  <Callout tone="sky" title="Key takeaway">
-    In high-intent lookups, showing real decoded vehicle specs upfront builds more trust than any marketing copy, and purposeful motion during database queries keeps buyers confident while waiting.
+  <DecisionList
+    heading="Key decisions"
+    items={[
+      {
+        title: "3-step progressive VIN lookup instead of a 14-field form",
+        problem: "Asking for 14 mandatory fields upfront pushed visitors away before they ran a single search.",
+        decision: "Simplified the hero to one high-contrast VIN search bar that pings the database first and reveals the remaining steps progressively.",
+        why: "Visitors get immediate confirmation that their classic VIN is supported before entering checkout details.",
+      },
+      {
+        title: "Live decoded spec preview cards before checkout",
+        problem: "Buyers hesitated to pay without knowing what data existed for their specific classic car.",
+        decision: "Designed a preview card showing decoded year, make, model, and engine details alongside the locked report sections.",
+        why: "Showing real decoded specs upfront proved data authenticity and removed guesswork at checkout.",
+      },
+      {
+        title: "Motion feedback during archive queries",
+        problem: "Pre-1981 archive lookups take a moment to resolve, making static screens feel stuck.",
+        decision: "Designed lightweight Lottie scanning animations in After Effects to explain what the system is checking while it queries.",
+        why: "Clear motion feedback keeps buyers calm and prevents premature page refreshes during database lookups.",
+      },
+    ]}
+  />
+</Chapter>
+
+<Chapter
+  step="design"
+  title="Vintage character, modern system."
+  highlight="system"
+  intro="Every page had to carry the warmth of classic-car print documents without sacrificing mobile speed or clarity."
+>
+  <FeatureRow
+    number="02."
+    eyebrow="Reports & build sheets"
+    title="Clear paths for history and factory specs."
+    highlight="factory"
+    highlightTone="sky"
+    reverse
+    body="I designed dedicated landing pages and sample views for Classic Vehicle History Reports, Build Sheets, VIN Decoding, and Classic Car Values so collectors can inspect sample outputs before buying."
+    points={[
+      { label: "Online classifieds", text: "Smart filters, listing cards, photo galleries, and a seller flow with VIN-linked report upsells." },
+      { label: "Buyer & seller dashboard", text: "Saved cars and search alerts for buyers; listing management, messaging, and notifications for sellers." },
+    ]}
+    media={
+      <BrowserFrame url="classicdecoder.com/sample-reports">
+        <LoopVideo
+          webm="/case-studies/classic-decoder/clips/samples.webm"
+          poster="/case-studies/classic-decoder/clips/samples-poster.webp"
+          alt="Screen recording browsing sample classic vehicle history reports and build sheets on classicdecoder.com."
+          start={1}
+        />
+      </BrowserFrame>
+    }
+    caption="Browsing sample vehicle history reports and build sheets on the live site."
+  />
+
+  <Showcase
+    title="Across desktop and mobile"
+    description="Real live screens from classicdecoder.com across the VIN decoder, build sheet lookup, and mobile homepage."
+    items={[
+      {
+        src: "/case-studies/classic-decoder/screens/report-desktop",
+        alt: "Classic Decoder VIN Decoder page with pre-1981 research paths table and single VIN lookup input.",
+        caption: "Pre-1981 VIN Decoder page with research paths and clear input rules.",
+        url: "classicdecoder.com/vin-decoder",
+      },
+      {
+        src: "/case-studies/classic-decoder/screens/build-sheet-desktop",
+        alt: "Classic Decoder Build Sheet lookup page with vintage editorial contrast and focused VIN form.",
+        caption: "Classic Car Build Sheet landing page.",
+        url: "classicdecoder.com/build-sheet",
+      },
+      {
+        src: "/case-studies/classic-decoder/screens/home-mobile",
+        alt: "Classic Decoder mobile homepage showing the single VIN lookup input on a phone screen.",
+        caption: "Mobile-first VIN lookup built for on-the-lot checks.",
+        frame: "phone",
+      },
+    ]}
+  />
+
+  <Callout tone="sky" title="Design system from scratch">
+
+      Moving to Next.js meant rebuilding the Figma design system from zero:
+      high-contrast color tokens for outdoor and low-light inspections, an 8pt
+      spacing grid, auto-layout form states mapped directly to engineering
+      components, and moderated usability testing with classic-car buyers to
+      refine the progressive drawer.
+
   </Callout>
+</Chapter>
+
+<Chapter
+  step="ship"
+  title="Shipped and live."
+  highlight="live"
+  intro="The redesigned platform launched on Next.js, replacing the legacy WordPress site across desktop and mobile."
+>
+  <CaseOutcome
+    statement="Shipped and live on Next.js. Replaced the legacy WordPress site with a progressive lookup flow and a new Figma design system."
+    shipped={[
+      "Next.js website redesign covering Home, VIN Decoder, History Report, Build Sheet, Sample Reports, and Classic Car Values",
+      "3-step progressive VIN lookup flow with live decoded spec previews",
+      "Figma design system on an 8pt grid with Lottie scanning micro-interactions",
+      "Classifieds marketplace and buyer/seller dashboard (designed, not public yet)",
+    ]}
+  />
+
+  <CaseLearnings
+    items={[
+      "In high-intent lookups, upfront proof of real vehicle data builds far more trust than promotional copy.",
+      "Purposeful micro-animations during database queries keep people confident while waiting for archive results.",
+    ]}
+  />
 </Chapter>

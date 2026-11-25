@@ -50,15 +50,15 @@ export const LOAFFY_SHOWCASE_BEATS: readonly {
     toneClass: "bg-mint",
   },
   {
-    form: "window",
-    pose: "none",
+    form: "paw",
+    pose: "side-eye",
     mood: "curious",
     badge: "Web & products",
     toneClass: "bg-sky",
   },
   {
-    form: "cube",
-    pose: "none",
+    form: "paw",
+    pose: "chill-lean",
     mood: "happy",
     badge: "Design systems",
     toneClass: "bg-pistachio",
@@ -388,7 +388,9 @@ export function LoaffyStage({
              ========================================================= */}
           {(isBoxIntact || isExploding) && (
             <motion.div
+              role={isBoxIntact ? "img" : undefined}
               aria-label={isBoxIntact ? "A rumbling mystery box hatching open" : undefined}
+              aria-hidden={isBoxIntact ? undefined : true}
               animate={isExploding ? { y: 0, scaleX: 1, scaleY: 1, rotate: 0 } : boxRigAnimate}
               transition={isExploding ? { duration: 0 } : boxRigTransition}
               style={{ color: "var(--lp-outline)", transformOrigin: "50% 85%" }}

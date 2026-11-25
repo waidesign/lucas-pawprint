@@ -35,7 +35,7 @@ If a task touches something these files don't cover, **stop and ask** instead of
 4. **Ginger (`--color-ginger*`) is for Loaffy and the wordmark bean only.** Never for buttons, links, focus rings or backgrounds.
 5. **No overlapping shapes inside a character.** Beans never touch the pad (≥ 9.5 units static, ≥ 4 units in any animation frame). Depth is shaded inside one outline. Only exception: the hand's claws grow out of the toe tips.
 6. **Never invent content.** No made-up numbers, metrics, testimonials, clients, dates or quotes. Leave `[placeholders]` untouched. The old site's "+150% / +200% / +300% sales" claims are banned.
-7. **Luci is in private beta.** Only publish Luci details marked public in `CONTENT.md`. No screenshots of unreleased features unless Lucas adds them himself.
+7. **Luci is public and open source.** Its badge says "Open source" (never "Beta" or "Private beta"). Never mention Luci version numbers, release dates or GitHub star counts, so the case study stays true after launch. Luci facts come only from its repos (github.com/waidesign/luci-by-pawprint.design, github.com/waidesign/luci-site-by-pawprint-design) and luci.pawprint.design; real product screenshots and recordings are allowed.
 8. **Accessibility:** WCAG 2.2 AA, visible `:focus-visible`, 48×48 targets, semantic HTML, `prefers-reduced-motion`, alt text on meaningful images.
 9. **No new dependencies without asking.** Approved: next, react, typescript, tailwindcss, @next/mdx (+ its peers), motion, gsap, lucide-react, @rive-app/react-canvas, zod, clsx, tailwind-merge, sharp (build script), wrangler (dev), playwright, @axe-core/playwright, @lhci/cli.
 10. **No blurred shadows, gradients, glassmorphism, emoji in UI, stock photos, or Tailwind default palette classes.**

@@ -1,8 +1,10 @@
 export const metadata = {
   title: "Fierce Fight Gear",
+  titleHighlight: "Gear",
   slug: "fierce-fight-gear",
   order: 6,
   featured: false,
+  homeFeatured: true,
   status: "published",
   visibility: "full",
   client: "Fierce Fight Gear",
@@ -23,11 +25,18 @@ export const metadata = {
     "Lottiefiles",
   ],
   tone: "blush",
-  form: "window",
   cover: "/case-studies/fierce-fight-gear/cover",
   coverAlt:
-    "Fierce Fight Gear real-time boxing glove customizer and e-commerce storefront.",
+    "Three flat-framed screens of Fierce Fight Gear on a blush background: the fight shop homepage on desktop and mobile, and the custom boxing gloves product page.",
   liveUrl: "https://fiercefightgear.com",
+  cta: {
+    label: "Visit Fierce Fight Gear",
+    href: "https://fiercefightgear.com",
+  },
+  secondaryCta: {
+    label: "All work",
+    href: "/work",
+  },
   tldr: {
     problem:
       "Ordering custom boxing gloves or Muay Thai shorts required a manual email quote cycle with no way for fighters to preview colors, leather textures, or embroidery in real time.",
@@ -43,52 +52,187 @@ export const metadata = {
   },
 };
 
-<Chapter step="understand" title="From manual email quotes to live customization">
-  Fierce Fight Gear manufactures custom boxing gloves, Muay Thai shorts, MMA gear, and protective equipment in Thailand for fighters and gyms worldwide.
+<Chapter
+  step="understand"
+  title="Ending the email quote loop."
+  highlight="quote"
+  intro="Fierce Fight Gear crafts custom boxing gloves, Muay Thai shorts, MMA apparel, and protective gear in Thailand for fighters and gyms worldwide."
+>
 
-  Before the redesign, ordering custom gear meant emailing requests back and forth and waiting for manual proofs. Fighters could not see how metallic leather, piping colors, and custom embroidery looked together before placing an order, and shopping on a phone was cumbersome.
-</Chapter>
+    Before the redesign, ordering custom fight gear meant emailing back and
+    forth and waiting on manual proofs. Athletes had no way to see how leather
+    finishes, color panels, and embroidery looked together before paying, and
+    the existing store was hard to navigate on a phone.
 
-<Chapter step="shape" title="A step-by-step customizer canvas that works on a phone">
-  The customizer was the heart of the project. A single pair of gloves has dozens of customizable panels, materials, and logo zones, which can easily overwhelm a small mobile screen.
 
-  <DecisionCard
-    title="Guided canvas customizer with live price updates"
-    problem="Exposing every leather panel, strap option, and embroidery field at once overwhelmed mobile shoppers."
-    decision="Structured the customizer around a pinned live visual canvas with a step-by-step bottom control bar that updates the product render and cart total in real time."
-    why="Fighters see every material and color change immediately on the glove or shorts without losing their place in the flow."
+  <PainList
+    heading="What blocked custom orders"
     tone="blush"
+    items={[
+      {
+        title: "No visual certainty before ordering",
+        body: "Fighters could not preview custom color combinations, leather finishes, or logo placement before committing to a build.",
+      },
+      {
+        title: "Slow manual email quoting",
+        body: "Every color swap or embroidery change required another email proof cycle instead of live self-serve pricing.",
+      },
+      {
+        title: "Mobile checkout friction",
+        body: "Shopping and configuring custom equipment on a phone screen felt crowded and error-prone.",
+      },
+    ]}
   />
-</Chapter>
 
-<Chapter step="design" title="Storefront, product pages, and fighter gallery">
-  Alongside the customizer web app, I designed the complete e-commerce storefront:
-
-  - **Real-time customizer controls:** Material swatches (matte, metallic, genuine leather), zone-by-zone color pickers, text/embroidery placement, and live price calculation.
-  - **Product detail pages:** High-detail photography, sizing guides, and clear paths between ready-made stock and custom builds.
-  - **Action gallery:** A real-world gallery of custom gear worn by fighters in the ring so new customers can see finished craftsmanship before designing their own.
-
-  <ImageGallery
-    images={[
+  <InsightList
+    heading="What fighters wanted"
+    tone="butter"
+    items={[
       {
-        src: "/case-studies/fierce-fight-gear/screen-1.webp",
-        alt: "Fierce Fight Gear interactive boxing glove customizer canvas on desktop and mobile.",
-        caption: "Real-time customizer canvas with material and zone controls.",
+        title: "Instant visual feedback",
+        body: "Athletes wanted to test colors, materials, and custom lettering on a live visual canvas and see their gear come together immediately.",
       },
       {
-        src: "/case-studies/fierce-fight-gear/screen-2.webp",
-        alt: "Fierce Fight Gear e-commerce storefront and product detail pages.",
-        caption: "E-commerce product catalog and equipment specifications.",
-      },
-      {
-        src: "/case-studies/fierce-fight-gear/screen-3.webp",
-        alt: "Fierce Fight Gear fighter action gallery and mobile checkout screens.",
-        caption: "Fighter action gallery and mobile checkout flow.",
+        title: "Step-by-step mobile control",
+        body: "Because a pair of gloves or shorts has many customizable panels, mobile shoppers needed one focused step at a time.",
       },
     ]}
   />
 </Chapter>
 
-<Chapter step="ship" title="Shipped and live">
-  The redesigned storefront and customizer web app launched at [fiercefightgear.com](https://fiercefightgear.com), turning a manual quoting process into an instant self-serve experience.
+<Chapter
+  step="shape"
+  title="A canvas built for thumbs."
+  highlight="canvas"
+  intro="The customizer was the hardest part of the project: giving fighters full control over every panel without crowding a small screen."
+>
+  <FeatureRow
+    number="01."
+    eyebrow="Product customizer"
+    title="One live canvas, guided step by step."
+    highlight="guided"
+    highlightTone="blush"
+    body="I structured the customizer like a studio canvas. Fighters pick their gear, step through materials, zone-by-zone colors, text, and logo placement, and watch both the render and cart total update live."
+    points={[
+      { label: "Supported gear", text: "Boxing gloves, Muay Thai shorts, boxing shorts, gladiator shorts, robes, jackets, head guards, groin guards, and pads." },
+      { label: "Live feedback", text: "Material swatches, colorways, embroidery placement, and instant price updates." },
+    ]}
+    media={
+      <BrowserFrame url="fiercefightgear.com/custom-equipment/boxing-gloves/ffg">
+        <LoopVideo
+          webm="/case-studies/fierce-fight-gear/clips/customizer.webm"
+          poster="/case-studies/fierce-fight-gear/clips/customizer-poster.webp"
+          alt="Screen recording of the Fierce Fight Gear custom boxing gloves product page and customizer entry."
+          start={1}
+        />
+      </BrowserFrame>
+    }
+    caption="Custom boxing gloves page and customizer entry on fiercefightgear.com."
+  />
+
+  <DecisionList
+    heading="Key decisions"
+    items={[
+      {
+        title: "Focused step-by-step visual canvas",
+        problem: "Exposing every leather panel, strap option, and embroidery field at once overwhelmed mobile shoppers.",
+        decision: "Pinned the live gear preview while guiding users through one control group at a time with real-time price updates.",
+        why: "Fighters see every change immediately without losing their place in the customization flow.",
+      },
+      {
+        title: "Real fighter action gallery",
+        problem: "New buyers spending on custom gear wanted proof of real-world stitching and build quality before designing their own.",
+        decision: "Designed a dedicated Gallery showcasing real custom gear worn by fighters in the ring alongside clean product detail pages.",
+        why: "Showing finished craftsmanship in action builds confidence before a fighter starts customizing.",
+      },
+    ]}
+  />
+</Chapter>
+
+<Chapter
+  step="design"
+  title="Storefront, product pages, and gallery."
+  highlight="Storefront"
+  intro="I paired high-contrast combat-sports typography with clear paths between ready-made stock and custom builds."
+>
+  <FeatureRow
+    number="02."
+    eyebrow="Customizer editor"
+    title="Pick each panel, preview live."
+    highlight="live"
+    highlightTone="blush"
+    reverse
+    body="Inside the customizer editor, each glove zone opens its own colour and leatherette drawer. Picking Top Glove, Under Glove, Thumb, Strap, and Add Name Style updates the front and back glove render on the canvas."
+    points={[
+      { label: "Panels", text: "Top Glove, Under Glove, Thumb, and Strap apply leatherette and texture swatches per zone." },
+      { label: "Custom text", text: "Add Name Style places custom lettering directly onto the glove canvas." },
+    ]}
+    media={
+      <BrowserFrame url="fiercefightgear.com/customizer/app">
+        <LoopVideo
+          webm="/case-studies/fierce-fight-gear/clips/customizer-editor.webm"
+          poster="/case-studies/fierce-fight-gear/clips/customizer-editor-poster.webp"
+          alt="Screen recording inside the Fierce Fight Gear boxing glove customizer editor applying red, black snakeskin, and gold leatherette swatches across glove panels and adding custom lettering."
+        />
+      </BrowserFrame>
+    }
+    caption="Live panel, leatherette, and custom text edits inside the Fierce Fight Gear customizer editor."
+  />
+
+  <Showcase
+    title="Across storefront, custom gear, and gallery"
+    description="Live desktop and mobile screens from fiercefightgear.com."
+    items={[
+      {
+        src: "/case-studies/fierce-fight-gear/screens/home-desktop",
+        alt: "Fierce Fight Gear homepage hero with Design Your Gear call to action.",
+        caption: "Homepage hero leading straight into Design Your Gear.",
+        url: "fiercefightgear.com",
+      },
+      {
+        src: "/case-studies/fierce-fight-gear/screens/gallery-desktop",
+        alt: "Fierce Fight Gear fighter action gallery showing finished custom gear in the ring.",
+        caption: "Real-world fighter gallery showing finished custom craftsmanship.",
+        url: "fiercefightgear.com/gallery",
+      },
+      {
+        src: "/case-studies/fierce-fight-gear/screens/customizer-mobile",
+        alt: "Fierce Fight Gear custom boxing gloves view on a mobile phone.",
+        caption: "Mobile custom gear layout built for thumb navigation.",
+        frame: "phone",
+      },
+    ]}
+  />
+
+  <Callout tone="blush" title="Tested with gyms and fighters">
+
+      We tested the storefront and customizer flows with martial arts gym owners
+      and international fighters to keep touch controls, sizing guides, and
+      mobile checkout smooth from first tap to order.
+
+  </Callout>
+</Chapter>
+
+<Chapter
+  step="ship"
+  title="Shipped and live."
+  highlight="live"
+  intro="The redesigned storefront and customizer web app launched at fiercefightgear.com."
+>
+  <CaseOutcome
+    statement="Shipped and live. Replaced manual email quoting with self-serve real-time gear customization and mobile-first checkout."
+    shipped={[
+      "Mobile-first e-commerce storefront for ready-made and custom fight gear",
+      "Real-time visual canvas customizer for gloves, Muay Thai shorts, apparel, and protective gear",
+      "Product specification layouts, sizing guides, and real fighter action gallery",
+      "Thumb-friendly mobile checkout and cart flow",
+    ]}
+  />
+
+  <CaseLearnings
+    items={[
+      "Real-time visual feedback removes the biggest hesitation in custom e-commerce: wondering how choices will look together.",
+      "Breaking complex configuration into one step at a time keeps mobile customization calm and fast.",
+    ]}
+  />
 </Chapter>

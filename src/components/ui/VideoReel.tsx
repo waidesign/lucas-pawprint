@@ -5,7 +5,6 @@ import { useEffect, useRef, useState } from "react";
 import { Pause, Play } from "lucide-react";
 import { useReducedMotion } from "motion/react";
 import { cn, TONE_BG_CLASSES, type Tone } from "@/lib/cn";
-import { Loaffy } from "@/components/mascot/Loaffy";
 import { emitLoaffyEvent } from "@/components/mascot/LoaffyBus";
 
 export interface VideoReelProps {
@@ -14,8 +13,6 @@ export interface VideoReelProps {
   captionsSrc?: string;
   title?: string;
   tone?: Tone;
-  /** Render Loaffy play form inside the play button (default true = Home unchanged; pass false when page already has Loaffy). */
-  loaffyButton?: boolean;
   /** When true and no `src` is provided, render a still poster frame with caption and no play control (default false = Home unchanged). */
   staticWhenEmpty?: boolean;
   /** Caption displayed when `staticWhenEmpty` is true and no `src` is set. */
@@ -29,7 +26,6 @@ export function VideoReel({
   captionsSrc,
   title = "Lucas product & motion design showreel",
   tone = "sky",
-  loaffyButton = true,
   staticWhenEmpty = false,
   emptyCaption = "Showreel coming soon",
   className,
@@ -162,9 +158,7 @@ export function VideoReel({
             <p className="mt-2 font-body text-body text-text-muted">
               {playing
                 ? "Playing showreel — Loaffy is vibing."
-                : loaffyButton
-                  ? "Paused — click Loaffy Play to start the reel."
-                  : "Paused — click Play to start the reel."}
+                : "Paused — click Play to start the reel."}
             </p>
             {prefersReduced && (
               <p className="mt-2 font-mono text-caption text-text-muted">
@@ -174,7 +168,7 @@ export function VideoReel({
           </div>
         )}
 
-        {/* Custom Play/Pause button (Loaffy "play" form, 96px / h-24 w-24) */}
+        {/* Custom Play/Pause button (96px / h-24 w-24) */}
         <div className="mt-4 flex items-center justify-between border-t-2 border-line-strong bg-surface px-4 py-3">
           <div className="flex items-center gap-4">
             <button
@@ -186,15 +180,6 @@ export function VideoReel({
             >
               {playing ? (
                 <Pause className="h-8 w-8" aria-hidden="true" />
-              ) : loaffyButton ? (
-                <Loaffy
-                  form="play"
-                  size={64}
-                  track={false}
-                  blink={false}
-                  listenToBus={false}
-                  decorative
-                />
               ) : (
                 <Play className="h-8 w-8" aria-hidden="true" />
               )}

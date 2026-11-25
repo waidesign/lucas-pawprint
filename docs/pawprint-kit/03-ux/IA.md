@@ -6,7 +6,7 @@
 lucas.pawprint.design
 ├── /                         Home
 ├── /work                     All case studies (filterable)
-│   ├── /work/luci            ← lead case study (own product, private beta, teaser)
+│   ├── /work/luci            ← lead case study (own product, open source, full)
 │   ├── /work/classic-decoder
 │   ├── /work/classic-decoder-app
 │   ├── /work/vehicle-databases
@@ -56,24 +56,22 @@ Which client cases appear on home is a content switch (`homeFeatured: true` in t
 
 ### Work index (`/work`)
 1. **Page hero:** display-xl "Work." · one line: *Seven projects: one I founded, six I shipped for clients.* · filter chips (All · Own product · Web · Apps · Design systems · E-commerce · AI workflow) synced to `?tag=`, `aria-live` result count.
-2. **Luci** full-width featured card (7/5 split, BetaBadge).
+2. **Luci** full-width featured card (7/5 split, "Open source" badge).
 3. **Client cases** as cover tiles (only the cover is framed) in a 2-column grid (1 column below lg), each its own pastel.
 4. **Compact ContactPanel.**
 Page Loaffy: window form, peeking from the hero's right edge.
 
 ### Case study (`/work/[slug]`)
-Luci variant (`visibility: teaser`): BetaBadge, shorter page (TL;DR + 4 chapters at public level), "Request beta access" CTA, link to luci.pawprint.design.
+Every case study — including Luci (`visibility: full`, `"Open source"` badge, `"Try Luci"` CTA) — uses one Home-style template:
 
-1. CaseHero (title, one-line summary, cover on pastel, Loaffy form peeking)
-2. MetaRow (Role · Team · Timeline · Platform · Tools · Live link)
-3. TL;DR stickers (Problem · What I did · Outcome)
-4. Context (who the users are, what was broken)
-5. Process — BeanStepper chapters: **Understand → Shape → Design → Ship**
-6. Key decisions (3–5 DecisionCards: problem → decision → why, with before/after)
-7. Design system highlights
-8. Motion & interaction (short clips)
-9. Outcome & learnings (qualitative; real facts only)
-10. NextCase + ContactPanel (compact)
+1. **CaseHero (`bg`)**: inline breadcrumb ("Work / {title}"), meta line (`Badge` + year + role), `h1` at `display-xl` with one highlighted word, `body-lg` summary, Home-style pill CTAs, and a full-width tilted cover stage (`rounded-2xl`, 2px pen border, `shadow-sticker`, straightens on hover; Loaffy peeks from the edge on client cases, omitted on Luci per rule 11).
+2. **At a glance (`bg`)**: plain `MetaRow` (Role · Team · Timeline · Platform · Tools · Live link) + 3-column `IndexColumns` TL;DR (Problem · What I did · Outcome) with large numerals (`01.`–`03.`).
+3. **Four alternating wavy-seam chapters** (`bg` ↔ `<caseTone>-soft`, joined by `<SectionSeam>` waves, tracked by the floating `lg+` `CaseStepper` pill):
+   - **01 Understand** — `PainList`, `InsightList`, `PullQuote`
+   - **02 Shape** — `FeatureRow`, `DecisionList` (numbered plain Problem → Decision → Why rows)
+   - **03 Design** — `FeatureRow`s with `BrowserFrame` + `LoopVideo`, `Showcase` (single frame or 2–3 frame lightbox gallery), `Callout`
+   - **04 Ship** — `Outcome` (qualitative statement + "What shipped" list + live link) and `Learnings`
+4. **Closing band (`bg`)**: `CaseCTA` standout panel + `NextCase` clickable card, followed by wavy-seam `SiteFooter`.
 
 ### Motion (`/motion`)
 1. **Page hero:** display-xl "Motion." · *I started in video and animation. Now I use motion to explain products, not decorate them.* · Loaffy in the Vibing pose while the reel plays.
@@ -139,13 +137,14 @@ Live design system: palette (all themes), type scale, spacing, radius, shadows, 
 ```tsx
 export const metadata = {
   title: "Classic Decoder",
+  titleHighlight: "Decoder",   // optional single word to highlight in CaseHero h1
   slug: "classic-decoder",
   order: 2,                    // Luci = 1
   featured: false,             // Luci = true
   homeFeatured: true,          // show on the home page (max 2 client cases + Luci)
   status: "published",         // published | draft
-  visibility: "full",          // full | teaser  (Luci = teaser while in private beta)
-  badge: undefined,            // e.g. "Private beta" for Luci
+  visibility: "full",          // full | teaser (all cases are full; Luci is public)
+  badge: undefined,            // e.g. "Open source" for Luci
   client: "Classic Decoder",
   summary: "Full website redesign for a classic-car data platform, moved from WordPress to Next.js.",
   year: "2025",
@@ -160,13 +159,15 @@ export const metadata = {
   form: "window",              // Loaffy form for this case
   cover: "/case-studies/classic-decoder/cover",   // optimiser adds .avif/.webp
   coverAlt: "Classic Decoder homepage on desktop and phone, showing the VIN search.",
+  coverVideo: undefined,       // optional { webm, mp4?, poster?, start? } for animated cover stage
   liveUrl: "https://classicdecoder.com",
-  cta: undefined,              // Luci: { label: "Request beta access", href: "mailto:lucas@pawprint.design?subject=Luci%20beta" }
+  cta: { label: "Visit Classic Decoder", href: "https://classicdecoder.com" },
+  secondaryCta: { label: "All work →", href: "/work" },
   tldr: { problem: "…", whatIDid: "…", outcome: "…" },   // outcome qualitative unless a real, sourced number exists
   seo: { title: "Classic Decoder · Lucas (Wai Phyo Aung)", description: "…" },
 };
 ```
-Body uses MDX components: `<Chapter step="understand|shape|design|ship">`, `<DecisionCard>`, `<Callout tone="butter">`, `<ImageGallery>`, `<Clip>`.
+Body uses MDX components: `<Chapter step="understand|shape|design|ship">`, `<FeatureRow>`, `<DecisionList>`, `<Showcase>`, `<BrowserFrame>`, `<LoopVideo>`, `<PainList>`, `<InsightList>`, `<Callout>`, `<CaseOutcome>`, `<CaseLearnings>`.
 Loader: existing `src/lib/case-studies.ts` (`getCaseStudySlugs`, `getCaseStudyBySlug`, `getAllCaseStudies`) — extend to parse `metadata` with the zod schema, skip `_template.mdx` and `status: "draft"` in production, and sort by `order`.
 
 ### `src/content/site.ts`
@@ -174,7 +175,7 @@ Loader: existing `src/lib/case-studies.ts` (`getCaseStudySlugs`, `getCaseStudyBy
 export const profile = { name: "Lucas (Wai Phyo Aung)", short: "Lucas", title: "Product & Motion Designer", years: 10,
   email: "lucas@pawprint.design", bookingUrl: "https://cal.com/wai.design-start-a-virtual-chat",
   location: "Phuket, Thailand", timezone: "UTC+7", availability: "Open to remote roles · US · CA · NZ · SG",
-  founderOf: { name: "Luci", url: "https://luci.pawprint.design", status: "Private beta" },
+  founderOf: { name: "Luci", url: "https://luci.pawprint.design", status: "Open source" },
   socials: { linkedin: "https://linkedin.com/in/waiphyoaung-design", behance: "https://www.behance.net/waiphyoaungdesign",
              github: "https://github.com/waidesign", medium: "https://medium.com/@waiphyoaung.design" } };
 export const experience: { period: string; role: string; company: string; location: string; summary: string }[];

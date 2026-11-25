@@ -1,163 +1,288 @@
 export const metadata = {
   title: "Luci",
+  titleHighlight: "Luci",
   slug: "luci",
   order: 1,
   featured: true,
+  homeFeatured: true,
   status: "published",
-  visibility: "teaser",
-  badge: "Private beta",
+  visibility: "full",
+  badge: "Open source",
   client: "Own product (Pawprint)",
   summary:
-    "A toolbar that turns any part of any website into a design.md your AI coding agent can build from.",
+    "Design control for AI coding agents: project memory, the right design skills, exact measurements from any page, and feedback pinned to the element. Runs on your machine.",
   year: "2026",
   role: "Founder · Product designer · Builder",
   team: "Me, with AI coding agents",
-  timeline: "2026 → private beta (Nov 2026)",
-  platforms: ["Browser extension", "npm toolbar"],
+  timeline: "2026",
+  platforms: ["CLI", "Dev toolbar", "Chrome extension", "MCP server"],
   industry: "Design tools · AI",
   tags: ["Own product", "AI workflow", "Design systems"],
-  tools: ["Figma", "AI coding agents"],
+  tools: ["Figma", "TypeScript", "Preact", "AI coding agents"],
   tone: "lilac",
-  form: "window",
-  cover: "/case-studies/luci/hero",
+  cover: "/case-studies/luci/cover",
   coverAlt:
-    "Illustration of Luci's toolbar selecting a button on a web page and showing its design.md.",
+    "Three flat-framed browser windows showing Luci's dev toolbar, shared project memory tree, and live capture extension on a lilac background.",
   liveUrl: "https://luci.pawprint.design",
   cta: {
-    teaser: {
-      label: "Request beta access",
-      href: "mailto:lucas@pawprint.design?subject=Luci%20beta",
-    },
-    full: {
-      label: "Try Luci",
-      href: "https://luci.pawprint.design",
-    },
+    label: "Try Luci",
+    href: "https://luci.pawprint.design",
+  },
+  secondaryCta: {
+    label: "GitHub",
+    href: "https://github.com/waidesign/luci-by-pawprint.design",
   },
   tldr: {
     problem:
-      "Design extractors give you the whole website. I needed one button, one section, one colour system, with real values.",
+      "AI coding agents forget project rules between sessions, guess CSS values from screenshots, and miss half of multi-page feedback.",
     whatIDid:
-      "An on-page toolbar that captures components, sections and tokens as design.md, checks accessibility, and gives AI agents clean feedback.",
+      "Designed and built a local-first toolkit: .luci/ project memory, task-matched UI/UX skills, live DOM capture to DESIGN.md, and source-pinned feedback.",
     outcome:
-      "In private beta with invited designers and developers. Public launch next.",
+      "Live, free and open source (MIT). Works with five coding agents.",
   },
   seo: {
     title: "Luci · Lucas (Wai Phyo Aung)",
     description:
-      "How I designed and built Luci, a toolbar that turns any part of any website into a design.md for AI coding agents.",
+      "How I designed and built Luci, open-source design control for AI coding agents with project memory, live DOM capture, and source-pinned feedback.",
   },
 };
 
-<LuciHero />
+<Chapter
+  step="understand"
+  title="Agents are fast. They also guess."
+  highlight="guess"
+  intro="When I design and build with AI coding agents, four things break down before a feature ships."
+>
+  <LuciProblems />
 
-<TLDR />
 
-<Chapter step="understand" title="One button. Not the whole website.">
-  When I design with AI coding agents, I collect references all day. The design.md extractors I tried could only describe a whole site: thousands of lines my agent had to dig through, and it still guessed. Screenshots were worse, because an agent reading a picture invents the values. And when I gave feedback on more than one page, my agent sometimes missed half of it.
+    When I started building interfaces with AI coding agents, I collected design
+    references all day. Whole-site extractors dumped thousands of lines my agent
+    had to dig through, and it still guessed. Screenshots were worse, because an
+    agent reading a picture invents the spacing, tokens, and hover states. And
+    when I left UI notes across several routes, agents dropped half of them.
 
-  <ProblemDiagram />
 
-  <Callout tone="lilac">
-    &ldquo;I needed one button, not the whole website.&rdquo;
-  </Callout>
+  <PullQuote
+    quote="I needed one button, not the whole website."
+    author="Lucas (Wai Phyo Aung)"
+    role="Founder & Product Designer"
+    company="Pawprint"
+    chipTone="lilac"
+  />
 </Chapter>
 
-<Chapter step="shape" title="Five rules before any pixels" tone="mint-soft">
-  <AudienceCards />
+<Chapter
+  step="shape"
+  title="One loop, four steps."
+  highlight="loop"
+  intro="Show the design, direct the change, check the result, and keep what was decided."
+>
+  <LuciWorkflow />
 
   <PrincipleCards />
 </Chapter>
 
-<LaunchOnly>
-  <Chapter step="shape" title="How Luci works" tone="bg">
-    <ToolbarAnatomy />
+<Chapter
+  step="design"
+  title="Built for how agents work."
+  highlight="agents"
+  intro="One shared core powers three surfaces: the dev toolbar inside your running app, the project memory in .luci/, and the Chrome extension on any site."
+>
+  <FeatureRow
+    number="01."
+    eyebrow="Luci Devtool"
+    title="Direct your agent from your running app."
+    highlight="running"
+    highlightTone="lilac"
+    body="Pin feedback notes to the exact rendered element, sketch spacing or layout changes in place, and verify the result when your agent finishes."
+    points={[
+      { label: "Feedback", text: "Resolves component and source line in React, Vue, and Svelte." },
+      { label: "Layout", text: "Change gaps, sizes, or insert parts — turned into one layout plan." },
+      { label: "Check", text: "Auto-check compares the build against your saved design after reload." },
+    ]}
+    media={
+      <div className="overflow-hidden rounded-xl border-2 border-line-strong bg-bg shadow-sticker">
+        <LoopVideo
+          webm="/case-studies/luci/clips/devtool.webm"
+          poster="/case-studies/luci/clips/devtool-poster.webp"
+          alt="Recording of Luci Devtool switching between Feedback, Layout, and Check modes on a running app."
+          aspectClassName="aspect-auto"
+        />
+      </div>
+    }
+    caption="Luci Devtool running on localhost via luci serve."
+  />
 
-    <HowSteps />
-  </Chapter>
-</LaunchOnly>
+  <FeatureRow
+    number="02."
+    eyebrow="Luci Core"
+    title="One memory for every agent."
+    highlight="memory"
+    highlightTone="lilac"
+    reverse
+    body="One command sets up a .luci/ folder and links it into CLAUDE.md, AGENTS.md, .cursorrules, GEMINI.md, and Copilot instructions so every agent starts informed."
+    points={[
+      { label: "Shared rules", text: "Rules, architectural decisions, and active task stay in versioned markdown." },
+      { label: "Token budget", text: "Only the UI/UX skills needed for the active task load into context." },
+      { label: "Proposals", text: "Agents propose new rules for review; only you approve what becomes law." },
+    ]}
+    media={
+      <div className="overflow-hidden rounded-xl border-2 border-line-strong bg-bg shadow-sticker">
+        <LoopVideo
+          webm="/case-studies/luci/clips/core.webm"
+          poster="/case-studies/luci/clips/core-poster.webp"
+          alt="Recording of Luci Core showing .luci/ project memory, rules, task-matched skills, and rule proposals."
+          aspectClassName="aspect-auto"
+        />
+      </div>
+    }
+    caption="Luci Core synchronizing project memory and skills across coding agents."
+  />
 
-<Chapter step="design" title="A real export" tone="butter-soft">
-  This is part of a real export Luci made from a public website (ko-fi.com) while I was building this portfolio.
+  <FeatureRow
+    number="03."
+    eyebrow="Luci Extension"
+    title="Capture the design of any website."
+    highlight="any"
+    highlightTone="lilac"
+    body="Inspect any public page with Component, Text, Colour, and Spacing tools. Collect picks into one basket and export a measured DESIGN.md straight into .luci/design/."
+    points={[
+      { label: "Measured", text: "Reads computed layout, typography, tokens, contrast, and hover/focus states." },
+      { label: "One basket", text: "Gather elements across multiple pages before exporting one clean file." },
+      { label: "Remap tokens", text: "Rewrite captured values onto your own project's design tokens." },
+    ]}
+    media={
+      <div className="overflow-hidden rounded-xl border-2 border-line-strong bg-bg shadow-sticker">
+        <LoopVideo
+          webm="/case-studies/luci/clips/extension.webm"
+          poster="/case-studies/luci/clips/extension-poster.webp"
+          alt="Recording of Luci Extension capturing component tokens, colours, design checks, and the export basket."
+          aspectClassName="aspect-auto"
+        />
+      </div>
+    }
+    caption="Luci Chrome extension capturing components, tokens, and contrast checks."
+  />
 
-  <AnnotatedExport />
+  <div className="space-y-4 pt-6">
+    <Heading as="h3">A real export.</Heading>
 
-  <A11yFindings />
-</Chapter>
+      This is part of a real export Luci made from a public website (ko-fi.com)
+      while I was building this portfolio, alongside real accessibility misses
+      Luci flagged across reference sites.
 
-<LaunchOnly>
-  <Chapter step="design" title="Key decisions" tone="bg">
-    <DecisionCard
-      title="1. Toolbar, not just an extension."
-      problem="Extensions only live in the browser; dev work lives in the project."
-      decision="One shared core with two thin shells: an extension for any site, an npm package inside your own project."
-      why="Designers can capture references on any public site and use the exact same toolbar inside their local app."
-      tone="lilac"
-    >
-      <ArchitectureDiagram />
-    </DecisionCard>
+    <AnnotatedExport />
+    <A11yFindings />
+  </div>
 
-    <DecisionCard
-      title="2. Extend a standard, don't invent one."
-      problem="Inventing a custom schema forces agents to learn a new format from scratch."
-      decision="Agents already understand Google's DESIGN.md. Luci extends it with component and section scope, states and accessibility."
-      why="Exports work immediately with existing coding agents without custom prompts."
-      tone="mint"
-    />
+  <DecisionList
+    heading="Key decisions"
+    intro="Seven choices shaped how Luci works under the hood."
+    items={[
+      {
+        title: "Shared core with dev toolbar and extension shells",
+        problem: "Browser extensions inspect public websites, while day-to-day UI fixes happen inside your local project.",
+        decision: "Built one shared capture, format, and Preact UI core wrapped in two shells: a localhost dev toolbar (luci serve) and a Manifest V3 Chrome extension.",
+        why: "Designers capture references on any live site and check their own running app with the exact same measurement engine.",
+      },
+      {
+        title: "Extend DESIGN.md instead of inventing a new format",
+        problem: "Custom JSON schemas force you to teach every agent how to read them before it can write a line of code.",
+        decision: "Extended markdown DESIGN.md files (.design.md) with component and section scope, anatomy, interactive states, motion, and accessibility findings.",
+        why: "Agents already read DESIGN.md, so exports work without a custom parser.",
+      },
+      {
+        title: "Local-first with zero telemetry",
+        problem: "Teams working on unreleased products cannot send DOM trees, source paths, or design files to a third-party cloud.",
+        decision: "Kept every module on localhost (127.0.0.1) with plain markdown and JSON files in .luci/. No accounts, no API keys, and no background network calls.",
+        why: "Everything stays in your repository and works offline.",
+      },
+      {
+        title: "Load only the skills a task needs within a token budget",
+        problem: "Dumping every UI and engineering guideline into system prompts bloats context windows; loading none leaves agents guessing.",
+        decision: "Built a skill ranker with a default token budget and cap per task, always pairing UI work with an accessibility baseline.",
+        why: "Agents get targeted guidance for the screen they are building without drowning out the actual task.",
+      },
+      {
+        title: "Feedback pinned to source lines under one session header",
+        problem: "Vague UI notes force agents to grep the repo, and repeating page headers makes agents treat multi-page feedback as separate tasks and skip items.",
+        decision: "Resolved React, Vue, and Svelte source files via source maps and grouped every pending note under one session header with stable IDs (P1-A1).",
+        why: "Agents jump straight to the right file and report back on every single note in one turn.",
+      },
+      {
+        title: "Refuse bare images and point to the surrounding component",
+        problem: "Selecting a raw image, video, or canvas tag produces no layout or typography tokens.",
+        decision: "Blocked standalone media elements in the picker and prompted the user to step up to the enclosing component, which records how the image is framed.",
+        why: "Keeps guessed values out of design.md exports while still documenting aspect ratios and containers.",
+      },
+      {
+        title: "Match the team's CSS units and colour formats",
+        problem: "Hardcoding px and hex values forces manual conversion in codebases that standardize on rem or OKLCH.",
+        decision: "Made length units (px, rem, or both) and colour formats (hex, rgb, hsl, oklch) configurable format settings.",
+        why: "Exports drop straight into a team's stylesheet conventions without cleanup.",
+      },
+    ]}
+  />
 
-    <DecisionCard
-      title="3. Block images."
-      problem="A picture can't give reliable tokens."
-      decision="Only real elements and SVG can be selected, and Luci says why when it refuses."
-      why="Prevents guessed values from ever entering a design.md export."
-      tone="butter"
-    />
+  <div className="space-y-4 pt-6">
+    <Heading as="h3">A tool with a little personality.</Heading>
 
-    <DecisionCard
-      title="4. One header per feedback session."
-      problem="Feedback tools often repeat a page header for every page, and agents read each as a separate task and drop some."
-      decision="Luci writes one session header and groups pages under it."
-      why="Agents complete feedback across multiple routes in one pass without dropping pages."
-      tone="sky"
-    >
-      <FeedbackBeforeAfter />
-    </DecisionCard>
-
-    <DecisionCard
-      title="5. Match the team's code."
-      problem="Different codebases use different CSS units and colour spaces."
-      decision="Units (px/rem) and colour formats (hex, oklch, hsl) are settings, so exports drop straight into a codebase."
-      why="Eliminates manual unit conversion after export."
-      tone="pistachio"
-    />
-  </Chapter>
-</LaunchOnly>
-
-<LaunchOnly>
-  <Chapter step="design" title="A tool with a little personality" tone="blush-soft">
-    Luci is named after my ginger cat. The brand is calm and warm: Muzzle White, ink and a ginger family, with an outlined cat mascot.
+      Luci is named after Lucifer, my ginger tabby. Inside Luci&apos;s own
+      identity, warm ginger sits on Muzzle White with an outlined cat mascot
+      drawn across the poses you see in the toolbar and docs.
 
     <BrandBoard />
-  </Chapter>
-</LaunchOnly>
+  </div>
+</Chapter>
 
-<LaunchOnly>
-  <Chapter step="ship" title="How it was built" tone="bg">
-    I designed Luci in Figma and built it with AI coding agents, reviewing every change myself. It&apos;s MIT-licensed. The private beta opened in November 2026.
-
-    <BuildTimeline />
-  </Chapter>
-</LaunchOnly>
-
-<Chapter step="ship" title="Luci built this portfolio" tone="sky-soft">
-  Every reference for this portfolio was captured with Luci. Eight sites, measured, then turned into my moodboard and design system — the one you&apos;re looking at.
-
+<Chapter
+  step="ship"
+  title="Luci built this portfolio."
+  highlight="portfolio"
+  intro="Every reference for this portfolio was captured with Luci — eight live sites measured, then turned into the tokens and components you are looking at."
+>
   <CaptureFlow />
+
+  <InsightList
+    heading="Everything stays on your machine."
+    intro="Luci was built to earn trust from developers and design teams from day one."
+    tone="lilac"
+    items={[
+      {
+        title: "No account, no API key, no cloud storage",
+        body: "Install the CLI, run luci init, and everything runs locally on 127.0.0.1.",
+      },
+      {
+        title: "Zero telemetry",
+        body: "No analytics or background calls. Only explicit CLI commands you run reach the network.",
+      },
+      {
+        title: "Plain files in your repo",
+        body: "Rules, decisions, captures, and notes live as readable markdown and JSON in .luci/.",
+      },
+      {
+        title: "Free and MIT licensed",
+        body: "Open source on GitHub, working with Claude Code, Cursor, Codex, Gemini CLI, and GitHub Copilot.",
+      },
+    ]}
+  />
+
+  <CaseOutcome
+    statement="Live, free and open source under the MIT licence. Works with Claude Code, Cursor, Codex, Gemini CLI, and GitHub Copilot."
+    shipped={[
+      "CLI (@luci-dev/cli), MCP server (@luci-dev/mcp), and .luci/ project memory",
+      "Localhost dev toolbar with Feedback, Layout plans, and auto-rechecking Design Check",
+      "Chrome extension, published on the Chrome Web Store, for live DOM capture to .design.md",
+      "Full documentation, agent integrations, and live interactive demos at luci.pawprint.design",
+    ]}
+  />
+
+  <CaseLearnings
+    items={[
+      "Narrow beats complete. One accurate component is worth more than a whole-site dump.",
+      "Agents need structure, not more words. Format design is product design.",
+      "Building my own tool made me a better designer for developers.",
+    ]}
+  />
 </Chapter>
-
-<Chapter step="ship" title="Where it is now" tone="bg">
-  <Outcome />
-
-  <Learnings />
-</Chapter>
-
-<CaseCTA />

@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { cn } from "@/lib/cn";
+import { ArrowDown, ArrowUp } from "lucide-react";
 import { testimonials } from "@/content/site";
 import { stagger } from "@/lib/motion";
 import { FadeIn } from "@/components/motion/FadeIn";
@@ -81,12 +81,8 @@ export function KindWords({
     <Section
       id="kind-words"
       labelledBy="kind-words-heading"
-      tone="blush"
-      soft
-      className={cn(
-        "-mt-[var(--border-pen)] rounded-none border-2 border-line-strong md:rounded-none",
-        className,
-      )}
+      tone="bg"
+      className={className}
     >
       <div className="space-y-8">
         <div>
@@ -126,9 +122,16 @@ export function KindWords({
                           aria-expanded={isExpanded}
                           aria-controls={noteId}
                           onClick={() => toggleNote(t.id)}
-                          className="inline-flex min-h-12 items-center rounded-pill border-2 border-line-strong bg-blush px-4 font-body text-button text-on-pastel lp-sticker-sm-interactive"
+                          className="inline-flex min-h-12 items-center gap-2 rounded-pill border-2 border-line-strong bg-blush px-4 font-body text-button text-on-pastel lp-sticker-sm-interactive"
                         >
-                          {isExpanded ? "Hide full note ↑" : "Read the full note ↓"}
+                          <span>
+                            {isExpanded ? "Hide full note" : "Read the full note"}
+                          </span>
+                          {isExpanded ? (
+                            <ArrowUp className="h-4 w-4 shrink-0" aria-hidden="true" />
+                          ) : (
+                            <ArrowDown className="h-4 w-4 shrink-0" aria-hidden="true" />
+                          )}
                         </button>
                       )}
 

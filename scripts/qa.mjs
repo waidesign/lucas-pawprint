@@ -6,12 +6,12 @@
  *   node scripts/qa.mjs --routes=/work/luci,/work/classic-decoder --themes=light,warm-dark --widths=375,1440 --out=tmp/qa
  *
  * Optional flags / env vars:
- *   --routes / QA_ROUTES   Comma-separated routes (default: /work, 7 case studies, /motion, /about, /contact, /colophon)
+ *   --routes / QA_ROUTES   Comma-separated routes (default: /work, 7 case studies, /about, /contact, /colophon)
  *   --themes / QA_THEMES   Comma-separated themes (default: light,warm-dark)
  *   --widths / QA_WIDTHS   Comma-separated viewport widths (default: 375,1440)
  *   --out    / QA_OUT_DIR  Directory to save screenshots (omit or set --no-screenshots to skip saving PNGs)
  *   --crop   / QA_CROP     Optional CSS selector to also save an element crop PNG
- *   --port   / QA_PORT     Local port for `next start` (default: 3010); reused if already listening
+ *   --port   / QA_PORT     Local port for the `wrangler dev` preview of out/ (default: 3010); reused if already listening. Run `npm run build` first.
  */
 import fs from "node:fs";
 import path from "node:path";
@@ -29,6 +29,7 @@ function getArg(name) {
 }
 
 const DEFAULT_ROUTES = [
+  "/",
   "/work",
   "/work/luci",
   "/work/classic-decoder",
@@ -37,7 +38,6 @@ const DEFAULT_ROUTES = [
   "/work/detailed-vehicle-history",
   "/work/fierce-fight-gear",
   "/work/sarayah-phuket-villas",
-  "/motion",
   "/about",
   "/contact",
   "/colophon",
@@ -84,11 +84,11 @@ async function isServerListening() {
 }
 
 async function waitForReady() {
-  for (let i = 0; i < 60; i++) {
+  for (let i = 0; i < 160; i++) {
     if (await isServerListening()) return;
     await new Promise((r) => setTimeout(r, 250));
   }
-  throw new Error(`Next.js server on port ${PORT} did not become ready in time`);
+  throw new Error(`Preview server on port ${PORT} did not become ready in time`);
 }
 
 function withTimeout(promise, ms, label) {
@@ -110,11 +110,18 @@ let hasFailures = false;
 try {
   const alreadyRunning = await isServerListening();
   if (!alreadyRunning) {
-    const nextBin = require.resolve("next/dist/bin/next");
-    server = spawn(process.execPath, [nextBin, "start", "-p", PORT, "-H", "127.0.0.1"], {
-      stdio: "ignore",
-      windowsHide: true,
-    });
+    // The site is a static export (out/), so QA runs it on the same runtime as production:
+    // Cloudflare Workers static assets via `wrangler dev` (run `npm run build` first).
+    const wranglerBin = path.join(
+      path.dirname(require.resolve("wrangler/package.json")),
+      "bin",
+      "wrangler.js",
+    );
+    server = spawn(
+      process.execPath,
+      [wranglerBin, "dev", "--port", PORT, "--ip", "127.0.0.1"],
+      { stdio: "ignore", windowsHide: true },
+    );
     await waitForReady();
   }
 

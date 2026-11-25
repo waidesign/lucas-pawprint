@@ -102,14 +102,10 @@ export const MOOD_TO_RIVE: Record<Mood, 0 | 1 | 2 | 3 | 4 | 5> = {
   surprised: 5,
 };
 
-export const FORM_TO_RIVE: Record<Form, 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7> = {
+/** Keeps the original Rive input numbers (2–6 were the removed object shapes). */
+export const FORM_TO_RIVE: Record<Form, 0 | 1 | 7> = {
   paw: 0,
   "paw-3d": 1,
-  window: 2,
-  phone: 3,
-  cube: 4,
-  play: 5,
-  bubble: 6,
   lost: 7,
 };
 

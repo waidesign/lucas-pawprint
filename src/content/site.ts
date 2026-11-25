@@ -84,7 +84,7 @@ export const profile: ProfileData = {
   founderOf: {
     name: "Luci",
     url: "https://luci.pawprint.design",
-    status: "Private beta",
+    status: "Open source",
     slug: "luci",
   },
   socials: {
@@ -180,9 +180,9 @@ export const experience: ExperienceEntry[] = [
     period: "2026 – Now",
     role: "Founder & Product Designer",
     company: "Luci (Pawprint)",
-    location: "Own product, private beta",
+    location: "Own product, open source",
     summary:
-      "Designing and building an on-page toolbar that captures any website's components, sections and design tokens as design.md files for AI coding agents.",
+      "Designing and building open-source design control for AI coding agents: project memory, task-matched UI/UX skills, live DOM capture as DESIGN.md, and source-pinned feedback.",
   },
   {
     period: "2022 – Now",
@@ -255,9 +255,48 @@ export interface NavItem {
 
 export const PRIMARY_NAV_ITEMS: NavItem[] = [
   { label: "Work", href: "/work" },
-  { label: "Motion", href: "/motion" },
+  // "Motion" (/motion) is parked for now; Home's #motion section covers it.
   { label: "About", href: "/about" },
   { label: "Contact", href: "/contact" },
+];
+
+export interface HomeFaqItem {
+  id: string;
+  question: string;
+  answer: string;
+}
+
+export const homeFaqs: HomeFaqItem[] = [
+  {
+    id: "faq-work",
+    question: "What kind of work do you do?",
+    answer:
+      "I design web products, mobile apps, design systems, and product motion — from early discovery and user flows through Figma component architecture, Lottie micro-interactions, and AI-assisted front-end prototypes.",
+  },
+  {
+    id: "faq-ai",
+    question: "How do you use AI in your design workflow?",
+    answer:
+      "I use AI coding and prototyping tools every day — including Claude Code, Antigravity, Cursor, and my own open-source tool Luci — to test interactions and ship real front-end code faster, while keeping product thinking, design tokens, and visual decisions human-led.",
+  },
+  {
+    id: "faq-luci",
+    question: "What is Luci?",
+    answer:
+      "Luci is my free, open-source (MIT) toolkit that gives AI coding agents design control. It runs locally on your machine with .luci/ project memory, task-matched UI/UX skills, a localhost dev toolbar, and a Chrome extension published on the Chrome Web Store for live DOM capture to DESIGN.md.",
+  },
+  {
+    id: "faq-timezone",
+    question: "Where are you based, and what are your working hours?",
+    answer:
+      "I am based in Phuket, Thailand (UTC+7) and work remotely with international teams. My typical working hours are 09:00–18:00 Phuket time, and you can check live time-zone overlap on the Contact page.",
+  },
+  {
+    id: "faq-start",
+    question: "How do we start a conversation?",
+    answer:
+      "Send an email to lucas@pawprint.design or book a 30-minute video chat on Cal.com. Sharing the role or project, your team, and your time zone in a first note helps me come prepared.",
+  },
 ];
 
 export const SOCIAL_LINKS: { label: string; href: string }[] = [

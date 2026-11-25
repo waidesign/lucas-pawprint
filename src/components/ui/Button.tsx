@@ -1,5 +1,6 @@
 import Link from "next/link";
 import type { ComponentPropsWithoutRef, ReactNode } from "react";
+import { ArrowUpRight } from "lucide-react";
 import { cn, TONE_BG_CLASSES, type Tone } from "@/lib/cn";
 
 export type ButtonVariant = "primary" | "secondary" | "ghost";
@@ -69,8 +70,8 @@ export function Button({
         </span>
       )}
       {external && (
-        <span aria-hidden="true" className="inline-block leading-none">
-          ↗
+        <span className="inline-flex shrink-0 items-center" aria-hidden="true">
+          <ArrowUpRight className="h-4 w-4 shrink-0" />
         </span>
       )}
     </>

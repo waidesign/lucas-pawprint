@@ -1,11 +1,13 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
+import { ArrowRight } from "lucide-react";
 import type { CaseStudySummary } from "@/lib/case-studies";
 import { FadeIn } from "@/components/motion/FadeIn";
 import { Chip } from "@/components/ui/Chip";
 import { Heading } from "@/components/ui/Heading";
 import { Section } from "@/components/ui/Section";
+import { TextLink } from "@/components/ui/TextLink";
 import { CaseCard } from "./CaseCard";
 
 export const WORK_FILTER_TAGS = [
@@ -20,6 +22,8 @@ export const WORK_FILTER_TAGS = [
 
 export interface SelectedWorkProps {
   caseStudies: CaseStudySummary[];
+  /** Total published case studies across the site (shows "See all work" link when greater than displayed). */
+  totalCount?: number;
   /** Render the section heading as h1 on `/work` vs h2 on Home */
   headingLevel?: "h1" | "h2";
   /** Sync active tag filter with `?tag=` in the browser URL on `/work` */
@@ -28,8 +32,12 @@ export interface SelectedWorkProps {
   showFilters?: boolean;
 }
 
+/* Seeded organic resting tilt angles (degrees) so every Selected Work cover feels hand-placed. */
+export const COVER_TILTS = [-2.4, 1.8, -1.4, 2.3, -1.9, 1.5, -2.1] as const;
+
 export function SelectedWork({
   caseStudies,
+  totalCount,
   headingLevel = "h2",
   syncUrlQuery = false,
   showFilters = true,
@@ -86,19 +94,35 @@ export function SelectedWork({
   ];
 
   return (
-    <Section id="work" labelledBy="work-heading" tone="bg">
+    <Section
+      id="work"
+      labelledBy="work-heading"
+      tone="bg"
+      className="overflow-x-clip"
+    >
       <div className="space-y-6 md:space-y-8">
         {/* Giant section word + filter chips */}
         <div className="flex flex-col justify-between gap-6 lg:flex-row lg:items-end">
           <div>
             <Heading id="work-heading" as={headingLevel}>
-              Work.
+              Selected Work
             </Heading>
             <p className="mt-2 max-w-xl font-body text-body-lg text-text-muted">
               My own product first, followed by client platforms I designed
               across automotive data, SaaS, e-commerce and hospitality.
             </p>
           </div>
+
+          {!showFilters && totalCount && totalCount > caseStudies.length && (
+            <TextLink
+              href="/work"
+              tone="lilac"
+              iconEnd={<ArrowRight className="h-4 w-4 shrink-0" aria-hidden="true" />}
+              className="min-h-12 items-center font-body text-button font-semibold"
+            >
+              View all {totalCount} projects
+            </TextLink>
+          )}
 
           {showFilters && (
             <div className="space-y-2">
@@ -155,17 +179,13 @@ export function SelectedWork({
                     tone={item.metadata.tone}
                     cover={item.metadata.cover}
                     coverAlt={item.metadata.coverAlt}
-                    form={item.metadata.form}
                     liveUrl={item.metadata.liveUrl}
                     featured={isFeatured}
-                    badge={
-                      isFeatured && item.metadata.visibility === "full"
-                        ? "Live"
-                        : item.metadata.badge
-                    }
+                    badge={item.metadata.badge}
                     year={item.metadata.year}
                     role={item.metadata.role}
                     reverse={idx % 2 === 1}
+                    tilt={COVER_TILTS[idx % COVER_TILTS.length]}
                   />
                 </FadeIn>
               );

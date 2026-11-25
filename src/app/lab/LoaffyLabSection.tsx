@@ -116,32 +116,7 @@ const FORMS: { form: Exclude<Form, "paw">; refSvg: string; section: string }[] =
     {
       form: "paw-3d",
       refSvg: "/loaffy/forms/paw-3d.svg",
-      section: "Home (3D shaded inside one outline)",
-    },
-    {
-      form: "window",
-      refSvg: "/loaffy/forms/window.svg",
-      section: "Web work (Browser window)",
-    },
-    {
-      form: "phone",
-      refSvg: "/loaffy/forms/phone.svg",
-      section: "App work (Phone)",
-    },
-    {
-      form: "cube",
-      refSvg: "/loaffy/forms/cube.svg",
-      section: "Design systems (Isometric cube)",
-    },
-    {
-      form: "play",
-      refSvg: "/loaffy/forms/play.svg",
-      section: "Motion (Play triangle)",
-    },
-    {
-      form: "bubble",
-      refSvg: "/loaffy/forms/bubble.svg",
-      section: "Contact (Speech bubble)",
+      section: "3D shaded inside one outline (intro finale)",
     },
     {
       form: "lost",
@@ -179,16 +154,7 @@ const TRIGGERS: LoaffyTrigger[] = [
   "blink",
 ];
 
-const ALL_FORMS: Form[] = [
-  "paw",
-  "paw-3d",
-  "window",
-  "phone",
-  "cube",
-  "play",
-  "bubble",
-  "lost",
-];
+const ALL_FORMS: Form[] = ["paw", "paw-3d", "lost"];
 
 export function LoaffyLabSection() {
   const [galleryTheme, setGalleryTheme] = useState<ResolvedTheme | "inherit">(
@@ -343,7 +309,7 @@ export function LoaffyLabSection() {
           {/* 720ms Morph Switcher */}
           <div className="w-full space-y-2">
             <p className="font-mono text-caption text-text-muted">
-              720ms Form Morph (swaps at 200ms squash peak):
+              Paw style (720ms swap at the 200ms squash peak):
             </p>
             <div className="flex flex-wrap gap-2">
               {ALL_FORMS.map((f) => (
@@ -670,10 +636,10 @@ export function LoaffyLabSection() {
         </div>
       </div>
 
-      {/* 5. Shape-Shift Forms (7) — Live React vs Reference SVG */}
+      {/* 5. Paw styles (2) — Live React vs Reference SVG. Loaffy is always a cat paw. */}
       <div className="space-y-4">
         <h3 className="font-display text-h3 text-text">
-          Shape-Shift Forms (7) — React Component vs Reference SVG
+          Paw Styles (2) — React Component vs Reference SVG
         </h3>
         <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
           {FORMS.map((item) => (

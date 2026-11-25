@@ -1,8 +1,10 @@
 export const metadata = {
   title: "Classic Decoder App",
+  titleHighlight: "App",
   slug: "classic-decoder-app",
   order: 3,
   featured: false,
+  homeFeatured: false,
   status: "published",
   visibility: "full",
   client: "Classic Decoder",
@@ -23,11 +25,18 @@ export const metadata = {
     "Lottiefiles",
   ],
   tone: "mint",
-  form: "phone",
   cover: "/case-studies/classic-decoder-app/cover",
   coverAlt:
-    "Classic Decoder mobile app showing pre-1981 VIN lookup and the Digital Garage.",
+    "Three Classic Decoder app screens: the Digital Garage, a classic car's vehicle details and the report purchase screen.",
   liveUrl: "https://apps.apple.com/us/app/classic-car-vin-lookup/id1661077569",
+  cta: {
+    label: "View on App Store",
+    href: "https://apps.apple.com/us/app/classic-car-vin-lookup/id1661077569",
+  },
+  secondaryCta: {
+    label: "Web case study",
+    href: "/work/classic-decoder",
+  },
   tldr: {
     problem:
       "The legacy mobile app had a clunky decoding flow on small screens, no shared design language with the new web platform, and no easy way to manage saved reports.",
@@ -43,60 +52,216 @@ export const metadata = {
   },
 };
 
-<Chapter step="understand" title="On-the-lot inspections on a phone">
-  Classic car collectors and restorers often decode VINs on their phones while standing next to a car at an auction or swap meet.
+<Chapter
+  step="understand"
+  title="Built for the auction lot."
+  highlight="auction"
+  intro="Collectors and restorers decode classic VINs on their phones while standing next to a car at an auction or car show."
+>
 
-  The earlier mobile app had fallen behind the redesigned website. Its decoding forms felt cramped on small screens, report credits and receipts were hard to track, and the Digital Garage did not sync cleanly with how owners actually organized their cars.
-</Chapter>
+    After we redesigned the Classic Decoder website, the legacy mobile app stood
+    out for the wrong reasons. It ran separate search logic, had no consistent
+    visual system, and made it hard to save decoded cars or find past build
+    sheets when owners needed them again.
 
-<Chapter step="shape" title="Two lookup paths and one shared engine">
-  Instead of maintaining two separate decoding engines across web and mobile, we shaped the mobile redesign around shared logic and clear branching for different classic VIN formats.
 
-  <DecisionCard
-    title="Two-path Yes/No VIN lookup flow"
-    problem="Pre-1981 car makers used different VIN lengths and plate layouts, which confused users when forced into one rigid input."
-    decision="Designed two guided decoding paths connected by a simple Yes/No prompt based on what the user has in front of them."
-    why="Collectors can decode rare or non-standard VIN plates without guessing which format rules apply."
+  <PainList
+    heading="What slowed mobile buyers down"
     tone="mint"
+    items={[
+      {
+        title: "Cramped decoding forms on small screens",
+        body: "Typing irregular pre-1981 VINs into small, multi-field native forms caused frequent input mistakes outdoors.",
+      },
+      {
+        title: "Disconnected web and mobile experiences",
+        body: "Running separate decoding logic and styling on mobile risked mismatched lookup results and a jarring switch from the website.",
+      },
+      {
+        title: "Hard-to-find reports and credits",
+        body: "Owners struggled to track report credits, find purchase receipts, or re-download previously bought build sheets.",
+      },
+    ]}
   />
 
-  <DecisionCard
-    title="Integrating the web decoding engine inside the mobile shell"
-    problem="Rebuilding the entire pre-1981 decoding logic separately in native code risked long delays and mismatched results between web and mobile."
-    decision="Embedded the responsive web decoding engine inside the native app shell with native navigation, account controls, and garage storage around it."
-    why="Kept search behavior identical across platforms and let the engineering team ship faster."
+  <InsightList
+    heading="What collectors needed in their pocket"
     tone="sky"
-  />
-</Chapter>
-
-<Chapter step="design" title="Digital Garage, account hub, and cross-platform tokens">
-  I aligned the app's typography, color tokens, and component states with the Classic Decoder web system while tailoring navigation and touch targets for one-handed phone use.
-
-  - **Refreshed Digital Garage:** Owners can store decoded classic cars, review full history reports and build sheets offline-ready on their phone, and re-download past documents.
-  - **Credits & Help Center:** Added clear report credit tracking, purchase receipts, notification controls, and an in-app Help Center so buyers can resolve questions on their own.
-  - **Mobile micro-interactions:** Added lightweight Lottie feedback for VIN scanning and garage updates.
-
-  <ImageGallery
-    images={[
+    items={[
       {
-        src: "/case-studies/classic-decoder-app/screen-1.webp",
-        alt: "Classic Decoder mobile app VIN input and guided lookup screens.",
-        caption: "Guided pre-1981 VIN lookup flow on mobile.",
+        title: "Fast on-site verification",
+        body: "Standing beside a classic car, buyers want to check VIN details, auction alerts, and sample reports with one thumb.",
       },
       {
-        src: "/case-studies/classic-decoder-app/screen-2.webp",
-        alt: "Classic Decoder mobile app Digital Garage and saved classic vehicles.",
-        caption: "Digital Garage for storing decoded classic cars and build sheets.",
-      },
-      {
-        src: "/case-studies/classic-decoder-app/screen-3.webp",
-        alt: "Classic Decoder mobile app report viewer and credit management screens.",
-        caption: "Mobile build sheet viewer, credit tracking, and account hub.",
+        title: "A real Digital Garage",
+        body: "Owners wanted one home for their collection: saved vehicles, decoded specs, uploaded service records, and photos.",
       },
     ]}
   />
 </Chapter>
 
-<Chapter step="ship" title="Shipped on iOS and Android">
-  The redesigned app shipped on the [App Store](https://apps.apple.com/us/app/classic-car-vin-lookup/id1661077569), giving Classic Decoder one consistent product experience across desktop and mobile.
+<Chapter
+  step="shape"
+  title="One shared engine, two paths."
+  highlight="shared"
+  intro="Instead of rebuilding complex pre-1981 decoding logic twice, we embedded the proven web engine inside a clean mobile shell."
+>
+  <FeatureRow
+    number="01."
+    eyebrow="Core lookup flow"
+    title="Search, preview, and garage in three tabs."
+    highlight="three"
+    highlightTone="mint"
+    body="I simplified navigation down to three clear bottom tabs — My Garage, Search, and My Reports — and shaped two guided decoding paths joined by a simple Yes/No prompt for rare VIN plates."
+    points={[
+      { label: "Search tab", text: "Quick toggles for Search VIN, Report, and Build Sheet with sample reports below." },
+      { label: "Vehicle preview", text: "Surfaces auction alerts, seller type, photo count, and core specs before purchase." },
+    ]}
+    media={
+      <div className="overflow-hidden rounded-xl border-2 border-line-strong bg-surface p-4 shadow-sticker md:p-6">
+        <picture>
+          <source srcSet="/case-studies/classic-decoder-app/screens/overview.avif" type="image/avif" />
+          <source srcSet="/case-studies/classic-decoder-app/screens/overview.webp" type="image/webp" />
+          <img
+            src="/case-studies/classic-decoder-app/screens/overview.webp"
+            alt="Four Classic Decoder mobile app screens: Lookup Classic Vehicle VIN, decoded 1971 Ford Custom 500 preview, My Garage, and My Reports."
+            width={1600}
+            height={840}
+            loading="lazy"
+            decoding="async"
+            className="block h-auto w-full rounded-md"
+          />
+        </picture>
+      </div>
+    }
+    caption="End-to-end mobile flow: VIN lookup, decoded preview, My Garage, and My Reports."
+  />
+
+  <DecisionList
+    heading="Key decisions"
+    items={[
+      {
+        title: "Dual Yes/No VIN decoding flow",
+        problem: "Pre-1981 car makers used different VIN lengths and plate layouts, confusing users forced into one rigid input.",
+        decision: "Designed two guided decoding paths linked by a simple Yes/No choice based on the VIN plate in front of the user.",
+        why: "Collectors can decode rare and non-standard VINs without guessing which format rules apply.",
+      },
+      {
+        title: "Embedding the web decoding engine in the mobile shell",
+        problem: "Re-implementing pre-1981 search logic natively risked delays and inconsistent results between web and mobile.",
+        decision: "Integrated the responsive web decoding engine directly inside the native app shell, surrounded by native navigation and garage tools.",
+        why: "Kept search behavior identical across platforms and let the team ship faster.",
+      },
+      {
+        title: "Centralized Digital Garage and account hub",
+        problem: "Buyers had no persistent place to revisit decoded vehicles, uploaded documents, or past receipts.",
+        decision: "Refreshed My Garage with Specs, Documents, and Photos tabs alongside My Reports, credit tracking, and an in-app Help Center.",
+        why: "Turned a one-off lookup app into a lasting reference for managing a classic car collection.",
+      },
+    ]}
+  />
+</Chapter>
+
+<Chapter
+  step="design"
+  title="Digital Garage and checkout clarity."
+  highlight="Garage"
+  intro="I aligned typography, warm paper surfaces, and contrast tokens with classicdecoder.com while tuning controls for one-handed use."
+>
+  <FeatureRow
+    number="02."
+    eyebrow="Digital Garage"
+    title="Specs, documents, and photos in one place."
+    highlight="one"
+    highlightTone="mint"
+    reverse
+    body="Inside My Garage, owners can inspect decoded powertrain and drivetrain specs, upload service records or insurance PDFs, and attach vehicle photos right from their phone."
+    points={[
+      { label: "Three detail tabs", text: "Specs, Documents, and Photos stay neatly separated per vehicle." },
+      { label: "Inline corrections", text: "Owners can update VIN, year, make, series, or model if a plate was misread." },
+    ]}
+    media={
+      <div className="overflow-hidden rounded-xl border-2 border-line-strong bg-surface p-4 shadow-sticker md:p-6">
+        <picture>
+          <source srcSet="/case-studies/classic-decoder-app/screens/garage.avif" type="image/avif" />
+          <source srcSet="/case-studies/classic-decoder-app/screens/garage.webp" type="image/webp" />
+          <img
+            src="/case-studies/classic-decoder-app/screens/garage.webp"
+            alt="Classic Decoder mobile app Digital Garage screens showing saved vehicles, 1961 Chevrolet Bel Air specs, uploaded service records, and photo uploads."
+            width={1600}
+            height={1160}
+            loading="lazy"
+            decoding="async"
+            className="block h-auto w-full rounded-md"
+          />
+        </picture>
+      </div>
+    }
+    caption="Digital Garage detail views: vehicle list, specs, document uploads, and photo storage."
+  />
+
+  <FeatureRow
+    number="03."
+    eyebrow="Purchase & support"
+    title="Clear pricing, build-sheet add-ons, and self-serve help."
+    highlight="Clear"
+    highlightTone="mint"
+    body="I designed the edit sheet, report purchase screen, and confirmation state with clear itemized pricing, an optional build-sheet add-on, and direct links to the Help Center and live chat."
+    media={
+      <div className="overflow-hidden rounded-xl border-2 border-line-strong bg-surface p-4 shadow-sticker md:p-6">
+        <picture>
+          <source srcSet="/case-studies/classic-decoder-app/screens/purchase-flow.avif" type="image/avif" />
+          <source srcSet="/case-studies/classic-decoder-app/screens/purchase-flow.webp" type="image/webp" />
+          <img
+            src="/case-studies/classic-decoder-app/screens/purchase-flow.webp"
+            alt="Classic Decoder mobile app edit VIN sheet, Purchase Report checkout with build sheet add-on, and order confirmation screen."
+            width={1600}
+            height={1180}
+            loading="lazy"
+            decoding="async"
+            className="block h-auto w-full rounded-md"
+          />
+        </picture>
+      </div>
+    }
+    caption="Vehicle edit sheet, report checkout with build-sheet add-on, and confirmation state."
+  />
+
+  <Showcase
+    title="Live on the App Store"
+    caption="Classic Car VIN Lookup listing on the Apple App Store."
+    tone="mint"
+  >
+    <BrowserFrame
+      url="apps.apple.com/us/app/classic-car-vin-lookup/id1661077569"
+      src="/case-studies/classic-decoder-app/screens/app-store-desktop"
+      alt="Apple App Store listing for Classic Car VIN Lookup showing the redesigned mobile app."
+      shadow="none"
+    />
+  </Showcase>
+</Chapter>
+
+<Chapter
+  step="ship"
+  title="Shipped on iOS and Android."
+  highlight="Shipped"
+  intro="Tested with classic-car collectors and restorers across iOS and Android before release."
+>
+  <CaseOutcome
+    statement="Shipped and live on the App Store, unifying the mobile app and website under one design system and shared pre-1981 decoding engine."
+    shipped={[
+      "Redesigned iOS and Android app sharing tokens and components with classicdecoder.com",
+      "Integrated web decoding engine with dual Yes/No VIN paths",
+      "Refreshed Digital Garage with Specs, Documents, Photos, and My Reports",
+      "In-app credit tracking, purchase receipts, notification settings, and Help Center",
+    ]}
+    liveLabel="View on App Store"
+  />
+
+  <CaseLearnings
+    items={[
+      "Embedding a proven web decoding engine inside a thoughtful native shell ships faster while keeping cross-platform behavior identical.",
+      "Designing the garage around how collectors store documents and photos turns a single lookup into a tool they return to.",
+    ]}
+  />
 </Chapter>

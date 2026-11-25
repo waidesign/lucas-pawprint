@@ -21,10 +21,39 @@ const inter = Inter({
   display: "swap",
 });
 
+const SITE_URL = "https://lucas.pawprint.design";
+const SITE_TITLE = "Lucas (Wai Phyo Aung) · Product & Motion Designer";
+const SITE_DESCRIPTION =
+  "Curious by nature, careful by habit. Product & Motion Designer portfolio at lucas.pawprint.design.";
+
+/** Site-wide defaults. Pages override title, description, canonical and openGraph. */
 export const metadata: Metadata = {
-  title: "Lucas (Wai Phyo Aung) · Product & Motion Designer",
-  description:
-    "Curious by nature, careful by habit. Product & Motion Designer portfolio at lucas.pawprint.design.",
+  metadataBase: new URL(SITE_URL),
+  title: SITE_TITLE,
+  description: SITE_DESCRIPTION,
+  authors: [{ name: "Lucas (Wai Phyo Aung)", url: SITE_URL }],
+  openGraph: {
+    type: "website",
+    siteName: "Lucas (Wai Phyo Aung)",
+    locale: "en_US",
+    url: SITE_URL,
+    title: SITE_TITLE,
+    description: SITE_DESCRIPTION,
+    images: [
+      {
+        url: "/og/site.png",
+        width: 1200,
+        height: 630,
+        alt: "Loaffy the paw next to “Hi, I'm Lucas.” Product & Motion Designer.",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: SITE_TITLE,
+    description: SITE_DESCRIPTION,
+    images: ["/og/site.png"],
+  },
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {

@@ -3,9 +3,10 @@
 import { useEffect, useMemo, useState } from "react";
 import type { CaseStudySummary } from "@/lib/case-studies";
 import { FadeIn } from "@/components/motion/FadeIn";
+import { HeroReveal } from "@/components/motion/HeroReveal";
 import { Loaffy } from "@/components/mascot/Loaffy";
 import { CaseCard } from "@/components/sections/CaseCard";
-import { WORK_FILTER_TAGS } from "@/components/sections/SelectedWork";
+import { COVER_TILTS, WORK_FILTER_TAGS } from "@/components/sections/SelectedWork";
 import { Chip } from "@/components/ui/Chip";
 import { Heading } from "@/components/ui/Heading";
 import { Section } from "@/components/ui/Section";
@@ -38,7 +39,7 @@ function countWord(n: number, capitalize = false): string {
 /**
  * Card-free `/work` index (LAYOUT-STEPS.md Step 4 & IA.md §3 Work index):
  * - Hero with mono eyebrow, h1 "Work.", data-driven count subtitle, filter chips synced
- *   to `?tag=` + polite aria-live result count, and Loaffy in `window` form peeking from
+ *   to `?tag=` + polite aria-live result count, and a curious Loaffy peeking from
  *   the hero's right edge at `lg+` (the page's only Loaffy; per-card peeks are off).
  * - Featured Luci row (7/5 split) followed by a hairline + "Client work · {n}" label
  *   and a 2-column grid of cover tiles (`CaseCard variant="tile"`).
@@ -125,23 +126,29 @@ export function WorkIndex({ caseStudies }: WorkIndexProps) {
           <div className="grid grid-cols-1 items-end gap-8 lg:grid-cols-12">
             <div className="space-y-6 lg:col-span-9">
               {yearRangeLabel && (
-                <p className="font-mono text-label uppercase tracking-wider text-text-muted">
-                  {yearRangeLabel}
-                </p>
+                <HeroReveal step={0} variant="eyebrow">
+                  <p className="font-mono text-label uppercase tracking-wider text-text-muted">
+                    {yearRangeLabel}
+                  </p>
+                </HeroReveal>
               )}
 
-              <Heading id="work-heading" as="h1">
-                Work.
-              </Heading>
+              <HeroReveal step={1} variant="heading">
+                <Heading id="work-heading" as="h1">
+                  Work.
+                </Heading>
+              </HeroReveal>
 
-              <p className="max-w-2xl font-body text-body-lg text-text-muted">
-                {countWord(totalCount, true)}{" "}
-                {totalCount === 1 ? "project" : "projects"}:{" "}
-                {countWord(foundedCount)} I founded,{" "}
-                {countWord(clientTotalCount)} I shipped for clients.
-              </p>
+              <HeroReveal step={2} variant="body">
+                <p className="max-w-2xl font-body text-body-lg text-text-muted">
+                  {countWord(totalCount, true)}{" "}
+                  {totalCount === 1 ? "project" : "projects"}:{" "}
+                  {countWord(foundedCount)} I founded,{" "}
+                  {countWord(clientTotalCount)} I shipped for clients.
+                </p>
+              </HeroReveal>
 
-              <div className="space-y-3 pt-2">
+              <HeroReveal step={3} variant="body" className="space-y-3 pt-2">
                 <div
                   role="group"
                   aria-label="Filter case studies by category"
@@ -169,22 +176,25 @@ export function WorkIndex({ caseStudies }: WorkIndexProps) {
                   {filtered.length === 1 ? "case study" : "case studies"}
                   {selectedTag !== "All" ? ` in "${selectedTag}"` : ""}
                 </p>
-              </div>
+              </HeroReveal>
             </div>
 
-            {/* Loaffy in window form peeking from the hero's right edge (lg+ only) */}
-            <div className="hidden justify-end lg:col-span-3 lg:flex">
+            {/* Curious Loaffy at the hero's right edge (lg+ only) */}
+            <HeroReveal
+              step={2}
+              variant="mascot"
+              className="hidden justify-end lg:col-span-3 lg:flex"
+            >
               <Loaffy
-                form="window"
                 mood="curious"
                 size={240}
                 track
                 blink
                 listenToBus={false}
                 showGroundShadow
-                label="Loaffy in window form"
+                label="Loaffy, curious about the work"
               />
-            </div>
+            </HeroReveal>
           </div>
         </div>
 
@@ -220,19 +230,15 @@ export function WorkIndex({ caseStudies }: WorkIndexProps) {
                 tone={featuredCase.metadata.tone}
                 cover={featuredCase.metadata.cover}
                 coverAlt={featuredCase.metadata.coverAlt}
-                form={featuredCase.metadata.form}
                 liveUrl={featuredCase.metadata.liveUrl}
                 featured
-                badge={
-                  featuredCase.metadata.visibility === "full"
-                    ? "Live"
-                    : featuredCase.metadata.badge
-                }
+                badge={featuredCase.metadata.badge}
                 year={featuredCase.metadata.year}
                 role={featuredCase.metadata.role}
                 peek={false}
                 variant="row"
                 split="7/5"
+                tilt={COVER_TILTS[0]}
               />
             </FadeIn>
           </div>
@@ -264,13 +270,13 @@ export function WorkIndex({ caseStudies }: WorkIndexProps) {
                     tone={item.metadata.tone}
                     cover={item.metadata.cover}
                     coverAlt={item.metadata.coverAlt}
-                    form={item.metadata.form}
                     liveUrl={item.metadata.liveUrl}
                     badge={item.metadata.badge}
                     year={item.metadata.year}
                     role={item.metadata.role}
                     peek={false}
                     variant="tile"
+                    tilt={COVER_TILTS[(idx + 1) % COVER_TILTS.length]}
                   />
                 </FadeIn>
               ))}

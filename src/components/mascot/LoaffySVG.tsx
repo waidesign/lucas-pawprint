@@ -5,32 +5,23 @@ import { motion } from "motion/react";
 import type { Form, LoaffyTrigger, Mood, Pose } from "./LoaffyBus";
 import {
   assertLoaffyClearance,
-  FORM_SMALL_BEANS,
   LOST_BEANS,
   REST_BEANS,
   type BeanSpec,
 } from "./parts/clearance";
 import {
   Bean,
-  BUBBLE_BODY_PATH,
   Cheeks,
-  CUBE_LEFT_PATH,
-  CUBE_RIGHT_PATH,
-  CUBE_TOP_PATH,
   Eyes,
   GroundShadow,
   HappyBurstLines,
   Highlight,
   JumpMotionLines,
   LandingImpactLines,
-  LOAFFY_COLORS,
   LostQuestionMark,
   MidFlipSpinLines,
   Mouth,
   Pad,
-  PenShape,
-  PLAY_BODY_PATH,
-  ShadedShape,
   SleepyZz,
   ThinkingOrbit,
   VibingNotes,
@@ -83,21 +74,6 @@ function getBeansForState(
       shaded: true,
       strokeWidth: 3.4,
       show3DHighlight: true,
-    };
-  }
-
-  if (
-    form === "window" ||
-    form === "phone" ||
-    form === "cube" ||
-    form === "play" ||
-    form === "bubble"
-  ) {
-    return {
-      beans: FORM_SMALL_BEANS,
-      shaded: false,
-      strokeWidth: 3,
-      show3DHighlight: false,
     };
   }
 
@@ -211,11 +187,6 @@ function getBeansForState(
 }
 
 function getGroundShadowSpec(pose: Pose, form: Form) {
-  if (form === "window") return { cx: 100, cy: 190, rx: 58, ry: 4.5, opacity: 0.12 };
-  if (form === "phone") return { cx: 100, cy: 194, rx: 44, ry: 4.5, opacity: 0.12 };
-  if (form === "cube") return { cx: 100, cy: 194, rx: 54, ry: 4.5, opacity: 0.12 };
-  if (form === "play") return { cx: 100, cy: 192, rx: 50, ry: 4.5, opacity: 0.12 };
-  if (form === "bubble") return { cx: 100, cy: 194, rx: 50, ry: 4.5, opacity: 0.12 };
   if (form === "paw-3d" || form === "lost")
     return { cx: 100, cy: 196, rx: 50, ry: 4.5, opacity: 0.12 };
 
@@ -264,56 +235,6 @@ function resolveFaceSpec(mood: Mood, pose: Pose, form: Form): {
   cheeks?: { leftCx: number; rightCx: number; cy: number };
   showHighlight?: boolean;
 } {
-  if (form === "window") {
-    return {
-      eyeVariant: "calm",
-      eyeLeftCx: 86,
-      eyeRightCx: 114,
-      eyeCy: 128,
-      cheeks: { leftCx: 70, rightCx: 130, cy: 144 },
-      mouthVariant: "window",
-      showHighlight: false,
-    };
-  }
-  if (form === "phone") {
-    return {
-      eyeVariant: "calm",
-      eyeLeftCx: 88,
-      eyeRightCx: 112,
-      eyeCy: 118,
-      cheeks: { leftCx: 78, rightCx: 122, cy: 134 },
-      mouthVariant: "phone",
-      showHighlight: false,
-    };
-  }
-  if (form === "cube") {
-    return {
-      eyeVariant: "cube",
-      mouthVariant: "cube",
-      showHighlight: false,
-    };
-  }
-  if (form === "play") {
-    return {
-      eyeVariant: "calm",
-      eyeLeftCx: 78,
-      eyeRightCx: 98,
-      eyeCy: 120,
-      mouthVariant: "play",
-      showHighlight: false,
-    };
-  }
-  if (form === "bubble") {
-    return {
-      eyeVariant: "calm",
-      eyeLeftCx: 86,
-      eyeRightCx: 114,
-      eyeCy: 112,
-      cheeks: { leftCx: 70, rightCx: 130, cy: 128 },
-      mouthVariant: "bubble",
-      showHighlight: false,
-    };
-  }
   if (form === "lost") {
     return {
       eyeVariant: "lost",
@@ -446,69 +367,6 @@ function resolveFaceSpec(mood: Mood, pose: Pose, form: Form): {
 
 function renderFormBody(form: Form, simplified: boolean) {
   switch (form) {
-    case "window":
-      return (
-        <>
-          <ShadedShape
-            geometry={{
-              kind: "rect",
-              x: 32,
-              y: 72,
-              width: 136,
-              height: 100,
-              rx: 16,
-            }}
-          />
-          <path d="M34,94 H166" stroke="currentColor" strokeWidth={3.4} />
-          <circle cx={46} cy={83} r={3.2} fill={LOAFFY_COLORS.ink} />
-          <circle cx={57} cy={83} r={3.2} fill={LOAFFY_COLORS.ink} />
-          <circle cx={68} cy={83} r={3.2} fill={LOAFFY_COLORS.ink} />
-        </>
-      );
-    case "phone":
-      return (
-        <>
-          <ShadedShape
-            geometry={{
-              kind: "rect",
-              x: 64,
-              y: 62,
-              width: 72,
-              height: 122,
-              rx: 18,
-            }}
-          />
-          <rect
-            x={88}
-            y={70}
-            width={24}
-            height={6}
-            rx={3}
-            fill={LOAFFY_COLORS.ink}
-          />
-        </>
-      );
-    case "cube":
-      return (
-        <>
-          <PenShape
-            geometry={{ kind: "path", d: CUBE_TOP_PATH }}
-            fill={LOAFFY_COLORS.gingerLight}
-          />
-          <PenShape
-            geometry={{ kind: "path", d: CUBE_LEFT_PATH }}
-            fill={LOAFFY_COLORS.ginger}
-          />
-          <PenShape
-            geometry={{ kind: "path", d: CUBE_RIGHT_PATH }}
-            fill={LOAFFY_COLORS.gingerDeep}
-          />
-        </>
-      );
-    case "play":
-      return <ShadedShape geometry={{ kind: "path", d: PLAY_BODY_PATH }} />;
-    case "bubble":
-      return <ShadedShape geometry={{ kind: "path", d: BUBBLE_BODY_PATH }} />;
     case "paw-3d":
       return (
         <>
@@ -592,13 +450,11 @@ export function LoaffySVG({
   );
 
   // Dev clearance assertion: no bean ever < 4 units from pad
-  if (renderedForm === "paw" || renderedForm === "paw-3d" || renderedForm === "lost") {
-    assertLoaffyClearance(
-      beans,
-      `mood=${mood}, pose=${pose}, form=${renderedForm}`,
-      4
-    );
-  }
+  assertLoaffyClearance(
+    beans,
+    `mood=${mood}, pose=${pose}, form=${renderedForm}`,
+    4
+  );
 
   const shadowSpec = getGroundShadowSpec(pose, renderedForm);
   const groupTransform = getGroupTransform(mood, pose, renderedForm);
@@ -606,8 +462,8 @@ export function LoaffySVG({
 
   const ariaLabel =
     label ??
-    (renderedForm !== "paw"
-      ? `Loaffy as ${renderedForm}`
+    (renderedForm === "lost"
+      ? "Loaffy, lost"
       : pose !== "none"
       ? `Loaffy, ${pose} pose`
       : `Loaffy, ${mood}`);
@@ -782,7 +638,7 @@ export function LoaffySVG({
     );
   };
 
-  // In paw-3d and lost forms, reference SVGs place Pad before Beans; in standard paw and other forms, Beans come before Body
+  // In paw-3d and lost forms, reference SVGs place Pad before Beans; in the standard paw, Beans come before Body
   const padFirst = renderedForm === "paw-3d" || renderedForm === "lost";
 
   const bodyNode = (

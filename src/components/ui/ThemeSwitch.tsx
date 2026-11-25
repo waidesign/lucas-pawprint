@@ -7,8 +7,10 @@ import {
   useState,
   type KeyboardEvent as ReactKeyboardEvent,
 } from "react";
+import { motion, useReducedMotion } from "motion/react";
 import { Coffee, Monitor, Moon, Sun } from "lucide-react";
 import { cn } from "@/lib/cn";
+import { springCalm } from "@/lib/motion";
 import { useTheme, type ThemePreference } from "@/lib/theme";
 import { trackEvent } from "@/lib/analytics";
 import { IconButton } from "./IconButton";
@@ -34,8 +36,10 @@ export function ThemeSwitch({
   className,
 }: ThemeSwitchProps) {
   const { theme, setTheme } = useTheme();
+  const prefersReduced = useReducedMotion() ?? false;
   const [open, setOpen] = useState(false);
   const popoverId = useId();
+  const pillId = useId();
   const containerRef = useRef<HTMLDivElement | null>(null);
   const radioRefs = useRef<(HTMLButtonElement | null)[]>([]);
 
@@ -142,12 +146,20 @@ export function ThemeSwitch({
                     setOpen(false);
                   }}
                   className={cn(
-                    "flex min-h-12 w-full items-center gap-3 rounded-pill px-4 font-body text-button transition-colors",
+                    "relative z-0 flex min-h-12 w-full items-center gap-3 rounded-pill px-4 font-body text-button transition-colors duration-160",
                     active
-                      ? "bg-inverse-bg text-inverse-text"
+                      ? "text-inverse-text"
                       : "bg-transparent text-text hover:bg-surface-2"
                   )}
                 >
+                  {active && (
+                    <motion.span
+                      layoutId={`theme-compact-pill-${pillId}`}
+                      aria-hidden="true"
+                      transition={prefersReduced ? { duration: 0 } : springCalm}
+                      className="absolute inset-0 -z-10 rounded-pill bg-inverse-bg"
+                    />
+                  )}
                   <Icon className="h-4 w-4 shrink-0" aria-hidden="true" />
                   <span>{label}</span>
                 </button>
@@ -164,7 +176,7 @@ export function ThemeSwitch({
       role="radiogroup"
       aria-label="Theme preference"
       className={cn(
-        "inline-flex flex-nowrap items-center gap-1 rounded-pill border-2 border-line-strong bg-surface p-1 shadow-sticker-sm md:flex-wrap",
+        "relative inline-flex flex-nowrap items-center gap-1 rounded-pill border-2 border-line-strong bg-surface p-1 shadow-sticker-sm md:flex-wrap",
         className
       )}
     >
@@ -188,12 +200,20 @@ export function ThemeSwitch({
               trackEvent("theme_change", { theme: id });
             }}
             className={cn(
-              "inline-flex min-h-12 min-w-12 items-center justify-center gap-2 rounded-pill px-0 font-body text-button transition-colors md:min-w-0 md:px-4",
+              "relative z-0 inline-flex min-h-12 min-w-12 items-center justify-center gap-2 rounded-pill px-0 font-body text-button transition-colors duration-160 md:min-w-0 md:px-4",
               active
-                ? "bg-inverse-bg text-inverse-text"
+                ? "text-inverse-text"
                 : "bg-transparent text-text hover:bg-surface-2"
             )}
           >
+            {active && (
+              <motion.span
+                layoutId={`theme-segmented-pill-${pillId}`}
+                aria-hidden="true"
+                transition={prefersReduced ? { duration: 0 } : springCalm}
+                className="absolute inset-0 -z-10 rounded-pill bg-inverse-bg"
+              />
+            )}
             <Icon className="h-4 w-4 shrink-0" aria-hidden="true" />
             <span className="hidden md:inline">{label}</span>
           </button>

@@ -22,6 +22,24 @@ export const reveal = {
   transition: springCalm,
 } as const;
 
+/**
+ * JS mirrors of the `--duration-*` tokens in `src/styles/tokens.css`, in seconds
+ * (motion/react takes seconds). All on the 40ms grid.
+ */
+export const durations = {
+  instant: 0.12,
+  fast: 0.2,
+  base: 0.28,
+  slow: 0.48,
+  lazy: 0.72,
+} as const;
+
+/** JS mirrors of the `--ease-*` cubic-bezier tokens in `src/styles/tokens.css`. */
+export const easings = {
+  outSoft: [0.22, 1, 0.36, 1],
+  inOut: [0.65, 0, 0.35, 1],
+} as const;
+
 /** Default stagger step in seconds (80ms, on the 40ms grid) */
 export const stagger = 0.08;
 

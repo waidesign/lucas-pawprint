@@ -1,6 +1,10 @@
-import { HEADING_SCALE_CLASSES } from "@/components/ui/Heading";
+"use client";
+
 import type { ReactNode } from "react";
-import { cn, TONE_BG_CLASSES, type Tone } from "@/lib/cn";
+import { cn, type Tone } from "@/lib/cn";
+import { Heading } from "@/components/ui/Heading";
+import { SectionSeam } from "@/components/ui/SectionSeam";
+import { useCaseStudy } from "@/components/case/CaseStudyContext";
 
 export type ChapterStep = "understand" | "shape" | "design" | "ship";
 
@@ -9,19 +13,29 @@ export type ChapterTone = "bg" | "surface" | Tone | `${Tone}-soft`;
 export interface ChapterProps {
   step: ChapterStep;
   title?: string;
+  /** Optional single word inside `title` to highlight with a pastel pill */
+  highlight?: string;
+  highlightTone?: Tone;
+  /** Optional one-line intro rendered in body-lg below the chapter heading */
+  intro?: string;
+  /** Override band tone; inside a case study, defaults to alternating `<caseTone>-soft` and `bg` */
   tone?: ChapterTone;
+  /** Override the upper tone for the wavy SectionSeam above this band, or `false` to omit the seam */
+  seamFrom?: Tone | "bg" | false;
+  /** Seed for the deterministic wavy seam */
+  seamSeed?: number;
   children: ReactNode;
   className?: string;
 }
 
 const STEP_META: Record<
   ChapterStep,
-  { number: string; label: string; badgeTone: Tone }
+  { number: string; label: string; defaultSoft: boolean; seed: number }
 > = {
-  understand: { number: "01", label: "Understand", badgeTone: "lilac" },
-  shape: { number: "02", label: "Shape", badgeTone: "sky" },
-  design: { number: "03", label: "Design", badgeTone: "butter" },
-  ship: { number: "04", label: "Ship", badgeTone: "mint" },
+  understand: { number: "01.", label: "Understand", defaultSoft: true, seed: 11 },
+  shape: { number: "02.", label: "Shape", defaultSoft: false, seed: 23 },
+  design: { number: "03.", label: "Design", defaultSoft: true, seed: 37 },
+  ship: { number: "04.", label: "Ship", defaultSoft: false, seed: 47 },
 };
 
 const CHAPTER_BG_VARS: Record<ChapterTone, string> = {
@@ -65,70 +79,124 @@ function slugifyHeading(text: string): string {
     .replace(/^-+|-+$/g, "");
 }
 
+function toSeamTone(tone: ChapterTone): Tone | "bg" | null {
+  if (tone === "bg") return "bg";
+  if (tone === "surface") return null;
+  if (tone.endsWith("-soft")) {
+    return tone.replace("-soft", "") as Tone;
+  }
+  return tone as Tone;
+}
+
 /**
- * Chapter component per IA.md §3, COMPONENTS.md §E, and LUCI-BUILD-STEPS.md Step 3:
- * - Props: `step` ("understand" | "shape" | "design" | "ship"), `title`, `tone` for background.
- * - Renders `<section aria-labelledby>` with an `<h2>` and `data-chapter-step={step}`
- *   so the sticky BeanStepper tracks scroll progress across chapters.
+ * Chapter (Phase 1.C):
+ * - Full-width alternating band (`bg` and `<caseTone>-soft`) joined to the previous band
+ *   by a Home-style wavy `<SectionSeam>`.
+ * - Header: ProcessStory-style large numeral ("01.".."04.") + quiet mono step label
+ *   (no mono pill), `h2` at `h1` token (64px) with optional single highlighted word,
+ *   and an optional `intro` line in `body-lg`.
+ * - Preserves `data-chapter-step` and `aria-labelledby`.
  */
 export function Chapter({
   step,
   title,
-  tone = "bg",
+  highlight,
+  highlightTone,
+  intro,
+  tone,
+  seamFrom,
+  seamSeed,
   children,
   className,
 }: ChapterProps) {
+  const ctx = useCaseStudy();
+  const caseTone: Tone = ctx?.metadata.tone ?? "lilac";
   const meta = STEP_META[step];
+
+  const resolvedTone: ChapterTone =
+    tone ?? (ctx ? (meta.defaultSoft ? `${caseTone}-soft` : "bg") : "bg");
+
+  const resolvedSeamTo = toSeamTone(resolvedTone);
+  const defaultSeamFrom: Tone | "bg" | false =
+    ctx && resolvedSeamTo
+      ? resolvedSeamTo === "bg"
+        ? caseTone
+        : "bg"
+      : false;
+  const resolvedSeamFrom = seamFrom !== undefined ? seamFrom : defaultSeamFrom;
+  const showSeam =
+    resolvedSeamFrom !== false &&
+    resolvedSeamTo !== null &&
+    resolvedSeamFrom !== resolvedSeamTo;
+
   const suffix = title ? `${step}-${slugifyHeading(title)}` : step;
   const sectionId = `chapter-${suffix}`;
   const headingId = `${sectionId}-title`;
 
   return (
-    <section
-      id={sectionId}
-      data-chapter-step={step}
-      aria-labelledby={headingId}
-      style={{ ["--chapter-bg" as string]: CHAPTER_BG_VARS[tone] }}
-      className={cn(
-        "w-full scroll-mt-28 border-t border-line px-4 py-[var(--space-section)] md:px-10 lg:px-20",
-        CHAPTER_BG_CLASSES[tone],
-        className,
+    <>
+      {showSeam && (
+        <SectionSeam
+          from={resolvedSeamFrom}
+          to={resolvedSeamTo}
+          seed={seamSeed ?? meta.seed}
+        />
       )}
-    >
-      <div className="w-full">
-        <div className="max-w-[var(--prose-max)]">
-          <div className="flex flex-wrap items-center gap-3">
-            <span
-              className={cn(
-                "inline-flex h-8 items-center rounded-pill border-2 border-line-strong px-3 font-mono text-caption font-semibold",
-                TONE_BG_CLASSES[meta.badgeTone],
-              )}
-            >
-              {meta.number} · {meta.label}
-            </span>
+
+      <section
+        id={sectionId}
+        data-chapter-step={step}
+        aria-labelledby={headingId}
+        style={{ ["--chapter-bg" as string]: CHAPTER_BG_VARS[resolvedTone] }}
+        className={cn(
+          "w-full scroll-mt-24 px-4 py-[var(--space-section)] md:px-10 lg:px-20",
+          !showSeam && "border-t border-line",
+          CHAPTER_BG_CLASSES[resolvedTone],
+          className,
+        )}
+      >
+        <div className="w-full space-y-10 md:space-y-12">
+          <div className="max-w-4xl space-y-4">
+            <div className="flex items-baseline gap-4">
+              <span
+                aria-hidden="true"
+                className="font-display text-h1 font-extrabold leading-none text-current"
+              >
+                {meta.number}
+              </span>
+              <span className="font-mono text-label uppercase tracking-wider text-text-muted">
+                {meta.label}
+              </span>
+            </div>
+
+            {title ? (
+              <Heading
+                id={headingId}
+                as="h2"
+                highlight={highlight}
+                highlightTone={highlightTone ?? caseTone}
+                className="text-current"
+              >
+                {title}
+              </Heading>
+            ) : (
+              <h2 id={headingId} className="sr-only">
+                {meta.label}
+              </h2>
+            )}
+
+            {intro && (
+              <p className="max-w-2xl font-body text-body-lg text-text-muted">
+                {intro}
+              </p>
+            )}
           </div>
 
-          {title ? (
-            <h2
-              id={headingId}
-              className={cn(
-                "mt-4 font-display text-current text-balance",
-                HEADING_SCALE_CLASSES.h2,
-              )}
-            >
-              {title}
-            </h2>
-          ) : (
-            <h2 id={headingId} className="sr-only">
-              {meta.label}
-            </h2>
-          )}
+          <div className="space-y-8 font-body text-body text-current [&>p]:max-w-[var(--prose-max)] [&>p]:text-body-lg [&>p]:text-text-muted [&>ul]:max-w-[var(--prose-max)] [&>ol]:max-w-[var(--prose-max)] [&>blockquote]:max-w-[var(--prose-max)]">
+            {children}
+          </div>
         </div>
-
-        <div className="mt-6 space-y-6 font-body text-body text-current [&>p]:max-w-[var(--prose-max)] [&>ul]:max-w-[var(--prose-max)] [&>ol]:max-w-[var(--prose-max)] [&>blockquote]:max-w-[var(--prose-max)]">
-          {children}
-        </div>
-      </div>
-    </section>
+      </section>
+    </>
   );
 }

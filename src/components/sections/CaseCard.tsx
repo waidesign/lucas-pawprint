@@ -8,8 +8,7 @@ import { cn, TONE_BG_CLASSES, type Tone } from "@/lib/cn";
 import { springCalm } from "@/lib/motion";
 import { trackEvent } from "@/lib/analytics";
 import { Loaffy } from "@/components/mascot/Loaffy";
-import type { Form } from "@/components/mascot/LoaffyBus";
-import { BetaBadge } from "@/components/ui/BetaBadge";
+import { Badge } from "@/components/ui/Badge";
 import { HEADING_SCALE_CLASSES } from "@/components/ui/Heading";
 import { TextLink } from "@/components/ui/TextLink";
 
@@ -21,7 +20,6 @@ export interface CaseCardProps {
   tone: Tone;
   cover: string;
   coverAlt: string;
-  form: Form;
   liveUrl?: string;
   featured?: boolean;
   badge?: string;
@@ -35,6 +33,8 @@ export interface CaseCardProps {
   variant?: "row" | "tile";
   /** Column ratio on lg+ for "row" variant (default "6/6"; /work featured row uses "7/5"). */
   split?: "6/6" | "7/5";
+  /** Optional resting tilt angle in degrees for the cover frame (straightens on hover). */
+  tilt?: number;
   className?: string;
 }
 
@@ -45,7 +45,7 @@ const WORD_STAGGER = 0.04;
  * Case study row ([P1-A1], layout inspired by slush.app "Your shortcut to DeFi"):
  * - The cover image itself is the only card: 16:10, 2px pen border, `rounded-xl`,
  *   `shadow-sticker`, lift + slow zoom on hover (pastel `tone` shows while loading).
- *   Loaffy in the case's `form` peeks from behind its top edge on hover.
+ *   Loaffy peeks from behind its top edge on hover.
  * - Everything else sits plain on the canvas: meta line, a huge sentence-case title that
  *   reveals word by word, the summary, tags and a pill CTA (+ optional live-site link).
  * - Rows alternate thumbnail left / right on large screens; stacked on mobile.
@@ -60,7 +60,6 @@ export function CaseCard({
   tone,
   cover,
   coverAlt,
-  form,
   liveUrl,
   featured = false,
   badge,
@@ -70,6 +69,7 @@ export function CaseCard({
   peek = true,
   variant = "row",
   split = "6/6",
+  tilt = 0,
   className,
 }: CaseCardProps) {
   const [hovered, setHovered] = useState(false);
@@ -90,7 +90,7 @@ export function CaseCard({
   const coverFrame = (
     <>
       {peek && (
-        /* Loaffy form peek, behind the card's top-right edge */
+        /* Loaffy peek, behind the card's top-right edge */
         <motion.div
           aria-hidden="true"
           initial={false}
@@ -103,7 +103,6 @@ export function CaseCard({
           className="pointer-events-none absolute right-8 top-0 z-0"
         >
           <Loaffy
-            form={form}
             mood="curious"
             size={64}
             track={false}
@@ -118,37 +117,50 @@ export function CaseCard({
       {/* The image itself is the card: pen border, rounded-xl, lift on hover.
           Row covers keep a resting sticker shadow; tile covers reveal shadow on hover/focus only (rule 18).
           The case's pastel shows only while the image loads. */}
-      <Link
-        href={href}
-        tabIndex={-1}
-        aria-hidden="true"
-        onClick={handleOpen}
-        className={cn(
-          "group relative z-10 block w-full overflow-hidden rounded-xl border-2 border-line-strong",
-          variant === "tile"
-            ? "lp-tile-cover-interactive"
-            : "lp-sticker-interactive",
-          TONE_BG_CLASSES[tone],
-        )}
+      <div
+        style={
+          tilt !== 0
+            ? {
+                transform:
+                  hovered && !prefersReduced
+                    ? "rotate(0deg)"
+                    : `rotate(${tilt}deg)`,
+                transitionDuration: "var(--duration-base)",
+                transitionTimingFunction: "var(--ease-out-soft)",
+              }
+            : undefined
+        }
+        className={cn(tilt !== 0 && "relative z-10 transition-transform")}
       >
-        <picture>
-          <source srcSet={coverAvif} type="image/avif" />
-          <source srcSet={coverWebp} type="image/webp" />
-          <img
-            src={coverWebp}
-            alt=""
-            width={1200}
-            height={750}
-            loading="lazy"
-            decoding="async"
-            style={{
-              transitionDuration: "var(--duration-slow)",
-              transitionTimingFunction: "var(--ease-out-soft)",
-            }}
-            className="block aspect-16/10 h-auto w-full object-cover transition-transform group-hover:scale-105"
-          />
-        </picture>
-      </Link>
+        <Link
+          href={href}
+          tabIndex={-1}
+          aria-hidden="true"
+          onClick={handleOpen}
+          className={cn(
+            "group relative z-10 block w-full overflow-hidden rounded-xl border-2 border-line-strong lp-sticker-interactive",
+            TONE_BG_CLASSES[tone],
+          )}
+        >
+          <picture>
+            <source srcSet={coverAvif} type="image/avif" />
+            <source srcSet={coverWebp} type="image/webp" />
+            <img
+              src={coverWebp}
+              alt=""
+              width={1200}
+              height={750}
+              loading="lazy"
+              decoding="async"
+              style={{
+                transitionDuration: "var(--duration-slow)",
+                transitionTimingFunction: "var(--ease-out-soft)",
+              }}
+              className="block aspect-16/10 h-auto w-full object-cover transition-transform group-hover:scale-105"
+            />
+          </picture>
+        </Link>
+      </div>
       {/* The cover's description stays available to screen readers once. */}
       <span className="sr-only">{coverAlt}</span>
     </>
@@ -158,8 +170,8 @@ export function CaseCard({
     return (
       <article className={cn("flex flex-col gap-6", className)}>
         <div
-          onMouseEnter={peek ? () => setHovered(true) : undefined}
-          onMouseLeave={peek ? () => setHovered(false) : undefined}
+          onMouseEnter={peek || tilt !== 0 ? () => setHovered(true) : undefined}
+          onMouseLeave={peek || tilt !== 0 ? () => setHovered(false) : undefined}
           className={cn("relative", peek && "pt-8 md:pt-12")}
         >
           {coverFrame}
@@ -168,7 +180,7 @@ export function CaseCard({
         <div className="flex flex-col items-start gap-4">
           {(badge || year || role) && (
             <div className="flex flex-wrap items-center gap-3">
-              {badge && <BetaBadge label={badge} />}
+              {badge && <Badge label={badge} />}
               {year && (
                 <span className="font-mono text-label uppercase tracking-wider text-text-muted">
                   {year}
@@ -226,14 +238,15 @@ export function CaseCard({
           </ul>
 
           <div className="flex flex-wrap items-center gap-4 pt-1">
-            <TextLink
+            <Link
               href={href}
-              tone={tone}
               onClick={handleOpen}
-              className="-mx-2 min-h-12 items-center gap-2 rounded-pill px-2 font-body text-button font-semibold decoration-2"
+              className="inline-flex min-h-14 items-center justify-center gap-2 rounded-pill border-2 border-transparent bg-inverse-bg px-6 font-body text-button font-semibold text-inverse-text lp-btn-primary"
             >
-              Read case study →<span className="sr-only">: {title}</span>
-            </TextLink>
+              <span>Read case study</span>
+              <ArrowRight className="h-4 w-4 shrink-0" aria-hidden="true" />
+              <span className="sr-only">: {title}</span>
+            </Link>
 
             {liveUrl && (
               <TextLink
@@ -245,7 +258,7 @@ export function CaseCard({
                     trackEvent("luci_click", { location: "case_card_live" });
                   }
                 }}
-                className="-mx-2 min-h-12 items-center gap-1.5 rounded-pill px-2 font-body text-button font-semibold decoration-2"
+                className="mx-0 min-h-12 items-center gap-1.5 rounded-pill px-4 font-body text-button font-semibold decoration-2"
               >
                 Live site<span className="sr-only"> for {title}</span>
               </TextLink>
@@ -268,8 +281,8 @@ export function CaseCard({
     >
       {/* Thumbnail card (the only card in the row). Hovering it brings Loaffy's peek. */}
       <div
-        onMouseEnter={peek ? () => setHovered(true) : undefined}
-        onMouseLeave={peek ? () => setHovered(false) : undefined}
+        onMouseEnter={peek || tilt !== 0 ? () => setHovered(true) : undefined}
+        onMouseLeave={peek || tilt !== 0 ? () => setHovered(false) : undefined}
         className={cn(
           "relative",
           peek && "pt-8 md:pt-12",
@@ -291,7 +304,7 @@ export function CaseCard({
       >
         {(badge || year || role) && (
           <div className="flex flex-wrap items-center gap-3">
-            {badge && <BetaBadge label={badge} />}
+            {badge && <Badge label={badge} />}
             {year && (
               <span className="font-mono text-label uppercase tracking-wider text-text-muted">
                 {year}
@@ -313,22 +326,23 @@ export function CaseCard({
           )}
         >
           {titleWords.map((word, i) => (
-            <span
-              key={`${word}-${i}`}
-              aria-hidden="true"
-              className="inline-block overflow-hidden pb-1 align-bottom"
-            >
-              <motion.span
-                className="inline-block"
-                initial={prefersReduced ? false : { y: "100%" }}
-                whileInView={{ y: "0%" }}
-                viewport={{ once: true, margin: "-10% 0px" }}
-                transition={{ ...springCalm, delay: i * WORD_STAGGER }}
+            <Fragment key={`${word}-${i}`}>
+              <span
+                aria-hidden="true"
+                className="inline-block overflow-hidden pb-1 align-bottom"
               >
-                {word}
-              </motion.span>
+                <motion.span
+                  className="inline-block"
+                  initial={prefersReduced ? false : { y: "100%" }}
+                  whileInView={{ y: "0%" }}
+                  viewport={{ once: true, margin: "-10% 0px" }}
+                  transition={{ ...springCalm, delay: i * WORD_STAGGER }}
+                >
+                  {word}
+                </motion.span>
+              </span>
               {i < titleWords.length - 1 && " "}
-            </span>
+            </Fragment>
           ))}
         </h3>
 

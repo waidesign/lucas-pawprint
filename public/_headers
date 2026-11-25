@@ -1,0 +1,28 @@
+# Cloudflare Workers static assets headers (DEPLOY-CLOUDFLARE.md §2.6).
+# Copied into out/ by `next build`. When rules overlap, Cloudflare MERGES values of the
+# same header, so Cache-Control is only set on the asset paths below. HTML keeps the
+# platform default (public, max-age=0, must-revalidate).
+
+/*
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: camera=(), microphone=(), geolocation=(), payment=(), usb=(), interest-cohort=()
+  X-Frame-Options: DENY
+  Strict-Transport-Security: max-age=31536000; includeSubDomains
+  Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline' 'wasm-unsafe-eval' https://static.cloudflareinsights.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self' data:; media-src 'self' blob:; connect-src 'self' https://cloudflareinsights.com https://unpkg.com https://cdn.jsdelivr.net; worker-src 'self' blob:; frame-ancestors 'none'; base-uri 'self'; form-action 'self'; object-src 'none'
+
+# Hashed build output and fonts never change: cache for a year.
+/_next/static/*
+  Cache-Control: public, max-age=31536000, immutable
+
+# Media can change between deploys without a hash in the name: cache a day.
+/case-studies/*
+  Cache-Control: public, max-age=86400
+/images/*
+  Cache-Control: public, max-age=86400
+/og/*
+  Cache-Control: public, max-age=86400
+/loaffy/*
+  Cache-Control: public, max-age=86400
+/cursors/*
+  Cache-Control: public, max-age=86400

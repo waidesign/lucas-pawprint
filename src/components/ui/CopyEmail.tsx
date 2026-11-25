@@ -1,10 +1,10 @@
 "use client";
 
-import { useRef, useState } from "react";
-import { Check, Copy, Mail } from "lucide-react";
+import { useId, useRef, useState } from "react";
+import { Check, Copy } from "lucide-react";
 import { cn } from "@/lib/cn";
-import { Button } from "./Button";
-import { IconButton } from "./IconButton";
+import { Field } from "./Field";
+import { Input } from "./Input";
 import { useToast } from "./Toast";
 import {
   emitLoaffyEvent,
@@ -17,26 +17,28 @@ export interface CopyEmailProps {
   className?: string;
 }
 
+/**
+ * Pre-filled, read-only email Field + icon-only Copy button ([P1-A6], [P1-A7]):
+ * - Uses the design-system Field + Input primitives (`readOnly`, non-editable, select-all).
+ * - Pairs with a 48×48 icon-only mint sticker Copy button (swaps to Check when copied).
+ */
 export function CopyEmail({
   email = "lucas@pawprint.design",
   className,
 }: CopyEmailProps) {
   const { showToast } = useToast();
+  const inputId = useId();
   const [copied, setCopied] = useState(false);
   const [failed, setFailed] = useState(false);
-  const emailSpanRef = useRef<HTMLSpanElement | null>(null);
+  const inputRef = useRef<HTMLInputElement | null>(null);
   const hoverTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const hasCopiedOnHoverRef = useRef(false);
 
   const selectFallbackText = () => {
-    const el = emailSpanRef.current;
-    if (!el || typeof window === "undefined") return;
-    const selection = window.getSelection();
-    if (!selection) return;
-    const range = document.createRange();
-    range.selectNodeContents(el);
-    selection.removeAllRanges();
-    selection.addRange(range);
+    const el = inputRef.current;
+    if (!el) return;
+    el.focus();
+    el.select();
   };
 
   const handleCopy = async () => {
@@ -89,40 +91,46 @@ export function CopyEmail({
     <div
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
-      className={cn("inline-flex flex-wrap items-center gap-3", className)}
+      className={cn("inline-flex max-w-full flex-col gap-2", className)}
     >
-      <div className="inline-flex min-h-12 items-center rounded-pill border-2 border-line-strong bg-surface px-5 font-body text-body text-text shadow-sticker-sm">
-        <span ref={emailSpanRef} className="select-all font-medium">
-          {email}
-        </span>
+      <div className="flex items-center gap-3">
+        <Field
+          htmlFor={inputId}
+          label="Email address"
+          hideLabel
+          className="min-w-0 flex-1"
+        >
+          <Input
+            ref={inputRef}
+            id={inputId}
+            type="email"
+            value={email}
+            readOnly
+            shape="pill"
+            inputSize="md"
+            aria-readonly="true"
+            onClick={(e) => e.currentTarget.select()}
+            className="w-64 max-w-full"
+          />
+        </Field>
+
+        <button
+          type="button"
+          onClick={handleCopy}
+          aria-label={copied ? "Email copied" : `Copy ${email}`}
+          title={copied ? "Copied" : "Copy email"}
+          className="inline-flex h-12 w-12 shrink-0 items-center justify-center rounded-pill border-2 border-line-strong bg-mint text-on-pastel lp-sticker-sm-interactive"
+        >
+          {copied ? (
+            <Check className="h-5 w-5" aria-hidden="true" />
+          ) : (
+            <Copy className="h-5 w-5" aria-hidden="true" />
+          )}
+        </button>
       </div>
 
-      <Button
-        variant="secondary"
-        tone="mint"
-        size="md"
-        onClick={handleCopy}
-        iconStart={
-          copied ? (
-            <Check className="h-5 w-5" />
-          ) : (
-            <Copy className="h-5 w-5" />
-          )
-        }
-      >
-        {copied ? "Copied" : "Copy email"}
-      </Button>
-
-      <IconButton
-        href={`mailto:${email}`}
-        variant="surface"
-        aria-label={`Send email to ${email}`}
-      >
-        <Mail className="h-5 w-5" aria-hidden="true" />
-      </IconButton>
-
       {failed && (
-        <p className="w-full font-body text-caption text-text-muted">
+        <p className="font-body text-caption text-text-muted">
           Couldn&apos;t copy. Here it is: {email}
         </p>
       )}

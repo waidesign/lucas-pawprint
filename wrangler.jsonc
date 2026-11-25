@@ -1,0 +1,12 @@
+{
+  // Cloudflare Workers static assets: serves the `next build` static export in ./out
+  // (docs/pawprint-kit/04-build/DEPLOY-CLOUDFLARE.md). No Worker script, no server code.
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "lucas-pawprint",
+  "compatibility_date": "2026-11-01",
+  "assets": {
+    "directory": "./out",
+    "not_found_handling": "404-page",
+    "html_handling": "auto-trailing-slash"
+  }
+}

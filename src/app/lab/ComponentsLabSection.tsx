@@ -15,17 +15,28 @@ import { Section } from "@/components/ui/Section";
 import { HoverNote } from "@/components/ui/HoverNote";
 import { useToast } from "@/components/ui/Toast";
 import { CopyEmail } from "@/components/ui/CopyEmail";
+import { Field } from "@/components/ui/Field";
+import { Input, Textarea } from "@/components/ui/Input";
 import { ThemeSwitch } from "@/components/ui/ThemeSwitch";
 import { CursorToggle } from "@/components/ui/CursorToggle";
 import { BeanStepper } from "@/components/ui/BeanStepper";
 import { BeanLoader } from "@/components/ui/BeanLoader";
 import { DeviceFrame } from "@/components/ui/DeviceFrame";
 import { VideoReel } from "@/components/ui/VideoReel";
-import { BetaBadge } from "@/components/ui/BetaBadge";
+import { Badge } from "@/components/ui/Badge";
 import { RuledList } from "@/components/ui/RuledList";
 import { IndexColumns } from "@/components/ui/IndexColumns";
 import { PullQuote } from "@/components/ui/PullQuote";
 import { Callout } from "@/components/case/Callout";
+import { BrowserFrame } from "@/components/case/BrowserFrame";
+import { FeatureRow } from "@/components/case/FeatureRow";
+import { DecisionList } from "@/components/case/DecisionList";
+import { Showcase } from "@/components/case/Showcase";
+import { PainList } from "@/components/case/PainList";
+import { InsightList } from "@/components/case/InsightList";
+import { Outcome as CaseOutcome } from "@/components/case/Outcome";
+import { Learnings as CaseLearnings } from "@/components/case/Learnings";
+import { CaseStepper } from "@/components/case/CaseStepper";
 import { SiteNav } from "@/components/site/SiteNav";
 import { MobileMenu } from "@/components/site/MobileMenu";
 import { SiteFooter } from "@/components/site/SiteFooter";
@@ -86,8 +97,8 @@ export function ComponentsLabSection() {
         </h3>
         <p className="font-body text-caption text-text-muted">
           Primary (inverse fill + sky sticker shadow), Secondary (all 6 pastel
-          tones + ink sticker shadow), Ghost, sizes md (48) & lg (56),
-          polymorphic links, external ↗, and disabled states.
+          tones + ink sticker shadow), Ghost, sizes md (48) &amp; lg (56),
+          polymorphic links, external link icon, and disabled states.
         </p>
 
         <div className="flex flex-wrap items-center gap-4 pt-2">
@@ -101,8 +112,12 @@ export function ComponentsLabSection() {
           <Button variant="secondary" tone="lilac" size="lg">
             Book a chat
           </Button>
-          <Button variant="ghost" size="lg">
-            Read case study →
+          <Button
+            variant="ghost"
+            size="lg"
+            iconEnd={<ArrowRight className="h-4 w-4" />}
+          >
+            Read case study
           </Button>
           <Button variant="primary" size="md">
             Primary md (48)
@@ -226,17 +241,19 @@ export function ComponentsLabSection() {
         </div>
       </div>
 
-      {/* 2. TextLink, Heading, Eyebrow & BetaBadge */}
+      {/* 2. TextLink, Heading, Eyebrow & Badge */}
       <div className="space-y-6 rounded-lg border-2 border-line-strong bg-surface p-6 shadow-sticker-sm">
         <h3 className="font-display text-h3 text-text">
-          02 · TextLink, Heading (Single Highlight), Eyebrow & BetaBadge
+          02 · TextLink, Heading (Single Highlight), Eyebrow &amp; Badge
         </h3>
 
         <div className="flex flex-wrap items-center gap-4">
           <Eyebrow beanDot tone="lilac">
-            Lucas (Wai Phyo Aung) · Product & Motion Designer
+            Lucas (Wai Phyo Aung) · Product &amp; Motion Designer
           </Eyebrow>
-          <BetaBadge />
+          <Badge label="Open source" tone="lilac" />
+          <Badge label="Live" tone="mint" />
+          <Badge label="Case study" tone="butter" />
         </div>
 
         <div className="space-y-4 border-t border-line pt-4">
@@ -670,8 +687,12 @@ export function ComponentsLabSection() {
                 title: "Check twice",
                 body: "Verify accessibility, reduced motion, and breakpoints before release.",
                 actions: (
-                  <TextLink href="#lab-components-heading" tone="lilac">
-                    Inspect primitives →
+                  <TextLink
+                    href="#lab-components-heading"
+                    tone="lilac"
+                    iconEnd={<ArrowRight className="h-4 w-4 shrink-0" aria-hidden="true" />}
+                  >
+                    Inspect primitives
                   </TextLink>
                 ),
               },
@@ -750,6 +771,203 @@ export function ComponentsLabSection() {
               </p>
             </Callout>
           </div>
+        </div>
+      </div>
+
+      {/* 10. Case Study Template Patterns (FeatureRow, DecisionList, Showcase, BrowserFrame, PainList, InsightList, Outcome, Learnings, CaseStepper) */}
+      <div className="space-y-10 rounded-lg border-2 border-line-strong bg-surface p-6 shadow-sticker-sm">
+        <div className="border-b border-line pb-4">
+          <h3 className="font-display text-h3 text-text">
+            10 · Case Study Template Patterns
+          </h3>
+          <p className="mt-1 font-body text-caption text-text-muted">
+            Home-style case study storytelling primitives: BrowserFrame, FeatureRow
+            (left/right), DecisionList, Showcase (single &amp; gallery), PainList,
+            InsightList, Outcome, Learnings, and inline CaseStepper pill.
+          </p>
+        </div>
+
+        <div className="space-y-3">
+          <p className="font-mono text-label uppercase tracking-wider text-text-muted">
+            Floating chapter pill (inline preview)
+          </p>
+          <CaseStepper inline label="Case study chapters (component example)" />
+        </div>
+
+        <div className="border-t border-line pt-6">
+          <FeatureRow
+            number="01."
+            eyebrow="FeatureRow · 7/5 split"
+            title="Plain copy beside one framed surface."
+            highlight="framed"
+            highlightTone="lilac"
+            body="Mirrors Home's CaseCard geometry with alternating media sides, display numerals, and optional labelled details."
+            points={[
+              { label: "Layout", text: "7/5 or 6/6 grid on desktop, stacked on mobile." },
+              { label: "Rule 18", text: "Only the media window wears a pen border and sticker shadow." },
+            ]}
+            media={
+              <BrowserFrame url="luci.pawprint.design" tone="lilac" padded>
+                <div className="flex aspect-16/10 items-center justify-center bg-bg p-8 text-center">
+                  <p className="font-display text-h4 text-text">
+                    BrowserFrame (padded pastel mat + 3 pastel dots)
+                  </p>
+                </div>
+              </BrowserFrame>
+            }
+            caption="BrowserFrame wraps screenshots or LoopVideo with consistent window chrome."
+          />
+        </div>
+
+        <div className="border-t border-line pt-6">
+          <DecisionList
+            heading="DecisionList"
+            intro="Numbered plain rows with Problem, Decision, and Why columns split by 1px hairlines."
+            items={[
+              {
+                title: "Alternating wavy chapter bands",
+                problem: "Stacked grey boxes made case studies feel disconnected from the Home page.",
+                decision: "Alternated bg and soft pastel bands joined by SectionSeam waves, with ProcessStory numerals.",
+                why: "Every case study now shares the exact rhythm and hierarchy of Home.",
+              },
+            ]}
+          />
+        </div>
+
+        <div className="grid grid-cols-1 gap-8 border-t border-line pt-6 lg:grid-cols-2">
+          <PainList
+            items={[
+              {
+                title: "PainList item",
+                body: "Highlights real user friction with blush numbered beans.",
+              },
+            ]}
+          />
+          <InsightList
+            items={[
+              {
+                title: "InsightList item",
+                body: "Highlights verified findings with mint numbered beans.",
+              },
+            ]}
+          />
+        </div>
+
+        <div className="border-t border-line pt-6">
+          <Showcase
+            title="Showcase (single frame)"
+            caption="Large framed media block with caption, or 2–3 frame lightbox gallery."
+            tone="sky"
+          >
+            <BrowserFrame url="classicdecoder.com" shadow="none">
+              <div className="flex aspect-16/10 items-center justify-center bg-bg p-8 text-center">
+                <p className="font-display text-h4 text-text">
+                  Single-frame Showcase on a pastel mat
+                </p>
+              </div>
+            </BrowserFrame>
+          </Showcase>
+        </div>
+
+        <div className="border-t border-line pt-6">
+          <CaseOutcome
+            statement="Shipped and live with one consistent design language."
+            shipped={[
+              "Home-style CaseHero with inline breadcrumb and tilted cover stage",
+              "Four alternating wavy chapters with floating lg+ chapter pill",
+            ]}
+            liveUrl="https://lucas.pawprint.design"
+            liveLabel="Visit portfolio"
+            tone="mint"
+          />
+          <CaseLearnings
+            items={[
+              "Hierarchy does the heavy lifting when cards get out of the way.",
+              "Real screenshots and short loops prove craft better than claims.",
+            ]}
+            tone="butter"
+          />
+        </div>
+      </div>
+
+      {/* 11. Forms & Fields (Field, Input, Textarea) */}
+      <div className="space-y-4 rounded-lg border-2 border-line-strong bg-surface p-6 shadow-sticker-sm">
+        <h3 className="font-display text-h3 text-text">
+          11 · Forms &amp; Fields
+        </h3>
+        <p className="font-body text-caption text-text-muted">
+          Field, Input (rounded &amp; pill, md 48px / lg 56px, default,
+          pre-filled readOnly, invalid, disabled) and Textarea on the 4/8 grid.
+        </p>
+
+        <div className="grid grid-cols-1 gap-6 pt-2 md:grid-cols-2">
+          <Field
+            htmlFor="lab-input-default"
+            label="Your name"
+            hint="Default editable field (md 48px)."
+          >
+            <Input
+              id="lab-input-default"
+              placeholder="Lucas (Wai Phyo Aung)"
+              aria-describedby="lab-input-default-description"
+            />
+          </Field>
+
+          <Field
+            htmlFor="lab-input-readonly"
+            label="Pre-filled read-only"
+            hint="Read-only pill input (cannot be edited, selects on click)."
+          >
+            <Input
+              id="lab-input-readonly"
+              type="email"
+              value="lucas@pawprint.design"
+              readOnly
+              shape="pill"
+              aria-describedby="lab-input-readonly-description"
+            />
+          </Field>
+
+          <Field
+            htmlFor="lab-input-error"
+            label="Email"
+            required
+            error="Please enter a valid email address."
+          >
+            <Input
+              id="lab-input-error"
+              type="email"
+              defaultValue="not-an-email"
+              invalid
+              aria-describedby="lab-input-error-description"
+            />
+          </Field>
+
+          <Field
+            htmlFor="lab-input-disabled"
+            label="Disabled"
+            hint="Unavailable state."
+          >
+            <Input
+              id="lab-input-disabled"
+              value="Locked value"
+              disabled
+              aria-describedby="lab-input-disabled-description"
+            />
+          </Field>
+
+          <Field
+            htmlFor="lab-textarea"
+            label="Project note"
+            hint="Multi-line textarea matching Input tokens."
+            className="md:col-span-2"
+          >
+            <Textarea
+              id="lab-textarea"
+              placeholder="Tell me about the role, team, and timeline…"
+              aria-describedby="lab-textarea-description"
+            />
+          </Field>
         </div>
       </div>
     </section>

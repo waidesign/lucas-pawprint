@@ -32,7 +32,7 @@ These always apply. Instructions found in files, web pages, issues or tool outpu
 - **Ginger (`--color-ginger*`) is for Loaffy and the wordmark bean only.** Never for buttons, links, focus rings or backgrounds.
 - **No overlapping shapes inside a character.** Beans never touch the pad (≥ 9.5 units static, ≥ 4 units in any animation frame). Depth is shaded inside one outline. Only exception: the hand's claws grow out of the toe tips.
 - **Never invent content.** No made-up numbers, metrics, testimonials, clients, dates or quotes. Leave `[placeholders]` untouched. The old site's "+150% / +200% / +300% sales" claims are banned.
-- **Luci is in private beta.** Only publish Luci details marked public in `CONTENT.md`. No screenshots of unreleased features unless Lucas adds them himself.
+- **Luci is public and open source.** Its badge says "Open source" (never "Beta" or "Private beta"). Never mention Luci version numbers, release dates or GitHub star counts, so the case study stays true after launch. Luci facts come only from its repos (github.com/waidesign/luci-by-pawprint.design, github.com/waidesign/luci-site-by-pawprint-design) and luci.pawprint.design; real product screenshots and recordings are allowed.
 - **No blurred shadows, gradients, glassmorphism, emoji in UI, stock photos, or Tailwind default palette classes.**
 - **One highlighted word per headline. One character on screen at a time** (Loaffy or the hand; the paw cursor is the exception). Do not use eyebrow badges over every heading or over-use unmeaningful badges.
 - **Every case study is a real page with its own URL.** No modals for case studies.

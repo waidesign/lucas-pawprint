@@ -19,18 +19,23 @@ export interface MotionCatalogProps {
   clips: MotionClip[];
 }
 
+const CLIP_TILTS = ["-rotate-[1.6deg]", "rotate-[1.4deg]", "-rotate-[1.2deg]", "rotate-[1.7deg]"] as const;
+
 function ClipTile({
   clip,
+  index,
   prefersReduced,
   onOpen,
 }: {
   clip: MotionClip;
+  index: number;
   prefersReduced: boolean;
   onOpen: (clip: MotionClip) => void;
 }) {
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const [previewActive, setPreviewActive] = useState(false);
   const hasVideo = Boolean(clip.mp4 || clip.webm);
+  const tiltClass = CLIP_TILTS[index % CLIP_TILTS.length] ?? "";
 
   const startPreview = () => {
     if (prefersReduced || !hasVideo) return;
@@ -71,7 +76,8 @@ function ClipTile({
           }
           data-reduced-motion={prefersReduced ? "true" : "false"}
           className={cn(
-            "group relative block aspect-video w-full overflow-hidden rounded-md border-2 border-line-strong text-left lp-tile-cover-interactive",
+            "group relative block aspect-video w-full overflow-hidden rounded-md border-2 border-line-strong text-left lp-tile-cover-interactive transition-transform duration-300 ease-out hover:rotate-0 motion-reduce:rotate-0",
+            tiltClass,
             TONE_SOFT_BG_CLASSES[clip.tone],
           )}
         >
@@ -107,7 +113,8 @@ function ClipTile({
           data-clip-id={clip.id}
           data-still-tile="true"
           className={cn(
-            "relative aspect-video w-full overflow-hidden rounded-md border-2 border-line-strong",
+            "relative aspect-video w-full overflow-hidden rounded-md border-2 border-line-strong transition-transform duration-300 ease-out hover:rotate-0 motion-reduce:rotate-0",
+            tiltClass,
             TONE_SOFT_BG_CLASSES[clip.tone],
           )}
         >
@@ -337,10 +344,11 @@ export function MotionCatalog({ clips }: MotionCatalogProps) {
 
       {filteredClips.length > 0 ? (
         <div className="grid grid-cols-1 gap-x-8 gap-y-12 md:grid-cols-2 lg:grid-cols-3">
-          {filteredClips.map((clip) => (
+          {filteredClips.map((clip, idx) => (
             <ClipTile
               key={clip.id}
               clip={clip}
+              index={idx}
               prefersReduced={prefersReduced}
               onOpen={handleOpenClip}
             />

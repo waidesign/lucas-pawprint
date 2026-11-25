@@ -14,13 +14,6 @@ export const REST_BEANS: BeanSpec[] = [
   { id: "or", cx: 162, cy: 90, rx: 14, ry: 18, rotate: 34 },
 ];
 
-export const FORM_SMALL_BEANS: BeanSpec[] = [
-  { id: "ol", cx: 52, cy: 48, rx: 10, ry: 13, rotate: -28 },
-  { id: "il", cx: 82, cy: 28, rx: 10, ry: 13, rotate: -10 },
-  { id: "ir", cx: 118, cy: 28, rx: 10, ry: 13, rotate: 10 },
-  { id: "or", cx: 148, cy: 48, rx: 10, ry: 13, rotate: 28 },
-];
-
 export const LOST_BEANS: BeanSpec[] = [
   { id: "ol", cx: 26, cy: 66, rx: 14, ry: 18, rotate: 40 },
   { id: "il", cx: 66, cy: 24, rx: 15, ry: 19, rotate: -50 },

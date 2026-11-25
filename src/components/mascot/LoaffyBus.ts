@@ -18,15 +18,14 @@ export type Pose =
   | "vibing"
   | "mid-flip";
 
-export type Form =
-  | "paw"
-  | "paw-3d"
-  | "window"
-  | "phone"
-  | "cube"
-  | "play"
-  | "bubble"
-  | "lost";
+/**
+ * Loaffy is always a cat paw. The object shape-shifts (window, phone, cube, play,
+ * bubble) were removed on 2026-11-25; only paw styles remain:
+ * - "paw":    the standard paw (every pose and mood)
+ * - "paw-3d": the same paw, shaded inside one outline
+ * - "lost":   the paw with scattered beans and a "?" (404 only)
+ */
+export type Form = "paw" | "paw-3d" | "lost";
 
 export type LoaffyTrigger =
   | "tap"
