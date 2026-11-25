@@ -334,9 +334,12 @@ function PrincipleCard({
       }
       className="flex flex-col overflow-hidden rounded-lg border-2 border-line-strong bg-surface shadow-sticker transition-transform"
     >
-      {/* Live demo stage (decorative: the text below says what it shows) */}
+      {/* Live demo stage (decorative: the text below says what it shows). It sits on a
+          pastel, so it always uses the light theme: its paper/ink pieces stay visible
+          in Dark and Warm Dark instead of turning near-black. */}
       <div
         aria-hidden="true"
+        data-theme="light"
         className={cn(
           "relative h-48 overflow-hidden border-b-2 border-line-strong",
           TONE_BG_CLASSES[principle.tone],
