@@ -653,12 +653,11 @@ export function ComponentsLabSection() {
         {/* IndexColumns: 2, 3, and 4 columns with labels, big numbers, Chip & actions */}
         <div className="space-y-6 border-t border-line pt-6">
           <p className="font-mono text-label uppercase tracking-wider text-text-muted">
-            IndexColumns (2 / 3 / 4 columns · mono or Chip labels · optional display numerals · actions)
+            IndexColumns (2 / 3 / 4 columns · mono or Chip labels · display numerals for real steps only · actions)
           </p>
 
           <IndexColumns
             columns={3}
-            ordered
             bodySize="body-lg"
             items={[
               {
@@ -667,7 +666,6 @@ export function ComponentsLabSection() {
                     Problem
                   </Chip>
                 ),
-                number: "01",
                 title: "Understand first",
                 body: "Map the messy reality and real constraints before touching visual layout.",
               },
@@ -677,13 +675,11 @@ export function ComponentsLabSection() {
                     What I did
                   </Chip>
                 ),
-                number: "02",
                 title: "Design the system",
                 body: "Turn recurring states into shared tokens and predictable primitives.",
               },
               {
                 label: "Shipped",
-                number: "03",
                 title: "Check twice",
                 body: "Verify accessibility, reduced motion, and breakpoints before release.",
                 actions: (
@@ -703,24 +699,55 @@ export function ComponentsLabSection() {
             columns={4}
             items={[
               {
-                label: "01",
+                label: "Layout",
                 title: "Two-column / Four-column",
                 body: "Plain typography under a 2px pen rule scales cleanly down to 375px.",
               },
               {
-                label: "02",
+                label: "Fill",
                 title: "Zero fill",
                 body: "Background contrast comes from alternating soft section bands, not repeated card fills.",
               },
               {
-                label: "03",
+                label: "Shadow",
                 title: "Zero shadow",
                 body: "Sticker shadows stay reserved for clickable controls and primary media.",
               },
               {
-                label: "04",
+                label: "Type",
                 title: "Token scale",
                 body: "Every heading follows Rule 17 through HEADING_SCALE_CLASSES.",
+              },
+            ]}
+          />
+
+          <p className="font-mono text-label uppercase tracking-wider text-text-muted">
+            Steps variant (ordered · numerals only when order matters)
+          </p>
+
+          <IndexColumns
+            columns={4}
+            ordered
+            items={[
+              {
+                number: "01",
+                title: "Understand",
+                body: "Map the problem and the real constraints.",
+              },
+              {
+                number: "02",
+                title: "Shape",
+                body: "Sketch the flow and decide the structure.",
+              },
+              {
+                number: "03",
+                title: "Design",
+                body: "Build tokens, states and screens.",
+              },
+              {
+                number: "04",
+                title: "Ship",
+                body: "Check twice, then release.",
               },
             ]}
           />
@@ -796,12 +823,11 @@ export function ComponentsLabSection() {
 
         <div className="border-t border-line pt-6">
           <FeatureRow
-            number="01."
             eyebrow="FeatureRow · 7/5 split"
             title="Plain copy beside one framed surface."
             highlight="framed"
             highlightTone="lilac"
-            body="Mirrors Home's CaseCard geometry with alternating media sides, display numerals, and optional labelled details."
+            body="Mirrors Home's CaseCard geometry with alternating media sides, a mono eyebrow, and optional labelled details."
             points={[
               { label: "Layout", text: "7/5 or 6/6 grid on desktop, stacked on mobile." },
               { label: "Rule 18", text: "Only the media window wears a pen border and sticker shadow." },
@@ -822,12 +848,12 @@ export function ComponentsLabSection() {
         <div className="border-t border-line pt-6">
           <DecisionList
             heading="DecisionList"
-            intro="Numbered plain rows with Problem, Decision, and Why columns split by 1px hairlines."
+            intro="Plain rows with Problem, Decision, and Why columns split by 1px hairlines."
             items={[
               {
                 title: "Alternating wavy chapter bands",
                 problem: "Stacked grey boxes made case studies feel disconnected from the Home page.",
-                decision: "Alternated bg and soft pastel bands joined by SectionSeam waves, with ProcessStory numerals.",
+                decision: "Alternated bg and soft pastel bands joined by SectionSeam waves, each led by a quiet mono step label.",
                 why: "Every case study now shares the exact rhythm and hierarchy of Home.",
               },
             ]}
@@ -839,7 +865,7 @@ export function ComponentsLabSection() {
             items={[
               {
                 title: "PainList item",
-                body: "Highlights real user friction with blush numbered beans.",
+                body: "Lists real user friction in plain hairline rows.",
               },
             ]}
           />
@@ -847,7 +873,7 @@ export function ComponentsLabSection() {
             items={[
               {
                 title: "InsightList item",
-                body: "Highlights verified findings with mint numbered beans.",
+                body: "Lists verified findings in plain hairline rows.",
               },
             ]}
           />
@@ -885,7 +911,6 @@ export function ComponentsLabSection() {
               "Hierarchy does the heavy lifting when cards get out of the way.",
               "Real screenshots and short loops prove craft better than claims.",
             ]}
-            tone="butter"
           />
         </div>
       </div>
