@@ -22,7 +22,8 @@
 - **Reduced motion:** a 120ms paper fade, the same as the menu.
 - **Safety:** if a navigation never lands, the cover lifts after 4s.
 - **Not on first load:** Home has its own landing intro, and covering the first paint would hurt LCP.
-- **Cost:** about 1.2s before the new URL and about 2s in total. To shorten it, change the shared timings in `stickerWipe.tsx` (the menu changes too).
+- **Speed (updated 2026-11-26, Lucas: "taking too long"):** page transitions use their own faster timings (`PAGE_*` in `stickerWipe.tsx`): cover 400ms with the sheet 80ms behind (covered at 480ms), uncover 400ms with the lead 80ms behind. The header menu keeps its slower timing.
+- **Hero animations wait for the uncover:** `src/lib/pageTransitionStore.ts` (`useRevealReady`) is false while the page is covered. `HeroReveal` and the Home `Hero` hold their start pose until the wipe starts lifting, so entrances play in view instead of under the cover. It's always true on a first load.
 
 ## Smooth in-page scroll
 - **What:** `SmoothAnchorScroll` (in the root layout) handles same-page `#hash` links.
