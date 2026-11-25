@@ -4,6 +4,7 @@ import { useState } from "react";
 import { ArrowDown, ArrowUp } from "lucide-react";
 import { testimonials } from "@/content/site";
 import { stagger } from "@/lib/motion";
+import { cn } from "@/lib/cn";
 import { FadeIn } from "@/components/motion/FadeIn";
 import { Card } from "@/components/ui/Card";
 import { Heading } from "@/components/ui/Heading";
@@ -108,7 +109,17 @@ export function KindWords({
               <FadeIn key={t.id} delay={idx * stagger}>
                 <Card
                   tone="surface"
-                  className="flex h-full flex-col justify-between gap-6"
+                  style={{
+                    transitionDuration: "var(--duration-base)",
+                    transitionTimingFunction: "var(--ease-out-soft)",
+                  }}
+                  className={cn(
+                    "flex h-full flex-col justify-between gap-6 transition-transform motion-safe:hover:rotate-0 motion-safe:focus-within:rotate-0",
+                    // Sticker tilt like the motion demo cards; straightens on hover/focus.
+                    idx % 2 === 0
+                      ? "motion-safe:-rotate-[1.6deg]"
+                      : "motion-safe:rotate-[1.4deg]",
+                  )}
                 >
                   <div className="space-y-4">
                     <blockquote className="font-display text-h3 text-text">

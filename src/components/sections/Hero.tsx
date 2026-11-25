@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { motion } from "motion/react";
 import { useReducedMotion } from "@/lib/useReducedMotion";
+import { useRevealReady } from "@/lib/pageTransitionStore";
 import { ArrowDown, ArrowRight, Calendar } from "lucide-react";
 import { profile } from "@/content/site";
 import { trackEvent } from "@/lib/analytics";
@@ -41,6 +42,7 @@ let landingIntroStarted = false;
  */
 export function Hero() {
   const prefersReduced = useReducedMotion() ?? false;
+  const revealReady = useRevealReady();
   const [phase, setPhase] = useState<HeroStagePhase>(() =>
     prefersReduced || landingIntroStarted ? "settled" : "drop"
   );
@@ -128,6 +130,8 @@ export function Hero() {
   }, [clearTimers, prefersReduced]);
 
   useEffect(() => {
+    // Arriving via a page transition: wait until the wipe uncovers before starting.
+    if (!revealReady) return;
     const startId = window.setTimeout(() => {
       // Skip when returning home via client-side navigation (intro already seen).
       if (!landingIntroStarted) runChoreography();
@@ -137,7 +141,7 @@ export function Hero() {
       window.clearTimeout(startId);
       clearTimers();
     };
-  }, [runChoreography, clearTimers]);
+  }, [runChoreography, clearTimers, revealReady]);
 
   // Gently cycle the inline headline Loaffy pose every 3.6s once settled (off under reduced motion)
   useEffect(() => {
@@ -226,7 +230,8 @@ export function Hero() {
     setPhase("settled");
   };
 
-  const heroRevealed = prefersReduced || phase === "settled";
+  // Returning Home via a page transition: hold the settled hero until the wipe uncovers.
+  const heroRevealed = prefersReduced || (phase === "settled" && revealReady);
   const currentInlinePose: Pose = prefersReduced
     ? "loaf"
     : INLINE_POSES[inlinePoseIdx] ?? "wink";

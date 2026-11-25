@@ -12,13 +12,14 @@ import {
 import { useReducedMotion } from "@/lib/useReducedMotion";
 import {
   blobPath,
-  LEAD_CLOSE,
-  LEAD_OPEN,
   LEAD_PHASE_OFFSET,
-  SHEET_CLOSE,
-  SHEET_OPEN,
+  PAGE_LEAD_CLOSE as LEAD_CLOSE,
+  PAGE_LEAD_OPEN as LEAD_OPEN,
+  PAGE_SHEET_CLOSE as SHEET_CLOSE,
+  PAGE_SHEET_OPEN as SHEET_OPEN,
   WipeOutline,
 } from "@/components/site/stickerWipe";
+import { setPageTransitionPhase } from "@/lib/pageTransitionStore";
 
 type Phase = "idle" | "covering" | "covered" | "revealing";
 
@@ -77,6 +78,7 @@ export function PageTransition() {
   const go = useCallback((next: Phase) => {
     phaseRef.current = next;
     setPhase(next);
+    setPageTransitionPhase(next); // lets hero animations wait for the uncover
   }, []);
 
   const stopAll = useCallback(() => {
@@ -90,9 +92,10 @@ export function PageTransition() {
 
   const reveal = useCallback(async () => {
     stopAll();
+    // Let the new page paint under the cover first, then uncover. Hero animations start
+    // with the uncover ("revealing"), so they play while the wipe lifts.
+    await new Promise<void>((r) => requestAnimationFrame(() => r()));
     go("revealing");
-    // Let the new page paint under the cover first.
-    await new Promise<void>((r) => requestAnimationFrame(() => requestAnimationFrame(() => r())));
     const controls = prefersReduced
       ? [animate(fade, 0, FADE)]
       : [animate(sheet, 0, SHEET_CLOSE), animate(lead, 0, LEAD_CLOSE)];
@@ -144,9 +147,10 @@ export function PageTransition() {
       lead.set(1);
       sheet.set(1);
       fade.set(1);
+      go("covered"); // hero animations wait for the uncover, as on link clicks
     }
     void reveal();
-  }, [fade, lead, pathname, reveal, sheet, stopAll]);
+  }, [fade, go, lead, pathname, reveal, sheet, stopAll]);
 
   useEffect(() => stopAll, [stopAll]);
 

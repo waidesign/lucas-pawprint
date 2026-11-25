@@ -3,15 +3,11 @@
 import type { ReactNode } from "react";
 import { motion } from "motion/react";
 import { useReducedMotion } from "@/lib/useReducedMotion";
-import { ArrowRight, Calendar } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import { cn } from "@/lib/cn";
-import { profile } from "@/content/site";
 import { trackEvent } from "@/lib/analytics";
-import { emitLoaffyEvent } from "@/components/mascot/LoaffyBus";
 import { LoaffyWorkspace } from "@/components/mascot/LoaffyWorkspace";
-import { Button } from "@/components/ui/Button";
 import { ClawdMark } from "@/components/ui/ClawdMark";
-import { CopyEmail } from "@/components/ui/CopyEmail";
 import { HEADING_SCALE_CLASSES } from "@/components/ui/Heading";
 import { Section } from "@/components/ui/Section";
 import { TextLink } from "@/components/ui/TextLink";
@@ -137,37 +133,15 @@ export function BuiltWith() {
             coding models: Argon and Neon.
           </p>
 
-          <div className="flex flex-col items-start gap-4">
-            <CopyEmail email={profile.email} />
-
-            <div className="flex flex-wrap items-center gap-6 pt-1">
-              <Button
-                variant="primary"
-                size="lg"
-                href={profile.bookingUrl}
-                external
-                iconStart={<Calendar className="h-5 w-5" />}
-                onClick={() => {
-                  trackEvent("book_chat_click", { location: "built_with_cta" });
-                  emitLoaffyEvent("book-chat-click");
-                }}
-              >
-                Book a chat
-              </Button>
-
-              <TextLink
-                href="/work/luci"
-                tone="lilac"
-                iconEnd={<ArrowRight className="h-4 w-4 shrink-0" aria-hidden="true" />}
-                onClick={() =>
-                  trackEvent("luci_click", { location: "built_with" })
-                }
-                className="min-h-12 items-center font-body text-button font-semibold"
-              >
-                See how Luci works
-              </TextLink>
-            </div>
-          </div>
+          <TextLink
+            href="/work/luci"
+            tone="lilac"
+            iconEnd={<ArrowRight className="h-4 w-4 shrink-0" aria-hidden="true" />}
+            onClick={() => trackEvent("luci_click", { location: "built_with" })}
+            className="min-h-12 items-center font-body text-button font-semibold"
+          >
+            See how Luci works
+          </TextLink>
         </div>
 
         <div className="lg:col-span-7">

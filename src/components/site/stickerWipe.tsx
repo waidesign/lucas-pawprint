@@ -20,6 +20,13 @@ export const SHEET_OPEN = { duration: 0.8, ease: EASE_IN_OUT, delay: 0.16 } as c
 export const SHEET_CLOSE = { duration: 0.64, ease: EASE_IN_OUT, delay: 0.12 } as const;
 export const LEAD_CLOSE = { duration: 0.64, ease: EASE_IN_OUT, delay: 0.28 } as const;
 
+/* Page transitions: the same wipe at about twice the speed, so the cover is brief and the
+   new page's hero animations are seen. Covered at 480ms, uncovered 480ms after landing. */
+export const PAGE_LEAD_OPEN = { duration: 0.4, ease: EASE_IN_OUT } as const;
+export const PAGE_SHEET_OPEN = { duration: 0.4, ease: EASE_IN_OUT, delay: 0.08 } as const;
+export const PAGE_SHEET_CLOSE = { duration: 0.4, ease: EASE_IN_OUT } as const;
+export const PAGE_LEAD_CLOSE = { duration: 0.4, ease: EASE_IN_OUT, delay: 0.08 } as const;
+
 /* Wavy, hand-cut edge: 12 big lobes + a 7-lobe ripple for irregularity. The lobes slide
    along the edge as it grows (phase follows progress), so it morphs rather than zooms. */
 const BLOB_POINTS = 48;
