@@ -72,14 +72,20 @@ export function TLDR({
   return (
     <section
       id="at-a-glance"
-      aria-labelledby={renderFullOverview ? "at-a-glance-heading" : undefined}
-      aria-label={renderFullOverview ? undefined : "Case study TL;DR summary"}
+      aria-labelledby="at-a-glance-heading"
       className={cn(
         "w-full bg-bg px-4 py-12 md:px-10 md:py-20 lg:px-20",
         className,
       )}
     >
       <div className="w-full space-y-10 md:space-y-12">
+        {/* Standalone (no case context, e.g. /colophon): a hidden h2 keeps the outline
+            h1 → h2 → h3 for the Problem / What I did / Outcome headings below. */}
+        {!renderFullOverview && (
+          <h2 id="at-a-glance-heading" className="sr-only">
+            At a glance
+          </h2>
+        )}
         {renderFullOverview && (
           <>
             <Heading
