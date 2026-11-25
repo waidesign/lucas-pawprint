@@ -394,7 +394,7 @@ export function HeaderMenu({
                       aria-current={isActive ? "page" : undefined}
                       onClick={onClose}
                       className={cn(
-                        "group relative inline-flex items-center gap-3 px-6 py-2 font-display text-4xl font-extrabold tracking-tight text-text transition-transform duration-200 hover:scale-105 active:scale-95 md:text-6xl lg:text-7xl",
+                        "group relative inline-flex items-center gap-3 px-6 py-2 font-display text-menu-link-sm text-text transition-transform duration-200 hover:scale-105 active:scale-95 md:text-menu-link-md lg:text-menu-link-lg",
                         idx % 2 === 0 ? "hover:-rotate-1" : "hover:rotate-1",
                         isActive &&
                           "underline decoration-lilac decoration-4 underline-offset-8",

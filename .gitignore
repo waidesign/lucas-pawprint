@@ -46,3 +46,6 @@ next-env.d.ts
 
 # luci local machine state
 .luci/local/
+
+# luci dev-toolbar feedback notes (local machine state)
+.luci/feedback/

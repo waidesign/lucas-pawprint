@@ -137,6 +137,18 @@
   --text-button--line-height: 1rem;
   --text-button--letter-spacing: -0.005em;
   --text-button--font-weight: 600;
+  --text-menu-link-sm: 2.25rem;
+  --text-menu-link-sm--line-height: 2.5rem;
+  --text-menu-link-sm--letter-spacing: -0.025em;
+  --text-menu-link-sm--font-weight: 800;
+  --text-menu-link-md: 3.75rem;
+  --text-menu-link-md--line-height: 3.75rem;
+  --text-menu-link-md--letter-spacing: -0.025em;
+  --text-menu-link-md--font-weight: 800;
+  --text-menu-link-lg: 4.5rem;
+  --text-menu-link-lg--line-height: 4.5rem;
+  --text-menu-link-lg--letter-spacing: -0.025em;
+  --text-menu-link-lg--font-weight: 800;
   --radius-xs: 8px;
   --radius-sm: 12px;
   --radius-md: 16px;

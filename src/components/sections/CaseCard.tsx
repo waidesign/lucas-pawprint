@@ -259,7 +259,7 @@ export function CaseCard({
                     trackEvent("luci_click", { location: "case_card_live" });
                   }
                 }}
-                className="mx-0 min-h-12 items-center gap-1.5 rounded-pill px-4 font-body text-button font-semibold decoration-2"
+                className="mx-0 min-h-12 items-center gap-1.5 px-4 font-body text-button font-semibold decoration-2"
               >
                 Live site<span className="sr-only"> for {title}</span>
               </TextLink>
@@ -383,7 +383,7 @@ export function CaseCard({
                   trackEvent("luci_click", { location: "case_card_live" });
                 }
               }}
-              className="mx-0 min-h-12 items-center gap-1.5 rounded-pill px-4 font-body text-button font-semibold decoration-2"
+              className="mx-0 min-h-12 items-center gap-1.5 px-4 font-body text-button font-semibold decoration-2"
             >
               Live site<span className="sr-only"> for {title}</span>
             </TextLink>
