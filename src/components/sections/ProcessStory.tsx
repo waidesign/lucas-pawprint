@@ -20,15 +20,7 @@ import {
   type ProcessIllustrationId,
 } from "./ProcessIllustrations";
 import { cn, TONE_BG_CLASSES, type Tone } from "@/lib/cn";
-import { Loaffy } from "@/components/mascot/Loaffy";
-import { HandSketch } from "@/components/mascot/HandSketch";
-import {
-  emitLoaffyMessage,
-  emitLoaffyTrigger,
-  type Form,
-  type Mood,
-  type Pose,
-} from "@/components/mascot/LoaffyBus";
+import { ProcessHandScene } from "@/components/mascot/ProcessHandScene";
 import { profile } from "@/content/site";
 import { trackEvent } from "@/lib/analytics";
 import { springCalm } from "@/lib/motion";
@@ -40,12 +32,9 @@ interface ProcessSceneSpec {
   stepName: string;
   line: string;
   detail: string;
-  character: "loaffy" | "hand";
-  mood?: Mood;
-  pose?: Pose;
-  form?: Form;
   tone: Tone;
   illustration: ProcessIllustrationId;
+  scrubRange: [number, number];
 }
 
 const PROCESS_SCENES: ProcessSceneSpec[] = [
@@ -54,57 +43,45 @@ const PROCESS_SCENES: ProcessSceneSpec[] = [
     line: "First, I ask a lot of questions.",
     detail:
       "I map what users actually struggle with, audit the existing product, and separate real constraints from assumptions before opening a canvas.",
-    character: "loaffy",
-    mood: "curious",
-    pose: "none",
-    form: "paw",
     tone: "butter",
     illustration: "understand",
+    scrubRange: [0, 0.2],
   },
   {
     stepName: "Shape",
     line: "Then I sketch the flow before the pixels.",
     detail:
       "I strip the journey down to the fewest steps possible, sketching low-friction wireframes and decision branches with PMs and engineers.",
-    character: "hand",
     tone: "sky",
     illustration: "shape",
+    scrubRange: [0.2, 0.45],
   },
   {
     stepName: "Design",
     line: "Then I design the system, not just the screen.",
     detail:
       "I build tokens, accessible states, and reusable components on the 4/8 grid so design and production code speak the exact same language.",
-    character: "loaffy",
-    mood: "calm",
-    pose: "none",
-    form: "window",
     tone: "lilac",
     illustration: "design",
+    scrubRange: [0.45, 0.7],
   },
   {
     stepName: "Motion",
     line: "Then I make it move, with purpose.",
     detail:
       "Every transition explains a change of state, hierarchy, or system progress on a 40ms beat, with full reduced-motion support.",
-    character: "loaffy",
-    mood: "happy",
-    pose: "vibing",
-    form: "paw",
     tone: "blush",
     illustration: "motion",
+    scrubRange: [0.7, 0.9],
   },
   {
     stepName: "Ship",
     line: "Then I ship it, and check it twice.",
     detail:
       "I review staging builds against the design system, test keyboard and responsive breakpoints, and ship clean production interfaces.",
-    character: "loaffy",
-    mood: "happy",
-    pose: "jump",
-    form: "paw",
     tone: "mint",
     illustration: "ship",
+    scrubRange: [0.9, 1],
   },
 ];
 
@@ -143,50 +120,6 @@ const HOVER_TRANSITION: Transition = {
   duration: 0.48,
   ease: [0.22, 1, 0.36, 1],
 };
-
-function driveSceneThroughBus(stepIndex: number) {
-  if (stepIndex === 0) {
-    emitLoaffyMessage({
-      kind: "state",
-      target: "process",
-      mood: "curious",
-      pose: "none",
-      form: "paw",
-    });
-  } else if (stepIndex === 2) {
-    emitLoaffyMessage({
-      kind: "state",
-      target: "process",
-      mood: "calm",
-      pose: "none",
-      form: "window",
-      lookX: 0,
-      lookY: 0,
-    });
-    emitLoaffyTrigger("land", "process");
-  } else if (stepIndex === 3) {
-    emitLoaffyMessage({
-      kind: "state",
-      target: "process",
-      mood: "happy",
-      pose: "vibing",
-      form: "paw",
-      lookX: 0,
-      lookY: 0,
-    });
-  } else if (stepIndex === 4) {
-    emitLoaffyMessage({
-      kind: "state",
-      target: "process",
-      mood: "happy",
-      pose: "jump",
-      form: "paw",
-      lookX: 0,
-      lookY: 0,
-    });
-    emitLoaffyTrigger("jump", "process");
-  }
-}
 
 interface ProcessCardProps {
   scene: ProcessSceneSpec;
@@ -227,8 +160,8 @@ function ProcessCard({
     [range[0], range[0] + PIN_REVEAL_LENGTH / 2],
     [0, 1],
   );
-  // Step 2 (Shape, §6.4 20–45%): hand enters, its claws draw the wireframe, then exits
-  const shapeScrub = useTransform(pinProgress, [0.2, 0.45], [0, 1]);
+  // Each step's Cat Hand scene scrubs across its own slice of the pinned timeline ([P3-A1])
+  const sceneScrub = useTransform(pinProgress, scene.scrubRange, [0, 1]);
   // Step 5 (Ship): "Shipped" sticker stamps in across 90–98% scrub
   const shippedScale = useTransform(pinProgress, [0.9, 0.96, 1], [1.24, 0.96, 1]);
   const shippedOpacity = useTransform(pinProgress, [0.88, 0.94], [0, 1]);
@@ -314,35 +247,12 @@ function ProcessCard({
           )}
         >
           {isActive ? (
-            scene.character === "hand" ? (
-              /* Pinned: scrubbed by scroll. Otherwise (hover, tap, < lg): plays once. */
-              <HandSketch
-                scrub={isDesktopPinned ? shapeScrub : undefined}
-                play
-                handSize={isLg ? 144 : 176}
-              />
-            ) : (
-              /* Step 3 Design (§6.4): window form squashed slightly to button proportions */
-              <div
-                className={cn(
-                  "flex items-center justify-center transition-transform duration-200",
-                  index === 2 && "scale-x-110 scale-y-90",
-                )}
-              >
-                <Loaffy
-                  targetId="process"
-                  mood={scene.mood}
-                  pose={scene.pose}
-                  form={scene.form}
-                  size={isLg ? 64 : 128}
-                  track={false}
-                  blink={false}
-                  listenToBus
-                  showGroundShadow
-                  label={`Loaffy during the ${scene.stepName} step`}
-                />
-              </div>
-            )
+            <ProcessHandScene
+              kind={scene.illustration}
+              scrub={isDesktopPinned ? sceneScrub : undefined}
+              play
+              handSize={isLg ? 144 : 176}
+            />
           ) : (
             <ProcessIllustration id={scene.illustration} />
           )}
@@ -432,17 +342,11 @@ export function ProcessStory() {
   const [active, setActive] = useState(0);
   const [lifted, setLifted] = useState<number | null>(null);
 
-  const activateStep = useCallback(
-    (idx: number, withLift = false) => {
-      const clamped = Math.max(0, Math.min(PROCESS_SCENES.length - 1, idx));
-      setActive(clamped);
-      if (withLift) setLifted(clamped);
-      if (!prefersReduced) {
-        driveSceneThroughBus(clamped);
-      }
-    },
-    [prefersReduced],
-  );
+  const activateStep = useCallback((idx: number, withLift = false) => {
+    const clamped = Math.max(0, Math.min(PROCESS_SCENES.length - 1, idx));
+    setActive(clamped);
+    if (withLift) setLifted(clamped);
+  }, []);
 
   // Dynamically load GSAP ScrollTrigger ONLY on ≥ lg and when reduced motion is off
   useEffect(() => {
@@ -474,23 +378,9 @@ export function ProcessStory() {
                 ? 3
                 : 4;
 
-      if (nextStep === 0) {
-        const local = p / 0.2;
-        emitLoaffyMessage({
-          kind: "state",
-          target: "process",
-          mood: "curious",
-          pose: "none",
-          form: "paw",
-          lookX: Math.round(-72 + local * 144),
-          lookY: 16,
-        });
-      }
-
       if (nextStep !== lastScrubStepRef.current) {
         lastScrubStepRef.current = nextStep;
         setActive(nextStep);
-        driveSceneThroughBus(nextStep);
       }
     };
 

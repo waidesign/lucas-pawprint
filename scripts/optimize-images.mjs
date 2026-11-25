@@ -86,16 +86,11 @@ function parseMdxMetadata(filePath) {
   return vm.runInNewContext(`(${objSource})`, {});
 }
 
-async function loadLoaffyFormBuffer(form) {
-  const formPath = path.join(ROOT_DIR, "public", "loaffy", "forms", `${form}.svg`);
-  const fallbackPath = path.join(ROOT_DIR, "public", "loaffy", "forms", "window.svg");
-  const resolved = fs.existsSync(formPath)
-    ? formPath
-    : fs.existsSync(fallbackPath)
-      ? fallbackPath
-      : null;
-  if (!resolved) return null;
-  return sharp(resolved)
+/** Loaffy is always a cat paw: every OG image uses the shaded paw. */
+async function loadLoaffyPawBuffer() {
+  const pawPath = path.join(ROOT_DIR, "public", "loaffy", "forms", "paw-3d.svg");
+  if (!fs.existsSync(pawPath)) return null;
+  return sharp(pawPath)
     .resize({ width: 304, height: 304, fit: "contain" })
     .png()
     .toBuffer();
@@ -106,9 +101,9 @@ async function renderCaseOgPng({
   title,
   summary,
   tone,
-  form,
   badgeText,
   outFile,
+  urlText = `lucas.pawprint.design/work/${slug}`,
 }) {
   const bgHex = PASTEL_HEX[tone] ?? PASTEL_HEX.lilac;
   const safeBadge = escapeXml(badgeText);
@@ -145,10 +140,10 @@ async function renderCaseOgPng({
     <text x="108" y="111" font-family="monospace" font-size="20" font-weight="700" fill="#2B2B2B">${safeBadge}</text>
     ${titleSvg}
     ${summarySvg}
-    <text x="80" y="532" font-family="monospace" font-size="22" font-weight="600" fill="#2B2B2B">lucas.pawprint.design/work/${escapeXml(slug)}</text>
+    <text x="80" y="532" font-family="monospace" font-size="22" font-weight="600" fill="#2B2B2B">${escapeXml(urlText)}</text>
   </svg>`;
 
-  const loaffyBuffer = await loadLoaffyFormBuffer(form);
+  const loaffyBuffer = await loadLoaffyPawBuffer();
   const baseOg = sharp(Buffer.from(ogSvg));
   if (loaffyBuffer) {
     baseOg.composite([{ input: loaffyBuffer, left: 824, top: 160 }]);
@@ -166,6 +161,20 @@ async function generateCaseOgImages() {
 
   let generatedCount = 0;
 
+  // Site-wide share image for Home, Work, About, Contact and Colophon (copy taken from
+  // the site itself: About h1, profile.title, footer tagline).
+  await renderCaseOgPng({
+    slug: "",
+    title: "Hi, I'm Lucas.",
+    summary:
+      "Product & Motion Designer in Phuket, Thailand. Curious by nature, careful by habit.",
+    tone: "lilac",
+    badgeText: "Wai Phyo Aung · Portfolio",
+    outFile: path.join(ogDir, "site.png"),
+    urlText: "lucas.pawprint.design",
+  });
+  generatedCount++;
+
   for (const file of mdxFiles) {
     const meta = parseMdxMetadata(path.join(CONTENT_CASE_DIR, file));
     if (!meta || meta.status === "draft") continue;
@@ -176,7 +185,6 @@ async function generateCaseOgImages() {
         title: meta.title,
         summary: meta.summary,
         tone: meta.tone,
-        form: meta.form,
         badgeText: "Luci · open source",
         outFile: path.join(ogDir, "luci.png"),
       });
@@ -189,7 +197,6 @@ async function generateCaseOgImages() {
       title: meta.title,
       summary: meta.summary,
       tone: meta.tone,
-      form: meta.form,
       badgeText: `${meta.client} · ${meta.year}`,
       outFile: path.join(ogDir, `${meta.slug}.png`),
     });

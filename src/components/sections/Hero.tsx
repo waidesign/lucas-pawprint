@@ -81,7 +81,7 @@ export function Hero() {
       setPhase("exploding");
     }, 1480);
 
-    // 2120–4520ms (6 x 400ms = 2400ms): 6-Act Loaffy Pose & Shape-Shift Showcase!
+    // 2120–4520ms (6 x 400ms = 2400ms): 6-Act Loaffy Pose Showcase!
     const tBeat0 = window.setTimeout(() => {
       setPhase("posing");
       setPoseBeat(0); // Shades
@@ -159,13 +159,14 @@ export function Hero() {
     };
   }, [phase, prefersReduced]);
 
-  // §6.2 Hero → Work scroll morph: as #work enters (0 → 1 over 400px), look down and morph paw → window
+  // §6.2 Hero → Work scroll: as #work enters (0 → 1 over 400px), Loaffy looks down at
+  // the work and lands once at the halfway point. (Loaffy no longer morphs into a window.)
   useEffect(() => {
     if (prefersReduced || phase !== "settled") return;
 
     let cancelled = false;
     let revertFn: (() => void) | undefined;
-    let wasMorphed = false;
+    let hasLanded = false;
 
     (async () => {
       const [{ default: gsap }, { ScrollTrigger }] = await Promise.all([
@@ -187,20 +188,19 @@ export function Hero() {
           invalidateOnRefresh: true,
           onUpdate: (self) => {
             const p = self.progress;
-            const morphed = p >= 0.45;
+            const pastHalf = p >= 0.45;
 
             emitLoaffyMessage({
               kind: "state",
               target: "hero",
-              form: morphed ? "window" : "paw",
               lookY: p > 0.04 ? Math.round(p * 92) : null,
             });
 
-            if (morphed && !wasMorphed) {
-              wasMorphed = true;
+            if (pastHalf && !hasLanded) {
+              hasLanded = true;
               emitLoaffyTrigger("land", "hero");
-            } else if (!morphed && wasMorphed) {
-              wasMorphed = false;
+            } else if (!pastHalf && hasLanded) {
+              hasLanded = false;
             }
           },
         });
@@ -215,7 +215,6 @@ export function Hero() {
       emitLoaffyMessage({
         kind: "state",
         target: "hero",
-        form: "paw",
         lookY: null,
       });
     };

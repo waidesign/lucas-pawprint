@@ -20,10 +20,10 @@ export const metadata: Metadata = {
     type: "website",
     images: [
       {
-        url: "https://lucas.pawprint.design/og/luci-teaser.png",
+        url: "https://lucas.pawprint.design/og/site.png",
         width: 1200,
         height: 630,
-        alt: "Work by Lucas (Wai Phyo Aung), featuring Luci.",
+        alt: "Loaffy the paw next to “Hi, I'm Lucas.” Product & Motion Designer.",
       },
     ],
   },

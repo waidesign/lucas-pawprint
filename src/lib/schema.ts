@@ -9,17 +9,6 @@ export const TONE_VALUES = [
   "pistachio",
 ] as const;
 
-export const FORM_VALUES = [
-  "paw",
-  "paw-3d",
-  "window",
-  "phone",
-  "cube",
-  "play",
-  "bubble",
-  "lost",
-] as const;
-
 const BANNED_CLAIM_REGEX =
   /\+\s*(?:150|180|200|300)\s*%|\b(?:150|180|200|300)%\s*(?:increase|uplift|sales|growth|surge)/i;
 
@@ -84,7 +73,6 @@ export const caseStudyMetadataSchema = z
     tags: z.array(z.string().min(1)).min(1),
     tools: z.array(z.string().min(1)).min(1),
     tone: z.enum(TONE_VALUES),
-    form: z.enum(FORM_VALUES),
     cover: z.string().min(1),
     coverAlt: z.string().min(1),
     coverVideo: coverVideoSchema.optional(),

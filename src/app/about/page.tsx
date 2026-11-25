@@ -1,19 +1,23 @@
+import Link from "next/link";
+import { ArrowRight, Calendar } from "lucide-react";
 import type { Metadata } from "next";
-import { getVisibleMotionClips } from "@/content/motion";
 import { education, experience, profile } from "@/content/site";
 import type { Tone } from "@/lib/cn";
 import { SiteNav } from "@/components/site/SiteNav";
 import { SiteFooter } from "@/components/site/SiteFooter";
 import { KindWords } from "@/components/sections/KindWords";
-import { ContactPanel } from "@/components/sections/ContactPanel";
+import { HeroReveal } from "@/components/motion/HeroReveal";
 import { Loaffy } from "@/components/mascot/Loaffy";
 import { Button } from "@/components/ui/Button";
 import { Chip } from "@/components/ui/Chip";
-import { Heading } from "@/components/ui/Heading";
+import { CopyEmail } from "@/components/ui/CopyEmail";
+import { Heading, HEADING_SCALE_CLASSES } from "@/components/ui/Heading";
 import { IndexColumns, type IndexColumnItem } from "@/components/ui/IndexColumns";
 import { RuledList, type RuledListItem } from "@/components/ui/RuledList";
 import { Section } from "@/components/ui/Section";
+import { SectionSeam } from "@/components/ui/SectionSeam";
 import { TextLink } from "@/components/ui/TextLink";
+import { cn } from "@/lib/cn";
 
 export const metadata: Metadata = {
   title: "About · Lucas (Wai Phyo Aung)",
@@ -30,10 +34,10 @@ export const metadata: Metadata = {
     type: "profile",
     images: [
       {
-        url: "https://lucas.pawprint.design/og/luci-teaser.png",
+        url: "https://lucas.pawprint.design/og/site.png",
         width: 1200,
         height: 630,
-        alt: "About Lucas (Wai Phyo Aung), Product & Motion Designer.",
+        alt: "Loaffy the paw next to “Hi, I'm Lucas.” Product & Motion Designer.",
       },
     ],
   },
@@ -68,26 +72,26 @@ const WORKING_PRINCIPLES = [
     id: "principle-01",
     number: "01",
     title: "Measure before I design.",
-    placeholder: "[one line]",
+    body: "I map what users actually struggle with, audit the existing product, and separate real constraints from assumptions before opening a canvas.",
   },
   {
     id: "principle-02",
     number: "02",
     title: "Design the system, not the screen.",
-    placeholder: "[one line]",
+    body: "I build tokens, accessible states, and reusable components on the 4/8 grid so design and production code speak the exact same language.",
   },
   {
     id: "principle-03",
     number: "03",
     title: "Ship, then check twice.",
-    placeholder: "[one line]",
+    body: "I review staging builds against the design system, test keyboard and responsive breakpoints, and ship clean production interfaces.",
   },
 ] as const;
 
 interface CapabilityArea {
   id: string;
   title: string;
-  links: { label: string; href: string; tone: Tone }[];
+  links: { label: string; href: string; tone: Tone; external?: boolean }[];
 }
 
 const CAPABILITY_AREAS: CapabilityArea[] = [
@@ -138,14 +142,15 @@ const CAPABILITY_AREAS: CapabilityArea[] = [
     title: "Motion",
     links: [
       {
-        label: "Showreel",
-        href: "/motion",
+        label: "How I use motion",
+        href: "/#motion",
         tone: "mint",
       },
       {
-        label: "brand motion at Empire Pixel",
-        href: "/motion?type=brand",
+        label: "Motion work on Behance",
+        href: profile.socials.behance,
         tone: "mint",
+        external: true,
       },
       {
         label: "Loaffy",
@@ -216,12 +221,6 @@ const TOOL_GROUPS: { label: string; items: string[] }[] = [
 ];
 
 export default function AboutPage() {
-  const isDev = process.env.NODE_ENV !== "production";
-  const hasVisibleBrandClip = getVisibleMotionClips().some(
-    (clip) => clip.type === "brand",
-  );
-  const brandMotionHref = hasVisibleBrandClip ? "/motion?type=brand" : "/motion";
-
   const personJsonLd = {
     "@context": "https://schema.org",
     "@type": "Person",
@@ -262,11 +261,6 @@ export default function AboutPage() {
           <p className="font-body text-body font-semibold text-text">
             {education.school} · Graduated {education.graduated}
           </p>
-          {isDev && (
-            <p className="font-mono text-caption text-text-muted">
-              [one line on how a civil-engineering degree shapes how you design]
-            </p>
-          )}
         </div>
       ),
       aside: education.location,
@@ -277,24 +271,19 @@ export default function AboutPage() {
     id: p.id,
     number: p.number,
     title: p.title,
-    body: isDev ? (
-      <span className="font-mono text-caption">{p.placeholder}</span>
-    ) : undefined,
+    body: p.body,
   }));
 
   const capabilityItems: IndexColumnItem[] = CAPABILITY_AREAS.map((area) => ({
     id: area.id,
     title: area.title,
     body: (
-      <ul className="space-y-3 pt-1">
+      <ul className="space-y-2">
         {area.links.map((link) => (
-          <li key={`${area.id}-${link.label}`}>
+          <li key={link.label}>
             <TextLink
-              href={
-                link.label === "brand motion at Empire Pixel"
-                  ? brandMotionHref
-                  : link.href
-              }
+              href={link.href}
+              external={link.external ?? false}
               tone={link.tone}
             >
               {link.label}
@@ -313,21 +302,23 @@ export default function AboutPage() {
       />
       <SiteNav />
       <main id="main-content" className="flex-1">
-        {/* 1. Hero (bg) */}
+        {/* 1. Hero (bg) — mirrors Home/Work hierarchy & smooth entrance cascade */}
         <Section id="about-intro" labelledBy="about-page-heading" tone="bg">
-          <div className="space-y-10">
-            <div className="space-y-4">
-              <p className="font-mono text-label uppercase tracking-wider text-text-muted">
-                {profile.name} · {profile.title}
-              </p>
-              <Heading id="about-page-heading" as="h1">
+          <div className="space-y-12">
+            <HeroReveal step={0} variant="heading" className="space-y-4">
+              <Heading
+                id="about-page-heading"
+                as="h1"
+                highlight="Lucas"
+                highlightTone="butter"
+              >
                 Hi, I&apos;m Lucas.
               </Heading>
-            </div>
+            </HeroReveal>
 
-            <div className="grid grid-cols-1 items-start gap-8 lg:grid-cols-12 lg:items-stretch lg:gap-12">
-              <div className="lg:col-span-5">
-                <div className="overflow-hidden rounded-xl border-2 border-line-strong bg-surface shadow-sticker">
+            <div className="grid grid-cols-1 items-center gap-10 lg:grid-cols-12 lg:gap-16">
+              <HeroReveal step={1} variant="media" className="lg:col-span-5">
+                <div className="-rotate-[1.8deg] overflow-hidden rounded-xl border-2 border-line-strong bg-surface shadow-sticker transition-transform duration-300 ease-out hover:rotate-0 motion-reduce:rotate-0">
                   <picture>
                     <source
                       srcSet={profile.portrait.src.replace(/\.webp$/i, ".avif")}
@@ -343,15 +334,28 @@ export default function AboutPage() {
                     />
                   </picture>
                 </div>
-              </div>
+              </HeroReveal>
 
               <div className="flex flex-col justify-between gap-8 lg:col-span-7">
                 <div className="space-y-6">
-                  <p className="max-w-[var(--prose-max)] font-body text-body-lg text-text">
-                    {ABOUT_INTRO}
-                  </p>
+                  <HeroReveal step={2} variant="body" className="space-y-6">
+                    <p className="max-w-[var(--prose-max)] font-body text-body-lg font-medium text-text">
+                      {ABOUT_INTRO}
+                    </p>
+                    <p className="max-w-[var(--prose-max)] font-body text-body-lg text-text-muted">
+                      {profile.timezoneNote} · Founder of{" "}
+                      <TextLink href="/work/luci" tone="lilac">
+                        Luci (Open source)
+                      </TextLink>
+                      .
+                    </p>
+                  </HeroReveal>
 
-                  <div className="flex flex-wrap items-center gap-4">
+                  <HeroReveal
+                    step={3}
+                    variant="body"
+                    className="flex flex-wrap items-center gap-6 pt-2"
+                  >
                     <Button
                       variant="primary"
                       size="lg"
@@ -360,21 +364,40 @@ export default function AboutPage() {
                     >
                       Resume (PDF)
                     </Button>
-                  </div>
+                    <TextLink
+                      href="/work"
+                      tone="butter"
+                      iconEnd={
+                        <ArrowRight
+                          className="h-4 w-4 shrink-0"
+                          aria-hidden="true"
+                        />
+                      }
+                      className="min-h-12 items-center font-body text-button font-semibold"
+                    >
+                      Explore my work
+                    </TextLink>
+                  </HeroReveal>
                 </div>
 
-                <div className="flex justify-center pt-2 lg:justify-end">
+                <HeroReveal
+                  step={3}
+                  variant="mascot"
+                  className="hidden justify-end pt-2 lg:flex"
+                >
                   <Loaffy
                     form="paw"
                     pose="chill-lean"
                     size={240}
                     label="Loaffy leaning back in a relaxed pose"
                   />
-                </div>
+                </HeroReveal>
               </div>
             </div>
           </div>
         </Section>
+
+        <SectionSeam from="bg" to="butter" seed={61} />
 
         {/* 2. My story (butter-soft band) */}
         <Section
@@ -397,6 +420,8 @@ export default function AboutPage() {
           </div>
         </Section>
 
+        <SectionSeam from="butter" to="bg" seed={67} />
+
         {/* 3. Changelog (bg) */}
         <Section id="changelog" labelledBy="changelog-heading" tone="bg">
           <div className="space-y-10">
@@ -413,6 +438,8 @@ export default function AboutPage() {
             <RuledList items={changelogItems} ordered as="h4" />
           </div>
         </Section>
+
+        <SectionSeam from="bg" to="mint" seed={71} />
 
         {/* 4. How I work (mint-soft band) */}
         <Section
@@ -440,12 +467,21 @@ export default function AboutPage() {
             />
 
             <div className="pt-2">
-              <TextLink href="/#process" tone="mint" className="text-body-lg">
-                See the process, step by step →
+              <TextLink
+                href="/#process"
+                tone="mint"
+                iconEnd={
+                  <ArrowRight className="h-4 w-4 shrink-0" aria-hidden="true" />
+                }
+                className="min-h-12 items-center font-body text-button font-semibold"
+              >
+                See the process, step by step
               </TextLink>
             </div>
           </div>
         </Section>
+
+        <SectionSeam from="mint" to="bg" seed={73} />
 
         {/* 5. What I'm good at + 6. Tools (bg) */}
         <Section
@@ -495,13 +531,81 @@ export default function AboutPage() {
           </div>
         </Section>
 
+        <SectionSeam from="bg" to="blush" seed={79} />
+
         {/* 7. Kind words (blush-soft band, id="kind-words") */}
         <KindWords variant="quotes" />
 
-        {/* 8. Beyond work: omitted until CONTENT.md has real copy */}
+        <SectionSeam from="blush" to="bg" seed={83} />
 
-        {/* 9. ContactPanel */}
-        <ContactPanel />
+        {/* 8. Closing 2-column CTA matching case-study & Home polish (bg before pistachio footer seam) */}
+        <section
+          aria-labelledby="about-closing-heading"
+          className="w-full bg-bg px-4 pt-12 pb-24 md:px-10 md:pt-16 md:pb-32 lg:px-20 lg:pb-40"
+        >
+          <div className="grid grid-cols-1 gap-6 lg:grid-cols-2 lg:items-stretch">
+            <div className="flex h-full flex-col justify-between gap-8 rounded-2xl border-2 border-line-strong bg-lilac p-6 text-on-pastel shadow-sticker md:p-10">
+              <div className="space-y-4">
+                <h2
+                  id="about-closing-heading"
+                  className={cn(
+                    "font-display text-on-pastel text-balance",
+                    HEADING_SCALE_CLASSES.h2,
+                  )}
+                >
+                  Let&apos;s build something thoughtful.
+                </h2>
+                <p className="max-w-xl font-body text-body-lg text-on-pastel/90">
+                  Email me directly or pick a 30-minute slot on Cal.com.
+                </p>
+              </div>
+
+              <div className="flex flex-col items-start gap-4 pt-2">
+                <CopyEmail email={profile.email} />
+                <Button
+                  variant="primary"
+                  size="lg"
+                  href={profile.bookingUrl}
+                  external
+                  iconStart={<Calendar className="h-5 w-5" />}
+                >
+                  Book a chat
+                </Button>
+              </div>
+            </div>
+
+            <Link
+              href="/work"
+              className="group flex h-full w-full flex-col justify-between gap-8 rounded-2xl border-2 border-transparent bg-inverse-bg p-6 text-inverse-text select-none lp-btn-primary md:p-10"
+            >
+              <div className="space-y-4">
+                <span className="block font-mono text-label uppercase tracking-wider text-inverse-text/75">
+                  Selected work
+                </span>
+                <h2
+                  className={cn(
+                    "font-display text-inverse-text text-balance",
+                    HEADING_SCALE_CLASSES.h2,
+                  )}
+                >
+                  See what I&apos;ve shipped.
+                </h2>
+                <p className="max-w-xl font-body text-body-lg text-inverse-text/80">
+                  Seven case studies across Luci, automotive data platforms,
+                  e-commerce customizers, and hospitality.
+                </p>
+              </div>
+
+              <div className="flex items-center gap-2 pt-2 font-body text-button font-semibold text-inverse-text">
+                <span>Explore all work</span>
+                <ArrowRight
+                  className="h-5 w-5 shrink-0 transition-transform duration-200 group-hover:translate-x-1"
+                  aria-hidden="true"
+                />
+              </div>
+            </Link>
+          </div>
+        </section>
       </main>
       <SiteFooter />
     </div>

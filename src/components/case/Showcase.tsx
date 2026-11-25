@@ -174,18 +174,20 @@ export function Showcase({
       {/* Single large framed media block */}
       {children && (
         <figure className="space-y-3">
-          {tone ? (
-            <div
-              className={cn(
-                "rounded-2xl border-2 border-line-strong p-4 shadow-sticker md:p-8",
-                TONE_BG_CLASSES[tone],
-              )}
-            >
-              {children}
-            </div>
-          ) : (
-            children
-          )}
+          <div className="-rotate-[1deg] transition-transform duration-300 ease-out hover:rotate-0 motion-reduce:rotate-0">
+            {tone ? (
+              <div
+                className={cn(
+                  "rounded-2xl border-2 border-line-strong p-4 shadow-sticker md:p-8",
+                  TONE_BG_CLASSES[tone],
+                )}
+              >
+                {children}
+              </div>
+            ) : (
+              children
+            )}
+          </div>
           {caption && (
             <figcaption className="font-body text-caption text-text-muted">
               {caption}
@@ -205,6 +207,12 @@ export function Showcase({
         >
           {items.map((item, idx) => {
             const frameType = item.frame ?? "browser";
+            const tiltClass =
+              idx % 3 === 0
+                ? "-rotate-[1.6deg]"
+                : idx % 3 === 1
+                  ? "rotate-[1.4deg]"
+                  : "-rotate-[1.2deg]";
             const imgButton = (
               <button
                 type="button"
@@ -224,25 +232,32 @@ export function Showcase({
 
             return (
               <figure key={item.src} className="space-y-3">
-                {frameType === "browser" ? (
-                  <BrowserFrame url={item.url} shadow="none">
-                    {imgButton}
-                  </BrowserFrame>
-                ) : frameType === "phone" ? (
-                  <div className="mx-auto max-w-xs overflow-hidden rounded-2xl border-2 border-line-strong bg-bg p-2">
-                    <div
-                      aria-hidden="true"
-                      className="mx-auto mb-2 h-2 w-16 rounded-pill bg-line-strong"
-                    />
-                    <div className="overflow-hidden rounded-lg border border-line">
+                <div
+                  className={cn(
+                    "transition-transform duration-300 ease-out hover:rotate-0 motion-reduce:rotate-0",
+                    tiltClass,
+                  )}
+                >
+                  {frameType === "browser" ? (
+                    <BrowserFrame url={item.url} shadow="none">
+                      {imgButton}
+                    </BrowserFrame>
+                  ) : frameType === "phone" ? (
+                    <div className="mx-auto max-w-xs overflow-hidden rounded-2xl border-2 border-line-strong bg-bg p-2">
+                      <div
+                        aria-hidden="true"
+                        className="mx-auto mb-2 h-2 w-16 rounded-pill bg-line-strong"
+                      />
+                      <div className="overflow-hidden rounded-lg border border-line">
+                        {imgButton}
+                      </div>
+                    </div>
+                  ) : (
+                    <div className="overflow-hidden rounded-xl border-2 border-line-strong bg-bg">
                       {imgButton}
                     </div>
-                  </div>
-                ) : (
-                  <div className="overflow-hidden rounded-xl border-2 border-line-strong bg-bg">
-                    {imgButton}
-                  </div>
-                )}
+                  )}
+                </div>
 
                 {item.caption && (
                   <figcaption className="font-body text-caption text-text-muted">

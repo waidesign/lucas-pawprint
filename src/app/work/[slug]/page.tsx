@@ -30,8 +30,8 @@ export async function generateMetadata({
 
   const ogAlt =
     metadata.slug === "luci"
-      ? `Loaffy in window form on lilac with "Luci · open source"`
-      : `Loaffy in ${metadata.form} form on ${metadata.tone} with "${metadata.title}"`;
+      ? `Loaffy the paw on lilac with "Luci · open source"`
+      : `Loaffy the paw on ${metadata.tone} with "${metadata.title}"`;
 
   return {
     title: metadata.seo.title,

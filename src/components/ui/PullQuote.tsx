@@ -1,6 +1,7 @@
 "use client";
 
 import { useId, useState, type ReactNode } from "react";
+import { ArrowDown, ArrowUp } from "lucide-react";
 import { cn, type Tone } from "@/lib/cn";
 import { Chip } from "@/components/ui/Chip";
 
@@ -80,7 +81,12 @@ export function PullQuote({
               textClass,
             )}
           >
-            {expanded ? "Hide full note ↑" : "Read the full note ↓"}
+            <span>{expanded ? "Hide full note" : "Read the full note"}</span>
+            {expanded ? (
+              <ArrowUp className="h-4 w-4 shrink-0" aria-hidden="true" />
+            ) : (
+              <ArrowDown className="h-4 w-4 shrink-0" aria-hidden="true" />
+            )}
           </button>
 
           <div

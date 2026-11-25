@@ -35,22 +35,17 @@ const MENU_ITEMS = [
     tag: "01 · Case studies",
     toneClass: "bg-lilac text-on-pastel",
   },
-  {
-    label: "Motion",
-    href: "/motion",
-    tag: "02 · Showreel",
-    toneClass: "bg-sky text-on-pastel",
-  },
+  /* "Motion" (/motion) is parked for now; Home's #motion section covers it. */
   {
     label: "About",
     href: "/about",
-    tag: "03 · Bio & changelog",
+    tag: "02 · Bio & changelog",
     toneClass: "bg-butter text-on-pastel",
   },
   {
     label: "Contact",
     href: "/contact",
-    tag: "04 · Say hi!",
+    tag: "03 · Say hi!",
     toneClass: "bg-blush text-on-pastel",
   },
 ] as const;
@@ -201,7 +196,11 @@ const LINK_VARIANTS = {
   hidden: (idx: number) => ({
     y: "110%",
     rotate: 4,
-    transition: { duration: 0.24, ease: EASE_IN_OUT, delay: (3 - idx) * 0.04 },
+    transition: {
+      duration: 0.24,
+      ease: EASE_IN_OUT,
+      delay: (MENU_ITEMS.length - 1 - idx) * 0.04,
+    },
   }),
   shown: (idx: number) => ({
     y: "0%",

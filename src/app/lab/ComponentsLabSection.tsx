@@ -15,6 +15,8 @@ import { Section } from "@/components/ui/Section";
 import { HoverNote } from "@/components/ui/HoverNote";
 import { useToast } from "@/components/ui/Toast";
 import { CopyEmail } from "@/components/ui/CopyEmail";
+import { Field } from "@/components/ui/Field";
+import { Input, Textarea } from "@/components/ui/Input";
 import { ThemeSwitch } from "@/components/ui/ThemeSwitch";
 import { CursorToggle } from "@/components/ui/CursorToggle";
 import { BeanStepper } from "@/components/ui/BeanStepper";
@@ -95,8 +97,8 @@ export function ComponentsLabSection() {
         </h3>
         <p className="font-body text-caption text-text-muted">
           Primary (inverse fill + sky sticker shadow), Secondary (all 6 pastel
-          tones + ink sticker shadow), Ghost, sizes md (48) & lg (56),
-          polymorphic links, external ↗, and disabled states.
+          tones + ink sticker shadow), Ghost, sizes md (48) &amp; lg (56),
+          polymorphic links, external link icon, and disabled states.
         </p>
 
         <div className="flex flex-wrap items-center gap-4 pt-2">
@@ -110,8 +112,12 @@ export function ComponentsLabSection() {
           <Button variant="secondary" tone="lilac" size="lg">
             Book a chat
           </Button>
-          <Button variant="ghost" size="lg">
-            Read case study →
+          <Button
+            variant="ghost"
+            size="lg"
+            iconEnd={<ArrowRight className="h-4 w-4" />}
+          >
+            Read case study
           </Button>
           <Button variant="primary" size="md">
             Primary md (48)
@@ -681,8 +687,12 @@ export function ComponentsLabSection() {
                 title: "Check twice",
                 body: "Verify accessibility, reduced motion, and breakpoints before release.",
                 actions: (
-                  <TextLink href="#lab-components-heading" tone="lilac">
-                    Inspect primitives →
+                  <TextLink
+                    href="#lab-components-heading"
+                    tone="lilac"
+                    iconEnd={<ArrowRight className="h-4 w-4 shrink-0" aria-hidden="true" />}
+                  >
+                    Inspect primitives
                   </TextLink>
                 ),
               },
@@ -781,7 +791,7 @@ export function ComponentsLabSection() {
           <p className="font-mono text-label uppercase tracking-wider text-text-muted">
             Floating chapter pill (inline preview)
           </p>
-          <CaseStepper inline />
+          <CaseStepper inline label="Case study chapters (component example)" />
         </div>
 
         <div className="border-t border-line pt-6">
@@ -877,6 +887,87 @@ export function ComponentsLabSection() {
             ]}
             tone="butter"
           />
+        </div>
+      </div>
+
+      {/* 11. Forms & Fields (Field, Input, Textarea) */}
+      <div className="space-y-4 rounded-lg border-2 border-line-strong bg-surface p-6 shadow-sticker-sm">
+        <h3 className="font-display text-h3 text-text">
+          11 · Forms &amp; Fields
+        </h3>
+        <p className="font-body text-caption text-text-muted">
+          Field, Input (rounded &amp; pill, md 48px / lg 56px, default,
+          pre-filled readOnly, invalid, disabled) and Textarea on the 4/8 grid.
+        </p>
+
+        <div className="grid grid-cols-1 gap-6 pt-2 md:grid-cols-2">
+          <Field
+            htmlFor="lab-input-default"
+            label="Your name"
+            hint="Default editable field (md 48px)."
+          >
+            <Input
+              id="lab-input-default"
+              placeholder="Lucas (Wai Phyo Aung)"
+              aria-describedby="lab-input-default-description"
+            />
+          </Field>
+
+          <Field
+            htmlFor="lab-input-readonly"
+            label="Pre-filled read-only"
+            hint="Read-only pill input (cannot be edited, selects on click)."
+          >
+            <Input
+              id="lab-input-readonly"
+              type="email"
+              value="lucas@pawprint.design"
+              readOnly
+              shape="pill"
+              aria-describedby="lab-input-readonly-description"
+            />
+          </Field>
+
+          <Field
+            htmlFor="lab-input-error"
+            label="Email"
+            required
+            error="Please enter a valid email address."
+          >
+            <Input
+              id="lab-input-error"
+              type="email"
+              defaultValue="not-an-email"
+              invalid
+              aria-describedby="lab-input-error-description"
+            />
+          </Field>
+
+          <Field
+            htmlFor="lab-input-disabled"
+            label="Disabled"
+            hint="Unavailable state."
+          >
+            <Input
+              id="lab-input-disabled"
+              value="Locked value"
+              disabled
+              aria-describedby="lab-input-disabled-description"
+            />
+          </Field>
+
+          <Field
+            htmlFor="lab-textarea"
+            label="Project note"
+            hint="Multi-line textarea matching Input tokens."
+            className="md:col-span-2"
+          >
+            <Textarea
+              id="lab-textarea"
+              placeholder="Tell me about the role, team, and timeline…"
+              aria-describedby="lab-textarea-description"
+            />
+          </Field>
         </div>
       </div>
     </section>

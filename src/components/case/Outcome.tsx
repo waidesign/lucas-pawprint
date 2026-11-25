@@ -1,5 +1,6 @@
 "use client";
 
+import { ArrowRight } from "lucide-react";
 import { useCaseStudy } from "@/components/case/CaseStudyContext";
 import { Button } from "@/components/ui/Button";
 import { TextLink } from "@/components/ui/TextLink";
@@ -106,9 +107,14 @@ export function Outcome({
               href={resolvedSecondaryHref}
               external={resolvedSecondaryHref.startsWith("http")}
               tone={resolvedTone}
+              iconEnd={
+                !resolvedSecondaryHref.startsWith("http") ? (
+                  <ArrowRight className="h-4 w-4 shrink-0" aria-hidden="true" />
+                ) : undefined
+              }
               className="min-h-12 items-center font-body text-button font-semibold decoration-2"
             >
-              {resolvedSecondaryLabel}
+              {resolvedSecondaryLabel.replace(/\s*[→↗]\s*$/, "")}
             </TextLink>
           )}
         </div>

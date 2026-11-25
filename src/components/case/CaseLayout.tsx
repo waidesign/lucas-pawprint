@@ -55,9 +55,20 @@ export function CaseLayout({
           <article className="w-full">{children}</article>
 
           {renderDefaultFooter && (
-            <div data-case-closing="true" className="w-full bg-bg">
-              <CaseCTA />
-              <NextCase />
+            <div
+              data-case-closing="true"
+              className="w-full bg-bg px-4 pt-12 pb-24 md:px-10 md:pt-16 md:pb-32 lg:px-20 lg:pb-40"
+            >
+              <div
+                className={
+                  nextCase
+                    ? "grid grid-cols-1 gap-6 lg:grid-cols-2 lg:items-stretch"
+                    : "grid grid-cols-1"
+                }
+              >
+                <CaseCTA embedded showLoaffy={false} />
+                {nextCase && <NextCase embedded />}
+              </div>
             </div>
           )}
         </main>

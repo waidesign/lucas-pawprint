@@ -1,33 +1,32 @@
 "use client";
 
-import { HEADING_SCALE_CLASSES } from "@/components/ui/Heading";
-
 import Link from "next/link";
-import { Loaffy } from "@/components/mascot/Loaffy";
-import type { Form } from "@/components/mascot/LoaffyBus";
+import { ArrowRight } from "lucide-react";
+import { HEADING_SCALE_CLASSES } from "@/components/ui/Heading";
 import { useCaseStudy } from "@/components/case/CaseStudyContext";
-import { cn, TONE_BG_CLASSES, type Tone } from "@/lib/cn";
+import { cn, type Tone } from "@/lib/cn";
 
 export interface NextCaseProps {
   slug?: string;
   title?: string;
   summary?: string;
   tone?: Tone;
-  form?: Form;
+  /** When true, omits outer nav padding so the primary button fills its grid cell cleanly. */
+  embedded?: boolean;
   className?: string;
 }
 
 /**
  * NextCase component per COMPONENTS.md §E:
- * Big link to the next case study with its pastel tone and Loaffy form.
+ * Huge primary-styled button linking to the next case study, sized to sit side-by-side
+ * with CaseCTA in a 2-column closing band.
  * Reads `nextCase` from `CaseStudyContext` when explicit props are omitted.
  */
 export function NextCase({
   slug,
   title,
   summary,
-  tone,
-  form,
+  embedded = false,
   className,
 }: NextCaseProps) {
   const ctx = useCaseStudy();
@@ -36,8 +35,6 @@ export function NextCase({
   const resolvedSlug = slug ?? next?.slug;
   const resolvedTitle = title ?? next?.title;
   const resolvedSummary = summary ?? next?.summary;
-  const resolvedTone: Tone = tone ?? next?.tone ?? "sky";
-  const resolvedForm: Form = form ?? next?.form ?? "window";
 
   if (!resolvedSlug || !resolvedTitle) {
     return null;
@@ -46,47 +43,44 @@ export function NextCase({
   return (
     <nav
       aria-label="Next case study"
-      className={cn("w-full px-4 py-12 md:px-10 lg:px-20", className)}
+      className={cn(
+        embedded ? "h-full w-full" : "w-full px-4 py-12 md:px-10 lg:px-20",
+        className,
+      )}
     >
       <Link
         href={`/work/${resolvedSlug}`}
         className={cn(
-          "group flex flex-col items-start justify-between gap-6 rounded-xl border-2 border-line-strong p-6 lp-sticker-interactive md:flex-row md:items-center md:p-8",
-          TONE_BG_CLASSES[resolvedTone],
+          "group flex h-full w-full flex-col justify-between gap-8 rounded-2xl border-2 border-transparent bg-inverse-bg p-6 text-inverse-text select-none lp-btn-primary md:p-10",
         )}
       >
-        <div className="space-y-2">
-          <span className="font-mono text-label uppercase tracking-wider text-on-pastel/80">
-            Next case study →
+        <div className="space-y-4">
+          <span className="block font-mono text-label uppercase tracking-wider text-inverse-text/75">
+            Next case study
           </span>
-          <h3
+
+          <h2
             className={cn(
-              "font-display text-on-pastel text-balance",
-              HEADING_SCALE_CLASSES.h3,
+              "font-display text-inverse-text text-balance",
+              HEADING_SCALE_CLASSES.h2,
             )}
           >
             {resolvedTitle}
-          </h3>
+          </h2>
+
           {resolvedSummary && (
-            <p className="max-w-[var(--prose-max)] font-body text-body text-on-pastel/90">
+            <p className="max-w-2xl font-body text-body-lg text-inverse-text/80">
               {resolvedSummary}
             </p>
           )}
         </div>
 
-        <div className="flex shrink-0 items-center gap-4 self-end md:self-center">
-          <Loaffy
-            form={resolvedForm}
-            mood="curious"
-            size={64}
-            track={false}
-            blink={false}
-            listenToBus={false}
-            decorative
+        <div className="flex items-center gap-2 pt-2 font-body text-button font-semibold text-inverse-text">
+          <span>Read next case</span>
+          <ArrowRight
+            className="h-5 w-5 shrink-0 transition-transform duration-200 group-hover:translate-x-1"
+            aria-hidden="true"
           />
-          <span className="inline-flex min-h-12 items-center rounded-pill border-2 border-line-strong bg-bg px-5 font-body text-button font-semibold text-text shadow-sticker-sm">
-            Read next →
-          </span>
         </div>
       </Link>
     </nav>

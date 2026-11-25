@@ -4,6 +4,8 @@ import { SectionSeam } from "@/components/ui/SectionSeam";
 import { TextLink } from "@/components/ui/TextLink";
 import { ThemeSwitch } from "@/components/ui/ThemeSwitch";
 import { PRIMARY_NAV_ITEMS, SOCIAL_LINKS } from "@/content/site";
+import { BackToTopButton } from "./BackToTopButton";
+import { FooterBoxSignOff } from "./FooterBoxSignOff";
 import { Wordmark } from "./Wordmark";
 
 export interface SiteFooterProps {
@@ -13,7 +15,7 @@ export interface SiteFooterProps {
 
 const FOOTER_NAV_ITEMS = [
   ...PRIMARY_NAV_ITEMS,
-  { label: "Colophon", href: "/colophon" },
+  { label: "Colophon & design system", href: "/colophon" },
   { label: "Resume", href: "/resume.pdf", external: true },
 ];
 
@@ -35,11 +37,9 @@ export function SiteFooter({
         <div className="grid grid-cols-1 gap-8 md:grid-cols-12">
           <div className="space-y-3 md:col-span-5">
             <Wordmark />
-            <p className="font-body text-body text-text-muted">
-              Curious by nature, careful by habit.
-            </p>
-            <p className="font-body text-body text-text">
-              Made with care in Phuket, Thailand.
+            <p className="max-w-sm font-body text-body text-text">
+              Built with full-agentic-workflow &amp; tools powered by Luci and
+              Human.
             </p>
           </div>
 
@@ -47,7 +47,7 @@ export function SiteFooter({
             <p className="font-body text-label uppercase text-text-muted">
               Explore
             </p>
-            <ul className="mt-4 grid grid-cols-2 gap-3">
+            <ul className="mt-4 space-y-3">
               {FOOTER_NAV_ITEMS.map((item) => (
                 <li key={item.href}>
                   <TextLink
@@ -78,17 +78,20 @@ export function SiteFooter({
           </div>
         </div>
 
-        {/* Middle row: ThemeSwitch (full) + CursorToggle */}
+        {/* Middle row: ThemeSwitch (full) + CursorToggle + Back to top ([P3-A1]) */}
         <div className="flex flex-wrap items-center justify-between gap-4 border-t border-line pt-8">
           <ThemeSwitch variant="segmented" />
-          <CursorToggle />
+          <div className="flex flex-wrap items-center gap-3">
+            <CursorToggle />
+            <BackToTopButton />
+          </div>
         </div>
 
-        {/* Bottom row: Pawprint umbrella, Luci link, copyright & colophon */}
+        {/* Bottom row: copyright on left, Pawprint & Luci links on right */}
         <div className="flex flex-wrap items-center justify-between gap-4 border-t border-line pt-6 font-body text-body text-text-muted md:text-caption">
+          <span>© 2026 Lucas (Wai Phyo Aung)</span>
+
           <div className="flex flex-wrap items-center gap-3 md:gap-4">
-            <span>© 2026 Lucas (Wai Phyo Aung)</span>
-            <span aria-hidden="true">·</span>
             <span>
               Part of Pawprint ·{" "}
               <TextLink
@@ -113,26 +116,11 @@ export function SiteFooter({
               </TextLink>
             </span>
           </div>
-
-          <TextLink
-            href="/colophon"
-            tone="sky"
-            className="text-body md:text-caption"
-          >
-            Colophon & design system →
-          </TextLink>
         </div>
       </div>
 
-      {/* Monumental cropped sign-off (~75% top visible on viewport) */}
-      <div
-        aria-hidden="true"
-        className="-mx-4 mt-4 select-none overflow-hidden px-2 md:-mx-10 md:px-4 lg:-mx-20 lg:px-6"
-      >
-        <p className="translate-y-[24%] whitespace-nowrap text-center font-display text-[clamp(2rem,8.4vw,10rem)] font-extrabold leading-[0.88] tracking-[-0.045em] text-text">
-          Think Outside the Box
-        </p>
-      </div>
+      {/* Monumental cropped sign-off with animated Box burst ([P3-A2]) */}
+      <FooterBoxSignOff />
     </footer>
     </>
   );

@@ -81,7 +81,14 @@ export function FeatureRow({
       {/* Media column */}
       {mediaContent && (
         <figure className={cn("space-y-3", mediaColClass, reverse && "lg:order-2")}>
-          {mediaContent}
+          <div
+            className={cn(
+              "transition-transform duration-300 ease-out hover:rotate-0 motion-reduce:rotate-0",
+              reverse ? "rotate-[1.2deg]" : "-rotate-[1.2deg]",
+            )}
+          >
+            {mediaContent}
+          </div>
           {caption && (
             <figcaption className="font-body text-caption text-text-muted">
               {caption}

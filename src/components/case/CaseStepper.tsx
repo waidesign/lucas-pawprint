@@ -16,6 +16,11 @@ const CHAPTER_STEPS: { key: ChapterStep; label: string }[] = [
 export interface CaseStepperProps {
   /** Render inline (e.g. for /lab or /colophon) instead of the fixed floating chapter pill */
   inline?: boolean;
+  /**
+   * Accessible name of the stepper's nav landmark. Every instance on a page needs a
+   * unique one (axe landmark-unique), e.g. demos on /colophon next to the real stepper.
+   */
+  label?: string;
   className?: string;
 }
 
@@ -26,7 +31,13 @@ export interface CaseStepperProps {
  * - Hides over `[data-case-closing]` (CaseCTA + NextCase + Footer).
  * - Hidden below lg. Always keyboard reachable: reveals cleanly on focus-within.
  */
-export function CaseStepper({ inline = false, className }: CaseStepperProps) {
+export function CaseStepper({
+  inline = false,
+  label,
+  className,
+}: CaseStepperProps) {
+  const navLabel =
+    label ?? (inline ? "Case study chapters (example)" : "Case study chapters");
   const [currentIndex, setCurrentIndex] = useState(0);
   const [pastHero, setPastHero] = useState(false);
   const [inClosing, setInClosing] = useState(false);
@@ -148,7 +159,7 @@ export function CaseStepper({ inline = false, className }: CaseStepperProps) {
           current={currentIndex}
           orientation="horizontal"
           nowrap
-          label="Case study chapters"
+          label={navLabel}
           onStepClick={handleStepClick}
         />
       </div>
@@ -177,7 +188,7 @@ export function CaseStepper({ inline = false, className }: CaseStepperProps) {
           current={currentIndex}
           orientation="horizontal"
           nowrap
-          label="Case study chapters"
+          label={navLabel}
           onStepClick={handleStepClick}
         />
       </div>

@@ -19,12 +19,14 @@ export interface CaseCTAProps {
   primaryHref?: string;
   primaryExternal?: boolean;
   showLoaffy?: boolean;
+  /** When true, omits outer section padding so the card fills its grid cell cleanly. */
+  embedded?: boolean;
   className?: string;
 }
 
 /**
  * CaseCTA: the closing standout panel for every case study (Rule 18c — one standout card).
- * Uses the case's pastel tone with primary CTA + secondary "Book a chat" + Loaffy bubble form.
+ * Uses the case's pastel tone with primary CTA + secondary "Book a chat".
  */
 export function CaseCTA({
   heading,
@@ -33,7 +35,8 @@ export function CaseCTA({
   primaryLabel,
   primaryHref,
   primaryExternal,
-  showLoaffy = true,
+  showLoaffy = false,
+  embedded = false,
   className,
 }: CaseCTAProps) {
   const ctx = useCaseStudy();
@@ -65,19 +68,27 @@ export function CaseCTA({
 
   const secondaryTone: Tone = resolvedTone === "mint" ? "butter" : "mint";
 
-  return (
-    <section
-      aria-labelledby="case-cta-heading"
-      className={cn("w-full bg-bg px-4 pt-12 pb-4 md:px-10 md:pt-16 lg:px-20", className)}
+  const cardContent = (
+    <div
+      className={cn(
+        "flex h-full flex-col justify-between gap-8 rounded-2xl border-2 border-line-strong p-6 text-on-pastel shadow-sticker md:p-10",
+        TONE_BG_CLASSES[resolvedTone],
+      )}
     >
       <div
         className={cn(
-          "rounded-2xl border-2 border-line-strong p-6 text-on-pastel shadow-sticker md:p-10",
-          TONE_BG_CLASSES[resolvedTone],
+          showLoaffy
+            ? "grid h-full grid-cols-1 items-center gap-8 lg:grid-cols-12"
+            : "flex h-full flex-col justify-between gap-8",
         )}
       >
-        <div className="grid grid-cols-1 items-center gap-8 lg:grid-cols-12">
-          <div className="space-y-4 lg:col-span-8">
+        <div
+          className={cn(
+            "flex h-full flex-col justify-between gap-8",
+            showLoaffy && "lg:col-span-8",
+          )}
+        >
+          <div className="space-y-4">
             <h2
               id="case-cta-heading"
               className={cn(
@@ -91,59 +102,73 @@ export function CaseCTA({
             <p className="max-w-2xl font-body text-body-lg text-on-pastel/90">
               {resolvedBody}
             </p>
-
-            <div className="flex flex-wrap items-center gap-4 pt-2">
-              <Button
-                variant="primary"
-                size="lg"
-                href={resolvedPrimaryHref}
-                external={resolvedPrimaryExternal}
-                onClick={() => {
-                  if (isLuci) {
-                    trackEvent("luci_click", { location: "case_cta_primary" });
-                  }
-                }}
-              >
-                {resolvedPrimaryLabel}
-              </Button>
-
-              <Button
-                variant="secondary"
-                tone={secondaryTone}
-                size="lg"
-                href={profile.bookingUrl}
-                external
-                iconStart={<Calendar className="h-5 w-5" />}
-                onClick={() => {
-                  trackEvent("book_chat_click", {
-                    location: isLuci ? "luci_case_cta" : "case_cta",
-                  });
-                  emitLoaffyEvent("book-chat-click");
-                }}
-              >
-                Book a chat
-              </Button>
-            </div>
           </div>
 
-          {showLoaffy && (
-            <div
-              aria-hidden="true"
-              className="flex items-center justify-center lg:col-span-4"
+          <div className="flex flex-wrap items-center gap-4 pt-2">
+            <Button
+              variant="primary"
+              size="lg"
+              href={resolvedPrimaryHref}
+              external={resolvedPrimaryExternal}
+              onClick={() => {
+                if (isLuci) {
+                  trackEvent("luci_click", { location: "case_cta_primary" });
+                }
+              }}
             >
-              <Loaffy
-                form="bubble"
-                size={128}
-                track={false}
-                blink
-                listenToBus={false}
-                showGroundShadow
-                decorative
-              />
-            </div>
-          )}
+              {resolvedPrimaryLabel}
+            </Button>
+
+            <Button
+              variant="secondary"
+              tone={secondaryTone}
+              size="lg"
+              href={profile.bookingUrl}
+              external
+              iconStart={<Calendar className="h-5 w-5" />}
+              onClick={() => {
+                trackEvent("book_chat_click", {
+                  location: isLuci ? "luci_case_cta" : "case_cta",
+                });
+                emitLoaffyEvent("book-chat-click");
+              }}
+            >
+              Book a chat
+            </Button>
+          </div>
         </div>
+
+        {showLoaffy && (
+          <div
+            aria-hidden="true"
+            className="flex items-center justify-center lg:col-span-4"
+          >
+            <Loaffy
+              pose="wink"
+              size={128}
+              track={false}
+              blink
+              listenToBus={false}
+              showGroundShadow
+              decorative
+            />
+          </div>
+        )}
       </div>
+    </div>
+  );
+
+  return (
+    <section
+      aria-labelledby="case-cta-heading"
+      className={cn(
+        embedded
+          ? "h-full w-full"
+          : "w-full bg-bg px-4 pt-12 pb-4 md:px-10 md:pt-16 lg:px-20",
+        className,
+      )}
+    >
+      {cardContent}
     </section>
   );
 }

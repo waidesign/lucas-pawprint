@@ -1,5 +1,6 @@
 "use client";
 
+import { ArrowUpRight } from "lucide-react";
 import { cn } from "@/lib/cn";
 import { useCaseStudy } from "@/components/case/CaseStudyContext";
 
@@ -104,7 +105,7 @@ export function MetaRow({
                 className="inline-flex max-w-full flex-wrap items-center gap-1 break-all underline decoration-2 underline-offset-4 hover:text-text-muted"
               >
                 <span>{item.value}</span>
-                <span aria-hidden="true">↗</span>
+                <ArrowUpRight className="h-4 w-4 shrink-0" aria-hidden="true" />
               </a>
             ) : (
               item.value

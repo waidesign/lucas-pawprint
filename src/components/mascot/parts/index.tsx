@@ -14,15 +14,6 @@ export const LOAFFY_COLORS = {
 export const MAIN_PAD_PATH =
   "M100,92 C130,92 160,118 164,148 C167,170 150,182 132,178 C120,175 112,182 100,182 C88,182 80,175 68,178 C50,182 33,170 36,148 C40,118 70,92 100,92 Z";
 
-export const BUBBLE_BODY_PATH =
-  "M74,72 H126 A40,40 0 0 1 166,112 V118 A40,40 0 0 1 126,158 H90 L64,182 L68,156 A40,40 0 0 1 34,118 V112 A40,40 0 0 1 74,72 Z";
-
-export const PLAY_BODY_PATH = "M60,74 L154,126 L60,178 Z";
-
-export const CUBE_TOP_PATH = "M100,72 L152,100 L100,128 L48,100 Z";
-export const CUBE_LEFT_PATH = "M48,100 L100,128 L100,184 L48,156 Z";
-export const CUBE_RIGHT_PATH = "M100,128 L152,100 L152,156 L100,184 Z";
-
 export type ShapeGeometry =
   | { kind: "path"; d: string; transform?: string }
   | {
@@ -341,7 +332,6 @@ export type EyeVariant =
   | "side-eye"
   | "wink"
   | "shades"
-  | "cube"
   | "lost";
 
 export function Eyes({
@@ -606,26 +596,6 @@ export function Eyes({
         </>
       );
 
-    case "cube":
-      return (
-        <>
-          <ellipse
-            cx={64 + lookOffset.x}
-            cy={134 + lookOffset.y}
-            rx={4.5}
-            ry={8}
-            fill={LOAFFY_COLORS.ink}
-          />
-          <ellipse
-            cx={84 + lookOffset.x}
-            cy={145 + lookOffset.y}
-            rx={4.5}
-            ry={8}
-            fill={LOAFFY_COLORS.ink}
-          />
-        </>
-      );
-
     case "curious": {
       const lx = 91 + lookOffset.x;
       const rx = 119 + lookOffset.x;
@@ -682,12 +652,7 @@ export type MouthVariant =
   | "big"
   | "flat"
   | "o"
-  | "smirk"
-  | "window"
-  | "phone"
-  | "cube"
-  | "play"
-  | "bubble";
+  | "smirk";
 
 export function Mouth({ variant = "smile" }: { variant?: MouthVariant }) {
   switch (variant) {
@@ -735,60 +700,6 @@ export function Mouth({ variant = "smile" }: { variant?: MouthVariant }) {
           strokeWidth={3.5}
           fill="none"
           strokeLinecap="round"
-        />
-      );
-    case "window":
-      return (
-        <path
-          d="M95,146 Q100,151 105,146"
-          stroke={LOAFFY_COLORS.ink}
-          strokeWidth={3.5}
-          fill="none"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        />
-      );
-    case "phone":
-      return (
-        <path
-          d="M95,138 Q100,143 105,138"
-          stroke={LOAFFY_COLORS.ink}
-          strokeWidth={3.5}
-          fill="none"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        />
-      );
-    case "cube":
-      return (
-        <path
-          d="M66,158 Q73,165 80,162"
-          stroke={LOAFFY_COLORS.ink}
-          strokeWidth={3.5}
-          fill="none"
-          strokeLinecap="round"
-        />
-      );
-    case "play":
-      return (
-        <path
-          d="M83,140 Q88,145 93,140"
-          stroke={LOAFFY_COLORS.ink}
-          strokeWidth={3.5}
-          fill="none"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        />
-      );
-    case "bubble":
-      return (
-        <path
-          d="M92,131 Q100,141 108,131"
-          stroke={LOAFFY_COLORS.ink}
-          strokeWidth={3.5}
-          fill="none"
-          strokeLinecap="round"
-          strokeLinejoin="round"
         />
       );
     case "smile":

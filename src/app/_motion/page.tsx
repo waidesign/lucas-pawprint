@@ -1,3 +1,9 @@
+/**
+ * PARKED (2026-11-25): `/motion` is hidden from the site for now.
+ * The `_motion` folder is private in the App Router, so this page is not routed or
+ * exported. To bring it back: rename the folder to `motion` and restore the links
+ * (see .luci/decisions/2026-11-25-hide-motion-page.md).
+ */
 import type { Metadata } from "next";
 import {
   getVisibleMotionClips,
@@ -32,7 +38,7 @@ export const metadata: Metadata = {
     type: "website",
     images: [
       {
-        url: "https://lucas.pawprint.design/og/luci-teaser.png",
+        url: "https://lucas.pawprint.design/og/site.png",
         width: 1200,
         height: 630,
         alt: "Motion design reel and studies by Lucas (Wai Phyo Aung).",
@@ -74,16 +80,15 @@ export default function MotionPage() {
 
               <div className="hidden lg:col-span-4 lg:flex lg:justify-end">
                 <Loaffy
-                  form="play"
+                  pose="vibing"
                   size={240}
-                  label="Loaffy in play form; vibes while the showreel plays"
+                  label="Loaffy vibing while the showreel plays"
                 />
               </div>
             </div>
 
             <VideoReel
               tone="sky"
-              loaffyButton={false}
               staticWhenEmpty
               emptyCaption="Showreel coming soon"
               title="Lucas (Wai Phyo Aung) — Product & Motion Design Reel"

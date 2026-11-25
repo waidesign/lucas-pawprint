@@ -1,11 +1,13 @@
 import Link from "next/link";
 import type { ComponentPropsWithoutRef, ReactNode } from "react";
+import { ArrowUpRight } from "lucide-react";
 import { cn, type Tone } from "@/lib/cn";
 
 export type TextLinkProps = {
   href: string;
   external?: boolean;
   tone?: Tone;
+  iconEnd?: ReactNode;
   children: ReactNode;
 } & Omit<ComponentPropsWithoutRef<"a">, "href">;
 
@@ -22,6 +24,7 @@ export function TextLink({
   href,
   external = false,
   tone = "lilac",
+  iconEnd,
   className,
   children,
   ...props
@@ -33,7 +36,7 @@ export function TextLink({
     href.endsWith(".pdf");
 
   const sharedClasses = cn(
-    "group relative isolate inline-flex items-baseline gap-1 rounded-xs px-1 -mx-1 font-body font-medium text-text underline decoration-1 underline-offset-4 transition-all hover:decoration-2 hover:text-on-pastel",
+    "group relative isolate inline-flex items-center gap-1 rounded-xs px-1 -mx-1 font-body font-medium text-text underline decoration-1 underline-offset-4 transition-all hover:decoration-2 hover:text-on-pastel",
     className
   );
 
@@ -49,17 +52,29 @@ export function TextLink({
         }}
       />
       <span>{children}</span>
+      {iconEnd && (
+        <span
+          aria-hidden="true"
+          className="inline-flex shrink-0 items-center transition-transform group-hover:translate-x-0.5"
+          style={{
+            transitionDuration: "var(--duration-fast)",
+            transitionTimingFunction: "var(--ease-out-soft)",
+          }}
+        >
+          {iconEnd}
+        </span>
+      )}
       {external && (
         <>
           <span
             aria-hidden="true"
-            className="inline-block leading-none transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+            className="inline-flex shrink-0 items-center transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
             style={{
               transitionDuration: "var(--duration-fast)",
               transitionTimingFunction: "var(--ease-out-soft)",
             }}
           >
-            ↗
+            <ArrowUpRight className="h-[1em] w-[1em] shrink-0" aria-hidden="true" />
           </span>
           <span className="sr-only"> (opens in new tab)</span>
         </>

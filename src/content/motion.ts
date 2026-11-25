@@ -132,25 +132,125 @@ export const HOW_I_ANIMATE = [
     id: "animate-01",
     number: "01",
     title: "Storyboard",
-    body: "Sketch the key beats and state changes before opening a timeline.",
+    body: "I sketch the key beats and state changes before I open a timeline.",
   },
   {
     id: "animate-02",
     number: "02",
     title: "Animatic",
-    body: "Test pacing and cuts against rough frames so the story lands on time.",
+    body: "I test pacing with rough frames, so the story lands on time.",
   },
   {
     id: "animate-03",
     number: "03",
-    title: "Motion",
-    body: "Build easing, anticipation, and overlap on a consistent 40ms beat.",
+    title: "Animate",
+    body: "I build easing, anticipation and overlap in After Effects or Figma, on a 40ms beat.",
   },
   {
     id: "animate-04",
     number: "04",
-    title: "Polish",
-    body: "Refine transitions, check reduced-motion fallbacks, and export clean assets.",
+    title: "Hand off",
+    body: "I export light Lottie files and write timing as tokens, so engineers ship what I designed.",
+  },
+] as const;
+
+export type MotionPrincipleId =
+  | "easing"
+  | "timing"
+  | "anticipation"
+  | "follow-through"
+  | "staging"
+  | "reduced-motion";
+
+export interface MotionPrinciple {
+  id: MotionPrincipleId;
+  name: string;
+  /** The rule, in one short line. */
+  rule: string;
+  /** How I apply it in websites and apps. */
+  body: string;
+  /** The real values the live demo runs on (site tokens). */
+  spec: string;
+  tone: Tone;
+}
+
+/** Home #motion: the principles, each with a live demo (MotionPrincipleDemos). */
+export const MOTION_PRINCIPLES: MotionPrinciple[] = [
+  {
+    id: "easing",
+    name: "Easing",
+    rule: "Nothing real moves at one speed.",
+    body: "Things arrive fast and settle softly. I keep linear for progress bars.",
+    spec: "720ms · ease-out vs linear",
+    tone: "sky",
+  },
+  {
+    id: "timing",
+    name: "Timing",
+    rule: "Small things move fast. Big things move slow.",
+    body: "A toggle flips in 200ms. A sheet that covers the screen gets 480ms, so the eye can follow it.",
+    spec: "200ms toggle · 480ms sheet",
+    tone: "mint",
+  },
+  {
+    id: "anticipation",
+    name: "Anticipation",
+    rule: "Wind up before the action.",
+    body: "A small pull back says something is about to happen, like a message before it flies.",
+    spec: "120ms wind-up · 280ms go",
+    tone: "butter",
+  },
+  {
+    id: "follow-through",
+    name: "Follow-through",
+    rule: "Things settle. They don't stop dead.",
+    body: "The container lands first and its content catches up a beat later.",
+    spec: "Spring · 40ms overlap",
+    tone: "blush",
+  },
+  {
+    id: "staging",
+    name: "Staging",
+    rule: "One thing at a time.",
+    body: "I reveal a list in order, so the eye reads it top to bottom, not all at once.",
+    spec: "80ms stagger",
+    tone: "lilac",
+  },
+  {
+    id: "reduced-motion",
+    name: "Reduced motion",
+    rule: "Respect the setting.",
+    body: "When someone turns motion down, slides become short fades. Same meaning, no travel.",
+    spec: "280ms slide → 120ms fade",
+    tone: "pistachio",
+  },
+];
+
+/** Home #motion: what motion does in websites and apps, with real examples. */
+export const MOTION_IN_PRODUCT = [
+  {
+    id: "use-feedback",
+    title: "Feedback",
+    body: "A press, a save, a search. Motion says “got it” before anyone wonders.",
+    example: "Lottie scanning states for Classic Decoder’s VIN search",
+  },
+  {
+    id: "use-orientation",
+    title: "Orientation",
+    body: "Menus and sheets grow from where you tapped, so nobody loses their place.",
+    example: "The menu on this site, wiping in from its own button",
+  },
+  {
+    id: "use-guidance",
+    title: "Guidance",
+    body: "Ordered reveals lead the eye to the next step, without a tutorial.",
+    example: "Step-by-step transitions in the Fierce Fight Gear customizer",
+  },
+  {
+    id: "use-character",
+    title: "Character",
+    body: "One lively detail makes a calm interface feel alive. Once, not everywhere.",
+    example: "Loaffy, the pawprint cat on this site",
   },
 ] as const;
 

@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useState } from "react";
+import { ArrowRight } from "lucide-react";
 import { motion, useReducedMotion } from "motion/react";
 import type { CaseStudyMetadata } from "@/lib/schema";
 import { resolveCaseCta } from "@/lib/schema";
@@ -57,7 +58,10 @@ export function CaseHero({
   const primaryExternal = Boolean(primaryHref?.startsWith("http"));
 
   const secondaryHref = metadata.secondaryCta?.href ?? "/work";
-  const secondaryLabel = metadata.secondaryCta?.label ?? "All work →";
+  const secondaryLabel = (metadata.secondaryCta?.label ?? "All work").replace(
+    /\s*[→↗]\s*$/,
+    "",
+  );
   const secondaryExternal = secondaryHref.startsWith("http");
 
   const highlightWord =
@@ -142,6 +146,11 @@ export function CaseHero({
               href={secondaryHref}
               external={secondaryExternal}
               tone={metadata.tone}
+              iconEnd={
+                !secondaryExternal ? (
+                  <ArrowRight className="h-4 w-4 shrink-0" aria-hidden="true" />
+                ) : undefined
+              }
               className="min-h-12 items-center font-body text-button font-semibold decoration-2"
             >
               {secondaryLabel}
@@ -168,7 +177,6 @@ export function CaseHero({
               className="pointer-events-none absolute right-6 top-0 z-0 md:right-12"
             >
               <Loaffy
-                form={metadata.form}
                 mood="curious"
                 size={128}
                 track={false}

@@ -2,7 +2,7 @@
 
 import type { ReactNode } from "react";
 import { motion, useReducedMotion } from "motion/react";
-import { Calendar } from "lucide-react";
+import { ArrowRight, Calendar } from "lucide-react";
 import { cn } from "@/lib/cn";
 import { profile } from "@/content/site";
 import { trackEvent } from "@/lib/analytics";
@@ -162,12 +162,13 @@ export function BuiltWith() {
               <TextLink
                 href="/work/luci"
                 tone="lilac"
+                iconEnd={<ArrowRight className="h-4 w-4 shrink-0" aria-hidden="true" />}
                 onClick={() =>
                   trackEvent("luci_click", { location: "built_with" })
                 }
                 className="min-h-12 items-center font-body text-button font-semibold"
               >
-                See how Luci works →
+                See how Luci works
               </TextLink>
             </div>
           </div>

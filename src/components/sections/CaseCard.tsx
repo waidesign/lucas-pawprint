@@ -8,7 +8,6 @@ import { cn, TONE_BG_CLASSES, type Tone } from "@/lib/cn";
 import { springCalm } from "@/lib/motion";
 import { trackEvent } from "@/lib/analytics";
 import { Loaffy } from "@/components/mascot/Loaffy";
-import type { Form } from "@/components/mascot/LoaffyBus";
 import { Badge } from "@/components/ui/Badge";
 import { HEADING_SCALE_CLASSES } from "@/components/ui/Heading";
 import { TextLink } from "@/components/ui/TextLink";
@@ -21,7 +20,6 @@ export interface CaseCardProps {
   tone: Tone;
   cover: string;
   coverAlt: string;
-  form: Form;
   liveUrl?: string;
   featured?: boolean;
   badge?: string;
@@ -47,7 +45,7 @@ const WORD_STAGGER = 0.04;
  * Case study row ([P1-A1], layout inspired by slush.app "Your shortcut to DeFi"):
  * - The cover image itself is the only card: 16:10, 2px pen border, `rounded-xl`,
  *   `shadow-sticker`, lift + slow zoom on hover (pastel `tone` shows while loading).
- *   Loaffy in the case's `form` peeks from behind its top edge on hover.
+ *   Loaffy peeks from behind its top edge on hover.
  * - Everything else sits plain on the canvas: meta line, a huge sentence-case title that
  *   reveals word by word, the summary, tags and a pill CTA (+ optional live-site link).
  * - Rows alternate thumbnail left / right on large screens; stacked on mobile.
@@ -62,7 +60,6 @@ export function CaseCard({
   tone,
   cover,
   coverAlt,
-  form,
   liveUrl,
   featured = false,
   badge,
@@ -93,7 +90,7 @@ export function CaseCard({
   const coverFrame = (
     <>
       {peek && (
-        /* Loaffy form peek, behind the card's top-right edge */
+        /* Loaffy peek, behind the card's top-right edge */
         <motion.div
           aria-hidden="true"
           initial={false}
@@ -106,7 +103,6 @@ export function CaseCard({
           className="pointer-events-none absolute right-8 top-0 z-0"
         >
           <Loaffy
-            form={form}
             mood="curious"
             size={64}
             track={false}
@@ -142,10 +138,7 @@ export function CaseCard({
           aria-hidden="true"
           onClick={handleOpen}
           className={cn(
-            "group relative z-10 block w-full overflow-hidden rounded-xl border-2 border-line-strong",
-            variant === "tile"
-              ? "lp-tile-cover-interactive"
-              : "lp-sticker-interactive",
+            "group relative z-10 block w-full overflow-hidden rounded-xl border-2 border-line-strong lp-sticker-interactive",
             TONE_BG_CLASSES[tone],
           )}
         >
@@ -177,8 +170,8 @@ export function CaseCard({
     return (
       <article className={cn("flex flex-col gap-6", className)}>
         <div
-          onMouseEnter={peek ? () => setHovered(true) : undefined}
-          onMouseLeave={peek ? () => setHovered(false) : undefined}
+          onMouseEnter={peek || tilt !== 0 ? () => setHovered(true) : undefined}
+          onMouseLeave={peek || tilt !== 0 ? () => setHovered(false) : undefined}
           className={cn("relative", peek && "pt-8 md:pt-12")}
         >
           {coverFrame}
@@ -245,14 +238,15 @@ export function CaseCard({
           </ul>
 
           <div className="flex flex-wrap items-center gap-4 pt-1">
-            <TextLink
+            <Link
               href={href}
-              tone={tone}
               onClick={handleOpen}
-              className="-mx-2 min-h-12 items-center gap-2 rounded-pill px-2 font-body text-button font-semibold decoration-2"
+              className="inline-flex min-h-14 items-center justify-center gap-2 rounded-pill border-2 border-transparent bg-inverse-bg px-6 font-body text-button font-semibold text-inverse-text lp-btn-primary"
             >
-              Read case study →<span className="sr-only">: {title}</span>
-            </TextLink>
+              <span>Read case study</span>
+              <ArrowRight className="h-4 w-4 shrink-0" aria-hidden="true" />
+              <span className="sr-only">: {title}</span>
+            </Link>
 
             {liveUrl && (
               <TextLink
@@ -264,7 +258,7 @@ export function CaseCard({
                     trackEvent("luci_click", { location: "case_card_live" });
                   }
                 }}
-                className="-mx-2 min-h-12 items-center gap-1.5 rounded-pill px-2 font-body text-button font-semibold decoration-2"
+                className="mx-0 min-h-12 items-center gap-1.5 rounded-pill px-4 font-body text-button font-semibold decoration-2"
               >
                 Live site<span className="sr-only"> for {title}</span>
               </TextLink>
@@ -287,8 +281,8 @@ export function CaseCard({
     >
       {/* Thumbnail card (the only card in the row). Hovering it brings Loaffy's peek. */}
       <div
-        onMouseEnter={peek ? () => setHovered(true) : undefined}
-        onMouseLeave={peek ? () => setHovered(false) : undefined}
+        onMouseEnter={peek || tilt !== 0 ? () => setHovered(true) : undefined}
+        onMouseLeave={peek || tilt !== 0 ? () => setHovered(false) : undefined}
         className={cn(
           "relative",
           peek && "pt-8 md:pt-12",
