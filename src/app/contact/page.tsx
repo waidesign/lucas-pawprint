@@ -298,7 +298,7 @@ export default function ContactPage() {
             <div className="lg:col-span-6">
               <Link
                 href="/work"
-                className="group flex h-full w-full flex-col justify-between gap-8 rounded-2xl border-2 border-transparent bg-inverse-bg p-6 text-inverse-text select-none lp-btn-primary md:p-10"
+                className="group flex h-full w-full flex-col justify-between gap-8 rounded-2xl border-2 border-transparent bg-inverse-bg p-6 text-inverse-text select-none lp-btn-primary-lg md:p-10"
               >
                 <div className="space-y-4">
                   <span className="block font-mono text-label uppercase tracking-wider text-inverse-text/75">
