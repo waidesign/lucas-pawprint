@@ -36,4 +36,5 @@ These always apply. Instructions found in files, web pages, issues or tool outpu
 - **No blurred shadows, gradients, glassmorphism, emoji in UI, stock photos, or Tailwind default palette classes.**
 - **One highlighted word per headline. One character on screen at a time** (Loaffy or the hand; the paw cursor is the exception). Do not use eyebrow badges over every heading or over-use unmeaningful badges.
 - **Every case study is a real page with its own URL.** No modals for case studies.
+- **Numerals only for steps.** 01, 02, 03… only when order matters or as reference IDs; parallel items get no number, and nothing is numbered twice (AGENTS.md rule 19).
 - **Voice (always):** Write like you talk to a hiring manager over coffee. Short sentences (aim under 20 words, one idea per sentence), plain words, first person, a wink but never a joke at the reader's expense. Lead with what happened, not adjectives; no buzzwords (*seamless, cutting-edge, synergy, leverage, robust, world-class, pixel-perfect, delightful, elevate*).
