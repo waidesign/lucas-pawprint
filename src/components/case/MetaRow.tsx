@@ -1,5 +1,6 @@
 "use client";
 
+import { Fragment } from "react";
 import { ArrowUpRight } from "lucide-react";
 import { cn } from "@/lib/cn";
 import { useCaseStudy } from "@/components/case/CaseStudyContext";
@@ -21,6 +22,21 @@ export interface MetaRowProps {
   licence?: string;
   liveUrl?: string;
   className?: string;
+}
+
+/** Renders a URL with optional line breaks after each "." or "/" (never mid-word). */
+function UrlWithBreaks({ value }: { value: string }) {
+  const parts = value.split(/(?<=[./])/);
+  return (
+    <>
+      {parts.map((part, i) => (
+        <Fragment key={i}>
+          {part}
+          {i < parts.length - 1 && <wbr />}
+        </Fragment>
+      ))}
+    </>
+  );
 }
 
 /**
@@ -92,7 +108,11 @@ export function MetaRow({
       )}
     >
       {resolvedItems.map((item) => (
-        <div key={item.label} className="min-w-0 space-y-1">
+        <div
+          key={item.label}
+          // Links (URLs) take the full row on narrow screens so they never break mid-word.
+          className={cn("min-w-0 space-y-1", item.href && "col-span-2 sm:col-span-1")}
+        >
           <dt className="font-mono text-label uppercase tracking-wider text-text-muted">
             {item.label}
           </dt>
@@ -102,9 +122,11 @@ export function MetaRow({
                 href={item.href}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex max-w-full flex-wrap items-center gap-1 break-all underline decoration-2 underline-offset-4 hover:text-text-muted"
+                className="inline-flex max-w-full flex-wrap items-center gap-1 underline decoration-2 underline-offset-4 hover:text-text-muted"
               >
-                <span>{item.value}</span>
+                <span>
+                  <UrlWithBreaks value={item.value} />
+                </span>
                 <ArrowUpRight className="h-4 w-4 shrink-0" aria-hidden="true" />
               </a>
             ) : (
