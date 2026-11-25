@@ -64,10 +64,13 @@ Pastel fill, 2px pen border, `rounded-lg`, padding 16/24, `shadow-sticker-sm`, s
 Use only per rule 18 (a clickable whole, a media/demo frame, or one standout panel per section). `rounded-lg`, 2px pen border, `shadow-sticker-sm`, padding 24 (mobile) / 32 (desktop). Tone optional.
 
 ### RuledList
-`ol` (when ordered) or `ul` topped by a 2px pen rule (`border-line-strong`), rows separated by 1px hairlines (`border-line`), `py-6 md:py-8`. Each row is a 12-col grid (stacks below `md`): marker (`md:col-span-2`: mono label, years, or numbered bean) · title (`md:col-span-4`: heading via `as`, default `h4`) · body (`md:col-span-6`: `body-lg`, `text-muted`) + optional right-aligned `aside` (`caption`). Reveal: rise 16px + fade, 40ms stagger, max 6 items, off under reduced motion.
+`ol` (when ordered) or `ul` topped by a 2px pen rule (`border-line-strong`), rows separated by 1px hairlines (`border-line`), `py-6 md:py-8`. Each row is a 12-col grid (stacks below `md`): marker (`md:col-span-2`: mono label, years, or numbered bean) · title (`md:col-span-4`: heading via `as`, default `h4`) · body (`md:col-span-6`: `body-lg`, `text-muted`) + optional right-aligned `aside` (`caption`). With no marker, the marker slot collapses (title `md:col-span-5`, body `md:col-span-7`). Numbered beans only for real steps or reference IDs (see **Numerals** below). Reveal: rise 16px + fade, 40ms stagger, max 6 items, off under reduced motion.
 
 ### IndexColumns
-2–4 plain columns (`gap-10`; 1 col → 2 at `md` → n at `lg`). Each column starts with a 2px pen rule, optional label (mono uppercase or pastel `Chip`), optional decorative `font-display` numeral (`aria-hidden`), heading via `as` (default `h4`), body, and optional actions. No fill, no shadow.
+2–4 plain columns (`gap-10`; 1 col → 2 at `md` → n at `lg`). Each column starts with a 2px pen rule, optional label (mono uppercase or pastel `Chip`), optional decorative `font-display` numeral (`aria-hidden`, steps only), heading via `as` (default `h4`), body, and optional actions. No fill, no shadow.
+
+### Numerals (01, 02, 03…)
+A number earns its place only when **order matters** (the reader follows steps in sequence: Home's process, How I make it, Luci's Show → Direct → Check → Remember loop) or when it is a **reference ID** (annotation markers that point into a code panel or image). Parallel items (problems, features, decisions, principles, findings, learnings, FAQs, checklists, TL;DR parts) get **no number**: their title, eyebrow or `Chip` labels them. Never number something that is already numbered elsewhere (case chapters are numbered once, in `CaseStepper`). Use `ol` only for numbered sequences; parallel lists are `ul`.
 
 ### PullQuote
 `<figure>` for testimonials outside Home: `<blockquote>` in `font-display text-h3` (max width `--prose-max`), `<figcaption>` with author (`text-h4` on `<p>`), role · company caption, relationship chip, and optional "Read the full note" disclosure. Sibling quotes separate with a 1px hairline and `pt-10`.
@@ -203,17 +206,17 @@ A case study **row**, not a boxed card (layout inspired by slush.app's "Your sho
 | `Badge` | Generic status/label pill (`label`, `tone`, 2px pen border, `shadow-sticker-sm`, no dots per rule 16; replaces `BetaBadge`) |
 | `CaseHero` | Inline breadcrumb ("Work / {title}"), meta line (`Badge` + year + role), `h1` (`display-xl` with one highlighted word), `body-lg` summary, pill CTAs, and full-width tilted cover stage (`rounded-2xl`, 2px pen border, `shadow-sticker`; Loaffy peek off on Luci per rule 11) |
 | `MetaRow` | Spec row: `<dl>` between a 2px pen rule (top) and 1px hairline (bottom), `py-6`, 2 → 3 → 5 columns |
-| `TLDR` | "At a glance." overview band: `h2` heading, `MetaRow`, and 3-column `IndexColumns` (Problem · What I did · Outcome) with large numerals (`01.`–`03.`) and pastel `Chip` labels; no boxes |
-| `Chapter` | Full-width alternating `bg` / `<caseTone>-soft` bands joined by wavy `<SectionSeam>` edges; ProcessStory-style numeral (`01.`–`04.`) + mono step label + `h2` (`h1` token, one highlighted word) + `body-lg` intro |
+| `TLDR` | "At a glance." overview band: `h2` heading, `MetaRow`, and 3-column `IndexColumns` (Problem · What I did · Outcome) labelled by pastel `Chip`s, no numerals; no boxes |
+| `Chapter` | Full-width alternating `bg` / `<caseTone>-soft` bands joined by wavy `<SectionSeam>` edges; quiet mono step label (no numeral: `CaseStepper` numbers the chapters) + `h2` (`h1` token, one highlighted word) + `body-lg` intro |
 | `CaseStepper` | Compact floating `lg+` chapter pill (`BeanStepper` with 4 chapters, `aria-current="step"`) that appears after hero scrolls out and hides over closing band; keyboard reachable via `focus-within` |
-| `FeatureRow` | Alternating media left/right (`6/6` or `7/5` mirroring `CaseCard`) with plain text (numeral, eyebrow, `h3`, `body-lg`, optional labelled points/bullets) beside one framed media block |
-| `DecisionList` | Numbered plain rows (`01.`…) with 2px top rule + 1px hairlines, `h3`/`h4` title, 3-col hairline-split `<dl>` (Problem · Decision · Why), and optional paired media (replaces `DecisionCard`) |
+| `FeatureRow` | Alternating media left/right (`6/6` or `7/5` mirroring `CaseCard`) with plain text (mono eyebrow, `h3`, `body-lg`, optional labelled points/bullets; no numeral) beside one framed media block |
+| `DecisionList` | Plain rows (no numerals) with 2px top rule + 1px hairlines, `h3`/`h4` title, 3-col hairline-split `<dl>` (Problem · Decision · Why), and optional paired media (replaces `DecisionCard`) |
 | `Showcase` | One large framed media block with caption, or a 2–3 frame gallery with lightbox zoom (max one gallery per section) |
 | `BrowserFrame` | Flat portfolio browser window (2px ink border, `rounded-xl`, top bar with three pastel dots, optional URL pill) wrapping `<picture>` screenshots or `LoopVideo` |
 | `LoopVideo` | Muted, `playsInline`, looping `preload="none"` video with required poster, `IntersectionObserver` play-in-view, 48×48 pause/play control (WCAG 2.2.2), reduced-motion static poster, and optional `start` offset |
-| `PainList` / `InsightList` | `RuledList`-based numbered lists for Understand/Shape friction and findings |
+| `PainList` / `InsightList` | Plain `RuledList`-based lists (no numerals) for Understand/Shape friction and findings |
 | `Outcome` | Qualitative `<p className="font-display text-h3">` statement + "What shipped" hairline list + live CTAs |
-| `Learnings` | Numbered `RuledList` of project takeaways |
+| `Learnings` | Plain `RuledList` of project takeaways (no numerals) |
 | `Callout` | Margin note: `border-l-2 border-line-strong pl-6`, title highlighted in `tone`, body below; no fill, no shadow |
 | `CaseCTA` | Closing standout panel (one card per rule 18c) with primary CTA, "Book a chat", and Loaffy bubble form |
 | `NextCase` | Big clickable card linking to the next case study with its pastel tone and Loaffy form |

@@ -65,10 +65,10 @@ Page Loaffy: window form, peeking from the hero's right edge.
 Every case study — including Luci (`visibility: full`, `"Open source"` badge, `"Try Luci"` CTA) — uses one Home-style template:
 
 1. **CaseHero (`bg`)**: inline breadcrumb ("Work / {title}"), meta line (`Badge` + year + role), `h1` at `display-xl` with one highlighted word, `body-lg` summary, Home-style pill CTAs, and a full-width tilted cover stage (`rounded-2xl`, 2px pen border, `shadow-sticker`, straightens on hover; Loaffy peeks from the edge on client cases, omitted on Luci per rule 11).
-2. **At a glance (`bg`)**: plain `MetaRow` (Role · Team · Timeline · Platform · Tools · Live link) + 3-column `IndexColumns` TL;DR (Problem · What I did · Outcome) with large numerals (`01.`–`03.`).
+2. **At a glance (`bg`)**: plain `MetaRow` (Role · Team · Timeline · Platform · Tools · Live link) + 3-column `IndexColumns` TL;DR (Problem · What I did · Outcome) labelled by pastel `Chip`s, no numerals.
 3. **Four alternating wavy-seam chapters** (`bg` ↔ `<caseTone>-soft`, joined by `<SectionSeam>` waves, tracked by the floating `lg+` `CaseStepper` pill):
    - **01 Understand** — `PainList`, `InsightList`, `PullQuote`
-   - **02 Shape** — `FeatureRow`, `DecisionList` (numbered plain Problem → Decision → Why rows)
+   - **02 Shape** — `FeatureRow`, `DecisionList` (plain Problem → Decision → Why rows)
    - **03 Design** — `FeatureRow`s with `BrowserFrame` + `LoopVideo`, `Showcase` (single frame or 2–3 frame lightbox gallery), `Callout`
    - **04 Ship** — `Outcome` (qualitative statement + "What shipped" list + live link) and `Learnings`
 4. **Closing band (`bg`)**: `CaseCTA` standout panel + `NextCase` clickable card, followed by wavy-seam `SiteFooter`.

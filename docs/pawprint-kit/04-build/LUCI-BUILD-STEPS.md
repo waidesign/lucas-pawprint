@@ -80,7 +80,7 @@ Commit: `feat(luci): hero`.
 Task — Luci case study, step 5: §2 TL;DR, §3 Problem, §4 Who it's for + principles. Read CASE-LUCI.md §4 (§2, §3, §4 parts) for exact copy.
 1. TL;DR: three Stickers (butter, mint, sky) with the §2 copy, from metadata.tldr.
 2. <Chapter step="understand" title="One button. Not the whole website."> with the §3 paragraph, ProblemDiagram (V2: three cards Too much / Guessed / Lost, each a small SVG scene, one line, a blush "✕" chip; then a full-width mint "✓ Luci: one component, measured values, one feedback session." bar), and a lilac Callout with the pull quote.
-3. <Chapter step="shape" title="Five rules before any pixels" tone="mint-soft"> with AudienceCards (3 cards), job chips (3), and PrincipleCards (5 cards with numbered mint beans, copy from §4).
+3. <Chapter step="shape" title="Five rules before any pixels" tone="mint-soft"> with AudienceCards (3 cards), job chips (3), and PrincipleCards (5 principles as a plain RuledList, no numerals, copy from §4).
 4. Use only existing primitives + these new components in src/components/case/luci/. Copy exactly as the spec (BRAND voice). Reveal on scroll with the reveal preset, 80ms stagger.
 Show me the page.
 ```
