@@ -24,7 +24,7 @@ export interface TLDRProps {
 /**
  * "At a glance." overview band (Phase 1.B):
  * Plain, zero cards: Heading ("At a glance."), MetaRow (Role · Team · Timeline · Platform · Tools · Live link),
- * and TL;DR as 3-column IndexColumns with large ProcessStory-style numerals (01. / 02. / 03.).
+ * and TL;DR as 3-column IndexColumns labelled by pastel Chips (no numerals: the three parts are parallel, not steps).
  */
 export function TLDR({
   problem,
@@ -59,7 +59,6 @@ export function TLDR({
           {problemLabel}
         </Chip>
       ),
-      number: "01.",
       body: <p className="text-text">{resolvedProblem}</p>,
     },
     {
@@ -69,7 +68,6 @@ export function TLDR({
           {resolvedWhatLabel}
         </Chip>
       ),
-      number: "02.",
       body: <p className="text-text">{resolvedWhatIDid}</p>,
     },
     {
@@ -79,7 +77,6 @@ export function TLDR({
           {resolvedOutcomeLabel}
         </Chip>
       ),
-      number: "03.",
       body: <p className="text-text">{resolvedOutcome}</p>,
     },
   ];
@@ -112,7 +109,6 @@ export function TLDR({
 
         <IndexColumns
           columns={3}
-          ordered
           bodySize="body-lg"
           staggerSeconds={stagger}
           items={items}

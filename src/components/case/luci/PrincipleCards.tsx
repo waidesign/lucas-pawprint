@@ -6,35 +6,36 @@ import { RuledList } from "@/components/ui/RuledList";
 
 const PRINCIPLES = [
   {
-    number: 1,
+    id: "measured",
     title: "Measured, never guessed.",
     body: "Every value comes from the live page. Nothing is invented.",
   },
   {
-    number: 2,
+    id: "scoped",
     title: "Scoped.",
     body: "A component, a section or one token system — not the whole site.",
   },
   {
-    number: 3,
+    id: "agent-ready",
     title: "Agent-ready.",
     body: "It extends Google's DESIGN.md format, which agents already read.",
   },
   {
-    number: 4,
+    id: "where-you-work",
     title: "Lives where you work.",
     body: "On any website, or inside your own project.",
   },
   {
-    number: 5,
+    id: "accessible",
     title: "Accessible by default.",
     body: "Every export includes WCAG checks in plain words.",
   },
 ] as const;
 
 /**
- * PrincipleCards (V3 in CASE-LUCI.md §4 §4 & LAYOUT-STEPS.md Step 3):
- * - RuledList numbered 01–05 with mint bean markers, h4 titles, and verbatim body copy.
+ * PrincipleCards (V3 in CASE-LUCI.md §4 & LAYOUT-STEPS.md Step 3):
+ * - Plain RuledList with h4 titles and verbatim body copy.
+ * - No numerals: principles are parallel, not steps.
  */
 export function PrincipleCards() {
   return (
@@ -49,12 +50,9 @@ export function PrincipleCards() {
       </h3>
 
       <RuledList
-        ordered
         as="h4"
         items={PRINCIPLES.map((item) => ({
-          id: String(item.number),
-          bean: item.number,
-          beanTone: "mint",
+          id: item.id,
           title: item.title,
           body: <span className="text-text-muted">{item.body}</span>,
         }))}

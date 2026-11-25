@@ -1,7 +1,7 @@
 "use client";
 
 import type { ReactNode } from "react";
-import { cn, type Tone } from "@/lib/cn";
+import { cn } from "@/lib/cn";
 import { HEADING_SCALE_CLASSES, type HeadingTag } from "@/components/ui/Heading";
 import { RuledList } from "@/components/ui/RuledList";
 
@@ -15,20 +15,18 @@ export interface InsightListProps {
   heading?: string;
   intro?: string;
   items: InsightItem[];
-  tone?: Tone | "surface";
   itemAs?: HeadingTag;
   className?: string;
 }
 
 /**
- * InsightList: numbered RuledList for research insights, product capabilities, or principles.
- * Zero cards — 2px top rule + hairline rows with pastel numbered bean markers.
+ * InsightList: RuledList for research insights, product capabilities, or principles.
+ * Zero cards — 2px top rule + hairline rows. No numerals: insights are parallel, not steps.
  */
 export function InsightList({
   heading = "What we found",
   intro,
   items,
-  tone = "mint",
   itemAs = "h4",
   className,
 }: InsightListProps) {
@@ -53,12 +51,9 @@ export function InsightList({
       )}
 
       <RuledList
-        ordered
         as={itemAs}
         items={items.map((item, idx) => ({
           id: `insight-${idx}`,
-          bean: idx + 1,
-          beanTone: tone,
           title: item.title,
           body: item.body,
           aside: item.aside,

@@ -1,7 +1,7 @@
 "use client";
 
 import type { ReactNode } from "react";
-import { cn, type Tone } from "@/lib/cn";
+import { cn } from "@/lib/cn";
 import { HEADING_SCALE_CLASSES, type HeadingTag } from "@/components/ui/Heading";
 import { RuledList } from "@/components/ui/RuledList";
 
@@ -15,20 +15,18 @@ export interface PainListProps {
   heading?: string;
   intro?: string;
   items: CaseListItem[];
-  tone?: Tone | "surface";
   itemAs?: HeadingTag;
   className?: string;
 }
 
 /**
- * PainList: numbered RuledList for user pain points and friction discovered in Understand.
- * Zero cards — uses 2px top rule + hairline rows with pastel numbered bean markers.
+ * PainList: RuledList for user pain points and friction discovered in Understand.
+ * Zero cards — 2px top rule + hairline rows. No numerals: pain points are parallel, not steps.
  */
 export function PainList({
   heading = "What got in the way",
   intro,
   items,
-  tone = "blush",
   itemAs = "h4",
   className,
 }: PainListProps) {
@@ -53,12 +51,9 @@ export function PainList({
       )}
 
       <RuledList
-        ordered
         as={itemAs}
         items={items.map((item, idx) => ({
           id: `pain-${idx}`,
-          bean: idx + 1,
-          beanTone: tone,
           title: item.title,
           body: item.body,
           aside: item.aside,

@@ -29,8 +29,9 @@ export interface DecisionListProps {
 }
 
 /**
- * DecisionList: numbered plain rows with three labelled parts (Problem → Decision → Why),
+ * DecisionList: plain rows with three labelled parts (Problem → Decision → Why),
  * each optionally paired with framed media. Replaces DecisionCard with zero boxes (Rule 18).
+ * No numerals: decisions are parallel, not steps.
  */
 export function DecisionList({
   heading,
@@ -62,29 +63,20 @@ export function DecisionList({
         </div>
       )}
 
-      <ol className="divide-y divide-line border-b border-t-2 border-b-line border-t-line-strong">
+      <ul className="divide-y divide-line border-b border-t-2 border-b-line border-t-line-strong">
         {items.map((item, idx) => {
-          const numeral = `${String(idx + 1).padStart(2, "0")}.`;
           const key = item.id ?? `${idx}-${item.title}`;
 
           const content = (
             <div className="space-y-6 py-8 md:py-10">
-              <div className="flex flex-col gap-2 sm:flex-row sm:items-baseline sm:gap-6">
-                <span
-                  aria-hidden="true"
-                  className="shrink-0 font-display text-h3 font-extrabold leading-none text-text"
-                >
-                  {numeral}
-                </span>
-                <ItemTag
-                  className={cn(
-                    "font-display text-text text-balance",
-                    HEADING_SCALE_CLASSES[ItemTag],
-                  )}
-                >
-                  {item.title}
-                </ItemTag>
-              </div>
+              <ItemTag
+                className={cn(
+                  "font-display text-text text-balance",
+                  HEADING_SCALE_CLASSES[ItemTag],
+                )}
+              >
+                {item.title}
+              </ItemTag>
 
               <dl className="grid grid-cols-1 divide-y divide-line border-t border-line md:grid-cols-3 md:divide-x md:divide-y-0">
                 <div className="py-4 md:py-6 md:pr-6">
@@ -147,7 +139,7 @@ export function DecisionList({
             </motion.li>
           );
         })}
-      </ol>
+      </ul>
     </div>
   );
 }
