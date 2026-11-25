@@ -40,7 +40,7 @@ export function Chip({
       >
         <span
           className={cn(
-            "inline-flex items-center justify-center rounded-pill border-2 font-body font-medium transition-colors",
+            "inline-flex items-center justify-center whitespace-nowrap rounded-pill border-2 font-body font-medium transition-colors",
             sizeClasses,
             toneClasses
           )}
@@ -54,7 +54,7 @@ export function Chip({
   return (
     <span
       className={cn(
-        "inline-flex items-center justify-center rounded-pill border font-body font-medium",
+        "inline-flex items-center justify-center whitespace-nowrap rounded-pill border font-body font-medium",
         sizeClasses,
         toneClasses,
         className
