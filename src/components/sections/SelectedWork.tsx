@@ -181,7 +181,6 @@ export function SelectedWork({
                     coverAlt={item.metadata.coverAlt}
                     liveUrl={item.metadata.liveUrl}
                     featured={isFeatured}
-                    badge={item.metadata.badge}
                     year={item.metadata.year}
                     role={item.metadata.role}
                     reverse={idx % 2 === 1}
