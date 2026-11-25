@@ -63,11 +63,10 @@ export function HomeFaq({ className }: HomeFaqProps = {}) {
 
         <div className="lg:col-span-7">
           <div className="border-t-2 border-line-strong">
-            {homeFaqs.map((item, idx) => {
+            {homeFaqs.map((item) => {
               const isOpen = openId === item.id;
               const panelId = `${item.id}-panel`;
               const buttonId = `${item.id}-button`;
-              const numeral = String(idx + 1).padStart(2, "0");
 
               return (
                 <div
@@ -82,16 +81,8 @@ export function HomeFaq({ className }: HomeFaqProps = {}) {
                     onClick={() => toggle(item.id)}
                     className="group flex min-h-16 w-full items-center justify-between gap-4 py-5 text-left transition-colors duration-160 hover:text-text"
                   >
-                    <span className="flex items-baseline gap-4">
-                      <span
-                        aria-hidden="true"
-                        className="shrink-0 font-mono text-label text-text-muted"
-                      >
-                        {numeral}.
-                      </span>
-                      <span className="font-display text-h4 font-bold text-text">
-                        {item.question}
-                      </span>
+                    <span className="font-display text-h4 font-bold text-text">
+                      {item.question}
                     </span>
 
                     <span
@@ -132,7 +123,7 @@ export function HomeFaq({ className }: HomeFaqProps = {}) {
                         }}
                         className="overflow-hidden"
                       >
-                        <p className="max-w-[var(--prose-max)] pb-6 pl-10 font-body text-body-lg text-text-muted">
+                        <p className="max-w-[var(--prose-max)] pb-6 font-body text-body-lg text-text-muted">
                           {item.answer}
                         </p>
                       </motion.div>

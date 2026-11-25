@@ -70,19 +70,16 @@ const STORY_CHAPTERS: RuledListItem[] = [
 const WORKING_PRINCIPLES = [
   {
     id: "principle-01",
-    number: "01",
     title: "Measure before I design.",
     body: "I map what users actually struggle with, audit the existing product, and separate real constraints from assumptions before opening a canvas.",
   },
   {
     id: "principle-02",
-    number: "02",
     title: "Design the system, not the screen.",
     body: "I build tokens, accessible states, and reusable components on the 4/8 grid so design and production code speak the exact same language.",
   },
   {
     id: "principle-03",
-    number: "03",
     title: "Ship, then check twice.",
     body: "I review staging builds against the design system, test keyboard and responsive breakpoints, and ship clean production interfaces.",
   },
@@ -269,7 +266,6 @@ export default function AboutPage() {
 
   const principleItems: IndexColumnItem[] = WORKING_PRINCIPLES.map((p) => ({
     id: p.id,
-    number: p.number,
     title: p.title,
     body: p.body,
   }));
@@ -462,7 +458,6 @@ export default function AboutPage() {
             <IndexColumns
               items={principleItems}
               columns={3}
-              ordered
               as="h4"
             />
 
