@@ -36,7 +36,7 @@ Tokens only (AGENTS.md rules 2–3). Hairline = `border-line` (1px). Pen rule = 
 | Pattern | Component | Looks like | Use for |
 |---|---|---|---|
 | **Ruled list** | `src/components/ui/RuledList.tsx` | A 2px pen rule on top, rows separated by hairlines, each row a 12-col grid: **marker** (md:col-span-2; mono label, years or a numbered bean) · **title** (md:col-span-4; heading via `as`, default `h4`) · **body** (md:col-span-6; `body-lg`, `text-muted`) · optional **aside** (caption, right-aligned). Rows `py-6 md:py-8`. Stacks to one column below md. `<ol>` when order matters, else `<ul>`. | Changelog, story chapters, principles, learnings, steps, findings, annotations, FAQ |
-| **Index columns** | `src/components/ui/IndexColumns.tsx` | 2–4 plain columns (`gap-10`; 1 col → 2 at md → n at lg). Each column starts with a 2px pen rule, then an optional **label** (mono uppercase, or a pastel `Chip`), optional big **number** (`font-display` numeral, `aria-hidden`), **title** (heading via `as`), **body**, optional **actions**. No fill, no shadow. | TL;DR, "What I'm good at", contact "Three ways", audiences, How I animate, principles |
+| **Index columns** | `src/components/ui/IndexColumns.tsx` | 2–4 plain columns (`gap-10`; 1 col → 2 at md → n at lg). Each column starts with a 2px pen rule, then an optional **label** (mono uppercase, or a pastel `Chip`), optional big **number** (`font-display` numeral, `aria-hidden`; real steps only, see COMPONENTS.md "Numerals"), **title** (heading via `as`), **body**, optional **actions**. No fill, no shadow. | TL;DR, "What I'm good at", contact "Three ways", audiences, How I animate, principles |
 | **Spec row** | `MetaRow` restyled | A `<dl>` between a 2px pen rule (top) and a hairline (bottom), `py-6`, 2 → 3 → 5 columns. Mono labels, `body` values. | Case meta (role, team, timeline, platform, tools, live link) |
 | **Pull quote** | `src/components/ui/PullQuote.tsx` | `<figure>`: `<blockquote>` in `font-display text-h3` (a quote, not a heading), max width `--prose-max`; `<figcaption>` with author (`text-h4` style on a `<p>`), role · company caption, relationship chip. Quotes separated by a hairline and `pt-10`. Optional disclosure slot ("Read the full note"). | Testimonials outside Home |
 | **Margin note** | `Callout` restyled (same props) | `border-l-2 border-line-strong pl-6`, title as one pastel highlight (same style as the headline highlight, colour from `tone`), body below. No fill, no shadow. | Asides in case studies |
@@ -92,9 +92,9 @@ Commit: `refactor(case): card-free case study shell`.
 ```
 Task — Layouts step 3: Luci case components without card overuse. Read AGENTS.md (rules 7, 18), LAYOUT-STEPS.md (layout kit), CASE-LUCI.md. Keep all public copy and LaunchOnly behaviour exactly as is; change layout only.
 - AudienceCards → IndexColumns (3 audiences as h4 titles) + the job chips row as today.
-- PrincipleCards → RuledList, numbered 01–05 (marker = numbered bean, title = principle, body = line).
+- PrincipleCards → RuledList, no numerals (title = principle, body = line).
 - HowSteps → per step: text plain (numbered bean + h4 + copy, no Card) beside its illustration (allowed frame), alternating sides on lg.
-- Learnings → RuledList, numbered.
+- Learnings → RuledList, no numerals.
 - Outcome → no Card: mono label + the statement in font-display text-h3 on a <p>, under a 2px pen rule.
 - AnnotatedExport → keep the code frame; the annotation list becomes a RuledList whose numbers match the code markers.
 - A11yFindings → plain table: header row with a 2px pen rule below, body rows with hairlines, overflow-x-auto wrapper with no border or shadow. Keep table semantics (caption, th scope).
@@ -132,7 +132,7 @@ Sections in order (bands alternate so neighbours never share a colour):
 1. Hero (bg): mono eyebrow; h1 "Hi, I'm Lucas." on its own full-width row; below it a 12-col grid: portrait (5 cols, the page's one media frame: rounded-xl, 2px pen border, sticker shadow) + intro in body-lg, Resume button, and Loaffy in the chill-lean pose (7 cols). Remove the "Works across US, Canada, NZ and Singapore time zones" line (rule 15).
 2. My story (butter-soft band): RuledList of 3 chapters, marker = years (mono), title = chapter name (h3), body = 2–3 sentences.
 3. Changelog (bg): RuledList as a timeline table, newest first, Luci on top: marker = period, title = role (h4), body = company + summary, aside = location. Education is the last row (degree, school, graduated, [your line]).
-4. How I work (mint-soft band): IndexColumns ×3 for the working principles (big numeral 01–03, principle as h4, [one line]), then a TextLink "See the process, step by step →" to /#process. Do not repeat Home's step-by-step process. Remove the current Shape card and its HandSketch.
+4. How I work (mint-soft band): IndexColumns ×3 for the working principles (no numerals, principle as h4, [one line]), then a TextLink "See the process, step by step →" to /#process. Do not repeat Home's step-by-step process. Remove the current Shape card and its HandSketch.
 5. What I'm good at (bg): IndexColumns ×4 (2 at md, 4 at xl): area as h4 + 3 TextLinks to the real case studies named in CONTENT.md.
 6. Tools (bg, directly under 5 with a hairline): 3 columns Design · Motion · Build, each a mono label + chips.
 7. Kind words (blush-soft band, id="kind-words"): add KindWords `variant="quotes"` (default "cards" = Home unchanged) rendering PullQuote ×2, both full notes behind a "Read the full note" disclosure.

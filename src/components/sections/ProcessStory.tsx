@@ -10,9 +10,9 @@ import {
 import {
   motion,
   useMotionValue,
-  useReducedMotion,
   useTransform,
 } from "motion/react";
+import { useReducedMotion } from "@/lib/useReducedMotion";
 import { ArrowLeft, ArrowRight, Calendar } from "lucide-react";
 import type { MotionValue, Transition } from "motion/react";
 import {
@@ -217,7 +217,7 @@ function ProcessCard({
       >
         <h3
           className={cn(
-            "font-display text-text hyphens-auto break-words",
+            "font-display text-text",
             HEADING_SCALE_CLASSES.h3,
           )}
         >
@@ -240,7 +240,11 @@ function ProcessCard({
           </p>
         </div>
 
+        {/* The pastel panel is a light surface in every theme, so scope it to the light
+            theme: the hand scenes' bg-surface/bg-bg pieces and the CatHand outline
+            (--lp-outline) stay paper + ink instead of turning near-black in Dark/Warm Dark. */}
         <div
+          data-theme="light"
           className={cn(
             "relative mt-auto flex h-44 w-full items-center justify-center overflow-hidden rounded-md border-2 border-on-pastel text-on-pastel lg:h-36",
             TONE_BG_CLASSES[scene.tone],

@@ -1,7 +1,8 @@
 "use client";
 
 import type { ReactNode } from "react";
-import { motion, useReducedMotion } from "motion/react";
+import { motion } from "motion/react";
+import { useReducedMotion } from "@/lib/useReducedMotion";
 import { cn, TONE_BG_CLASSES, type Tone } from "@/lib/cn";
 import { springCalm } from "@/lib/motion";
 import { HEADING_SCALE_CLASSES, type HeadingTag } from "@/components/ui/Heading";
@@ -10,7 +11,8 @@ export interface RuledListItem {
   id?: string;
   /** Left marker slot (mono label, years, or custom node) */
   marker?: ReactNode;
-  /** Built-in numbered bean marker (e.g. 1 or "01") when `marker` is omitted */
+  /** Built-in numbered bean marker (e.g. 1 or "01") when `marker` is omitted.
+   *  Only for real steps or reference IDs; parallel items get no number. */
   bean?: number | string;
   /** Tone for the numbered bean marker */
   beanTone?: Tone | "surface";
@@ -83,7 +85,17 @@ export function RuledList({
             </span>
           ) : null);
 
-        const bodySpanClass = item.title ? "md:col-span-6" : "md:col-span-10";
+        // Without a marker the 2-col marker slot collapses, so titles sit on the
+        // rule's left edge instead of behind an empty gutter.
+        const hasMarker = Boolean(markerNode);
+        const titleSpanClass = hasMarker ? "md:col-span-4" : "md:col-span-5";
+        const bodySpanClass = item.title
+          ? hasMarker
+            ? "md:col-span-6"
+            : "md:col-span-7"
+          : hasMarker
+            ? "md:col-span-10"
+            : "md:col-span-12";
 
         const rowContent = compact ? (
           <div className="flex items-start gap-4 py-4 md:py-5">
@@ -111,12 +123,14 @@ export function RuledList({
           </div>
         ) : (
           <div className="grid grid-cols-1 items-baseline gap-4 py-6 md:grid-cols-12 md:gap-8 md:py-8">
-            <div className={cn("font-mono text-label uppercase tracking-wider md:col-span-2", mutedClass)}>
-              {markerNode}
-            </div>
+            {hasMarker && (
+              <div className={cn("font-mono text-label uppercase tracking-wider md:col-span-2", mutedClass)}>
+                {markerNode}
+              </div>
+            )}
 
             {item.title && (
-              <div className="md:col-span-4">
+              <div className={titleSpanClass}>
                 <Tag
                   className={cn(
                     "font-display text-balance",

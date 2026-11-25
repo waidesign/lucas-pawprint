@@ -1,7 +1,8 @@
 "use client";
 
 import type { ReactNode } from "react";
-import { motion, useReducedMotion } from "motion/react";
+import { motion } from "motion/react";
+import { useReducedMotion } from "@/lib/useReducedMotion";
 import { ArrowRight, Calendar } from "lucide-react";
 import { cn } from "@/lib/cn";
 import { profile } from "@/content/site";
@@ -131,15 +132,10 @@ export function BuiltWith() {
             </span>
           </h2>
 
-          <div className="space-y-2">
-            <p className="max-w-xl font-body text-body-lg text-text-muted">
-              Luci and Claude&apos;s brains, open-source skills, and Gemini
-              coding models: Argon and Neon.
-            </p>
-            <p className="font-mono text-caption text-text-muted">
-              {profile.timezoneNote}
-            </p>
-          </div>
+          <p className="max-w-xl font-body text-body-lg text-text-muted">
+            Luci and Claude&apos;s brains, open-source skills, and Gemini
+            coding models: Argon and Neon.
+          </p>
 
           <div className="flex flex-col items-start gap-4">
             <CopyEmail email={profile.email} />

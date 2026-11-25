@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useReducedMotion } from "motion/react";
+import { useReducedMotion } from "@/lib/useReducedMotion";
 import { legacySkills } from "@/content/site";
 import { trackEvent } from "@/lib/analytics";
 import { cn } from "@/lib/cn";

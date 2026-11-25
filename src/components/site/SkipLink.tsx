@@ -12,6 +12,7 @@ export function SkipLink({
   return (
     <a
       href={`#${targetId}`}
+      data-no-smooth
       style={{ zIndex: "var(--z-toast)" }}
       className={cn(
         "sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:inline-flex focus:min-h-12 focus:items-center focus:rounded-pill focus:border-2 focus:border-line-strong focus:bg-butter focus:px-6 focus:font-body focus:text-button focus:text-on-pastel focus:shadow-sticker",

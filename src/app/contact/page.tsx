@@ -45,22 +45,18 @@ export const metadata: Metadata = {
 const FIRST_MESSAGE_ITEMS: RuledListItem[] = [
   {
     id: "msg-role",
-    marker: "01",
     body: "The role and team",
   },
   {
     id: "msg-timezone",
-    marker: "02",
     body: "Your time zone",
   },
   {
     id: "msg-timeline",
-    marker: "03",
     body: "Timeline",
   },
   {
     id: "msg-link",
-    marker: "04",
     body: "A link to the job post or project brief",
   },
 ];
@@ -224,7 +220,7 @@ export default function ContactPage() {
                 What helps in a first message.
               </Heading>
 
-              <RuledList items={FIRST_MESSAGE_ITEMS} ordered compact />
+              <RuledList items={FIRST_MESSAGE_ITEMS} compact />
             </div>
 
             <div className="space-y-8 lg:col-span-7">
@@ -245,15 +241,7 @@ export default function ContactPage() {
                     className="group border-b border-line py-5"
                   >
                     <summary className="flex min-h-12 cursor-pointer list-none items-center justify-between gap-4 font-display text-h4 text-text [&::-webkit-details-marker]:hidden">
-                      <span className="flex items-baseline gap-4">
-                        <span
-                          aria-hidden="true"
-                          className="shrink-0 font-mono text-label text-text-muted"
-                        >
-                          {String(idx + 1).padStart(2, "0")}.
-                        </span>
-                        <span>{qa.question}</span>
-                      </span>
+                      <span>{qa.question}</span>
                       <span
                         aria-hidden="true"
                         className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-pill border-2 border-line-strong bg-bg font-mono text-body text-text transition-transform duration-200 group-open:rotate-45 group-open:bg-butter group-open:text-on-pastel"
@@ -261,7 +249,7 @@ export default function ContactPage() {
                         +
                       </span>
                     </summary>
-                    <p className="mt-3 max-w-[var(--prose-max)] pl-10 font-body text-body-lg text-text-muted">
+                    <p className="mt-3 max-w-[var(--prose-max)] font-body text-body-lg text-text-muted">
                       {qa.answer}
                     </p>
                   </details>

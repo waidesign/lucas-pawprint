@@ -16,10 +16,10 @@ import {
   useInView,
   useMotionValue,
   useMotionValueEvent,
-  useReducedMotion,
   useScroll,
   useSpring,
 } from "motion/react";
+import { useReducedMotion } from "@/lib/useReducedMotion";
 import {
   ArrowLeft,
   ArrowUp,

@@ -1,6 +1,7 @@
 "use client";
 
-import { motion, useReducedMotion, type HTMLMotionProps } from "motion/react";
+import { motion, type HTMLMotionProps } from "motion/react";
+import { useReducedMotion } from "@/lib/useReducedMotion";
 import type { ReactNode } from "react";
 import { reveal, springCalm } from "@/lib/motion";
 

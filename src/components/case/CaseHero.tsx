@@ -3,7 +3,8 @@
 import Link from "next/link";
 import { useState } from "react";
 import { ArrowRight } from "lucide-react";
-import { motion, useReducedMotion } from "motion/react";
+import { motion } from "motion/react";
+import { useReducedMotion } from "@/lib/useReducedMotion";
 import type { CaseStudyMetadata } from "@/lib/schema";
 import { resolveCaseCta } from "@/lib/schema";
 import { cn, TONE_BG_CLASSES } from "@/lib/cn";

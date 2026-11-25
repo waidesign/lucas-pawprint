@@ -4,6 +4,8 @@ import { THEME_INIT_SCRIPT, ThemeProvider } from "@/lib/theme";
 import { PawCursorProvider } from "@/components/mascot/PawCursorProvider";
 import { ToastProvider } from "@/components/ui/Toast";
 import { SkipLink } from "@/components/site/SkipLink";
+import { PageTransition } from "@/components/site/PageTransition";
+import { SmoothAnchorScroll } from "@/components/site/SmoothAnchorScroll";
 import "./globals.css";
 
 const bricolage = Bricolage_Grotesque({
@@ -76,6 +78,8 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
             <ToastProvider>
               <SkipLink />
               {children}
+              <PageTransition />
+              <SmoothAnchorScroll />
             </ToastProvider>
           </PawCursorProvider>
         </ThemeProvider>

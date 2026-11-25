@@ -3,7 +3,7 @@
 import Image from "next/image";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { Captions, Play, X } from "lucide-react";
-import { useReducedMotion } from "motion/react";
+import { useReducedMotion } from "@/lib/useReducedMotion";
 import {
   MOTION_FILTER_TYPES,
   MOTION_TYPE_LABELS,

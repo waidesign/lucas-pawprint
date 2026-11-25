@@ -7,7 +7,8 @@ import {
   useState,
   type KeyboardEvent as ReactKeyboardEvent,
 } from "react";
-import { motion, useReducedMotion } from "motion/react";
+import { motion } from "motion/react";
+import { useReducedMotion } from "@/lib/useReducedMotion";
 import { Coffee, Monitor, Moon, Sun } from "lucide-react";
 import { cn } from "@/lib/cn";
 import { springCalm } from "@/lib/motion";

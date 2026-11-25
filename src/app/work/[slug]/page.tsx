@@ -7,6 +7,7 @@ import {
 } from "@/lib/case-studies";
 import { CaseLayout } from "@/components/case/CaseLayout";
 import { profile } from "@/content/site";
+import { jsonLd } from "@/lib/jsonLd";
 
 export function generateStaticParams(): { slug: string }[] {
   return getCaseStudySlugs().map((slug) => ({ slug }));
@@ -128,7 +129,7 @@ export default async function CaseStudyPage({
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
-          __html: JSON.stringify(
+          __html: jsonLd(
             softwareAppJsonLd
               ? [creativeWorkJsonLd, softwareAppJsonLd]
               : creativeWorkJsonLd

@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useReducedMotion } from "motion/react";
+import { useReducedMotion } from "@/lib/useReducedMotion";
 import { BeanStepper } from "@/components/ui/BeanStepper";
 import type { ChapterStep } from "@/components/case/Chapter";
 import { cn } from "@/lib/cn";

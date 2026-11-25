@@ -1,7 +1,8 @@
 "use client";
 
 import type { ReactNode } from "react";
-import { motion, useReducedMotion } from "motion/react";
+import { motion } from "motion/react";
+import { useReducedMotion } from "@/lib/useReducedMotion";
 import { cn, type Tone } from "@/lib/cn";
 import { springCalm } from "@/lib/motion";
 import { Heading } from "@/components/ui/Heading";
@@ -12,9 +13,8 @@ export interface FeaturePoint {
 }
 
 export interface FeatureRowProps {
-  /** Optional display numeral in ProcessStory style (e.g. "01.") */
-  number?: string;
-  /** Optional small mono label above the heading (e.g. "Devtool", "01 · Capture") */
+  /** Optional small mono label above the heading (e.g. "Devtool", "Core flow").
+   *  No numerals: feature rows are parallel, not steps. */
   eyebrow?: string;
   /** Feature title — rendered as h3 at h2 token (48px, Rule 17) */
   title: string;
@@ -46,7 +46,6 @@ export interface FeatureRowProps {
  * with plain typography beside one framed media element (AGENTS.md rule 18).
  */
 export function FeatureRow({
-  number,
   eyebrow,
   title,
   highlight,
@@ -105,22 +104,10 @@ export function FeatureRow({
           reverse && mediaContent && "lg:order-1",
         )}
       >
-        {(number || eyebrow) && (
-          <div className="flex flex-wrap items-baseline gap-4">
-            {number && (
-              <span
-                aria-hidden="true"
-                className="font-display text-h3 font-extrabold leading-none text-text"
-              >
-                {number}
-              </span>
-            )}
-            {eyebrow && (
-              <span className="font-mono text-label uppercase tracking-wider text-text-muted">
-                {eyebrow}
-              </span>
-            )}
-          </div>
+        {eyebrow && (
+          <p className="font-mono text-label uppercase tracking-wider text-text-muted">
+            {eyebrow}
+          </p>
         )}
 
         <Heading

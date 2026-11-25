@@ -30,12 +30,12 @@ export interface ChapterProps {
 
 const STEP_META: Record<
   ChapterStep,
-  { number: string; label: string; defaultSoft: boolean; seed: number }
+  { label: string; defaultSoft: boolean; seed: number }
 > = {
-  understand: { number: "01.", label: "Understand", defaultSoft: true, seed: 11 },
-  shape: { number: "02.", label: "Shape", defaultSoft: false, seed: 23 },
-  design: { number: "03.", label: "Design", defaultSoft: true, seed: 37 },
-  ship: { number: "04.", label: "Ship", defaultSoft: false, seed: 47 },
+  understand: { label: "Understand", defaultSoft: true, seed: 11 },
+  shape: { label: "Shape", defaultSoft: false, seed: 23 },
+  design: { label: "Design", defaultSoft: true, seed: 37 },
+  ship: { label: "Ship", defaultSoft: false, seed: 47 },
 };
 
 const CHAPTER_BG_VARS: Record<ChapterTone, string> = {
@@ -92,8 +92,8 @@ function toSeamTone(tone: ChapterTone): Tone | "bg" | null {
  * Chapter (Phase 1.C):
  * - Full-width alternating band (`bg` and `<caseTone>-soft`) joined to the previous band
  *   by a Home-style wavy `<SectionSeam>`.
- * - Header: ProcessStory-style large numeral ("01.".."04.") + quiet mono step label
- *   (no mono pill), `h2` at `h1` token (64px) with optional single highlighted word,
+ * - Header: quiet mono step label (no numeral: the CaseStepper already numbers the
+ *   chapters), `h2` at `h1` token (64px) with optional single highlighted word,
  *   and an optional `intro` line in `body-lg`.
  * - Preserves `data-chapter-step` and `aria-labelledby`.
  */
@@ -157,17 +157,9 @@ export function Chapter({
       >
         <div className="w-full space-y-10 md:space-y-12">
           <div className="max-w-4xl space-y-4">
-            <div className="flex items-baseline gap-4">
-              <span
-                aria-hidden="true"
-                className="font-display text-h1 font-extrabold leading-none text-current"
-              >
-                {meta.number}
-              </span>
-              <span className="font-mono text-label uppercase tracking-wider text-text-muted">
-                {meta.label}
-              </span>
-            </div>
+            <p className="font-mono text-label uppercase tracking-wider text-text-muted">
+              {meta.label}
+            </p>
 
             {title ? (
               <Heading

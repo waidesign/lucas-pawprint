@@ -83,6 +83,24 @@
     transition-duration: var(--duration-instant);
   }
 
+  /* Card-sized primary button (NextCase): the primary sky shadow at the card's
+     8px sticker offset, so it lines up with the CaseCTA card beside it. */
+  .lp-btn-primary-lg {
+    box-shadow: 0.5rem 0.5rem 0 0 var(--color-sky);
+    transition-property: transform, box-shadow, background-color, color, opacity;
+    transition-duration: var(--duration-fast);
+    transition-timing-function: var(--ease-out-soft);
+  }
+  .lp-btn-primary-lg:hover:not(:disabled):not([aria-disabled="true"]) {
+    transform: translate(var(--lift-shift), var(--lift-shift));
+    box-shadow: 0.75rem 0.75rem 0 0 var(--color-sky);
+  }
+  .lp-btn-primary-lg:active:not(:disabled):not([aria-disabled="true"]) {
+    transform: translate(var(--press-shift), var(--press-shift)) scale(var(--press-scale));
+    box-shadow: none;
+    transition-duration: var(--duration-instant);
+  }
+
   .lp-sticker-sm-interactive {
     box-shadow: var(--shadow-sticker-sm);
     transition-property: transform, box-shadow, background-color, color, opacity;

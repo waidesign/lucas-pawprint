@@ -1,6 +1,7 @@
 "use client";
 
-import { motion, useReducedMotion } from "motion/react";
+import { motion } from "motion/react";
+import { useReducedMotion } from "@/lib/useReducedMotion";
 import { RuledList } from "@/components/ui/RuledList";
 import { KOFI_DESIGN_MD_EXCERPT } from "@/content/case-studies/luci/proof";
 import { springCalm } from "@/lib/motion";

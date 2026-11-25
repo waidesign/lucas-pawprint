@@ -1,34 +1,31 @@
 "use client";
 
-import { motion, useReducedMotion } from "motion/react";
+import { motion } from "motion/react";
+import { useReducedMotion } from "@/lib/useReducedMotion";
 import { HEADING_SCALE_CLASSES } from "@/components/ui/Heading";
 import { springCalm } from "@/lib/motion";
 import { cn } from "@/lib/cn";
 
 const LUCI_PROBLEMS = [
   {
-    number: "01.",
     title: "They forget.",
     description: "Rules and decisions get repeated every session.",
     image: "/case-studies/luci/screens/problem-forget",
     alt: "Illustration of an AI agent losing project rules between sessions.",
   },
   {
-    number: "02.",
     title: "They guess the design.",
     description: "A screenshot gives estimates, not values.",
     image: "/case-studies/luci/screens/problem-guess",
     alt: "Illustration of an AI agent estimating CSS values from a screenshot.",
   },
   {
-    number: "03.",
     title: "They misread feedback.",
     description: '"Make the button bigger" could mean any button.',
     image: "/case-studies/luci/screens/problem-misread",
     alt: "Illustration of ambiguous UI feedback pointing to the wrong button.",
   },
   {
-    number: "04.",
     title: "They drift.",
     description: "Nobody checks the result against the design.",
     image: "/case-studies/luci/screens/problem-drift",
@@ -39,6 +36,7 @@ const LUCI_PROBLEMS = [
 /**
  * 4-up plain row for Luci's Understand chapter ("Agents are fast. They also guess.").
  * Zero text cards (Rule 18): only each problem scene illustration wears a 2px pen frame.
+ * No numerals: the four problems are parallel, not steps.
  */
 export function LuciProblems() {
   const prefersReduced = useReducedMotion() ?? false;
@@ -46,7 +44,7 @@ export function LuciProblems() {
   return (
     <div className="my-10">
       <h3 className="sr-only">Four ways AI coding agents go off track</h3>
-      <ol className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-4">
+      <ul className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-4">
       {LUCI_PROBLEMS.map((item, idx) => {
         const inner = (
           <div className="space-y-4">
@@ -67,12 +65,6 @@ export function LuciProblems() {
             </div>
 
             <div className="space-y-2 border-t-2 border-line-strong pt-4">
-              <span
-                aria-hidden="true"
-                className="block font-display text-h4 font-extrabold leading-none text-text"
-              >
-                {item.number}
-              </span>
               <h4
                 className={cn(
                   "font-display text-text text-balance",
@@ -104,7 +96,7 @@ export function LuciProblems() {
           </motion.li>
         );
       })}
-      </ol>
+      </ul>
     </div>
   );
 }

@@ -254,7 +254,7 @@ Rules: max line length 68ch (`--prose-max` 720px). Headlines `text-wrap: balance
 | Pattern | Component | Structure |
 |---|---|---|
 | Ruled list | `RuledList` | 2px top rule + 1px hairline rows (12-col: marker · title · body · aside) |
-| Index columns | `IndexColumns` | 2–4 plain columns topped by 2px pen rules, optional label/numeral |
+| Index columns | `IndexColumns` | 2–4 plain columns topped by 2px pen rules, optional label; numeral only for real steps |
 | Spec row | `MetaRow` | `<dl>` between 2px top rule and 1px hairline bottom |
 | Pull quote | `PullQuote` | `<figure>` in `font-display text-h3` + `<figcaption>` + optional note toggle |
 | Margin note | `Callout` | `border-l-2 border-line-strong pl-6`, pastel-highlighted title, no fill/shadow |

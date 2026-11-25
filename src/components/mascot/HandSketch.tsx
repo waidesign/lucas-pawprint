@@ -7,11 +7,11 @@ import {
   useInView,
   useMotionValue,
   useMotionValueEvent,
-  useReducedMotion,
   useTransform,
   type AnimationPlaybackControls,
   type MotionValue,
 } from "motion/react";
+import { useReducedMotion } from "@/lib/useReducedMotion";
 import { handTiming } from "@/lib/motion";
 import { cn } from "@/lib/cn";
 import { CatHand } from "./CatHand";
