@@ -36,7 +36,9 @@ export function TextLink({
     href.endsWith(".pdf");
 
   const sharedClasses = cn(
-    "group relative isolate inline-flex items-center gap-1 rounded-xs px-1 -mx-1 font-body font-medium text-text underline decoration-1 underline-offset-4 transition-all hover:decoration-2 hover:text-on-pastel",
+    // Pill highlight (one shape for every text link). 12px side padding keeps the round
+    // ends clear of the text; the matching negative margin keeps the text aligned.
+    "group relative isolate inline-flex items-center gap-1 rounded-pill px-3 -mx-3 font-body font-medium text-text underline decoration-1 underline-offset-4 transition-all hover:decoration-2 hover:text-on-pastel",
     className
   );
 

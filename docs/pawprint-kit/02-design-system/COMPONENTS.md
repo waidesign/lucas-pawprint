@@ -35,7 +35,7 @@ type ButtonProps = {
 Same as Button but square/circle, requires `aria-label`. 48px circle, 2px pen border.
 
 ### TextLink
-Inline link. Ink text, 2px underline offset 4px. Hover: underline goes 1px → 2px and a pastel highlight slides in behind (`background-size` 0 → 100%, `--duration-base`). External links add ↗ with `aria-label` "(opens in new tab)".
+Inline link. Ink text, 2px underline offset 4px. Hover: underline goes 1px → 2px and a pastel highlight slides in behind (`background-size` 0 → 100%, `--duration-base`). The highlight is always a pill (`rounded-pill`, 12px side padding offset by a −12px margin so the text stays aligned); never override the radius. External links add ↗ with `aria-label` "(opens in new tab)".
 
 ### Heading
 ```ts
