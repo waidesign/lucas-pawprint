@@ -90,6 +90,10 @@ typography:
   label: { fontFamily: "Inter", fontWeight: "600", fontSize: "0.75rem", lineHeight: "1rem", letterSpacing: "0.08em" }
   caption: { fontFamily: "Inter", fontWeight: "500", fontSize: "0.75rem", lineHeight: "1rem", letterSpacing: "0" }
   button: { fontFamily: "Inter", fontWeight: "600", fontSize: "1rem", lineHeight: "1rem", letterSpacing: "-0.005em" }
+  # Header menu links (36 → 60 at md → 72 at lg), stepped per breakpoint, not fluid
+  menu-link-sm: { fontFamily: "Bricolage Grotesque", fontWeight: "800", fontSize: "2.25rem", lineHeight: "2.5rem", letterSpacing: "-0.025em" }
+  menu-link-md: { fontFamily: "Bricolage Grotesque", fontWeight: "800", fontSize: "3.75rem", lineHeight: "3.75rem", letterSpacing: "-0.025em" }
+  menu-link-lg: { fontFamily: "Bricolage Grotesque", fontWeight: "800", fontSize: "4.5rem", lineHeight: "4.5rem", letterSpacing: "-0.025em" }
 fonts: { display: "Bricolage Grotesque", body: "Inter", mono: "JetBrains Mono" }
 rounded: { xs: 4px, sm: 8px, md: 12px, lg: 16px, xl: 20px, 2xl: 24px, pill: 9999px }
 spacing: { unit: 4px, scale: [0, 4, 8, 12, 16, 20, 24, 32, 40, 48, 56, 64, 80, 96, 128, 160], section: "80→160px", gutter: "16→64px", container: 1312px, prose: 720px }
