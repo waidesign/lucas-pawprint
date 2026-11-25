@@ -18,6 +18,7 @@ import { Section } from "@/components/ui/Section";
 import { SectionSeam } from "@/components/ui/SectionSeam";
 import { TextLink } from "@/components/ui/TextLink";
 import { cn } from "@/lib/cn";
+import { jsonLd } from "@/lib/jsonLd";
 
 export const metadata: Metadata = {
   title: "About · Lucas (Wai Phyo Aung)",
@@ -294,7 +295,7 @@ export default function AboutPage() {
     <div className="flex min-h-full flex-col bg-bg text-text">
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(personJsonLd) }}
+        dangerouslySetInnerHTML={{ __html: jsonLd(personJsonLd) }}
       />
       <SiteNav />
       <main id="main-content" className="flex-1">
