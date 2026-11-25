@@ -541,7 +541,7 @@ export function HeaderMenu({
             </div>
 
             <p className="font-body text-caption text-text-muted">
-              Curious by nature, careful by habit. · Phuket, Thailand · UTC+7
+              Curious by nature, careful by habit.
             </p>
           </motion.div>
         </div>
