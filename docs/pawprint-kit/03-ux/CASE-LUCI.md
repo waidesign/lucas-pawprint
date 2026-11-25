@@ -6,7 +6,7 @@
 ## Current Outline (Home-style case template, live)
 
 - **Hero (`bg`)**: Badge `"Open source"`, year `2026`, `h1` `"Luci"`, live hero summary, primary `"Try Luci"` (`luci.pawprint.design`) + secondary `"GitHub"`, full-width cover stage built from real Devtool/Core/Extension captures (no Loaffy on Luci Hero, Rule 11).
-- **At a glance (`bg`)**: `MetaRow` (Role, Team, Timeline `2026`, Platforms `CLI + Dev toolbar + Chrome extension + MCP server`, Tools, Live) + 3-column `IndexColumns` TL;DR labelled by pastel `Chip`s (no numerals).
+- **At a glance (`bg`)**: `MetaRow` (Role, Team, Timeline `2026`, Platforms `CLI + Dev toolbar + Chrome extension + MCP server`, Tools, Live) + 3-column `IndexColumns` TL;DR titled by `h3` headings (not badges, no numerals).
 - **01 Understand (`lilac-soft`)**: `"Agents are fast. They also guess."` — 4-up plain `LuciProblems` row with captured problem scene frames + Lucas's `"I needed one button, not the whole website."` `PullQuote`.
 - **02 Shape (`bg`)**: `"One loop, four steps."` — `LuciWorkflow` (Show · Direct · Check · Remember in ProcessStory numeral style) + `PrincipleCards` (five verified principles).
 - **03 Design (`lilac-soft`)**: `"Built for how agents work."` — 3 alternating `FeatureRow`s with live `LoopVideo` recordings (Devtool, Core, Extension), `"A real export."` (`AnnotatedExport` + `A11yFindings`), `DecisionList` (7 decisions verified in `luci-by-pawprint.design` source), and `"A tool with a little personality."` (`BrandBoard` with real logo + 6 animated mascot SVGs; no Loaffy).

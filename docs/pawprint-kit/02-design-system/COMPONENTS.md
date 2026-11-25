@@ -206,7 +206,7 @@ A case study **row**, not a boxed card (layout inspired by slush.app's "Your sho
 | `Badge` | Generic status/label pill (`label`, `tone`, 2px pen border, `shadow-sticker-sm`, no dots per rule 16; replaces `BetaBadge`) |
 | `CaseHero` | Inline breadcrumb ("Work / {title}"), meta line (`Badge` + year + role), `h1` (`display-xl` with one highlighted word), `body-lg` summary, pill CTAs, and full-width tilted cover stage (`rounded-2xl`, 2px pen border, `shadow-sticker`; Loaffy peek off on Luci per rule 11) |
 | `MetaRow` | Spec row: `<dl>` between a 2px pen rule (top) and 1px hairline (bottom), `py-6`, 2 → 3 → 5 columns |
-| `TLDR` | "At a glance." overview band: `h2` heading, `MetaRow`, and 3-column `IndexColumns` (Problem · What I did · Outcome) labelled by pastel `Chip`s, no numerals; no boxes |
+| `TLDR` | "At a glance." overview band: `h2` heading, `MetaRow`, and 3-column `IndexColumns` titled by real `h3` headings (Problem · What I did · Outcome), not badges, no numerals; no boxes |
 | `Chapter` | Full-width alternating `bg` / `<caseTone>-soft` bands joined by wavy `<SectionSeam>` edges; quiet mono step label (no numeral: `CaseStepper` numbers the chapters) + `h2` (`h1` token, one highlighted word) + `body-lg` intro |
 | `CaseStepper` | Compact floating `lg+` chapter pill (`BeanStepper` with 4 chapters, `aria-current="step"`) that appears after hero scrolls out and hides over closing band; keyboard reachable via `focus-within` |
 | `FeatureRow` | Alternating media left/right (`6/6` or `7/5` mirroring `CaseCard`) with plain text (mono eyebrow, `h3`, `body-lg`, optional labelled points/bullets; no numeral) beside one framed media block |

@@ -1,6 +1,5 @@
 "use client";
 
-import { Chip } from "@/components/ui/Chip";
 import { Heading } from "@/components/ui/Heading";
 import { IndexColumns } from "@/components/ui/IndexColumns";
 import { MetaRow } from "@/components/case/MetaRow";
@@ -24,7 +23,8 @@ export interface TLDRProps {
 /**
  * "At a glance." overview band (Phase 1.B):
  * Plain, zero cards: Heading ("At a glance."), MetaRow (Role · Team · Timeline · Platform · Tools · Live link),
- * and TL;DR as 3-column IndexColumns labelled by pastel Chips (no numerals: the three parts are parallel, not steps).
+ * and TL;DR as 3-column IndexColumns titled by real h3 headings (Problem · What I did · Outcome),
+ * not badges: they are the section's key titles. No numerals: the three parts are parallel, not steps.
  */
 export function TLDR({
   problem,
@@ -54,29 +54,17 @@ export function TLDR({
   const items = [
     {
       id: "problem",
-      label: (
-        <Chip tone="butter" size="sm">
-          {problemLabel}
-        </Chip>
-      ),
+      title: problemLabel,
       body: <p className="text-text">{resolvedProblem}</p>,
     },
     {
       id: "what-i-did",
-      label: (
-        <Chip tone="mint" size="sm">
-          {resolvedWhatLabel}
-        </Chip>
-      ),
+      title: resolvedWhatLabel,
       body: <p className="text-text">{resolvedWhatIDid}</p>,
     },
     {
       id: "outcome",
-      label: (
-        <Chip tone="sky" size="sm">
-          {resolvedOutcomeLabel}
-        </Chip>
-      ),
+      title: resolvedOutcomeLabel,
       body: <p className="text-text">{resolvedOutcome}</p>,
     },
   ];
@@ -109,6 +97,7 @@ export function TLDR({
 
         <IndexColumns
           columns={3}
+          as="h3"
           bodySize="body-lg"
           staggerSeconds={stagger}
           items={items}
