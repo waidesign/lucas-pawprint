@@ -10,10 +10,13 @@
     "dev": "next dev",
     "prebuild": "npm run tokens && npm run images",
     "build": "next build",
+    "postbuild": "node scripts/postbuild-export.mjs",
     "start": "next start",
     "lint": "eslint",
     "typecheck": "tsc --noEmit",
-    "qa": "node scripts/qa.mjs"
+    "qa": "node scripts/qa.mjs",
+    "cf:preview": "npm run build && wrangler dev",
+    "cf:deploy": "npm run build && wrangler deploy"
   },
   "dependencies": {
     "@mdx-js/loader": "^3.1.1",
@@ -43,6 +46,7 @@
     "playwright": "^1.65.1",
     "sharp": "^0.35.5",
     "tailwindcss": "4.3.3",
-    "typescript": "^5"
+    "typescript": "^5",
+    "wrangler": "^4.168.0"
   }
 }
