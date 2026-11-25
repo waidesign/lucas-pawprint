@@ -3,6 +3,7 @@
 import type { ReactNode } from "react";
 import { motion } from "motion/react";
 import { useReducedMotion } from "@/lib/useReducedMotion";
+import { useRevealReady } from "@/lib/pageTransitionStore";
 import { springBouncy, springCalm, stagger } from "@/lib/motion";
 
 export type HeroRevealVariant = "eyebrow" | "heading" | "body" | "media" | "mascot";
@@ -43,12 +44,18 @@ export function HeroReveal({
   className,
 }: HeroRevealProps) {
   const prefersReduced = useReducedMotion() ?? false;
+  // After a client-side navigation, hold the start pose until the page wipe uncovers.
+  const revealReady = useRevealReady();
   const baseTransition = variant === "mascot" ? springBouncy : springCalm;
 
   return (
     <motion.div
       initial={prefersReduced ? false : INITIAL_BY_VARIANT[variant]}
-      animate={ANIMATE_BY_VARIANT[variant]}
+      animate={
+        revealReady || prefersReduced
+          ? ANIMATE_BY_VARIANT[variant]
+          : INITIAL_BY_VARIANT[variant]
+      }
       transition={
         prefersReduced
           ? { duration: 0 }
