@@ -2,7 +2,8 @@
 
 import { useEffect, useRef, useState } from "react";
 import { usePathname } from "next/navigation";
-import { useInView, useReducedMotion } from "motion/react";
+import { useInView } from "motion/react";
+import { useReducedMotion } from "@/lib/useReducedMotion";
 import { PeekingHand } from "@/components/mascot/PeekingHand";
 
 /** Only the first Key decision a visitor reaches on a page gets the paw. */

@@ -1,7 +1,8 @@
 "use client";
 
 import type { ReactNode } from "react";
-import { motion, useReducedMotion } from "motion/react";
+import { motion } from "motion/react";
+import { useReducedMotion } from "@/lib/useReducedMotion";
 import { springBouncy, springCalm, stagger } from "@/lib/motion";
 
 export type HeroRevealVariant = "eyebrow" | "heading" | "body" | "media" | "mascot";

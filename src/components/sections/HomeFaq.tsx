@@ -1,7 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import { AnimatePresence, motion, useReducedMotion } from "motion/react";
+import { AnimatePresence, motion } from "motion/react";
+import { useReducedMotion } from "@/lib/useReducedMotion";
 import { ArrowRight, Plus } from "lucide-react";
 import { homeFaqs } from "@/content/site";
 import { cn } from "@/lib/cn";

@@ -1,7 +1,8 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
-import { motion, useReducedMotion } from "motion/react";
+import { motion } from "motion/react";
+import { useReducedMotion } from "@/lib/useReducedMotion";
 import { ArrowDown, ArrowRight, Calendar } from "lucide-react";
 import { profile } from "@/content/site";
 import { trackEvent } from "@/lib/analytics";

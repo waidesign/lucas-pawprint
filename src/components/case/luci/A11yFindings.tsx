@@ -1,6 +1,7 @@
 "use client";
 
-import { motion, useReducedMotion } from "motion/react";
+import { motion } from "motion/react";
+import { useReducedMotion } from "@/lib/useReducedMotion";
 import { Chip } from "@/components/ui/Chip";
 import { LUCI_A11Y_FINDINGS } from "@/content/case-studies/luci/proof";
 import { springCalm } from "@/lib/motion";

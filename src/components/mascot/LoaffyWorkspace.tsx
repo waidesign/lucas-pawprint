@@ -4,11 +4,11 @@ import { useEffect, useId, useRef, useState, type ReactNode } from "react";
 import {
   motion,
   useInView,
-  useReducedMotion,
   type MotionStyle,
   type TargetAndTransition,
   type Transition,
 } from "motion/react";
+import { useReducedMotion } from "@/lib/useReducedMotion";
 import { cn } from "@/lib/cn";
 import { REST_BEANS } from "./parts/clearance";
 import { LoaffyMarkShape } from "./LoaffyMark";

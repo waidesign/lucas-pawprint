@@ -1,7 +1,8 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { motion, useInView, useReducedMotion } from "motion/react";
+import { motion, useInView } from "motion/react";
+import { useReducedMotion } from "@/lib/useReducedMotion";
 
 const EASE_BURST = [0.16, 1, 0.3, 1] as const;
 const EASE_PRESSURE = [0.68, 0, 0.88, 0.12] as const;

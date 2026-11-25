@@ -7,7 +7,7 @@ import {
   useState,
   type RefObject,
 } from "react";
-import { useReducedMotion } from "motion/react";
+import { useReducedMotion } from "@/lib/useReducedMotion";
 import {
   subscribeLoaffyBus,
   type Form,

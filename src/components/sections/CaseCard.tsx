@@ -2,7 +2,8 @@
 
 import Link from "next/link";
 import { Fragment, useState } from "react";
-import { motion, useReducedMotion } from "motion/react";
+import { motion } from "motion/react";
+import { useReducedMotion } from "@/lib/useReducedMotion";
 import { ArrowRight } from "lucide-react";
 import { cn, TONE_BG_CLASSES, type Tone } from "@/lib/cn";
 import { springCalm } from "@/lib/motion";

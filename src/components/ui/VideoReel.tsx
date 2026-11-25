@@ -3,7 +3,7 @@
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import { Pause, Play } from "lucide-react";
-import { useReducedMotion } from "motion/react";
+import { useReducedMotion } from "@/lib/useReducedMotion";
 import { cn, TONE_BG_CLASSES, type Tone } from "@/lib/cn";
 import { emitLoaffyEvent } from "@/components/mascot/LoaffyBus";
 

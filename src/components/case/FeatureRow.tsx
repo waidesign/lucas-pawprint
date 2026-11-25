@@ -1,7 +1,8 @@
 "use client";
 
 import type { ReactNode } from "react";
-import { motion, useReducedMotion } from "motion/react";
+import { motion } from "motion/react";
+import { useReducedMotion } from "@/lib/useReducedMotion";
 import { cn, type Tone } from "@/lib/cn";
 import { springCalm } from "@/lib/motion";
 import { Heading } from "@/components/ui/Heading";
