@@ -166,7 +166,7 @@ function AssistantMessage({ children }: { children: ReactNode }) {
       <Avatar toneClass="bg-butter">
         <ClawdMark className="w-6" />
       </Avatar>
-      <div className="min-w-0 flex-1 space-y-3 rounded-lg rounded-tl-xs border-2 border-line bg-surface px-4 py-3 font-body text-body text-text">
+      <div className="min-w-0 flex-1 space-y-3 rounded-lg rounded-tl-xs border-2 border-line bg-surface px-4 py-3 font-body text-body text-text-muted">
         {children}
       </div>
     </motion.div>

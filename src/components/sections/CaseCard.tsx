@@ -297,9 +297,8 @@ export function CaseCard({
       {/* Plain-on-canvas text column */}
       <div
         className={cn(
-          "flex flex-col items-start gap-5 md:gap-6",
+          "flex flex-col items-start gap-4 lg:gap-6",
           textColClass,
-          "lg:gap-8",
           reverse && "lg:order-1",
         )}
       >
@@ -347,7 +346,7 @@ export function CaseCard({
           ))}
         </h3>
 
-        <p className="max-w-xl font-body text-body-lg font-medium text-text">
+        <p className="max-w-xl font-body text-body-lg text-text-muted">
           {summary}
         </p>
 

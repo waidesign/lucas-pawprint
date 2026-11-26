@@ -59,6 +59,12 @@ const MENU_ITEMS = [
     tag: "03 · Say hi!",
     toneClass: "bg-blush text-on-pastel",
   },
+  {
+    label: "Colophon",
+    href: "/colophon",
+    tag: "04 · How it's built",
+    toneClass: "bg-mint text-on-pastel",
+  },
 ] as const;
 
 const SOCIAL_ICON_PROPS = {

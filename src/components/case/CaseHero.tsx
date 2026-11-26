@@ -10,7 +10,6 @@ import { resolveCaseCta } from "@/lib/schema";
 import { cn, TONE_BG_CLASSES } from "@/lib/cn";
 import { springCalm } from "@/lib/motion";
 import { trackEvent } from "@/lib/analytics";
-import { Badge } from "@/components/ui/Badge";
 import { Button } from "@/components/ui/Button";
 import { Heading } from "@/components/ui/Heading";
 import { TextLink } from "@/components/ui/TextLink";
@@ -99,9 +98,6 @@ export function CaseHero({
         {/* Meta line + display-xl h1 with one highlighted word */}
         <div className="space-y-6">
           <div className="flex flex-wrap items-center gap-3">
-            {metadata.badge && (
-              <Badge label={metadata.badge} tone={metadata.tone} />
-            )}
             <span className="font-mono text-label uppercase tracking-wider text-text-muted">
               {metadata.year}
             </span>

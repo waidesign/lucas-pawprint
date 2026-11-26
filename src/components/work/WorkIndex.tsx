@@ -218,9 +218,6 @@ export function WorkIndex({ caseStudies }: WorkIndexProps) {
         {featuredCase && (
           <div className="space-y-8 border-t border-line pt-12">
             <h2 className="sr-only">Featured project</h2>
-            <p className="font-mono text-label uppercase tracking-wider text-text-muted">
-              Own product · Lead case study
-            </p>
             <FadeIn delay={0} yOffset={16}>
               <CaseCard
                 slug={featuredCase.slug}
@@ -232,7 +229,6 @@ export function WorkIndex({ caseStudies }: WorkIndexProps) {
                 coverAlt={featuredCase.metadata.coverAlt}
                 liveUrl={featuredCase.metadata.liveUrl}
                 featured
-                badge={featuredCase.metadata.badge}
                 year={featuredCase.metadata.year}
                 role={featuredCase.metadata.role}
                 peek={false}
@@ -248,9 +244,6 @@ export function WorkIndex({ caseStudies }: WorkIndexProps) {
         {clientCases.length > 0 && (
           <div className="space-y-12 border-t border-line pt-12">
             <h2 className="sr-only">Client work</h2>
-            <p className="font-mono text-label uppercase tracking-wider text-text-muted">
-              Client work · {clientCases.length}
-            </p>
 
             <div
               id="work-client-grid"
@@ -271,7 +264,6 @@ export function WorkIndex({ caseStudies }: WorkIndexProps) {
                     cover={item.metadata.cover}
                     coverAlt={item.metadata.coverAlt}
                     liveUrl={item.metadata.liveUrl}
-                    badge={item.metadata.badge}
                     year={item.metadata.year}
                     role={item.metadata.role}
                     peek={false}

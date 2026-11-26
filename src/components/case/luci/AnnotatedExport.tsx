@@ -55,13 +55,13 @@ export function AnnotatedExport() {
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, margin: "-10% 0px" }}
         transition={prefersReduced ? { duration: 0 } : springCalm}
-        className="rounded-lg border-2 border-line-strong bg-surface p-6 shadow-sticker-sm lg:col-span-7"
+        className="rounded-lg border-2 border-line-strong bg-surface p-4 shadow-sticker-sm md:p-6 lg:col-span-7"
       >
-        <div className="mb-4 flex items-center justify-between gap-4 border-b border-line pb-3">
+        <div className="mb-4 flex flex-wrap items-center justify-between gap-x-4 gap-y-2 border-b border-line pb-3">
           <span className="font-mono text-caption font-semibold text-text">
             ko-fi.design.md (excerpt)
           </span>
-          <span className="rounded-pill border border-line-strong bg-bg px-3 py-1 font-mono text-caption text-text-muted">
+          <span className="shrink-0 whitespace-nowrap rounded-pill border border-line-strong bg-bg px-3 py-1 font-mono text-caption text-text-muted">
             YAML · measured
           </span>
         </div>

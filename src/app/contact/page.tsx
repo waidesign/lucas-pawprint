@@ -109,13 +109,7 @@ export default function ContactPage() {
         <Section id="contact-hero" labelledBy="contact-page-heading" tone="bg">
           <div className="grid grid-cols-1 items-end gap-10 lg:grid-cols-12">
             <div className="space-y-6 lg:col-span-8">
-              <HeroReveal step={0} variant="eyebrow">
-                <p className="font-mono text-label uppercase tracking-wider text-text-muted">
-                  {profile.name} · {profile.location} · {profile.timezone}
-                </p>
-              </HeroReveal>
-
-              <HeroReveal step={1} variant="heading">
+              <HeroReveal step={0} variant="heading">
                 <Heading
                   id="contact-page-heading"
                   as="h1"
@@ -126,7 +120,7 @@ export default function ContactPage() {
                 </Heading>
               </HeroReveal>
 
-              <HeroReveal step={2} variant="body">
+              <HeroReveal step={1} variant="body">
                 <p className="max-w-[var(--prose-max)] font-body text-body-lg text-text-muted">
                   Email me, book a 30-minute chat, or check live Phuket time-zone
                   overlap below.
@@ -134,7 +128,7 @@ export default function ContactPage() {
               </HeroReveal>
 
               <HeroReveal
-                step={3}
+                step={2}
                 variant="body"
                 className="flex flex-wrap items-center gap-4 pt-2"
               >
@@ -144,7 +138,7 @@ export default function ContactPage() {
             </div>
 
             <HeroReveal
-              step={2}
+              step={1}
               variant="mascot"
               className="hidden lg:col-span-4 lg:flex lg:justify-end"
             >
