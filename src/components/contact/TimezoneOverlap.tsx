@@ -244,14 +244,9 @@ export function TimezoneOverlap() {
           </p>
         </div>
 
-        <div className="space-y-2">
-          <p className="font-body text-body-lg font-medium text-text">
-            You&apos;re on Phuket time too.
-          </p>
-          <p className="font-mono text-caption text-text-muted">
-            Usual working hours: {hoursRange} local time.
-          </p>
-        </div>
+        <p className="font-body text-body-lg font-medium text-text">
+          You&apos;re on Phuket time too.
+        </p>
       </div>
     );
   }
