@@ -152,7 +152,7 @@ const CAPABILITY_AREAS: CapabilityArea[] = [
       },
       {
         label: "Loaffy",
-        href: "/colophon#design",
+        href: "/colophon#loaffy",
         tone: "lilac",
       },
     ],

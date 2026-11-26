@@ -298,7 +298,7 @@ export const TYPE_SCALE: TypeScaleSpec[] = [
     maxSizeRem: "2rem",
     maxLineRem: "2.25rem",
     weight: "700",
-    sample: "Luci — Design governance for coding agents",
+    sample: "Luci: design control for AI coding agents",
   },
   {
     role: "h4",
