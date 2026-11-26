@@ -115,10 +115,13 @@ export function KindWords({
                   }}
                   className={cn(
                     "flex h-full flex-col justify-between gap-6 transition-transform motion-safe:hover:rotate-0 motion-safe:focus-within:rotate-0",
-                    // Sticker tilt like the motion demo cards; straightens on hover/focus.
-                    idx % 2 === 0
-                      ? "motion-safe:-rotate-[1.6deg]"
-                      : "motion-safe:rotate-[1.4deg]",
+                    // Sticker tilt like the motion demo cards; straightens on hover/focus,
+                    // and stays straight while its full note is open.
+                    isExpanded
+                      ? "rotate-0"
+                      : idx % 2 === 0
+                        ? "motion-safe:-rotate-[1.6deg]"
+                        : "motion-safe:rotate-[1.4deg]",
                   )}
                 >
                   <div className="space-y-4">

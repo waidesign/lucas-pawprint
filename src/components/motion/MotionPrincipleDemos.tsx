@@ -4,7 +4,7 @@ import { useEffect, useRef, useState, type ReactNode } from "react";
 import { motion, useInView } from "motion/react";
 import { useReducedMotion } from "@/lib/useReducedMotion";
 import type { Transition } from "motion/react";
-import { Send } from "lucide-react";
+import { Check, Send } from "lucide-react";
 import {
   MOTION_PRINCIPLES,
   type MotionPrinciple,
@@ -27,10 +27,12 @@ interface DemoProps {
 }
 
 /* Demo geometry (px, on the 4/8 grid). Loaffy-style exception: demo shapes only. */
-const WIND_UP_X = -8;
+const COMPOSER_X = -64;
+const COMPOSER_Y = 60;
 const WIND_UP_Y = 4;
-const FLY_X = 96;
-const FLY_Y = -48;
+const WIND_UP_SCALE_X = 1.04;
+const WIND_UP_SCALE_Y = 0.88;
+const SEND_PRESS_SCALE = 0.84;
 const LIFT_IN_Y = 12;
 const LINE_LAG_X = -48;
 
@@ -115,50 +117,85 @@ function TimingDemo({ state }: DemoProps) {
   );
 }
 
-/* 3 · Anticipation: the plane pulls back (120ms), then flies (280ms). */
+/*
+ * 3 · Anticipation: a chat message. In the composer it sinks and squashes (120ms
+ * wind-up) while the send button is pressed, then shoots up into the thread (280ms)
+ * and a check confirms it was sent.
+ * Geometry: the screen's inner box is 156×156; the bubble (64×32) rests at top 48 /
+ * right 12 (left 80) and starts in the composer at top 108 / left 16.
+ */
 function AnticipationDemo({ state }: DemoProps) {
   const total = durations.instant + durations.base;
   const windUpAt = durations.instant / total;
   return (
     <div className="flex h-full items-center justify-center px-6">
-      <div className="relative inline-flex h-12 items-center gap-3 rounded-pill border-2 border-on-pastel bg-surface pl-6 pr-4 text-text">
-        <span className="relative font-body text-button font-semibold">
+      <div className={cn(MINI_SCREEN, "size-40")}>
+        {/* Received message */}
+        <span className="absolute left-3 top-3 flex h-8 w-20 items-center rounded-md rounded-tl-xs border-2 border-on-pastel bg-surface-2 px-3">
+          <span className="block h-2 w-12 rounded-pill bg-line-strong" />
+        </span>
+
+        {/* Composer with its send button */}
+        <span className="absolute inset-x-2 bottom-2 flex h-12 items-center justify-end rounded-pill border-2 border-on-pastel bg-bg px-1">
           <motion.span
-            className="block"
-            initial={from(state, { opacity: 1 })}
-            animate={to(state, { opacity: 1 }, { opacity: 0 })}
-            transition={{ duration: durations.instant, delay: total }}
+            className="inline-flex size-8 items-center justify-center rounded-pill bg-on-pastel text-bg"
+            initial={from(state, { scale: 1 })}
+            animate={to(state, { scale: 1 }, { scale: [1, SEND_PRESS_SCALE, 1] })}
+            transition={{
+              duration: total,
+              times: [0, windUpAt, 1],
+              ease: [easings.inOut, easings.outSoft],
+            }}
           >
-            Send
-          </motion.span>
-          <motion.span
-            className="absolute inset-0"
-            initial={from(state, { opacity: 0 })}
-            animate={to(state, { opacity: 0 }, { opacity: 1 })}
-            transition={{ duration: durations.instant, delay: total }}
-          >
-            Sent
+            <Send className="h-4 w-4" />
           </motion.span>
         </span>
+
+        {/* The message: wind-up in the composer, then up into the thread */}
         <motion.span
-          className="inline-flex"
-          initial={from(state, { x: 0, y: 0, opacity: 1 })}
-          animate={to(
-            state,
-            { x: 0, y: 0, opacity: 1 },
-            {
-              x: [0, WIND_UP_X, FLY_X],
-              y: [0, WIND_UP_Y, FLY_Y],
-              opacity: [1, 1, 0],
-            },
-          )}
-          transition={{
-            duration: total,
-            times: [0, windUpAt, 1],
-            ease: [easings.inOut, easings.outSoft],
-          }}
+          className="absolute right-3 top-12 flex h-8 w-16 origin-bottom items-center justify-center rounded-md rounded-br-xs border-2 border-on-pastel bg-lilac font-body text-caption font-semibold text-on-pastel"
+          initial={from(state, {
+            x: COMPOSER_X,
+            y: COMPOSER_Y,
+            scaleX: 1,
+            scaleY: 1,
+          })}
+          animate={
+            state === "end"
+              ? // Keyframes would rest on their first value here; hold the landed pose.
+                { x: 0, y: 0, scaleX: 1, scaleY: 1 }
+              : to(
+                  state,
+                  { x: COMPOSER_X, y: COMPOSER_Y, scaleX: 1, scaleY: 1 },
+                  {
+                    x: [COMPOSER_X, COMPOSER_X, 0],
+                    y: [COMPOSER_Y, COMPOSER_Y + WIND_UP_Y, 0],
+                    scaleX: [1, WIND_UP_SCALE_X, 1],
+                    scaleY: [1, WIND_UP_SCALE_Y, 1],
+                  },
+                )
+          }
+          transition={
+            state === "end"
+              ? { duration: 0 }
+              : {
+                  duration: total,
+                  times: [0, windUpAt, 1],
+                  ease: [easings.inOut, easings.outSoft],
+                }
+          }
         >
-          <Send className="h-5 w-5" />
+          hey!
+        </motion.span>
+
+        {/* Sent check, one beat after the message lands */}
+        <motion.span
+          className="absolute right-20 top-12 flex h-8 items-center text-on-pastel"
+          initial={from(state, { opacity: 0, scale: 0.6 })}
+          animate={to(state, { opacity: 0, scale: 0.6 }, { opacity: 1, scale: 1 })}
+          transition={{ duration: durations.instant, delay: total + 0.04 }}
+        >
+          <Check className="h-4 w-4" strokeWidth={3} />
         </motion.span>
       </div>
     </div>
@@ -222,33 +259,93 @@ function StagingDemo({ state }: DemoProps) {
   );
 }
 
-/* 6 · Reduced motion: the same panel, as a slide and as a short fade. */
+/*
+ * 6 · Reduced motion: this site's own page change. With motion on, a panel wipes
+ * across the window (480ms cover, 480ms reveal) and a new page is underneath. Then the
+ * setting flips to Reduced and the same page change is a 120ms fade, with no travel.
+ */
+const WIPE_COVER = durations.slow;
+const WIPE_TOTAL = WIPE_COVER * 2;
+const SWITCH_AT = WIPE_TOTAL;
+const FADE_AT = SWITCH_AT + durations.fast + 0.04;
+const REDUCED_TOTAL = FADE_AT + durations.instant;
+/* Page A hides under the wipe at full cover, then fades back in on the Reduced run. */
+const PAGE_TIMES = [
+  0,
+  WIPE_COVER / REDUCED_TOTAL,
+  (WIPE_COVER + 0.04) / REDUCED_TOTAL,
+  FADE_AT / REDUCED_TOTAL,
+  1,
+];
+
 function ReducedMotionDemo({ state }: DemoProps) {
-  const panel =
-    "absolute inset-x-2 bottom-2 h-12 rounded-sm border-2 border-on-pastel bg-pistachio";
   return (
-    <div className="flex h-full items-center justify-center gap-10 px-6">
-      <div className="flex flex-col items-center gap-3">
-        <div className={cn(MINI_SCREEN, "h-28 w-24")}>
-          <motion.span
-            className={panel}
-            initial={from(state, { y: "160%" })}
-            animate={to(state, { y: "160%" }, { y: "0%" })}
-            transition={{ duration: durations.base, ease: easings.outSoft }}
-          />
-        </div>
-        <p className={MONO_LABEL}>Full</p>
+    <div className="flex h-full flex-col items-center justify-center gap-3 px-6">
+      {/* The setting: Full → Reduced */}
+      <div className="relative flex h-8 items-center rounded-pill border-2 border-on-pastel bg-surface">
+        <motion.span
+          className="absolute inset-y-0 left-0 w-20 rounded-pill bg-lilac"
+          initial={from(state, { x: "0%" })}
+          animate={to(state, { x: "0%" }, { x: "100%" })}
+          transition={{
+            duration: durations.fast,
+            ease: easings.outSoft,
+            delay: SWITCH_AT,
+          }}
+        />
+        <span className={cn(MONO_LABEL, "relative w-20 text-center")}>Full</span>
+        <span className={cn(MONO_LABEL, "relative w-20 text-center")}>
+          Reduced
+        </span>
       </div>
-      <div className="flex flex-col items-center gap-3">
-        <div className={cn(MINI_SCREEN, "h-28 w-24")}>
-          <motion.span
-            className={panel}
+
+      {/* A small browser window */}
+      <div className={cn(MINI_SCREEN, "h-28 w-44")}>
+        <span className="flex h-6 items-center gap-1 border-b-2 border-on-pastel px-2">
+          <span className="block size-2 rounded-pill bg-on-pastel" />
+          <span className="block size-2 rounded-pill bg-on-pastel" />
+          <span className="block size-2 rounded-pill bg-on-pastel" />
+        </span>
+
+        <div className="relative h-20">
+          {/* Page A */}
+          <motion.div
+            className="absolute inset-0 space-y-2 p-3"
+            initial={from(state, { opacity: 1 })}
+            animate={to(state, { opacity: 1 }, { opacity: [1, 1, 0, 0, 1] })}
+            transition={{ duration: REDUCED_TOTAL, times: PAGE_TIMES, ease: "linear" }}
+          >
+            <span className="block h-3 w-20 rounded-pill bg-on-pastel" />
+            <span className="block h-2 w-28 rounded-pill bg-line-strong" />
+            <span className="block h-2 w-24 rounded-pill bg-line-strong" />
+          </motion.div>
+
+          {/* Page B */}
+          <motion.div
+            className="absolute inset-0 flex items-center gap-3 p-3"
             initial={from(state, { opacity: 0 })}
-            animate={to(state, { opacity: 0 }, { opacity: 1 })}
-            transition={{ duration: durations.instant, ease: "linear" }}
+            animate={to(state, { opacity: 0 }, { opacity: [0, 0, 1, 1, 0] })}
+            transition={{ duration: REDUCED_TOTAL, times: PAGE_TIMES, ease: "linear" }}
+          >
+            <span className="block size-10 shrink-0 rounded-sm border-2 border-on-pastel bg-butter" />
+            <span className="flex-1 space-y-2">
+              <span className="block h-2 w-full rounded-pill bg-line-strong" />
+              <span className="block h-2 w-3/4 rounded-pill bg-line-strong" />
+            </span>
+          </motion.div>
+
+          {/* The page wipe (Full only) */}
+          <motion.span
+            className="absolute inset-0 border-x-2 border-on-pastel bg-pistachio"
+            initial={from(state, { x: "-100%" })}
+            animate={to(state, { x: "-100%" }, { x: ["-100%", "0%", "100%"] })}
+            transition={{
+              duration: WIPE_TOTAL,
+              times: [0, 0.5, 1],
+              ease: [easings.inOut, easings.inOut],
+            }}
           />
         </div>
-        <p className={MONO_LABEL}>Reduced</p>
       </div>
     </div>
   );
@@ -271,10 +368,10 @@ const LOOP_PAUSE_MS = 1600;
 const DEMO_DURATION_MS: Record<MotionPrincipleId, number> = {
   easing: 720,
   timing: 480,
-  anticipation: 520,
+  anticipation: 560,
   "follow-through": 560,
   staging: 520,
-  "reduced-motion": 280,
+  "reduced-motion": 1320,
 };
 
 /* Subtle organic resting tilt angles (degrees) per card; straightens cleanly on hover. */

@@ -4,11 +4,8 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { motion } from "motion/react";
 import { useReducedMotion } from "@/lib/useReducedMotion";
 import { useRevealReady } from "@/lib/pageTransitionStore";
-import { ArrowDown, ArrowRight, Calendar } from "lucide-react";
-import { profile } from "@/content/site";
-import { trackEvent } from "@/lib/analytics";
+import { ArrowDown, ArrowRight, Grid3x3 } from "lucide-react";
 import {
-  emitLoaffyEvent,
   emitLoaffyMessage,
   emitLoaffyTrigger,
   type Pose,
@@ -35,10 +32,9 @@ let landingIntroStarted = false;
  * 1. Full-viewport Landing Intro plays alone first (`drop` -> `tremor` -> `swell` -> `exploding` -> 6 `posing` beats).
  * 2. Settled Hero orders elements top-to-bottom:
  *    - Blush Smash Sticker ("Everyone designs with AI now. It all looks like slop. Except mine.")
- *    - Prominent name & role line ("LUCAS (WAI PHYO AUNG) · PRODUCT & MOTION DESIGNER") at `text-h4` ([P1-A2])
  *    - Monumental `display-xl` H1 ("Think outside the box with Lucas & Loaffy.") with comic burst rays
  *      and an animated inline Loaffy nestled right into the headline typography ([P1-A1])
- *    - Supporting copy + CTAs + Scroll cue.
+ *    - Supporting copy + CTAs ("See selected work", "Off the grid" → /colophon) + Scroll cue.
  */
 export function Hero() {
   const prefersReduced = useReducedMotion() ?? false;
@@ -269,7 +265,7 @@ export function Hero() {
             tone="blush"
             rotate={-2}
             size="md"
-            className="px-4 py-3 md:px-6 md:py-4"
+            className="px-4 py-3 text-left md:px-6 md:py-4 md:text-center"
           >
             Everyone designs with AI now. It all looks like slop.{" "}
             <span className="inline-block rounded-xs border border-line-strong bg-butter px-2 py-1 font-display font-bold text-on-pastel">
@@ -278,23 +274,7 @@ export function Hero() {
           </Sticker>
         </motion.div>
 
-        {/* 2. Prominent Name & Role line directly under the Smash Sticker ([P1-A2]: enlarged to text-h4) */}
-        <motion.p
-          initial={prefersReduced ? false : { opacity: 0, y: 16 }}
-          animate={
-            heroRevealed ? { opacity: 1, y: 0 } : { opacity: 0, y: 16 }
-          }
-          transition={
-            prefersReduced
-              ? { duration: 0 }
-              : { ...springCalm, delay: stagger }
-          }
-          className="mt-6 font-display text-h4 font-bold uppercase tracking-wide text-text"
-        >
-          {profile.name} · {profile.title}
-        </motion.p>
-
-        {/* 3. Monumental Display-XL H1 with comic burst lines + animated inline Loaffy ([P1-A1]) */}
+        {/* 2. Monumental Display-XL H1 with comic burst lines + animated inline Loaffy */}
         <motion.div
           initial={prefersReduced ? false : { opacity: 0, y: 24, scale: 0.96 }}
           animate={
@@ -305,7 +285,7 @@ export function Hero() {
           transition={
             prefersReduced
               ? { duration: 0 }
-              : { ...springCalm, delay: stagger * 2 }
+              : { ...springCalm, delay: stagger }
           }
           className="mt-6 w-full"
         >
@@ -390,7 +370,7 @@ export function Hero() {
           </h1>
         </motion.div>
 
-        {/* 4. Supporting copy */}
+        {/* 3. Supporting copy */}
         <motion.p
           initial={prefersReduced ? false : { opacity: 0, y: 24 }}
           animate={
@@ -399,7 +379,7 @@ export function Hero() {
           transition={
             prefersReduced
               ? { duration: 0 }
-              : { ...springCalm, delay: stagger * 3 }
+              : { ...springCalm, delay: stagger * 2 }
           }
           className="mt-6 max-w-2xl font-body text-body-lg text-text-muted"
         >
@@ -407,7 +387,7 @@ export function Hero() {
           data-heavy platforms, and I build my own.
         </motion.p>
 
-        {/* 5. Primary & Secondary CTAs */}
+        {/* 4. Primary & Secondary CTAs */}
         <motion.div
           initial={prefersReduced ? false : { opacity: 0, y: 24 }}
           animate={
@@ -416,7 +396,7 @@ export function Hero() {
           transition={
             prefersReduced
               ? { duration: 0 }
-              : { ...springCalm, delay: stagger * 4 }
+              : { ...springCalm, delay: stagger * 3 }
           }
           className="mt-8 flex flex-wrap items-center justify-center gap-4"
         >
@@ -429,30 +409,27 @@ export function Hero() {
             See selected work
           </Button>
 
+          {/* Off the grid: how this site is built (/colophon) */}
           <Button
             variant="secondary"
             tone="lilac"
             size="lg"
-            href={profile.bookingUrl}
-            external
-            iconStart={<Calendar className="h-5 w-5" />}
-            onClick={() => {
-              trackEvent("book_chat_click", { location: "hero" });
-              emitLoaffyEvent("book-chat-click");
-            }}
+            href="/colophon"
+            iconStart={<Grid3x3 className="h-5 w-5" />}
           >
-            Book a chat
+            Off the grid
+            <span className="sr-only">: how this site is built</span>
           </Button>
         </motion.div>
 
-        {/* 6. Scroll cue */}
+        {/* 5. Scroll cue */}
         <motion.div
           initial={prefersReduced ? false : { opacity: 0 }}
           animate={heroRevealed ? { opacity: 1 } : { opacity: 0 }}
           transition={
             prefersReduced
               ? { duration: 0 }
-              : { duration: 0.28, delay: stagger * 5 }
+              : { duration: 0.28, delay: stagger * 4 }
           }
           className="mt-10 hidden md:block"
         >

@@ -221,7 +221,7 @@ export const MOTION_PRINCIPLES: MotionPrinciple[] = [
     name: "Reduced motion",
     rule: "Respect the setting.",
     body: "When someone turns motion down, slides become short fades. Same meaning, no travel.",
-    spec: "280ms slide → 120ms fade",
+    spec: "480ms wipe → 120ms fade",
     tone: "pistachio",
   },
 ];
